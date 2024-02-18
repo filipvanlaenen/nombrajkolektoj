@@ -1,4 +1,4 @@
-# Nombraj Kolektoj — Numeric Collections for Java Based on the Kolektoj Collections Framework
+# Nombraj Kolektoj — Numeric Collections for Java
 
 *“Nombraj kolektoj” is Esperanto for “numeric collections”.*
 

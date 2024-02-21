@@ -66,7 +66,16 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return collection.containsAll(collection);
+        return integers.containsAll(collection);
+    }
+
+    /**
+     * Returns a new empty integer collection.
+     *
+     * @return A new empty integer collection.
+     */
+    static IntegerCollection empty() {
+        return new ArrayCollection();
     }
 
     @Override
@@ -82,6 +91,27 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     @Override
     public Iterator<Integer> iterator() {
         return integers.iterator();
+    }
+
+    /**
+     * Returns a new integer collection with the specified integers.
+     *
+     * @param integers The integers for the new integer collection.
+     * @return A new integer collection with the specified integers.
+     */
+    static IntegerCollection of(final Integer... integers) {
+        return new ArrayCollection(integers);
+    }
+
+    /**
+     * Returns a new integer collection with the specified element cardinality and the integers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param integers           The integers for the new integer collection.
+     * @return A new integer collection with the specified element cardinality and the integers.
+     */
+    static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
+        return new ArrayCollection(elementCardinality, integers);
     }
 
     @Override

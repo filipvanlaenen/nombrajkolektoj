@@ -4,16 +4,13 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     @Override
-    public Integer max() {
+    public Integer max() throws IndexOutOfBoundsException {
         if (size() == 0) {
-            return null;
+            throw new IndexOutOfBoundsException("Cannot return a maximum from an empty collection.");
         }
         Integer max = get();
         for (Integer i : this) {
-            if (i == null) {
-                return null;
-            }
-            if (i > max) {
+            if (i != null && (max == null || i > max)) {
                 max = i;
             }
         }
@@ -21,16 +18,13 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     }
 
     @Override
-    public Integer min() {
+    public Integer min() throws IndexOutOfBoundsException {
         if (size() == 0) {
-            return null;
+            throw new IndexOutOfBoundsException("Cannot return a minimum from an empty collection.");
         }
         Integer min = get();
         for (Integer i : this) {
-            if (i == null) {
-                return null;
-            }
-            if (i < min) {
+            if (i != null && (min == null || i < min)) {
                 min = i;
             }
         }
@@ -41,10 +35,9 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     public Integer product() {
         Integer product = 1;
         for (Integer i : this) {
-            if (i == null) {
-                return null;
+            if (i != null) {
+                product *= i;
             }
-            product *= i;
         }
         return product;
     }
@@ -53,10 +46,9 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     public Integer sum() {
         Integer sum = 0;
         for (Integer i : this) {
-            if (i == null) {
-                return null;
+            if (i != null) {
+                sum += i;
             }
-            sum += i;
         }
         return sum;
     }

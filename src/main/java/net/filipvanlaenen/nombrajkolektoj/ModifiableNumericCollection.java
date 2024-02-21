@@ -9,6 +9,15 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
  */
 public interface ModifiableNumericCollection<N extends Number> extends NumericCollection<N>, ModifiableCollection<N> {
     /**
+     * Augments all the numbers in the collection with the addend and returns whether any of the numbers were changed.
+     * Ignores <code>null</code> elements.
+     *
+     * @param addend The number by which all numbers in the collection should be augmented.
+     * @return True if any of the numbers in the collection was changed.
+     */
+    boolean augment(N addend);
+
+    /**
      * Multiplies all the numbers in the collection with the multiplicand and returns whether any of the numbers were
      * changed. Ignores <code>null</code> elements.
      *

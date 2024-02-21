@@ -14,6 +14,10 @@ import net.filipvanlaenen.kolektoj.Collection;
  */
 public class IntegerCollectionTest {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * Collection with the integers 1, 2 and 3.
      */
     private static final IntegerCollection COLLECTION123 = IntegerCollection.of(1, 2, 3);
@@ -71,5 +75,21 @@ public class IntegerCollectionTest {
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(COLLECTION123.contains(COLLECTION123.get()));
+    }
+
+    /**
+     * Verifies that the <code>spliterator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void spliteratorShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, COLLECTION123.spliterator().estimateSize());
+    }
+
+    /**
+     * Verifies that the <code>toArray</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void toArrayShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, COLLECTION123.toArray().length);
     }
 }

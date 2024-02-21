@@ -7,5 +7,9 @@ import net.filipvanlaenen.kolektoj.Collection;
  *
  * @param <E> The element type.
  */
-public interface NumericCollection<E> extends Collection<E> {
+public interface NumericCollection<E extends Number> extends Collection<E> {
+    E max();
+    E min();
+    E product();
+    E sum();
 }

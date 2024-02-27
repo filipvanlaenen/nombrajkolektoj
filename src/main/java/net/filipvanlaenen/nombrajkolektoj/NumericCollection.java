@@ -30,20 +30,17 @@ public interface NumericCollection<N extends Number> extends Collection<N> {
 
     /**
      * Returns the product of the numbers in the collection, or one if the collection is empty. Ignores
-     * <code>null</code> elements, but returns <code>null</code> if the collection contains <code>null</code> elements
-     * only.
+     * <code>null</code> elements, but returns one if the collection contains <code>null</code> elements only.
      *
-     * @return The product of the numbers in the collection, one if the collection is empty, or <code>null</code> if the
-     *         collection contains <code>null</code> elements only.
+     * @return The product of the numbers in the collection, or one if the collection is empty.
      */
     N product();
 
     /**
      * Returns the sum of the numbers in the collection, or zero if the collection is empty. Ignores <code>null</code>
-     * elements, but returns <code>null</code> if the collection contains <code>null</code> elements only.
+     * elements, but returns zero if the collection contains <code>null</code> elements only.
      *
-     * @return The sum of the numbers in the collection, zero if the collection is empty, or <code>null</code> if the
-     *         collection contains <code>null</code> elements only.
+     * @return The sum of the numbers in the collection, or zero if the collection is empty.
      */
     N sum();
 }

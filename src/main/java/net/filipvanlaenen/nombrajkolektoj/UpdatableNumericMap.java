@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.UpdatableMap;
  * @param <N> The value type.
  */
 public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, N>, UpdatableMap<K, N> {
-    boolean augment(K key, N addend);
+    N augment(K key, N addend);
 
     /**
      * Augments all the values in the map with the addend and returns whether any of the values were changed. Ignores
@@ -20,7 +20,7 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
      */
     boolean augment(N addend);
 
-    boolean multiply(K key, N addend);
+    N multiply(K key, N addend);
 
     /**
      * Multiplies all the values in the map with the multiplicand and returns whether any of the values were changed.
@@ -39,5 +39,5 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
      */
     boolean negate();
 
-    boolean negate(K key);
+    N negate(K key);
 }

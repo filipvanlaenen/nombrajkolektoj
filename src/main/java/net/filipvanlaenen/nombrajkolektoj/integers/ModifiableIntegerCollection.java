@@ -10,34 +10,105 @@ import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 
+/**
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * for integers and containing inner classes with concrete implementations.
+ */
 public abstract class ModifiableIntegerCollection extends AbstractModifiableIntegerCollection
         implements ModifiableNumericCollection<Integer> {
-    public final static class ArrayCollection extends ModifiableIntegerCollection {
-        public ArrayCollection(Integer... integers) {
+    /**
+     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class ArrayCollection extends ModifiableIntegerCollection {
+        /**
+         * Constructs a collection from another collection, with the same integers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public ArrayCollection(final Collection<Integer> source) {
+            this(source.getElementCardinality(), source.toArray());
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param integers           The integers of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... integers) {
+            super(new ModifiableArrayCollection<Integer>(elementCardinality, integers));
+        }
+
+        /**
+         * Constructs a collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param integers The integers of the collection.
+         */
+        public ArrayCollection(final Integer... integers) {
             super(new ModifiableArrayCollection<Integer>(integers));
         }
+
     }
 
-    public final static class LinkedListCollection extends ModifiableIntegerCollection {
-        public LinkedListCollection(Integer... integers) {
+    /**
+     * Inner class using a linked list backed implementation of the
+     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     */
+    public static final class LinkedListCollection extends ModifiableIntegerCollection {
+        /**
+         * Constructs a collection from another collection, with the same integers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Integer> source) {
+            this(source.getElementCardinality(), source.toArray());
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param integers           The integers of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... integers) {
+            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, integers));
+        }
+
+        /**
+         * Constructs a collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param integers The integers of the collection.
+         */
+        public LinkedListCollection(final Integer... integers) {
             super(new ModifiableLinkedListCollection<Integer>(integers));
         }
     }
 
+    /**
+     * The modifiable collection holding the integers.
+     */
     private final ModifiableCollection<Integer> collection;
 
-    private ModifiableIntegerCollection(ModifiableCollection<Integer> collection) {
-        this.collection = collection;
+    /**
+     * Private constructor taking a collection with the integers as its parameter.
+     *
+     * @param integers The collection holding the integers.
+     */
+    private ModifiableIntegerCollection(final ModifiableCollection<Integer> integers) {
+        this.collection = integers;
     }
 
     @Override
-    public boolean add(Integer arg0) {
-        return collection.add(arg0);
+    public boolean add(final Integer element) {
+        return collection.add(element);
     }
 
     @Override
-    public boolean addAll(Collection<? extends Integer> arg0) {
-        return collection.addAll(arg0);
+    public boolean addAll(final Collection<? extends Integer> otherCollection) {
+        return collection.addAll(otherCollection);
     }
 
     @Override
@@ -46,13 +117,22 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     @Override
-    public boolean contains(Integer arg0) {
-        return collection.contains(arg0);
+    public boolean contains(final Integer element) {
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(Collection<?> arg0) {
-        return collection.containsAll(arg0);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    /**
+     * Returns a new empty modifiable integer collection.
+     *
+     * @return A new empty modifiable integer collection.
+     */
+    static ModifiableIntegerCollection empty() {
+        return new ArrayCollection();
     }
 
     @Override
@@ -70,24 +150,45 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
         return collection.iterator();
     }
 
-    @Override
-    public boolean remove(Integer arg0) {
-        return collection.remove(arg0);
+    /**
+     * Returns a new modifiable integer collection with the specified integers.
+     *
+     * @param integers The integers for the new modifiable integer collection.
+     * @return A new modifiable integer collection with the specified integers.
+     */
+    static ModifiableIntegerCollection of(final Integer... integers) {
+        return new ArrayCollection(integers);
+    }
+
+    /**
+     * Returns a new modifiable integer collection with the specified element cardinality and the integers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param integers           The integers for the new modifiable integer collection.
+     * @return A new modifiable integer collection with the specified element cardinality and the integers.
+     */
+    static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
+        return new ArrayCollection(elementCardinality, integers);
     }
 
     @Override
-    public boolean removeAll(Collection<? extends Integer> arg0) {
-        return collection.removeAll(arg0);
+    public boolean remove(final Integer element) {
+        return collection.remove(element);
     }
 
     @Override
-    public boolean removeIf(Predicate<? super Integer> arg0) {
-        return collection.removeIf(arg0);
+    public boolean removeAll(final Collection<? extends Integer> otherCollection) {
+        return collection.removeAll(otherCollection);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends Integer> arg0) {
-        return collection.retainAll(arg0);
+    public boolean removeIf(final Predicate<? super Integer> predicate) {
+        return collection.removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Collection<? extends Integer> otherCollection) {
+        return collection.retainAll(otherCollection);
     }
 
     @Override

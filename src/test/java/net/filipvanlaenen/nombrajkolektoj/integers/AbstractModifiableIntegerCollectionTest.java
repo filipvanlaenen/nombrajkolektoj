@@ -12,6 +12,10 @@ import org.junit.jupiter.api.Test;
  */
 public class AbstractModifiableIntegerCollectionTest {
     /**
+     * The magic number minus two.
+     */
+    private static final int MINUS_TWO = -2;
+    /**
      * The magic number three.
      */
     private static final int THREE = 3;
@@ -207,5 +211,66 @@ public class AbstractModifiableIntegerCollectionTest {
         ModifiableIntegerCollection collection = createCollection123Null();
         collection.multiply(2);
         assertTrue(collection.containsSame(ModifiableIntegerCollection.of(2, FOUR, SIX, null)));
+    }
+
+    /**
+     * Verifies that negate returns true when a number was changed in the collection.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenACollectionOfNumbersIsNegated() {
+        assertTrue(createCollection1234().negate());
+    }
+
+    /**
+     * Verifies that negate returns true when a number was changed in the collection, even when <code>null</code> is
+     * present in the collection.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenACollectionOfNumbersWithNullIsNegated() {
+        assertTrue(createCollection123Null().negate());
+    }
+
+    /**
+     * Verifies that negate returns false on an empty collection.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenCollectionIsEmpty() {
+        assertFalse(createEmptyCollection().negate());
+    }
+
+    /**
+     * Verifies that negate returns false when the collection contains zero only.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenCollectionContainsZeroOnly() {
+        assertFalse(createCollection0().negate());
+    }
+
+    /**
+     * Verifies that negate returns false when the collection contains <code>null</code> only.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenCollectionContainsNullOnly() {
+        assertFalse(createCollectionNull().negate());
+    }
+
+    /**
+     * Verifies that negate negates all the numbers in the collection correctly.
+     */
+    @Test
+    public void negateShouldNegateAllNumbersCorrectly() {
+        ModifiableIntegerCollection collection = createCollection1234();
+        collection.negate();
+        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(-1, MINUS_TWO, -THREE, -FOUR)));
+    }
+
+    /**
+     * Verifies that negate negates all the numbers in the collection correctly, also when <code>null</code> is present.
+     */
+    @Test
+    public void negateShouldNegateAllNumbersCorrectlyWhenNullIsPresent() {
+        ModifiableIntegerCollection collection = createCollection123Null();
+        collection.negate();
+        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(-1, MINUS_TWO, -THREE, null)));
     }
 }

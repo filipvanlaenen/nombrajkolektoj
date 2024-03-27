@@ -60,6 +60,15 @@ public class AbstractModifiableIntegerCollectionTest {
     }
 
     /**
+     * Creates a collection with the number 0.
+     *
+     * @return A collection with the number 0.
+     */
+    private ModifiableIntegerCollection createCollection0() {
+        return ModifiableIntegerCollection.of(0);
+    }
+
+    /**
      * Creates a collection with <code>null</code>.
      *
      * @return A collection with <code>null</code>.
@@ -161,6 +170,14 @@ public class AbstractModifiableIntegerCollectionTest {
     @Test
     public void multiplyShouldReturnFalseWhenACollectionOfNumbersIsMultipliedByOne() {
         assertFalse(createCollection1234().multiply(1));
+    }
+
+    /**
+     * Verifies that multiply returns false when the collection contains zero only.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenCollectionContainsZeroOnly() {
+        assertFalse(createCollection0().multiply(2));
     }
 
     /**

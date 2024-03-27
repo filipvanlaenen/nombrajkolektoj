@@ -23,6 +23,14 @@ public class AbstractModifiableIntegerCollectionTest {
      * The magic number five.
      */
     private static final int FIVE = 5;
+    /**
+     * The magic number six.
+     */
+    private static final int SIX = 6;
+    /**
+     * The magic number eight.
+     */
+    private static final int EIGHT = 8;
 
     /**
      * Creates an empty collection.
@@ -105,7 +113,7 @@ public class AbstractModifiableIntegerCollectionTest {
      * Verifies that augment augments all the numbers in the collection correctly.
      */
     @Test
-    public void agumentShouldAugmentAllNumbersCorrectly() {
+    public void augmentShouldAugmentAllNumbersCorrectly() {
         ModifiableIntegerCollection collection = createCollection1234();
         collection.augment(1);
         assertTrue(collection.containsSame(ModifiableIntegerCollection.of(2, THREE, FOUR, FIVE)));
@@ -116,9 +124,71 @@ public class AbstractModifiableIntegerCollectionTest {
      * present.
      */
     @Test
-    public void agumentShouldAugmentAllNumbersCorrectlyWhenNullIsPresent() {
+    public void augmentShouldAugmentAllNumbersCorrectlyWhenNullIsPresent() {
         ModifiableIntegerCollection collection = createCollection123Null();
         collection.augment(1);
         assertTrue(collection.containsSame(ModifiableIntegerCollection.of(2, THREE, FOUR, null)));
+    }
+
+    /**
+     * Verifies that multiply returns true when a number was changed in the collection.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenACollectionOfNumbersIsMultipliedByTwo() {
+        assertTrue(createCollection1234().multiply(2));
+    }
+
+    /**
+     * Verifies that multiply returns true when a number was changed in the collection, even when <code>null</code> is
+     * present in the collection.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenACollectionOfNumbersWithNullIsMultipliedByTwo() {
+        assertTrue(createCollection123Null().multiply(2));
+    }
+
+    /**
+     * Verifies that multiply returns false on an empty collection.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
+        assertFalse(createEmptyCollection().multiply(2));
+    }
+
+    /**
+     * Verifies that multiply returns false when no number was changed in the collection.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenACollectionOfNumbersIsMultipliedByOne() {
+        assertFalse(createCollection1234().multiply(1));
+    }
+
+    /**
+     * Verifies that multiply returns false when the collection contains <code>null</code> only.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenCollectionContainsNullOnly() {
+        assertFalse(createCollectionNull().multiply(2));
+    }
+
+    /**
+     * Verifies that multiply multiplies all the numbers in the collection correctly.
+     */
+    @Test
+    public void multiplyShouldMultiplyAllNumbersCorrectly() {
+        ModifiableIntegerCollection collection = createCollection1234();
+        collection.multiply(2);
+        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(2, FOUR, SIX, EIGHT)));
+    }
+
+    /**
+     * Verifies that multiply multiplies all the numbers in the collection correctly, also when <code>null</code> is
+     * present.
+     */
+    @Test
+    public void multiplyShouldMultiplyAllNumbersCorrectlyWhenNullIsPresent() {
+        ModifiableIntegerCollection collection = createCollection123Null();
+        collection.multiply(2);
+        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(2, FOUR, SIX, null)));
     }
 }

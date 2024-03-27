@@ -13,7 +13,7 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(Collection<Integer> source) {
+    protected IntegerCollection createIntegerCollection(final Collection<Integer> source) {
         return new IntegerCollection.ArrayCollection(source);
     }
 

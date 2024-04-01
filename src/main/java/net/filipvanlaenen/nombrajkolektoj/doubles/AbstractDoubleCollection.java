@@ -2,16 +2,21 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
+/**
+ * An abstract class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for doubles.
+ */
 abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double max() throws IndexOutOfBoundsException {
         if (size() == 0) {
-            throw new IndexOutOfBoundsException("Cannot return a maximum from an empty collection.");
+            throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
-        Double max = get();
-        for (Double i : this) {
-            if (i != null && (max == null || i > max)) {
-                max = i;
+        Double max = null;
+        for (Double d : this) {
+            // EQMU: Changing the conditional boundary below produces an equivalent mutant.
+            if (d != null && (max == null || d > max)) {
+                max = d;
             }
         }
         return max;
@@ -20,12 +25,13 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double min() throws IndexOutOfBoundsException {
         if (size() == 0) {
-            throw new IndexOutOfBoundsException("Cannot return a minimum from an empty collection.");
+            throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
-        Double min = get();
-        for (Double i : this) {
-            if (i != null && (min == null || i < min)) {
-                min = i;
+        Double min = null;
+        for (Double d : this) {
+            // EQMU: Changing the conditional boundary below produces an equivalent mutant.
+            if (d != null && (min == null || d < min)) {
+                min = d;
             }
         }
         return min;
@@ -34,9 +40,9 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double product() {
         Double product = 1D;
-        for (Double i : this) {
-            if (i != null) {
-                product *= i;
+        for (Double d : this) {
+            if (d != null) {
+                product *= d;
             }
         }
         return product;
@@ -45,9 +51,9 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double sum() {
         Double sum = 0D;
-        for (Double i : this) {
-            if (i != null) {
-                sum += i;
+        for (Double d : this) {
+            if (d != null) {
+                sum += d;
             }
         }
         return sum;

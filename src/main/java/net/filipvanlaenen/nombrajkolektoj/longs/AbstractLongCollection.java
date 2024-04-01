@@ -27,7 +27,7 @@ abstract class AbstractLongCollection implements NumericCollection<Long> {
         if (size() == 0) {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
-        Long min = get();
+        Long min = null;
         for (Long l : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
             if (l != null && (min == null || l < min)) {

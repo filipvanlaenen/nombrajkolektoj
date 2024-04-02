@@ -1,65 +1,65 @@
-package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
+package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.BigDecimalCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.BigIntegerCollection} class.
  */
-public class BigDecimalCollectionTest {
+public class BigIntegerCollectionTest {
     /**
      * The magic number two.
      */
-    private static final BigDecimal TWO = BigDecimal.valueOf(2L);
+    private static final BigInteger TWO = BigInteger.valueOf(2L);
     /**
      * The magic number three.
      */
-    private static final BigDecimal THREE = BigDecimal.valueOf(3L);
+    private static final BigInteger THREE = BigInteger.valueOf(3L);
     /**
      * The magic number three (int).
      */
     private static final int THREE_INT = 3;
     /**
-     * Collection with the BigDecimals 1, 2 and 3.
+     * Collection with the BigIntegers 1, 2 and 3.
      */
-    private static final BigDecimalCollection COLLECTION123 = BigDecimalCollection.of(BigDecimal.ONE, TWO, THREE);
+    private static final BigIntegerCollection COLLECTION123 = BigIntegerCollection.of(BigInteger.ONE, TWO, THREE);
 
     /**
-     * Verifies that an empty BigDecimals collection is empty.
+     * Verifies that an empty BigIntegers collection is empty.
      */
     @Test
-    public void isEmptyShouldReturnTrueForAnEmptyBigDecimalsCollection() {
-        assertTrue(BigDecimalCollection.empty().isEmpty());
+    public void isEmptyShouldReturnTrueForAnEmptyBigIntegersCollection() {
+        assertTrue(BigIntegerCollection.empty().isEmpty());
     }
 
     /**
-     * Verifies that a BigDecimals collection with a specific element cardinality receives that element cardinality.
+     * Verifies that a BigIntegers collection with a specific element cardinality receives that element cardinality.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnABigDecimalsCollectionWithTheElementCardinality() {
+    public void ofWithElementCardinalityShouldReturnABigIntegersCollectionWithTheElementCardinality() {
         assertEquals(DISTINCT_ELEMENTS,
-                BigDecimalCollection.of(DISTINCT_ELEMENTS, BigDecimal.ONE).getElementCardinality());
+                BigIntegerCollection.of(DISTINCT_ELEMENTS, BigInteger.ONE).getElementCardinality());
     }
 
     /**
-     * Verifies that a BigDecimals collection created from another collection has the same element cardinality and
+     * Verifies that a BigIntegers collection created from another collection has the same element cardinality and
      * integers.
      */
     @Test
-    public void ofWithCollectionShouldReturnABigDecimalsCollectionWithTheSameElementCardinalityAndBigDecimals() {
-        Collection<BigDecimal> source = Collection.of(DISTINCT_ELEMENTS, BigDecimal.ONE);
-        BigDecimalCollection actual = new BigDecimalCollection.ArrayCollection(source);
+    public void ofWithCollectionShouldReturnABigIntegersCollectionWithTheSameElementCardinalityAndBigIntegers() {
+        Collection<BigInteger> source = Collection.of(DISTINCT_ELEMENTS, BigInteger.ONE);
+        BigIntegerCollection actual = new BigIntegerCollection.ArrayCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
-        assertTrue(actual.contains(BigDecimal.ONE));
+        assertTrue(actual.contains(BigInteger.ONE));
     }
 
     /**
@@ -67,8 +67,8 @@ public class BigDecimalCollectionTest {
      */
     @Test
     public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(COLLECTION123.contains(BigDecimal.ONE));
-        assertFalse(COLLECTION123.contains(BigDecimal.ZERO));
+        assertTrue(COLLECTION123.contains(BigInteger.ONE));
+        assertFalse(COLLECTION123.contains(BigInteger.ZERO));
     }
 
     /**
@@ -76,8 +76,8 @@ public class BigDecimalCollectionTest {
      */
     @Test
     public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(COLLECTION123.containsAll(BigDecimalCollection.of(BigDecimal.ONE)));
-        assertFalse(COLLECTION123.containsAll(BigDecimalCollection.of(BigDecimal.ZERO)));
+        assertTrue(COLLECTION123.containsAll(BigIntegerCollection.of(BigInteger.ONE)));
+        assertFalse(COLLECTION123.containsAll(BigIntegerCollection.of(BigInteger.ZERO)));
     }
 
     /**

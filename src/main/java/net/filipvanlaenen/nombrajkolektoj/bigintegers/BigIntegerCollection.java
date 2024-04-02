@@ -57,8 +57,8 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
      *
      * @param bigIntegers The collection holding the BigIntegers.
      */
-    private BigIntegerCollection(final Collection<BigInteger> bigDecimals) {
-        this.bigIntegers = bigDecimals;
+    private BigIntegerCollection(final Collection<BigInteger> bigIntegers) {
+        this.bigIntegers = bigIntegers;
     }
 
     @Override

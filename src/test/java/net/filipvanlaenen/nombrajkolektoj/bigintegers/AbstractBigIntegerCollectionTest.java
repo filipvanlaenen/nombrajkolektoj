@@ -1,106 +1,106 @@
-package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
+package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.AbstractBigDecimalCollection} class.
- * The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.BigDecimalCollection}
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.AbstractBigIntegerCollection} class.
+ * The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.BigIntegerCollection}
  * implementation.
  */
-public class AbstractBigDecimalCollectionTest {
+public class AbstractBigIntegerCollectionTest {
     /**
      * The magic number two.
      */
-    private static final BigDecimal TWO = BigDecimal.valueOf(2L);
+    private static final BigInteger TWO = BigInteger.valueOf(2L);
     /**
      * The magic number three.
      */
-    private static final BigDecimal THREE = BigDecimal.valueOf(3L);
+    private static final BigInteger THREE = BigInteger.valueOf(3L);
     /**
      * The magic number four.
      */
-    private static final BigDecimal FOUR = BigDecimal.valueOf(4L);
+    private static final BigInteger FOUR = BigInteger.valueOf(4L);
     /**
      * The magic number six.
      */
-    private static final BigDecimal SIX = BigDecimal.valueOf(6L);
+    private static final BigInteger SIX = BigInteger.valueOf(6L);
     /**
      * The magic number ten.
      */
-    private static final BigDecimal TEN = BigDecimal.valueOf(10L);
+    private static final BigInteger TEN = BigInteger.valueOf(10L);
     /**
      * The magic number twenty-four.
      */
-    private static final BigDecimal TWENTY_FOUR = BigDecimal.valueOf(24L);
+    private static final BigInteger TWENTY_FOUR = BigInteger.valueOf(24L);
     /**
-     * Collection with the BigDecimals 1, 2, 3 and 4.
+     * Collection with the BigIntegers 1, 2, 3 and 4.
      */
-    private static final BigDecimalCollection COLLECTION1234 =
-            BigDecimalCollection.of(BigDecimal.ONE, TWO, THREE, FOUR);
+    private static final BigIntegerCollection COLLECTION1234 =
+            BigIntegerCollection.of(BigInteger.ONE, TWO, THREE, FOUR);
     /**
-     * Collection with the BigDecimals 1, 2 and 3 and <code>null</code>.
+     * Collection with the BigIntegers 1, 2 and 3 and <code>null</code>.
      */
-    private static final BigDecimalCollection COLLECTION123NULL =
-            BigDecimalCollection.of(BigDecimal.ONE, TWO, THREE, null);
+    private static final BigIntegerCollection COLLECTION123NULL =
+            BigIntegerCollection.of(BigInteger.ONE, TWO, THREE, null);
     /**
      * Collection with <code>null</code>.
      */
-    private static final BigDecimalCollection COLLECTION_NULL = BigDecimalCollection.of(new BigDecimal[] {null});
+    private static final BigIntegerCollection COLLECTION_NULL = BigIntegerCollection.of(new BigInteger[] {null});
 
     /**
-     * Verifies that <code>max</code> returns the largest BigDecimal in the collection.
+     * Verifies that <code>max</code> returns the largest BigInteger in the collection.
      */
     @Test
-    public void maxShouldReturnTheLargestBigDecimal() {
+    public void maxShouldReturnTheLargestBigInteger() {
         assertEquals(FOUR, COLLECTION1234.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest BigDecimal in the collection.
+     * Verifies that <code>min</code> returns the smallest BigInteger in the collection.
      */
     @Test
-    public void minShouldReturnTheSmallestBigDecimal() {
-        assertEquals(BigDecimal.ONE, COLLECTION1234.min());
+    public void minShouldReturnTheSmallestBigInteger() {
+        assertEquals(BigInteger.ONE, COLLECTION1234.min());
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the BigDecimals in the collection.
+     * Verifies that <code>product</code> returns the product of the BigIntegers in the collection.
      */
     @Test
-    public void productShouldReturnTheProductOfTheBigDecimals() {
+    public void productShouldReturnTheProductOfTheBigIntegers() {
         assertEquals(TWENTY_FOUR, COLLECTION1234.product());
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the BigDecimals in the collection.
+     * Verifies that <code>sum</code> returns the sum of the BigIntegers in the collection.
      */
     @Test
-    public void sumShouldReturnTheSumOfTheBigDecimals() {
+    public void sumShouldReturnTheSumOfTheBigIntegers() {
         assertEquals(TEN, COLLECTION1234.sum());
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest BigDecimal in the collection even when there are
+     * Verifies that <code>max</code> returns the largest BigInteger in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void maxShouldIgnoreNullAndReturnTheLargestBigDecimal() {
+    public void maxShouldIgnoreNullAndReturnTheLargestBigInteger() {
         assertEquals(THREE, COLLECTION123NULL.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest BigDecimal in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest BigInteger in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void minShouldIgnoreNullAndReturnTheSmallestBigDecimal() {
-        assertEquals(BigDecimal.ONE, COLLECTION123NULL.min());
+    public void minShouldIgnoreNullAndReturnTheSmallestBigInteger() {
+        assertEquals(BigInteger.ONE, COLLECTION123NULL.min());
     }
 
     /**
@@ -142,7 +142,7 @@ public class AbstractBigDecimalCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionContainsOnlyNull() {
-        assertEquals(BigDecimal.ONE, COLLECTION_NULL.product());
+        assertEquals(BigInteger.ONE, COLLECTION_NULL.product());
     }
 
     /**
@@ -150,7 +150,7 @@ public class AbstractBigDecimalCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionContainsOnlyNull() {
-        assertEquals(BigDecimal.ZERO, COLLECTION_NULL.sum());
+        assertEquals(BigInteger.ZERO, COLLECTION_NULL.sum());
     }
 
     /**
@@ -159,7 +159,7 @@ public class AbstractBigDecimalCollectionTest {
     @Test
     public void maxShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> BigDecimalCollection.empty().max());
+                assertThrows(IndexOutOfBoundsException.class, () -> BigIntegerCollection.empty().max());
         assertEquals("Cannot return a maximum for an empty collection.", exception.getMessage());
     }
 
@@ -169,7 +169,7 @@ public class AbstractBigDecimalCollectionTest {
     @Test
     public void minShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> BigDecimalCollection.empty().min());
+                assertThrows(IndexOutOfBoundsException.class, () -> BigIntegerCollection.empty().min());
         assertEquals("Cannot return a minimum for an empty collection.", exception.getMessage());
     }
 
@@ -178,7 +178,7 @@ public class AbstractBigDecimalCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionIsEmpty() {
-        assertEquals(BigDecimal.ONE, BigDecimalCollection.empty().product());
+        assertEquals(BigInteger.ONE, BigIntegerCollection.empty().product());
     }
 
     /**
@@ -186,6 +186,6 @@ public class AbstractBigDecimalCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionIsEmpty() {
-        assertEquals(BigDecimal.ZERO, BigDecimalCollection.empty().sum());
+        assertEquals(BigInteger.ZERO, BigIntegerCollection.empty().sum());
     }
 }

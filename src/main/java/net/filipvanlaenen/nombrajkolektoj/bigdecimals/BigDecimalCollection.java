@@ -72,7 +72,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
     }
 
     /**
-     * Returns a new empty BbigDecimals collection.
+     * Returns a new empty BigDecimals collection.
      *
      * @return A new empty BigDecimals collection.
      */

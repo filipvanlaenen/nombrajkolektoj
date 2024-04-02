@@ -40,9 +40,9 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
     @Override
     public Short product() {
         Short product = 1;
-        for (Short i : this) {
-            if (i != null) {
-                product = (short) (product * i);
+        for (Short s : this) {
+            if (s != null) {
+                product = (short) (product * s);
             }
         }
         return product;
@@ -51,9 +51,9 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
     @Override
     public Short sum() {
         Short sum = 0;
-        for (Short i : this) {
-            if (i != null) {
-                sum = (short) (sum + i);
+        for (Short s : this) {
+            if (s != null) {
+                sum = (short) (sum + s);
             }
         }
         return sum;

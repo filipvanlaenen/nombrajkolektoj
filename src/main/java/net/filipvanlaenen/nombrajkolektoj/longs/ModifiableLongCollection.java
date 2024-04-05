@@ -10,34 +10,104 @@ import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 
+/**
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * for longs and containing inner classes with concrete implementations.
+ */
 public abstract class ModifiableLongCollection extends AbstractModifiableLongCollection
         implements ModifiableNumericCollection<Long> {
-    public final static class ArrayCollection extends ModifiableLongCollection {
-        public ArrayCollection(Long... Longs) {
-            super(new ModifiableArrayCollection<Long>(Longs));
+    /**
+     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class ArrayCollection extends ModifiableLongCollection {
+        /**
+         * Constructs a collection from another collection, with the same longs and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public ArrayCollection(final Collection<Long> source) {
+            this(source.getElementCardinality(), source.toArray());
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param longs              The longs of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
+            super(new ModifiableArrayCollection<Long>(elementCardinality, longs));
+        }
+
+        /**
+         * Constructs a collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param longs The longs of the collection.
+         */
+        public ArrayCollection(final Long... longs) {
+            super(new ModifiableArrayCollection<Long>(longs));
         }
     }
 
-    public final static class LinkedListCollection extends ModifiableLongCollection {
-        public LinkedListCollection(Long... Longs) {
-            super(new ModifiableLinkedListCollection<Long>(Longs));
+    /**
+     * Inner class using a linked list backed implementation of the
+     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     */
+    public static final class LinkedListCollection extends ModifiableLongCollection {
+        /**
+         * Constructs a collection from another collection, with the same longs and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Long> source) {
+            this(source.getElementCardinality(), source.toArray());
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param longs              The longs of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... longs) {
+            super(new ModifiableLinkedListCollection<Long>(elementCardinality, longs));
+        }
+
+        /**
+         * Constructs a collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param longs The longs of the collection.
+         */
+        public LinkedListCollection(final Long... longs) {
+            super(new ModifiableLinkedListCollection<Long>(longs));
         }
     }
 
+    /**
+     * The modifiable collection holding the longs.
+     */
     private final ModifiableCollection<Long> collection;
 
-    private ModifiableLongCollection(ModifiableCollection<Long> collection) {
-        this.collection = collection;
+    /**
+     * Private constructor taking a collection with the longs as its parameter.
+     *
+     * @param longs The collection holding the longs.
+     */
+    private ModifiableLongCollection(final ModifiableCollection<Long> longs) {
+        this.collection = longs;
     }
 
     @Override
-    public boolean add(Long arg0) {
-        return collection.add(arg0);
+    public boolean add(final Long element) {
+        return collection.add(element);
     }
 
     @Override
-    public boolean addAll(Collection<? extends Long> arg0) {
-        return collection.addAll(arg0);
+    public boolean addAll(final Collection<? extends Long> otherCollection) {
+        return collection.addAll(otherCollection);
     }
 
     @Override
@@ -46,13 +116,22 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     }
 
     @Override
-    public boolean contains(Long arg0) {
-        return collection.contains(arg0);
+    public boolean contains(final Long element) {
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(Collection<?> arg0) {
-        return collection.containsAll(arg0);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    /**
+     * Returns a new empty modifiable long collection.
+     *
+     * @return A new empty modifiable long collection.
+     */
+    static ModifiableLongCollection empty() {
+        return new ArrayCollection();
     }
 
     @Override
@@ -70,24 +149,45 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
         return collection.iterator();
     }
 
-    @Override
-    public boolean remove(Long arg0) {
-        return collection.remove(arg0);
+    /**
+     * Returns a new modifiable longs collection with the specified longs.
+     *
+     * @param longs The longs for the new modifiable longs collection.
+     * @return A new modifiable longs collection with the specified longs.
+     */
+    static ModifiableLongCollection of(final Long... longs) {
+        return new ArrayCollection(longs);
+    }
+
+    /**
+     * Returns a new modifiable longs collection with the specified element cardinality and the longs.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param longs              The longs for the new modifiable longs collection.
+     * @return A new modifiable longs collection with the specified element cardinality and the longs.
+     */
+    static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... longs) {
+        return new ArrayCollection(elementCardinality, longs);
     }
 
     @Override
-    public boolean removeAll(Collection<? extends Long> arg0) {
-        return collection.removeAll(arg0);
+    public boolean remove(final Long element) {
+        return collection.remove(element);
     }
 
     @Override
-    public boolean removeIf(Predicate<? super Long> arg0) {
-        return collection.removeIf(arg0);
+    public boolean removeAll(final Collection<? extends Long> otherCollection) {
+        return collection.removeAll(otherCollection);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends Long> arg0) {
-        return collection.retainAll(arg0);
+    public boolean removeIf(final Predicate<? super Long> predicate) {
+        return collection.removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Collection<? extends Long> otherCollection) {
+        return collection.retainAll(otherCollection);
     }
 
     @Override

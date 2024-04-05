@@ -49,7 +49,6 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
         public ArrayCollection(final Integer... integers) {
             super(new ModifiableArrayCollection<Integer>(integers));
         }
-
     }
 
     /**

@@ -2,15 +2,19 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 
+/**
+ * An abstract class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for longs.
+ */
 abstract class AbstractModifiableLongCollection extends AbstractLongCollection
         implements ModifiableNumericCollection<Long> {
     @Override
     public boolean augment(final Long addend) {
         boolean result = false;
-        for (Long i : toArray()) {
-            if (i != null && i != i + addend) {
-                remove(i);
-                add(i + addend);
+        for (Long l : toArray()) {
+            if (l != null && addend != 0L) {
+                remove(l);
+                add(l + addend);
                 result = true;
             }
         }
@@ -20,10 +24,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     @Override
     public boolean multiply(final Long value) {
         boolean result = false;
-        for (Long i : toArray()) {
-            if (i != null && i != i * value) {
-                remove(i);
-                add(i * value);
+        for (Long l : toArray()) {
+            if (l != null && l != 0L && value != 1L) {
+                remove(l);
+                add(l * value);
                 result = true;
             }
         }
@@ -33,10 +37,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     @Override
     public boolean negate() {
         boolean result = false;
-        for (Long i : toArray()) {
-            if (i != null && i != 0) {
-                remove(i);
-                add(-i);
+        for (Long l : toArray()) {
+            if (l != null && l != 0L) {
+                remove(l);
+                add(-l);
                 result = true;
             }
         }

@@ -4,7 +4,7 @@ import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 
 /**
  * Interface defining the signature for all updatable sorted numeric maps.
- * 
+ *
  * @param <K> The key type.
  * @param <N> The value type.
  */

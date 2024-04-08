@@ -4,7 +4,7 @@ import net.filipvanlaenen.kolektoj.Map;
 
 /**
  * Interface defining the signature for all numeric maps.
- * 
+ *
  * @param <K> The key type.
  * @param <N> The value type.
  */

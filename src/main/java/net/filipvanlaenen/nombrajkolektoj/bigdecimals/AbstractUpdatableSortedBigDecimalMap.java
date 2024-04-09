@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
-abstract class AbstractUpdatableSortedBigDecimalMap<K> implements UpdatableSortedNumericMap<K, BigDecimal> {
+abstract class AbstractUpdatableSortedBigDecimalMap<K> extends AbstractBigDecimalMap<K>
+        implements UpdatableSortedNumericMap<K, BigDecimal> {
     @Override
     public boolean augment(BigDecimal addend) {
         // TODO Auto-generated method stub
@@ -22,18 +23,6 @@ abstract class AbstractUpdatableSortedBigDecimalMap<K> implements UpdatableSorte
         } else {
             return update(key, oldValue.add(addend));
         }
-    }
-
-    @Override
-    public BigDecimal max() throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BigDecimal min() throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -72,27 +61,5 @@ abstract class AbstractUpdatableSortedBigDecimalMap<K> implements UpdatableSorte
         } else {
             return update(key, oldValue.negate());
         }
-    }
-
-    @Override
-    public BigDecimal product() {
-        BigDecimal product = BigDecimal.ONE;
-        for (BigDecimal bd : getValues()) {
-            if (bd != null) {
-                product.multiply(bd);
-            }
-        }
-        return product;
-    }
-
-    @Override
-    public BigDecimal sum() {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (BigDecimal bd : getValues()) {
-            if (bd != null) {
-                sum.add(bd);
-            }
-        }
-        return sum;
     }
 }

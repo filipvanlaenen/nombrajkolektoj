@@ -82,8 +82,8 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public Collection<BigDecimal> getAll(K arg0) throws IllegalArgumentException {
-        return bigdecimals.getAll(arg0);
+    public BigDecimalCollection getAll(K arg0) throws IllegalArgumentException {
+        return new BigDecimalCollection.ArrayCollection(bigdecimals.getAll(arg0));
     }
 
     @Override
@@ -97,8 +97,8 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public Collection<BigDecimal> getValues() {
-        return bigdecimals.getValues();
+    public BigDecimalCollection getValues() {
+        return new BigDecimalCollection.ArrayCollection(bigdecimals.getValues());
     }
 
     @Override

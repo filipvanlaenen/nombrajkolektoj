@@ -10,6 +10,23 @@ import net.filipvanlaenen.kolektoj.Map;
  */
 public interface NumericMap<K, N extends Number> extends Map<K, N> {
     /**
+     * Returns a numeric collection with all values mapped to the key. Throws an exception if the map doesn't contain
+     * entries with the key.
+     *
+     * @param key The key.
+     * @return A numeric collection with all the values mapped to the key.
+     * @throws IllegalArgumentException Thrown if the map doesn't contain entries with the key.
+     */
+    NumericCollection<N> getAll(K key) throws IllegalArgumentException;
+
+    /**
+     * Returns a numeric collection with all the values present in the map.
+     *
+     * @return A numeric collection with all the values present in the map.
+     */
+    NumericCollection<N> getValues();
+
+    /**
      * Returns the largest number of the map values. Ignores <code>null</code> values, but returns <code>null</code> if
      * the map contains <code>null</code> values only. Throws an exception if the map is empty.
      *

@@ -9,5 +9,5 @@ import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
  * @param <N> The value type.
  */
 public interface UpdatableSortedNumericMap<K, N extends Number>
-        extends UpdatableNumericMap<K, N>, UpdatableSortedMap<K, N> {
+        extends SortedNumericMap<K, N>, UpdatableNumericMap<K, N>, UpdatableSortedMap<K, N> {
 }

@@ -11,7 +11,9 @@ The aim of this project is to provide a numeric collection for Java, based on th
 
 ## Overview
 
-![Overview](Overview.png)
+![Overview (Collections)](Overview-Collections.png)
+
+![Overview (Maps)](Overview-Maps.png)
 
 ## Getting Started
 

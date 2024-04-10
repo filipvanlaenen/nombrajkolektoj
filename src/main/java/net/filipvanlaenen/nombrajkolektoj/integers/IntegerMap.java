@@ -11,8 +11,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for integers and
  * containing inner classes with concrete implementations.
+ *
+ * @param <K> The key type.
  */
 public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements NumericMap<K, Integer> {
+    /**
+     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.Map} interface.
+     *
+     * @param <K> The key type.
+     */
     public static final class HashMap<K> extends IntegerMap<K> {
         /**
          * Constructs a map from another map, with the same keys and integers and the same key and value cardinality.
@@ -89,7 +96,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
     }
 
     @Override
-    public NumericCollection<Integer> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Integer> getAll(final K key) throws IllegalArgumentException {
         return new IntegerCollection.ArrayCollection(map.getAll(key));
     }
 

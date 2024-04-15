@@ -117,7 +117,7 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public Entry<K, BigDecimal>[] toArray() {
+    public Object[] toArray() {
         return bigdecimals.toArray();
     }
 

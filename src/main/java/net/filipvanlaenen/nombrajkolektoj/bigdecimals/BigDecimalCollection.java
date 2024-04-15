@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -23,7 +24,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), source.toArray());
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
         }
 
         /**
@@ -128,6 +129,6 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
 
     @Override
     public BigDecimal[] toArray() {
-        return bigDecimals.toArray();
+        return bigDecimals.toArray(EmptyArrays.BIG_DECIMALS);
     }
 }

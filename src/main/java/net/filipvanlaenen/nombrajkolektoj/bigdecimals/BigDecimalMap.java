@@ -21,7 +21,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<K, BigDecimal> source) {
-            this(source.getKeyAndValueCardinality(), source.toArray());
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(source));
         }
 
         /**
@@ -125,7 +125,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
     }
 
     @Override
-    public Entry<K, BigDecimal>[] toArray() {
+    public Object[] toArray() {
         return map.toArray();
     }
 }

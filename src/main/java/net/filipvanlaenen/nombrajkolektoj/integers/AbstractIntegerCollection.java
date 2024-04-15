@@ -58,4 +58,6 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
         }
         return sum;
     }
+
+    public abstract Integer[] toArray();
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -21,7 +22,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Long> source) {
-            this(source.getElementCardinality(), source.toArray());
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
         }
 
         /**
@@ -126,6 +127,6 @@ public abstract class LongCollection extends AbstractLongCollection implements N
 
     @Override
     public Long[] toArray() {
-        return longs.toArray();
+        return longs.toArray(EmptyArrays.LONGS);
     }
 }

@@ -27,7 +27,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<K, Integer> source) {
-            this(source.getKeyAndValueCardinality(), source.toArray());
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Integer>(source));
         }
 
         /**
@@ -131,7 +131,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
     }
 
     @Override
-    public Entry<K, Integer>[] toArray() {
+    public Object[] toArray() {
         return map.toArray();
     }
 }

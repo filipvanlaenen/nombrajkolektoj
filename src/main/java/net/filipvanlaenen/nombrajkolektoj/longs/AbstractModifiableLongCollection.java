@@ -46,4 +46,6 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
         }
         return result;
     }
+
+    public abstract Long[] toArray();
 }

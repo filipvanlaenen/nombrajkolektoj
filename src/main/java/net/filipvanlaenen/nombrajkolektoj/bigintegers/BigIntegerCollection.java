@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -23,7 +24,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray());
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
         }
 
         /**
@@ -128,6 +129,6 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
 
     @Override
     public BigInteger[] toArray() {
-        return bigIntegers.toArray();
+        return bigIntegers.toArray(EmptyArrays.BIG_INTEGERS);
     }
 }

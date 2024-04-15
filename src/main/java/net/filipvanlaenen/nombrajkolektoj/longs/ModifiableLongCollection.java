@@ -5,6 +5,7 @@ import java.util.Spliterator;
 import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
@@ -27,7 +28,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Long> source) {
-            this(source.getElementCardinality(), source.toArray());
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
         }
 
         /**
@@ -62,7 +63,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Long> source) {
-            this(source.getElementCardinality(), source.toArray());
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
         }
 
         /**
@@ -202,6 +203,6 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
 
     @Override
     public Long[] toArray() {
-        return collection.toArray();
+        return collection.toArray(EmptyArrays.LONGS);
     }
 }

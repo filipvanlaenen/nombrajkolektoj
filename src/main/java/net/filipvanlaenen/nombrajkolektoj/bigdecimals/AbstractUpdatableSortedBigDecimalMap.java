@@ -4,16 +4,22 @@ import java.math.BigDecimal;
 
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
+/**
+ * An abstract class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap} for BigDecimals.
+ *
+ * @param <K> The key type.
+ */
 abstract class AbstractUpdatableSortedBigDecimalMap<K> extends AbstractBigDecimalMap<K>
         implements UpdatableSortedNumericMap<K, BigDecimal> {
     @Override
-    public boolean augment(BigDecimal addend) {
-        // TODO Auto-generated method stub
+    public boolean augment(final BigDecimal addend) {
+        // TODO: Auto-generated method stub
         return false;
     }
 
     @Override
-    public BigDecimal augment(K key, BigDecimal addend) {
+    public BigDecimal augment(final K key, final BigDecimal addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
         }
@@ -26,13 +32,13 @@ abstract class AbstractUpdatableSortedBigDecimalMap<K> extends AbstractBigDecima
     }
 
     @Override
-    public boolean multiply(BigDecimal multiplicand) {
-        // TODO Auto-generated method stub
+    public boolean multiply(final BigDecimal multiplicand) {
+        // TODO: Auto-generated method stub
         return false;
     }
 
     @Override
-    public BigDecimal multiply(K key, BigDecimal addend) {
+    public BigDecimal multiply(final K key, final BigDecimal addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
         }
@@ -46,12 +52,12 @@ abstract class AbstractUpdatableSortedBigDecimalMap<K> extends AbstractBigDecima
 
     @Override
     public boolean negate() {
-        // TODO Auto-generated method stub
+        // TODO: Auto-generated method stub
         return false;
     }
 
     @Override
-    public BigDecimal negate(K key) {
+    public BigDecimal negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
         }

@@ -12,8 +12,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for BigDecimals
  * and containing inner classes with concrete implementations.
+ *
+ * @param <K> The key type.
  */
 public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implements NumericMap<K, BigDecimal> {
+    /**
+     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.Map} interface.
+     *
+     * @param <K> The key type.
+     */
     public static final class HashMap<K> extends BigDecimalMap<K> {
         /**
          * Constructs a map from another map, with the same keys and BigDecimals and the same key and value cardinality.
@@ -90,7 +97,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
     }
 
     @Override
-    public NumericCollection<BigDecimal> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<BigDecimal> getAll(final K key) throws IllegalArgumentException {
         return new BigDecimalCollection.ArrayCollection(map.getAll(key));
     }
 

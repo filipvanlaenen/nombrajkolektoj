@@ -11,6 +11,12 @@ import net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap;
 import net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
+/**
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap} interface for
+ * BigDecimals and containing inner classes with concrete implementations.
+ *
+ * @param <K> The key type.
+ */
 public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableSortedBigDecimalMap<K>
         implements UpdatableSortedNumericMap<K, BigDecimal> {
     public static final class ArrayMap<K> extends UpdatableSortedBigDecimalMap<K> {
@@ -52,23 +58,23 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public boolean contains(Entry<K, BigDecimal> arg0) {
-        return bigdecimals.contains(arg0);
+    public boolean contains(final Entry<K, BigDecimal> entry) {
+        return bigdecimals.contains(entry);
     }
 
     @Override
-    public boolean containsAll(Collection<?> arg0) {
-        return bigdecimals.containsAll(arg0);
+    public boolean containsAll(final Collection<?> map) {
+        return bigdecimals.containsAll(map);
     }
 
     @Override
-    public boolean containsKey(K arg0) {
-        return bigdecimals.containsKey(arg0);
+    public boolean containsKey(final K key) {
+        return bigdecimals.containsKey(key);
     }
 
     @Override
-    public boolean containsValue(BigDecimal arg0) {
-        return bigdecimals.containsValue(arg0);
+    public boolean containsValue(final BigDecimal value) {
+        return bigdecimals.containsValue(value);
     }
 
     @Override
@@ -77,13 +83,13 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public BigDecimal get(K arg0) throws IllegalArgumentException {
-        return bigdecimals.get(arg0);
+    public BigDecimal get(final K key) throws IllegalArgumentException {
+        return bigdecimals.get(key);
     }
 
     @Override
-    public BigDecimalCollection getAll(K arg0) throws IllegalArgumentException {
-        return new BigDecimalCollection.ArrayCollection(bigdecimals.getAll(arg0));
+    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
+        return new BigDecimalCollection.ArrayCollection(bigdecimals.getAll(key));
     }
 
     @Override
@@ -122,7 +128,7 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public BigDecimal update(K arg0, BigDecimal arg1) throws IllegalArgumentException {
-        return bigdecimals.update(arg0, arg1);
+    public BigDecimal update(final K key, final BigDecimal value) throws IllegalArgumentException {
+        return bigdecimals.update(key, value);
     }
 }

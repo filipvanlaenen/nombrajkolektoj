@@ -59,5 +59,6 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
         return sum;
     }
 
+    @Override
     public abstract Integer[] toArray();
 }

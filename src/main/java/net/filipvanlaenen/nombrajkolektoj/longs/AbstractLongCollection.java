@@ -58,4 +58,7 @@ abstract class AbstractLongCollection implements NumericCollection<Long> {
         }
         return sum;
     }
+
+    @Override
+    public abstract Long[] toArray();
 }

@@ -14,23 +14,23 @@ public class AbstractDoubleCollectionTest {
     /**
      * The magic number three.
      */
-    private static final double THREE = 3;
+    private static final double THREE = 3D;
     /**
      * The magic number four.
      */
-    private static final double FOUR = 4;
+    private static final double FOUR = 4D;
     /**
      * The magic number six.
      */
-    private static final double SIX = 6;
+    private static final double SIX = 6D;
     /**
      * The magic number ten.
      */
-    private static final double TEN = 10;
+    private static final double TEN = 10D;
     /**
      * The magic number twenty-four.
      */
-    private static final double TWENTY_FOUR = 24;
+    private static final double TWENTY_FOUR = 24D;
     /**
      * Collection with the doubles 1, 2, 3 and 4.
      */

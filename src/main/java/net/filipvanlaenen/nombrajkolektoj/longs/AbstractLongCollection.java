@@ -8,30 +8,30 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 abstract class AbstractLongCollection implements NumericCollection<Long> {
     @Override
-    public Long max() {
+    public Long max() throws IndexOutOfBoundsException {
         if (size() == 0) {
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         Long max = null;
-        for (Long l : this) {
+        for (Long n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (l != null && (max == null || l > max)) {
-                max = l;
+            if (n != null && (max == null || n > max)) {
+                max = n;
             }
         }
         return max;
     }
 
     @Override
-    public Long min() {
+    public Long min() throws IndexOutOfBoundsException {
         if (size() == 0) {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         Long min = null;
-        for (Long l : this) {
+        for (Long n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (l != null && (min == null || l < min)) {
-                min = l;
+            if (n != null && (min == null || n < min)) {
+                min = n;
             }
         }
         return min;
@@ -40,9 +40,9 @@ abstract class AbstractLongCollection implements NumericCollection<Long> {
     @Override
     public Long product() {
         Long product = 1L;
-        for (Long l : this) {
-            if (l != null) {
-                product *= l;
+        for (Long n : this) {
+            if (n != null) {
+                product *= n;
             }
         }
         return product;
@@ -51,9 +51,9 @@ abstract class AbstractLongCollection implements NumericCollection<Long> {
     @Override
     public Long sum() {
         Long sum = 0L;
-        for (Long l : this) {
-            if (l != null) {
-                sum += l;
+        for (Long n : this) {
+            if (n != null) {
+                sum += n;
             }
         }
         return sum;

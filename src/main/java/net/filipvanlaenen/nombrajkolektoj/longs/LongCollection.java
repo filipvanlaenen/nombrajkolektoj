@@ -97,7 +97,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
     /**
      * Returns a new longs collection with the specified longs.
      *
-     * @param longs The longs for the new long collection.
+     * @param longs The longs for the new longs collection.
      * @return A new longs collection with the specified longs.
      */
     static LongCollection of(final Long... longs) {

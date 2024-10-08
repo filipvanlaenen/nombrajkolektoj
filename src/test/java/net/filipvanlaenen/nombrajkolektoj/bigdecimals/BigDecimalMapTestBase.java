@@ -78,37 +78,37 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     protected abstract T createBigDecimalMap(Entry<String, BigDecimal>... entries);
 
     /**
-     * Creates an integer map containing the provided key and value cardinality and entries.
+     * Creates a BigDecimal map containing the provided key and value cardinality and entries.
      *
      * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries to be included in the integer map.
-     * @return An integer map containing the provided entries.
+     * @param entries                The entries to be included in the BigDecimal map.
+     * @return A BigDecimal map containing the provided entries.
      */
     protected abstract T createBigDecimalMap(KeyAndValueCardinality keyAndValueCardinality,
             Entry<String, BigDecimal>... entries);
 
     /**
-     * Creates an integer map containing the provided key and value.
+     * Creates a BigDecimal map containing the provided key and value.
      *
      * @param key   The key for the entry.
      * @param value The value for the entry.
-     * @return An integer map containing the provided key and value.
+     * @return A BigDecimal map containing the provided key and value.
      */
     protected abstract T createBigDecimalMap(String key, BigDecimal value);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a BigDecimal map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A BigDecimal map containing the provided keys and values.
      */
     protected abstract T createBigDecimalMap(String key1, BigDecimal value1, String key2, BigDecimal value2);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a BigDecimal map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -116,13 +116,13 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
      * @param value2 The second value for the entry.
      * @param key3   The third key for the entry.
      * @param value3 The third value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A BigDecimal map containing the provided keys and values.
      */
     protected abstract T createBigDecimalMap(String key1, BigDecimal value1, String key2, BigDecimal value2,
             String key3, BigDecimal value3);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a BigDecimal map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -132,13 +132,13 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
      * @param value3 The third value for the entry.
      * @param key4   The fourth key for the entry.
      * @param value4 The fourth value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A BigDecimal map containing the provided keys and values.
      */
     protected abstract T createBigDecimalMap(String key1, BigDecimal value1, String key2, BigDecimal value2,
             String key3, BigDecimal value3, String key4, BigDecimal value4);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a BigDecimal map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -150,16 +150,16 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
      * @param value4 The fourth value for the entry.
      * @param key5   The fifth key for the entry.
      * @param value5 The fifth value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A BigDecimal map containing the provided keys and values.
      */
     protected abstract T createBigDecimalMap(String key1, BigDecimal value1, String key2, BigDecimal value2,
             String key3, BigDecimal value3, String key4, BigDecimal value4, String key5, BigDecimal value5);
 
     /**
-     * Verifies that an integer map with a specific key and value cardinality receives that key and value cardinality.
+     * Verifies that a BigDecimal map with a specific key and value cardinality receives that key and value cardinality.
      */
     @Test
-    public void ofWithKeyAndValueCardinalityShouldReturnAnIntegerMapWithTheKeyAndValueCardinality() {
+    public void ofWithKeyAndValueCardinalityShouldReturnABigDecimalMapWithTheKeyAndValueCardinality() {
         assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES,
                 createBigDecimalMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, ENTRY1).getKeyAndValueCardinality());
     }
@@ -265,10 +265,10 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     }
 
     /**
-     * Verifies that an empty integer map is empty.
+     * Verifies that an empty BigDecimal map is empty.
      */
     @Test
-    public void isEmptyShouldReturnTrueForAnEmptyIntegerMap() {
+    public void isEmptyShouldReturnTrueForAnEmptyBigDecimalMap() {
         assertTrue(createEmptyBigDecimalMap().isEmpty());
     }
 

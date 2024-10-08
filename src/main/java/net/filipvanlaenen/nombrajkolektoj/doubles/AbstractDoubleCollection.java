@@ -13,10 +13,10 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         Double max = null;
-        for (Double d : this) {
+        for (Double n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (d != null && (max == null || d > max)) {
-                max = d;
+            if (n != null && (max == null || n > max)) {
+                max = n;
             }
         }
         return max;
@@ -28,10 +28,10 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         Double min = null;
-        for (Double d : this) {
+        for (Double n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (d != null && (min == null || d < min)) {
-                min = d;
+            if (n != null && (min == null || n < min)) {
+                min = n;
             }
         }
         return min;
@@ -40,9 +40,9 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double product() {
         Double product = 1D;
-        for (Double d : this) {
-            if (d != null) {
-                product *= d;
+        for (Double n : this) {
+            if (n != null) {
+                product *= n;
             }
         }
         return product;
@@ -51,11 +51,14 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
     @Override
     public Double sum() {
         Double sum = 0D;
-        for (Double d : this) {
-            if (d != null) {
-                sum += d;
+        for (Double n : this) {
+            if (n != null) {
+                sum += n;
             }
         }
         return sum;
     }
+
+    @Override
+    public abstract Double[] toArray();
 }

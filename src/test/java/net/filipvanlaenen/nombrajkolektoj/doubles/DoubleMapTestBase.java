@@ -20,15 +20,15 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     /**
      * The double three.
      */
-    private static final Double BIG_DECIMAL_THREE = 3D;
+    private static final Double DOUBLE_THREE = 3D;
     /**
      * The double four.
      */
-    private static final Double BIG_DECIMAL_FOUR = 4D;
+    private static final Double DOUBLE_FOUR = 4D;
     /**
      * The double five.
      */
-    private static final Double BIG_DECIMAL_FIVE = 5D;
+    private static final Double DOUBLE_FIVE = 5D;
     /**
      * The magic number three.
      */
@@ -53,7 +53,7 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
      * Map with the doubles 1, 2 and 3.
      */
     private final NumericMap<String, Double> map123 = createDoubleMap(ENTRY1, new Entry<String, Double>("two", 2D),
-            new Entry<String, Double>("three", BIG_DECIMAL_THREE));
+            new Entry<String, Double>("three", DOUBLE_THREE));
 
     /**
      * Creates an empty doubles map.
@@ -164,11 +164,11 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     public void ofWithKeysAndValuesShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals(1, createDoubleMap("one", 1D).size());
         assertEquals(2, createDoubleMap("one", 1D, "two", 2D).size());
-        assertEquals(THREE, createDoubleMap("one", 1D, "two", 2D, "three", BIG_DECIMAL_THREE).size());
-        assertEquals(FOUR,
-                createDoubleMap("one", 1D, "two", 2D, "three", BIG_DECIMAL_THREE, "four", BIG_DECIMAL_FOUR).size());
-        assertEquals(FIVE, createDoubleMap("one", 1D, "two", 2D, "three", BIG_DECIMAL_THREE, "four", BIG_DECIMAL_FOUR,
-                "five", BIG_DECIMAL_FIVE).size());
+        assertEquals(THREE, createDoubleMap("one", 1D, "two", 2D, "three", DOUBLE_THREE).size());
+        assertEquals(FOUR, createDoubleMap("one", 1D, "two", 2D, "three", DOUBLE_THREE, "four", DOUBLE_FOUR).size());
+        assertEquals(FIVE,
+                createDoubleMap("one", 1D, "two", 2D, "three", DOUBLE_THREE, "four", DOUBLE_FOUR, "five", DOUBLE_FIVE)
+                        .size());
     }
 
     /**
@@ -252,7 +252,7 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
      */
     @Test
     public void getValuesShouldBeWiredCorrectlyToTheInternalMap() {
-        assertTrue(map123.getValues().containsSame(DoubleCollection.of(1D, 2D, BIG_DECIMAL_THREE)));
+        assertTrue(map123.getValues().containsSame(DoubleCollection.of(1D, 2D, DOUBLE_THREE)));
     }
 
     /**

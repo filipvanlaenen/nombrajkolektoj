@@ -35,7 +35,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs              The longs of the collection.
+         * @param longs            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
             super(new ModifiableArrayCollection<Long>(elementCardinality, longs));
@@ -70,7 +70,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs              The longs of the collection.
+         * @param longs            The longs of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Long... longs) {
             super(new ModifiableLinkedListCollection<Long>(elementCardinality, longs));
@@ -164,7 +164,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      * Returns a new modifiable longs collection with the specified element cardinality and the longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs              The longs for the new modifiable longs collection.
+     * @param longs            The longs for the new modifiable longs collection.
      * @return A new modifiable longs collection with the specified element cardinality and the longs.
      */
     static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... longs) {

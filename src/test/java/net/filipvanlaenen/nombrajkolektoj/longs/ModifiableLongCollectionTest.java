@@ -27,8 +27,8 @@ public final class ModifiableLongCollectionTest extends LongCollectionTestBase<M
 
     @Override
     protected ModifiableLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final Long... integers) {
-        return ModifiableLongCollection.of(elementCardinality, integers);
+            final Long... longs) {
+        return ModifiableLongCollection.of(elementCardinality, longs);
     }
 
     @Override

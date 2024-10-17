@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractModifiableLongCollection} class.
- * The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection}
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractModifiableLongCollection}
+ * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection}
  * implementation.
  */
 public class AbstractModifiableLongCollectionTest {

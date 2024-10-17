@@ -11,10 +11,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     @Override
     public boolean augment(final Long addend) {
         boolean result = false;
-        for (Long l : toArray()) {
-            if (l != null && addend != 0L) {
-                remove(l);
-                add(l + addend);
+        for (Long n : toArray()) {
+            if (n != null && addend != 0L) {
+                remove(n);
+                add(n + addend);
                 result = true;
             }
         }
@@ -24,10 +24,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     @Override
     public boolean multiply(final Long value) {
         boolean result = false;
-        for (Long l : toArray()) {
-            if (l != null && l != 0L && value != 1L) {
-                remove(l);
-                add(l * value);
+        for (Long n : toArray()) {
+            if (n != null && n != 0L && value != 1L) {
+                remove(n);
+                add(n * value);
                 result = true;
             }
         }
@@ -37,10 +37,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     @Override
     public boolean negate() {
         boolean result = false;
-        for (Long l : toArray()) {
-            if (l != null && l != 0L) {
-                remove(l);
-                add(-l);
+        for (Long n : toArray()) {
+            if (n != null && n != 0L) {
+                remove(n);
+                add(-n);
                 result = true;
             }
         }

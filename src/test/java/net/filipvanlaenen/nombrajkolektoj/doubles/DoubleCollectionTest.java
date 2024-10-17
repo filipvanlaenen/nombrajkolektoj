@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} class.
  */
-public class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleCollection> {
+public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleCollection> {
     @Override
     protected DoubleCollection createEmptyDoubleCollection() {
         return DoubleCollection.empty();

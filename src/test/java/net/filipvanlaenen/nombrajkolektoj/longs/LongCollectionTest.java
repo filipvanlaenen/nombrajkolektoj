@@ -18,7 +18,8 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     }
 
     @Override
-    protected LongCollection createLongCollection(final ElementCardinality elementCardinality, final Long... longs) {
+    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final Long... longs) {
         return LongCollection.of(elementCardinality, longs);
     }
 

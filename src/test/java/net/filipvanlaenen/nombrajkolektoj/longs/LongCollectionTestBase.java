@@ -45,7 +45,7 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
      * Creates a longs collection with the provided element cardinality containing the provided longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs              The longs to be included in the longs collection.
+     * @param longs            The longs to be included in the longs collection.
      * @return A longs collection with the provided element cardinality containing the provided longs.
      */
     protected abstract T createLongCollection(ElementCardinality elementCardinality, Long... longs);

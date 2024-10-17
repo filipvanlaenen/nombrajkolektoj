@@ -29,7 +29,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs              The longs of the collection.
+         * @param longs            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, longs));
@@ -108,7 +108,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
      * Returns a new longs collection with the specified element cardinality and the longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs              The longs for the new longs collection.
+     * @param longs            The longs for the new longs collection.
      * @return A new longs collection with the specified element cardinality and the longs.
      */
     static LongCollection of(final ElementCardinality elementCardinality, final Long... longs) {

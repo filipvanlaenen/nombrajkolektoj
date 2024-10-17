@@ -13,10 +13,10 @@ abstract class AbstractFloatCollection implements NumericCollection<Float> {
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         Float max = null;
-        for (Float f : this) {
+        for (Float n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (f != null && (max == null || f > max)) {
-                max = f;
+            if (n != null && (max == null || n > max)) {
+                max = n;
             }
         }
         return max;
@@ -28,10 +28,10 @@ abstract class AbstractFloatCollection implements NumericCollection<Float> {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         Float min = null;
-        for (Float f : this) {
+        for (Float n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (f != null && (min == null || f < min)) {
-                min = f;
+            if (n != null && (min == null || n < min)) {
+                min = n;
             }
         }
         return min;
@@ -40,9 +40,9 @@ abstract class AbstractFloatCollection implements NumericCollection<Float> {
     @Override
     public Float product() {
         Float product = 1F;
-        for (Float f : this) {
-            if (f != null) {
-                product *= f;
+        for (Float n : this) {
+            if (n != null) {
+                product *= n;
             }
         }
         return product;
@@ -51,11 +51,14 @@ abstract class AbstractFloatCollection implements NumericCollection<Float> {
     @Override
     public Float sum() {
         Float sum = 0F;
-        for (Float f : this) {
-            if (f != null) {
-                sum += f;
+        for (Float n : this) {
+            if (n != null) {
+                sum += n;
             }
         }
         return sum;
     }
+
+    @Override
+    public abstract Float[] toArray();
 }

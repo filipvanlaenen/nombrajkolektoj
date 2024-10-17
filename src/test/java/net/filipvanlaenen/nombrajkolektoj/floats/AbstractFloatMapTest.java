@@ -6,92 +6,96 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Map.Entry;
+
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.AbstractFloatCollection} class. The
- * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.AbstractLongMap} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatMap} implementation.
  */
-public class AbstractFloatCollectionTest {
+public class AbstractFloatMapTest {
     /**
      * The magic number three.
      */
-    private static final float THREE = 3F;
+    private static final Float THREE = 3F;
     /**
      * The magic number four.
      */
-    private static final float FOUR = 4F;
+    private static final Float FOUR = 4F;
     /**
      * The magic number six.
      */
-    private static final float SIX = 6F;
+    private static final Float SIX = 6F;
     /**
      * The magic number ten.
      */
-    private static final float TEN = 10F;
+    private static final Float TEN = 10F;
     /**
      * The magic number twenty-four.
      */
-    private static final float TWENTY_FOUR = 24F;
+    private static final Float TWENTY_FOUR = 24F;
     /**
-     * Collection with the floats 1, 2, 3 and 4.
+     * Map with the floats 1, 2, 3 and 4.
      */
-    private static final FloatCollection COLLECTION1234 = FloatCollection.of(1F, 2F, 3F, 4F);
+    private static final FloatMap<String> MAP1234 =
+            FloatMap.of("one", 1F, "two", Float.valueOf(2L), "three", THREE, "four", FOUR);
     /**
-     * Collection with the floats 1, 2 and 3 and <code>null</code>.
+     * Map with the floats 1, 2 and 3 and <code>null</code>.
      */
-    private static final FloatCollection COLLECTION123NULL = FloatCollection.of(1F, 2F, 3F, null);
+    private static final FloatMap<String> MAP123NULL =
+            FloatMap.of("one", 1F, "two", Float.valueOf(2L), "three", THREE, null, null);
     /**
-     * Collection with <code>null</code>.
+     * Map with <code>null</code>.
      */
-    private static final FloatCollection COLLECTION_NULL = FloatCollection.of(new Float[] {null});
+    private static final FloatMap<String> MAP_NULL = FloatMap.of(new Entry<String, Float>(null, null));
 
     /**
-     * Verifies that <code>max</code> returns the largest float in the collection.
+     * Verifies that <code>max</code> returns the largest number in the map.
      */
     @Test
-    public void maxShouldReturnTheLargestFloat() {
-        assertEquals(FOUR, COLLECTION1234.max());
+    public void maxShouldReturnTheLargestNumber() {
+        assertEquals(FOUR, MAP1234.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest float in the collection.
+     * Verifies that <code>min</code> returns the smallest number in the collection.
      */
     @Test
-    public void minShouldReturnTheSmallestFloat() {
-        assertEquals(1F, COLLECTION1234.min());
+    public void minShouldReturnTheSmallestNumber() {
+        assertEquals(1F, MAP1234.min());
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the floats in the collection.
+     * Verifies that <code>product</code> returns the product of the numbers in the collection.
      */
     @Test
-    public void productShouldReturnTheProductOfTheFloats() {
-        assertEquals(TWENTY_FOUR, COLLECTION1234.product());
+    public void productShouldReturnTheProductOfTheNumbers() {
+        assertEquals(TWENTY_FOUR, MAP1234.product());
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the floats in the collection.
+     * Verifies that <code>sum</code> returns the sum of the numbers in the collection.
      */
     @Test
-    public void sumShouldReturnTheSumOfTheFloats() {
-        assertEquals(TEN, COLLECTION1234.sum());
+    public void sumShouldReturnTheSumOfTheNumbers() {
+        assertEquals(TEN, MAP1234.sum());
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest float in the collection even when there are <code>null</code>
+     * Verifies that <code>max</code> returns the largest number in the collection even when there are <code>null</code>
      * elements in the collection.
      */
     @Test
-    public void maxShouldIgnoreNullAndReturnTheLargestFloat() {
-        assertEquals(THREE, COLLECTION123NULL.max());
+    public void maxShouldIgnoreNullAndReturnTheLargestNumber() {
+        assertEquals(THREE, MAP123NULL.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest float in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest number in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void minShouldIgnoreNullAndReturnTheSmallestFloat() {
-        assertEquals(1F, COLLECTION123NULL.min());
+    public void minShouldIgnoreNullAndReturnTheSmallestNumber() {
+        assertEquals(1F, MAP123NULL.min());
     }
 
     /**
@@ -100,7 +104,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void productShouldIgnoreNullAndReturnTheProduct() {
-        assertEquals(SIX, COLLECTION123NULL.product());
+        assertEquals(SIX, MAP123NULL.product());
     }
 
     /**
@@ -109,7 +113,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void sumShouldIgnoreNullAndReturnTheSum() {
-        assertEquals(SIX, COLLECTION123NULL.sum());
+        assertEquals(SIX, MAP123NULL.sum());
     }
 
     /**
@@ -117,7 +121,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void maxShouldReturnNullIfTheCollectionContainsOnlyNull() {
-        assertNull(COLLECTION_NULL.max());
+        assertNull(MAP_NULL.max());
     }
 
     /**
@@ -125,7 +129,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void minShouldReturnNullIfTheCollectionContainsOnlyNull() {
-        assertNull(COLLECTION_NULL.min());
+        assertNull(MAP_NULL.min());
     }
 
     /**
@@ -133,7 +137,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionContainsOnlyNull() {
-        assertEquals(1F, COLLECTION_NULL.product());
+        assertEquals(1F, MAP_NULL.product());
     }
 
     /**
@@ -141,7 +145,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionContainsOnlyNull() {
-        assertEquals(0F, COLLECTION_NULL.sum());
+        assertEquals(0F, MAP_NULL.sum());
     }
 
     /**
@@ -150,7 +154,7 @@ public class AbstractFloatCollectionTest {
     @Test
     public void maxShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> FloatCollection.empty().max());
+                assertThrows(IndexOutOfBoundsException.class, () -> FloatMap.empty().max());
         assertEquals("Cannot return a maximum for an empty collection.", exception.getMessage());
     }
 
@@ -160,7 +164,7 @@ public class AbstractFloatCollectionTest {
     @Test
     public void minShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> FloatCollection.empty().min());
+                assertThrows(IndexOutOfBoundsException.class, () -> FloatMap.empty().min());
         assertEquals("Cannot return a minimum for an empty collection.", exception.getMessage());
     }
 
@@ -169,7 +173,7 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionIsEmpty() {
-        assertEquals(1F, FloatCollection.empty().product());
+        assertEquals(1F, FloatMap.empty().product());
     }
 
     /**
@@ -177,6 +181,6 @@ public class AbstractFloatCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionIsEmpty() {
-        assertEquals(0F, FloatCollection.empty().sum());
+        assertEquals(0F, FloatMap.empty().sum());
     }
 }

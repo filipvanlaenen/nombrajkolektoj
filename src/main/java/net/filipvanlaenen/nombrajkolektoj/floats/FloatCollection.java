@@ -29,7 +29,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * Constructs a collection with the given floats and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param floats             The floats of the collection.
+         * @param floats            The floats of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, floats));
@@ -108,7 +108,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
      * Returns a new floats collection with the specified element cardinality and the floats.
      *
      * @param elementCardinality The element cardinality.
-     * @param floats             The floats for the new floats collection.
+     * @param floats            The floats for the new floats collection.
      * @return A new floats collection with the specified element cardinality and the floats.
      */
     static FloatCollection of(final ElementCardinality elementCardinality, final Float... floats) {

@@ -6,92 +6,94 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Map.Entry;
+
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bytes.AbstractByteCollection} class. The
- * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bytes.AbstractLongMap} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteMap} implementation.
  */
-public class AbstractByteCollectionTest {
+public class AbstractByteMapTest {
     /**
      * The magic number three.
      */
-    private static final byte THREE = (byte) 3;
+    private static final Byte THREE = (byte) 3;
     /**
      * The magic number four.
      */
-    private static final byte FOUR = (byte) 4;
+    private static final Byte FOUR = (byte) 4;
     /**
      * The magic number six.
      */
-    private static final byte SIX = (byte) 6;
+    private static final Byte SIX = (byte) 6;
     /**
      * The magic number ten.
      */
-    private static final byte TEN = (byte) 10;
+    private static final Byte TEN = (byte) 10;
     /**
      * The magic number twenty-four.
      */
-    private static final byte TWENTY_FOUR = (byte) 24;
+    private static final Byte TWENTY_FOUR = (byte) 24;
     /**
-     * Collection with the bytes 1, 2, 3 and 4.
+     * Map with the bytes 1, 2, 3 and 4.
      */
-    private static final ByteCollection COLLECTION1234 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+    private static final ByteMap<String> MAP1234 = ByteMap.of("one", (byte) 1, "two", (byte) 2, "three", THREE, "four", FOUR);
     /**
-     * Collection with the bytes 1, 2 and 3 and <code>null</code>.
+     * Map with the bytes 1, 2 and 3 and <code>null</code>.
      */
-    private static final ByteCollection COLLECTION123NULL = ByteCollection.of((byte) 1, (byte) 2, (byte) 3, null);
+    private static final ByteMap<String> MAP123NULL = ByteMap.of("one", (byte) 1, "two", (byte) 2, "three", THREE, null, null);
     /**
-     * Collection with <code>null</code>.
+     * Map with <code>null</code>.
      */
-    private static final ByteCollection COLLECTION_NULL = ByteCollection.of(new Byte[] {null});
+    private static final ByteMap<String> MAP_NULL = ByteMap.of(new Entry<String, Byte>(null, null));
 
     /**
-     * Verifies that <code>max</code> returns the largest byte in the collection.
+     * Verifies that <code>max</code> returns the largest number in the map.
      */
     @Test
-    public void maxShouldReturnTheLargestByte() {
-        assertEquals(FOUR, COLLECTION1234.max());
+    public void maxShouldReturnTheLargestNumber() {
+        assertEquals(FOUR, MAP1234.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest byte in the collection.
+     * Verifies that <code>min</code> returns the smallest number in the collection.
      */
     @Test
-    public void minShouldReturnTheSmallestByte() {
-        assertEquals((byte) 1, COLLECTION1234.min());
+    public void minShouldReturnTheSmallestNumber() {
+        assertEquals((byte) 1, MAP1234.min());
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the bytes in the collection.
+     * Verifies that <code>product</code> returns the product of the numbers in the collection.
      */
     @Test
-    public void productShouldReturnTheProductOfTheBytes() {
-        assertEquals(TWENTY_FOUR, COLLECTION1234.product());
+    public void productShouldReturnTheProductOfTheNumbers() {
+        assertEquals(TWENTY_FOUR, MAP1234.product());
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the bytes in the collection.
+     * Verifies that <code>sum</code> returns the sum of the numbers in the collection.
      */
     @Test
-    public void sumShouldReturnTheSumOfTheBytes() {
-        assertEquals(TEN, COLLECTION1234.sum());
+    public void sumShouldReturnTheSumOfTheNumbers() {
+        assertEquals(TEN, MAP1234.sum());
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest byte in the collection even when there are <code>null</code>
+     * Verifies that <code>max</code> returns the largest number in the collection even when there are <code>null</code>
      * elements in the collection.
      */
     @Test
-    public void maxShouldIgnoreNullAndReturnTheLargestByte() {
-        assertEquals(THREE, COLLECTION123NULL.max());
+    public void maxShouldIgnoreNullAndReturnTheLargestNumber() {
+        assertEquals(THREE, MAP123NULL.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest byte in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest number in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void minShouldIgnoreNullAndReturnTheSmallestByte() {
-        assertEquals((byte) 1, COLLECTION123NULL.min());
+    public void minShouldIgnoreNullAndReturnTheSmallestNumber() {
+        assertEquals((byte) 1, MAP123NULL.min());
     }
 
     /**
@@ -100,7 +102,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void productShouldIgnoreNullAndReturnTheProduct() {
-        assertEquals(SIX, COLLECTION123NULL.product());
+        assertEquals(SIX, MAP123NULL.product());
     }
 
     /**
@@ -109,7 +111,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void sumShouldIgnoreNullAndReturnTheSum() {
-        assertEquals(SIX, COLLECTION123NULL.sum());
+        assertEquals(SIX, MAP123NULL.sum());
     }
 
     /**
@@ -117,7 +119,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void maxShouldReturnNullIfTheCollectionContainsOnlyNull() {
-        assertNull(COLLECTION_NULL.max());
+        assertNull(MAP_NULL.max());
     }
 
     /**
@@ -125,7 +127,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void minShouldReturnNullIfTheCollectionContainsOnlyNull() {
-        assertNull(COLLECTION_NULL.min());
+        assertNull(MAP_NULL.min());
     }
 
     /**
@@ -133,7 +135,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionContainsOnlyNull() {
-        assertEquals((byte) 1, COLLECTION_NULL.product());
+        assertEquals((byte) 1, MAP_NULL.product());
     }
 
     /**
@@ -141,7 +143,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionContainsOnlyNull() {
-        assertEquals((byte) 0, COLLECTION_NULL.sum());
+        assertEquals((byte) 0, MAP_NULL.sum());
     }
 
     /**
@@ -150,7 +152,7 @@ public class AbstractByteCollectionTest {
     @Test
     public void maxShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> ByteCollection.empty().max());
+                assertThrows(IndexOutOfBoundsException.class, () -> ByteMap.empty().max());
         assertEquals("Cannot return a maximum for an empty collection.", exception.getMessage());
     }
 
@@ -160,7 +162,7 @@ public class AbstractByteCollectionTest {
     @Test
     public void minShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> ByteCollection.empty().min());
+                assertThrows(IndexOutOfBoundsException.class, () -> ByteMap.empty().min());
         assertEquals("Cannot return a minimum for an empty collection.", exception.getMessage());
     }
 
@@ -169,7 +171,7 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionIsEmpty() {
-        assertEquals((byte) 1, ByteCollection.empty().product());
+        assertEquals((byte) 1, ByteMap.empty().product());
     }
 
     /**
@@ -177,6 +179,6 @@ public class AbstractByteCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionIsEmpty() {
-        assertEquals((byte) 0, ByteCollection.empty().sum());
+        assertEquals((byte) 0, ByteMap.empty().sum());
     }
 }

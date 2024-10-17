@@ -29,7 +29,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * Constructs a collection with the given bytes and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bytes              The bytes of the collection.
+         * @param bytes            The bytes of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, bytes));
@@ -108,7 +108,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      * Returns a new bytes collection with the specified element cardinality and the bytes.
      *
      * @param elementCardinality The element cardinality.
-     * @param bytes              The bytes for the new bytes collection.
+     * @param bytes            The bytes for the new bytes collection.
      * @return A new bytes collection with the specified element cardinality and the bytes.
      */
     static ByteCollection of(final ElementCardinality elementCardinality, final Byte... bytes) {

@@ -18,14 +18,14 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class OrderedArrayCollection extends OrderedByteCollection {
+    public static final class ArrayCollection extends OrderedByteCollection {
         /**
          * Constructs an ordered collection from another ordered collection, with the same bytes and the same element
          * cardinality.
          *
          * @param source The ordered collection to create a new collection from.
          */
-        public OrderedArrayCollection(final OrderedCollection<Byte> source) {
+        public ArrayCollection(final OrderedCollection<Byte> source) {
             this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
         }
 
@@ -35,7 +35,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
          * @param elementCardinality The element cardinality.
          * @param bytes            The bytes of the ordered collection.
          */
-        public OrderedArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(elementCardinality, bytes));
         }
 
@@ -45,7 +45,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
          *
          * @param bytes The bytes of the ordered collection.
          */
-        public OrderedArrayCollection(final Byte... bytes) {
+        public ArrayCollection(final Byte... bytes) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(bytes));
         }
     }
@@ -80,7 +80,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * @return A new empty ordered bytes collection.
      */
     static OrderedByteCollection empty() {
-        return new OrderedArrayCollection();
+        return new ArrayCollection();
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * @return A new ordered bytes collection with the specified bytes.
      */
     static OrderedByteCollection of(final Byte... bytes) {
-        return new OrderedArrayCollection(bytes);
+        return new ArrayCollection(bytes);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * @return A new ordered bytes collection with the specified element cardinality and the bytes.
      */
     static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... bytes) {
-        return new OrderedArrayCollection(elementCardinality, bytes);
+        return new ArrayCollection(elementCardinality, bytes);
     }
 
     @Override

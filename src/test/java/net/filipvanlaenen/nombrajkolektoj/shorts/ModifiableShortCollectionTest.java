@@ -12,7 +12,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableShortCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} class.
  */
 public final class ModifiableShortCollectionTest extends ShortCollectionTestBase<ModifiableShortCollection> {
     @Override

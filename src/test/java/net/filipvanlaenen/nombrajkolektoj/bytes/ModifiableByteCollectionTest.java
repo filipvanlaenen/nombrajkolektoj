@@ -12,7 +12,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableByteCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} class.
  */
 public final class ModifiableByteCollectionTest extends ByteCollectionTestBase<ModifiableByteCollection> {
     @Override

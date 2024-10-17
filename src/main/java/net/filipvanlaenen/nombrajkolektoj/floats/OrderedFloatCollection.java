@@ -18,14 +18,14 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class OrderedArrayCollection extends OrderedFloatCollection {
+    public static final class ArrayCollection extends OrderedFloatCollection {
         /**
          * Constructs an ordered collection from another ordered collection, with the same floats and the same element
          * cardinality.
          *
          * @param source The ordered collection to create a new collection from.
          */
-        public OrderedArrayCollection(final OrderedCollection<Float> source) {
+        public ArrayCollection(final OrderedCollection<Float> source) {
             this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
         }
 
@@ -35,7 +35,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
          * @param elementCardinality The element cardinality.
          * @param floats            The floats of the ordered collection.
          */
-        public OrderedArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(elementCardinality, floats));
         }
 
@@ -45,7 +45,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
          *
          * @param floats The floats of the ordered collection.
          */
-        public OrderedArrayCollection(final Float... floats) {
+        public ArrayCollection(final Float... floats) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(floats));
         }
     }
@@ -80,7 +80,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * @return A new empty ordered floats collection.
      */
     static OrderedFloatCollection empty() {
-        return new OrderedArrayCollection();
+        return new ArrayCollection();
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * @return A new ordered floats collection with the specified floats.
      */
     static OrderedFloatCollection of(final Float... floats) {
-        return new OrderedArrayCollection(floats);
+        return new ArrayCollection(floats);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * @return A new ordered floats collection with the specified element cardinality and the floats.
      */
     static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... floats) {
-        return new OrderedArrayCollection(elementCardinality, floats);
+        return new ArrayCollection(elementCardinality, floats);
     }
 
     @Override

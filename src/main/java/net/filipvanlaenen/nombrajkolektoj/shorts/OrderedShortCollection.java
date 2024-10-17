@@ -18,14 +18,14 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class OrderedArrayCollection extends OrderedShortCollection {
+    public static final class ArrayCollection extends OrderedShortCollection {
         /**
          * Constructs an ordered collection from another ordered collection, with the same shorts and the same element
          * cardinality.
          *
          * @param source The ordered collection to create a new collection from.
          */
-        public OrderedArrayCollection(final OrderedCollection<Short> source) {
+        public ArrayCollection(final OrderedCollection<Short> source) {
             this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
         }
 
@@ -35,7 +35,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
          * @param elementCardinality The element cardinality.
          * @param shorts            The shorts of the ordered collection.
          */
-        public OrderedArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, shorts));
         }
 
@@ -45,7 +45,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
          *
          * @param shorts The shorts of the ordered collection.
          */
-        public OrderedArrayCollection(final Short... shorts) {
+        public ArrayCollection(final Short... shorts) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(shorts));
         }
     }
@@ -80,7 +80,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @return A new empty ordered shorts collection.
      */
     static OrderedShortCollection empty() {
-        return new OrderedArrayCollection();
+        return new ArrayCollection();
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @return A new ordered shorts collection with the specified shorts.
      */
     static OrderedShortCollection of(final Short... shorts) {
-        return new OrderedArrayCollection(shorts);
+        return new ArrayCollection(shorts);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @return A new ordered shorts collection with the specified element cardinality and the shorts.
      */
     static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {
-        return new OrderedArrayCollection(elementCardinality, shorts);
+        return new ArrayCollection(elementCardinality, shorts);
     }
 
     @Override

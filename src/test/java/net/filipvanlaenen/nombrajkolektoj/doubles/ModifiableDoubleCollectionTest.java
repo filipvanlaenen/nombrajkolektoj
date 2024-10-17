@@ -12,7 +12,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableDoubleCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection} class.
  */
 public final class ModifiableDoubleCollectionTest extends DoubleCollectionTestBase<ModifiableDoubleCollection> {
     @Override

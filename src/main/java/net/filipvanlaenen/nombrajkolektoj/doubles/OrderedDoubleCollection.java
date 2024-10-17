@@ -18,14 +18,14 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class OrderedArrayCollection extends OrderedDoubleCollection {
+    public static final class ArrayCollection extends OrderedDoubleCollection {
         /**
          * Constructs an ordered collection from another ordered collection, with the same doubles and the same element
          * cardinality.
          *
          * @param source The ordered collection to create a new collection from.
          */
-        public OrderedArrayCollection(final OrderedCollection<Double> source) {
+        public ArrayCollection(final OrderedCollection<Double> source) {
             this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
         }
 
@@ -35,7 +35,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
          * @param elementCardinality The element cardinality.
          * @param doubles            The doubles of the ordered collection.
          */
-        public OrderedArrayCollection(final ElementCardinality elementCardinality, final Double... doubles) {
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... doubles) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, doubles));
         }
 
@@ -45,7 +45,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
          *
          * @param doubles The doubles of the ordered collection.
          */
-        public OrderedArrayCollection(final Double... doubles) {
+        public ArrayCollection(final Double... doubles) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(doubles));
         }
     }
@@ -80,7 +80,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * @return A new empty ordered doubles collection.
      */
     static OrderedDoubleCollection empty() {
-        return new OrderedArrayCollection();
+        return new ArrayCollection();
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * @return A new ordered doubles collection with the specified doubles.
      */
     static OrderedDoubleCollection of(final Double... doubles) {
-        return new OrderedArrayCollection(doubles);
+        return new ArrayCollection(doubles);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * @return A new ordered doubles collection with the specified element cardinality and the doubles.
      */
     static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... doubles) {
-        return new OrderedArrayCollection(elementCardinality, doubles);
+        return new ArrayCollection(elementCardinality, doubles);
     }
 
     @Override

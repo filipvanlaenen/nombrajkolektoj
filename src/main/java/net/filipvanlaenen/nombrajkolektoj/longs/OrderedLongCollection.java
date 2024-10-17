@@ -18,14 +18,14 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class OrderedArrayCollection extends OrderedLongCollection {
+    public static final class ArrayCollection extends OrderedLongCollection {
         /**
          * Constructs an ordered collection from another ordered collection, with the same longs and the same element
          * cardinality.
          *
          * @param source The ordered collection to create a new collection from.
          */
-        public OrderedArrayCollection(final OrderedCollection<Long> source) {
+        public ArrayCollection(final OrderedCollection<Long> source) {
             this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
         }
 
@@ -35,7 +35,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
          * @param elementCardinality The element cardinality.
          * @param longs            The longs of the ordered collection.
          */
-        public OrderedArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, longs));
         }
 
@@ -45,7 +45,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
          *
          * @param longs The longs of the ordered collection.
          */
-        public OrderedArrayCollection(final Long... longs) {
+        public ArrayCollection(final Long... longs) {
             super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(longs));
         }
     }
@@ -80,7 +80,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @return A new empty ordered longs collection.
      */
     static OrderedLongCollection empty() {
-        return new OrderedArrayCollection();
+        return new ArrayCollection();
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @return A new ordered longs collection with the specified longs.
      */
     static OrderedLongCollection of(final Long... longs) {
-        return new OrderedArrayCollection(longs);
+        return new ArrayCollection(longs);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @return A new ordered longs collection with the specified element cardinality and the longs.
      */
     static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... longs) {
-        return new OrderedArrayCollection(elementCardinality, longs);
+        return new ArrayCollection(elementCardinality, longs);
     }
 
     @Override

@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.AbstractShortCollection} class. The class
- * is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.AbstractShortCollection} class. The
+ * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} implementation.
  */
 public class AbstractShortCollectionTest {
     /**
@@ -34,8 +34,7 @@ public class AbstractShortCollectionTest {
     /**
      * Collection with the shorts 1, 2, 3 and 4.
      */
-    private static final ShortCollection COLLECTION1234 =
-            ShortCollection.of((short) 1, (short) 2, (short) 3, (short) 4);
+    private static final ShortCollection COLLECTION1234 = ShortCollection.of((short) 1, (short) 2, (short) 3, (short) 4);
     /**
      * Collection with the shorts 1, 2 and 3 and <code>null</code>.
      */
@@ -46,7 +45,7 @@ public class AbstractShortCollectionTest {
     private static final ShortCollection COLLECTION_NULL = ShortCollection.of(new Short[] {null});
 
     /**
-     * Verifies that <code>max</code> returns the largest Short in the collection.
+     * Verifies that <code>max</code> returns the largest short in the collection.
      */
     @Test
     public void maxShouldReturnTheLargestShort() {
@@ -54,7 +53,7 @@ public class AbstractShortCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest Short in the collection.
+     * Verifies that <code>min</code> returns the smallest short in the collection.
      */
     @Test
     public void minShouldReturnTheSmallestShort() {
@@ -62,7 +61,7 @@ public class AbstractShortCollectionTest {
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the Shorts in the collection.
+     * Verifies that <code>product</code> returns the product of the shorts in the collection.
      */
     @Test
     public void productShouldReturnTheProductOfTheShorts() {
@@ -70,7 +69,7 @@ public class AbstractShortCollectionTest {
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the Shorts in the collection.
+     * Verifies that <code>sum</code> returns the sum of the shorts in the collection.
      */
     @Test
     public void sumShouldReturnTheSumOfTheShorts() {
@@ -78,7 +77,7 @@ public class AbstractShortCollectionTest {
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest Short in the collection even when there are <code>null</code>
+     * Verifies that <code>max</code> returns the largest short in the collection even when there are <code>null</code>
      * elements in the collection.
      */
     @Test
@@ -87,8 +86,8 @@ public class AbstractShortCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest Short in the collection even when there are <code>null</code>
-     * elements in the collection.
+     * Verifies that <code>min</code> returns the smallest short in the collection even when there are
+     * <code>null</code> elements in the collection.
      */
     @Test
     public void minShouldIgnoreNullAndReturnTheSmallestShort() {

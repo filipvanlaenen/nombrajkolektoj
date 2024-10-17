@@ -36,13 +36,11 @@ public class AbstractLongMapTest {
     /**
      * Map with the longs 1, 2, 3 and 4.
      */
-    private static final LongMap<String> MAP1234 =
-            LongMap.of("one", 1L, "two", Long.valueOf(2L), "three", THREE, "four", FOUR);
+    private static final LongMap<String> MAP1234 = LongMap.of("one", 1L, "two", 2L, "three", THREE, "four", FOUR);
     /**
      * Map with the longs 1, 2 and 3 and <code>null</code>.
      */
-    private static final LongMap<String> MAP123NULL =
-            LongMap.of("one", 1L, "two", Long.valueOf(2L), "three", THREE, null, null);
+    private static final LongMap<String> MAP123NULL = LongMap.of("one", 1L, "two", 2L, "three", THREE, null, null);
     /**
      * Map with <code>null</code>.
      */

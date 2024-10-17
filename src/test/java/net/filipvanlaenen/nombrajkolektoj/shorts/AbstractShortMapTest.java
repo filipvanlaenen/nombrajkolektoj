@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.doubles;
+package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -9,42 +9,42 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.AbstractLongMap} class. The class is
- * tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleMap} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.AbstractLongMap} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortMap} implementation.
  */
-public class AbstractDoubleMapTest {
+public class AbstractShortMapTest {
     /**
      * The magic number three.
      */
-    private static final Double THREE = 3D;
+    private static final Short THREE = (short) 3;
     /**
      * The magic number four.
      */
-    private static final Double FOUR = 4D;
+    private static final Short FOUR = (short) 4;
     /**
      * The magic number six.
      */
-    private static final Double SIX = 6D;
+    private static final Short SIX = (short) 6;
     /**
      * The magic number ten.
      */
-    private static final Double TEN = 10D;
+    private static final Short TEN = (short) 10;
     /**
      * The magic number twenty-four.
      */
-    private static final Double TWENTY_FOUR = 24D;
+    private static final Short TWENTY_FOUR = (short) 24;
     /**
-     * Map with the doubles 1, 2, 3 and 4.
+     * Map with the shorts 1, 2, 3 and 4.
      */
-    private static final DoubleMap<String> MAP1234 = DoubleMap.of("one", 1D, "two", 2D, "three", THREE, "four", FOUR);
+    private static final ShortMap<String> MAP1234 = ShortMap.of("one", (short) 1, "two", (short) 2, "three", THREE, "four", FOUR);
     /**
-     * Map with the doubles 1, 2 and 3 and <code>null</code>.
+     * Map with the shorts 1, 2 and 3 and <code>null</code>.
      */
-    private static final DoubleMap<String> MAP123NULL = DoubleMap.of("one", 1D, "two", 2D, "three", THREE, null, null);
+    private static final ShortMap<String> MAP123NULL = ShortMap.of("one", (short) 1, "two", (short) 2, "three", THREE, null, null);
     /**
      * Map with <code>null</code>.
      */
-    private static final DoubleMap<String> MAP_NULL = DoubleMap.of(new Entry<String, Double>(null, null));
+    private static final ShortMap<String> MAP_NULL = ShortMap.of(new Entry<String, Short>(null, null));
 
     /**
      * Verifies that <code>max</code> returns the largest number in the map.
@@ -59,7 +59,7 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void minShouldReturnTheSmallestNumber() {
-        assertEquals(1D, MAP1234.min());
+        assertEquals((short) 1, MAP1234.min());
     }
 
     /**
@@ -93,7 +93,7 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void minShouldIgnoreNullAndReturnTheSmallestNumber() {
-        assertEquals(1D, MAP123NULL.min());
+        assertEquals((short) 1, MAP123NULL.min());
     }
 
     /**
@@ -135,7 +135,7 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionContainsOnlyNull() {
-        assertEquals(1D, MAP_NULL.product());
+        assertEquals((short) 1, MAP_NULL.product());
     }
 
     /**
@@ -143,7 +143,7 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionContainsOnlyNull() {
-        assertEquals(0D, MAP_NULL.sum());
+        assertEquals((short) 0, MAP_NULL.sum());
     }
 
     /**
@@ -152,7 +152,7 @@ public class AbstractDoubleMapTest {
     @Test
     public void maxShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> DoubleMap.empty().max());
+                assertThrows(IndexOutOfBoundsException.class, () -> ShortMap.empty().max());
         assertEquals("Cannot return a maximum for an empty collection.", exception.getMessage());
     }
 
@@ -162,7 +162,7 @@ public class AbstractDoubleMapTest {
     @Test
     public void minShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> DoubleMap.empty().min());
+                assertThrows(IndexOutOfBoundsException.class, () -> ShortMap.empty().min());
         assertEquals("Cannot return a minimum for an empty collection.", exception.getMessage());
     }
 
@@ -171,7 +171,7 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionIsEmpty() {
-        assertEquals(1D, DoubleMap.empty().product());
+        assertEquals((short) 1, ShortMap.empty().product());
     }
 
     /**
@@ -179,6 +179,6 @@ public class AbstractDoubleMapTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionIsEmpty() {
-        assertEquals(0D, DoubleMap.empty().sum());
+        assertEquals((short) 0, ShortMap.empty().sum());
     }
 }

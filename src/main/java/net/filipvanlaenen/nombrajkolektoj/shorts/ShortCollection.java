@@ -29,7 +29,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * Constructs a collection with the given shorts and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param shorts              The shorts of the collection.
+         * @param shorts            The shorts of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, shorts));
@@ -108,7 +108,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      * Returns a new shorts collection with the specified element cardinality and the shorts.
      *
      * @param elementCardinality The element cardinality.
-     * @param shorts              The shorts for the new shorts collection.
+     * @param shorts            The shorts for the new shorts collection.
      * @return A new shorts collection with the specified element cardinality and the shorts.
      */
     static ShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {

@@ -36,13 +36,11 @@ public class AbstractFloatMapTest {
     /**
      * Map with the floats 1, 2, 3 and 4.
      */
-    private static final FloatMap<String> MAP1234 =
-            FloatMap.of("one", 1F, "two", Float.valueOf(2L), "three", THREE, "four", FOUR);
+    private static final FloatMap<String> MAP1234 = FloatMap.of("one", 1F, "two", 2F, "three", THREE, "four", FOUR);
     /**
      * Map with the floats 1, 2 and 3 and <code>null</code>.
      */
-    private static final FloatMap<String> MAP123NULL =
-            FloatMap.of("one", 1F, "two", Float.valueOf(2L), "three", THREE, null, null);
+    private static final FloatMap<String> MAP123NULL = FloatMap.of("one", 1F, "two", 2F, "three", THREE, null, null);
     /**
      * Map with <code>null</code>.
      */

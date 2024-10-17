@@ -13,10 +13,10 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         Short max = null;
-        for (Short s : this) {
+        for (Short n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (s != null && (max == null || s > max)) {
-                max = s;
+            if (n != null && (max == null || n > max)) {
+                max = n;
             }
         }
         return max;
@@ -28,10 +28,10 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         Short min = null;
-        for (Short s : this) {
+        for (Short n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (s != null && (min == null || s < min)) {
-                min = s;
+            if (n != null && (min == null || n < min)) {
+                min = n;
             }
         }
         return min;
@@ -39,10 +39,10 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
 
     @Override
     public Short product() {
-        Short product = 1;
-        for (Short s : this) {
-            if (s != null) {
-                product = (short) (product * s);
+        Short product = (short) 1;
+        for (Short n : this) {
+            if (n != null) {
+                product = (short) (product * n);
             }
         }
         return product;
@@ -50,12 +50,15 @@ abstract class AbstractShortCollection implements NumericCollection<Short> {
 
     @Override
     public Short sum() {
-        Short sum = 0;
-        for (Short s : this) {
-            if (s != null) {
-                sum = (short) (sum + s);
+        Short sum = (short) 0;
+        for (Short n : this) {
+            if (n != null) {
+                sum = (short) (sum + n);
             }
         }
         return sum;
     }
+
+    @Override
+    public abstract Short[] toArray();
 }

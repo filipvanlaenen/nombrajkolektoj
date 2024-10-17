@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractLongCollection} class. The class
- * is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractLongCollection} class. The
+ * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} implementation.
  */
 public class AbstractLongCollectionTest {
     /**
@@ -45,7 +45,7 @@ public class AbstractLongCollectionTest {
     private static final LongCollection COLLECTION_NULL = LongCollection.of(new Long[] {null});
 
     /**
-     * Verifies that <code>max</code> returns the largest Long in the collection.
+     * Verifies that <code>max</code> returns the largest long in the collection.
      */
     @Test
     public void maxShouldReturnTheLargestLong() {
@@ -53,7 +53,7 @@ public class AbstractLongCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest Long in the collection.
+     * Verifies that <code>min</code> returns the smallest long in the collection.
      */
     @Test
     public void minShouldReturnTheSmallestLong() {
@@ -61,7 +61,7 @@ public class AbstractLongCollectionTest {
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the Longs in the collection.
+     * Verifies that <code>product</code> returns the product of the longs in the collection.
      */
     @Test
     public void productShouldReturnTheProductOfTheLongs() {
@@ -69,7 +69,7 @@ public class AbstractLongCollectionTest {
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the Longs in the collection.
+     * Verifies that <code>sum</code> returns the sum of the longs in the collection.
      */
     @Test
     public void sumShouldReturnTheSumOfTheLongs() {
@@ -77,7 +77,7 @@ public class AbstractLongCollectionTest {
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest Long in the collection even when there are <code>null</code>
+     * Verifies that <code>max</code> returns the largest long in the collection even when there are <code>null</code>
      * elements in the collection.
      */
     @Test
@@ -86,12 +86,12 @@ public class AbstractLongCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest Long in the collection even when there are <code>null</code>
-     * elements in the collection.
+     * Verifies that <code>min</code> returns the smallest long in the collection even when there are
+     * <code>null</code> elements in the collection.
      */
     @Test
     public void minShouldIgnoreNullAndReturnTheSmallestLong() {
-        assertEquals(1, COLLECTION123NULL.min());
+        assertEquals(1L, COLLECTION123NULL.min());
     }
 
     /**

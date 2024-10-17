@@ -1,8 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
@@ -27,7 +31,15 @@ public final class OrderedShortCollectionTest extends ShortCollectionTestBase<Or
     }
 
     @Override
-    protected OrderedShortCollection createShortCollection(final Short... integers) {
-        return OrderedShortCollection.of(integers);
+    protected OrderedShortCollection createShortCollection(final Short... shorts) {
+        return OrderedShortCollection.of(shorts);
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, (short) 3).getAt(1));
     }
 }

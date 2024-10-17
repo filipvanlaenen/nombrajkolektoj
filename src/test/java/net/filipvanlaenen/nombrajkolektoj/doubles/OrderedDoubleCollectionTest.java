@@ -1,8 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
@@ -27,7 +31,15 @@ public final class OrderedDoubleCollectionTest extends DoubleCollectionTestBase<
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final Double... integers) {
-        return OrderedDoubleCollection.of(integers);
+    protected OrderedDoubleCollection createDoubleCollection(final Double... doubles) {
+        return OrderedDoubleCollection.of(doubles);
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2D, createDoubleCollection(1D, 2D, 3D).getAt(1));
     }
 }

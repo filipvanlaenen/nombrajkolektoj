@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.longs;
+package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -6,55 +6,55 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractModifiableLongCollection}
- * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection}
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.AbstractModifiableShortCollection}
+ * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection}
  * implementation.
  */
-public class AbstractModifiableLongCollectionTest {
+public class AbstractModifiableShortCollectionTest {
     /**
      * The magic number minus four.
      */
-    private static final long MINUS_FOUR = -4L;
+    private static final short MINUS_FOUR = -(short) 4;
     /**
      * The magic number minus three.
      */
-    private static final long MINUS_THREE = -3L;
+    private static final short MINUS_THREE = -(short) 3;
     /**
      * The magic number minus two.
      */
-    private static final long MINUS_TWO = -2L;
+    private static final short MINUS_TWO = -(short) 2;
     /**
      * The magic number minus one.
      */
-    private static final long MINUS_ONE = -1L;
+    private static final short MINUS_ONE = -(short) 1;
     /**
      * The magic number three.
      */
-    private static final long THREE = 3L;
+    private static final short THREE = (short) 3;
     /**
      * The magic number four.
      */
-    private static final long FOUR = 4L;
+    private static final short FOUR = (short) 4;
     /**
      * The magic number five.
      */
-    private static final long FIVE = 5L;
+    private static final short FIVE = (short) 5;
     /**
      * The magic number six.
      */
-    private static final long SIX = 6L;
+    private static final short SIX = (short) 6;
     /**
      * The magic number eight.
      */
-    private static final long EIGHT = 8L;
+    private static final short EIGHT = (short) 8;
 
     /**
      * Creates an empty collection.
      *
      * @return An empty collection.
      */
-    private ModifiableLongCollection createEmptyCollection() {
-        return ModifiableLongCollection.empty();
+    private ModifiableShortCollection createEmptyCollection() {
+        return ModifiableShortCollection.empty();
     }
 
     /**
@@ -62,8 +62,8 @@ public class AbstractModifiableLongCollectionTest {
      *
      * @return A collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableLongCollection createCollection1234() {
-        return ModifiableLongCollection.of(1L, 2L, THREE, FOUR);
+    private ModifiableShortCollection createCollection1234() {
+        return ModifiableShortCollection.of((short) 1, (short) 2, THREE, FOUR);
     }
 
     /**
@@ -71,8 +71,8 @@ public class AbstractModifiableLongCollectionTest {
      *
      * @return A collection with the numbers 1, 2 and 3 and <code>null</code>.
      */
-    private ModifiableLongCollection createCollection123Null() {
-        return ModifiableLongCollection.of(1L, 2L, THREE, null);
+    private ModifiableShortCollection createCollection123Null() {
+        return ModifiableShortCollection.of((short) 1, (short) 2, THREE, null);
     }
 
     /**
@@ -80,8 +80,8 @@ public class AbstractModifiableLongCollectionTest {
      *
      * @return A collection with the number 0.
      */
-    private ModifiableLongCollection createCollection0() {
-        return ModifiableLongCollection.of(0L);
+    private ModifiableShortCollection createCollection0() {
+        return ModifiableShortCollection.of((short) 0);
     }
 
     /**
@@ -89,8 +89,8 @@ public class AbstractModifiableLongCollectionTest {
      *
      * @return A collection with <code>null</code>.
      */
-    private ModifiableLongCollection createCollectionNull() {
-        return ModifiableLongCollection.of(new Long[] {null});
+    private ModifiableShortCollection createCollectionNull() {
+        return ModifiableShortCollection.of(new Short[] {null});
     }
 
     /**
@@ -98,7 +98,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldReturnTrueWhenOneIsAddedToACollectionOfNumbers() {
-        assertTrue(createCollection1234().augment(1L));
+        assertTrue(createCollection1234().augment((short) 1));
     }
 
     /**
@@ -107,7 +107,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldReturnTrueWhenOneIsAddedToACollectionOfNumbersWithNull() {
-        assertTrue(createCollection123Null().augment(1L));
+        assertTrue(createCollection123Null().augment((short) 1));
     }
 
     /**
@@ -115,7 +115,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(1L));
+        assertFalse(createEmptyCollection().augment((short) 1));
     }
 
     /**
@@ -123,7 +123,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenZeroIsAddedToACollectionOfNumbers() {
-        assertFalse(createCollection1234().augment(0L));
+        assertFalse(createCollection1234().augment((short) 0));
     }
 
     /**
@@ -131,7 +131,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().augment(1L));
+        assertFalse(createCollectionNull().augment((short) 1));
     }
 
     /**
@@ -139,9 +139,9 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldAugmentAllNumbersCorrectly() {
-        ModifiableLongCollection collection = createCollection1234();
-        collection.augment(1L);
-        assertTrue(collection.containsSame(ModifiableLongCollection.of(2L, THREE, FOUR, FIVE)));
+        ModifiableShortCollection collection = createCollection1234();
+        collection.augment((short) 1);
+        assertTrue(collection.containsSame(ModifiableShortCollection.of((short) 2, THREE, FOUR, FIVE)));
     }
 
     /**
@@ -150,9 +150,9 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void augmentShouldAugmentAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableLongCollection collection = createCollection123Null();
-        collection.augment(1L);
-        assertTrue(collection.containsSame(ModifiableLongCollection.of(2L, THREE, FOUR, null)));
+        ModifiableShortCollection collection = createCollection123Null();
+        collection.augment((short) 1);
+        assertTrue(collection.containsSame(ModifiableShortCollection.of((short) 2, THREE, FOUR, null)));
     }
 
     /**
@@ -160,7 +160,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnTrueWhenACollectionOfNumbersIsMultipliedByTwo() {
-        assertTrue(createCollection1234().multiply(2L));
+        assertTrue(createCollection1234().multiply((short) 2));
     }
 
     /**
@@ -169,7 +169,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnTrueWhenACollectionOfNumbersWithNullIsMultipliedByTwo() {
-        assertTrue(createCollection123Null().multiply(2L));
+        assertTrue(createCollection123Null().multiply((short) 2));
     }
 
     /**
@@ -177,7 +177,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(2L));
+        assertFalse(createEmptyCollection().multiply((short) 2));
     }
 
     /**
@@ -185,7 +185,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenACollectionOfNumbersIsMultipliedByOne() {
-        assertFalse(createCollection1234().multiply(1L));
+        assertFalse(createCollection1234().multiply((short) 1));
     }
 
     /**
@@ -193,7 +193,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionContainsZeroOnly() {
-        assertFalse(createCollection0().multiply(2L));
+        assertFalse(createCollection0().multiply((short) 2));
     }
 
     /**
@@ -201,7 +201,7 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().multiply(2L));
+        assertFalse(createCollectionNull().multiply((short) 2));
     }
 
     /**
@@ -209,9 +209,9 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldMultiplyAllNumbersCorrectly() {
-        ModifiableLongCollection collection = createCollection1234();
-        collection.multiply(2L);
-        assertTrue(collection.containsSame(ModifiableLongCollection.of(2L, FOUR, SIX, EIGHT)));
+        ModifiableShortCollection collection = createCollection1234();
+        collection.multiply((short) 2);
+        assertTrue(collection.containsSame(ModifiableShortCollection.of((short) 2, FOUR, SIX, EIGHT)));
     }
 
     /**
@@ -220,9 +220,9 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void multiplyShouldMultiplyAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableLongCollection collection = createCollection123Null();
-        collection.multiply(2L);
-        assertTrue(collection.containsSame(ModifiableLongCollection.of(2L, FOUR, SIX, null)));
+        ModifiableShortCollection collection = createCollection123Null();
+        collection.multiply((short) 2);
+        assertTrue(collection.containsSame(ModifiableShortCollection.of((short) 2, FOUR, SIX, null)));
     }
 
     /**
@@ -271,10 +271,10 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void negateShouldNegateAllNumbersCorrectly() {
-        ModifiableLongCollection collection = createCollection1234();
+        ModifiableShortCollection collection = createCollection1234();
         collection.negate();
         assertTrue(
-                collection.containsSame(ModifiableLongCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+                collection.containsSame(ModifiableShortCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -282,8 +282,8 @@ public class AbstractModifiableLongCollectionTest {
      */
     @Test
     public void negateShouldNegateAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableLongCollection collection = createCollection123Null();
+        ModifiableShortCollection collection = createCollection123Null();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableLongCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableShortCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
     }
 }

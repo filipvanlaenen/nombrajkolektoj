@@ -12,9 +12,21 @@ import org.junit.jupiter.api.Test;
  */
 public class AbstractModifiableDoubleCollectionTest {
     /**
+     * The magic number minus four.
+     */
+    private static final double MINUS_FOUR = -4D;
+    /**
+     * The magic number minus three.
+     */
+    private static final double MINUS_THREE = -3D;
+    /**
      * The magic number minus two.
      */
     private static final double MINUS_TWO = -2D;
+    /**
+     * The magic number minus one.
+     */
+    private static final double MINUS_ONE = -1D;
     /**
      * The magic number three.
      */
@@ -261,7 +273,8 @@ public class AbstractModifiableDoubleCollectionTest {
     public void negateShouldNegateAllNumbersCorrectly() {
         ModifiableDoubleCollection collection = createCollection1234();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(-1D, MINUS_TWO, -THREE, -FOUR)));
+        assertTrue(
+                collection.containsSame(ModifiableDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -271,6 +284,6 @@ public class AbstractModifiableDoubleCollectionTest {
     public void negateShouldNegateAllNumbersCorrectlyWhenNullIsPresent() {
         ModifiableDoubleCollection collection = createCollection123Null();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(-1D, MINUS_TWO, -THREE, null)));
+        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
     }
 }

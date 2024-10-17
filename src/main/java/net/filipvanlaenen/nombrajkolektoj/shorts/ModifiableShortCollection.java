@@ -1,0 +1,208 @@
+package net.filipvanlaenen.nombrajkolektoj.shorts;
+
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Predicate;
+
+import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.ModifiableCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
+import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+
+/**
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * for shorts and containing inner classes with concrete implementations.
+ */
+public abstract class ModifiableShortCollection extends AbstractModifiableShortCollection
+        implements ModifiableNumericCollection<Short> {
+    /**
+     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class ArrayCollection extends ModifiableShortCollection {
+        /**
+         * Constructs a collection from another collection, with the same shorts and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public ArrayCollection(final Collection<Short> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param shorts            The shorts of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
+            super(new ModifiableArrayCollection<Short>(elementCardinality, shorts));
+        }
+
+        /**
+         * Constructs a collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param shorts The shorts of the collection.
+         */
+        public ArrayCollection(final Short... shorts) {
+            super(new ModifiableArrayCollection<Short>(shorts));
+        }
+    }
+
+    /**
+     * Inner class using a linked list backed implementation of the
+     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     */
+    public static final class LinkedListCollection extends ModifiableShortCollection {
+        /**
+         * Constructs a collection from another collection, with the same shorts and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Short> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param shorts            The shorts of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... shorts) {
+            super(new ModifiableLinkedListCollection<Short>(elementCardinality, shorts));
+        }
+
+        /**
+         * Constructs a collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param shorts The shorts of the collection.
+         */
+        public LinkedListCollection(final Short... shorts) {
+            super(new ModifiableLinkedListCollection<Short>(shorts));
+        }
+    }
+
+    /**
+     * The modifiable collection holding the shorts.
+     */
+    private final ModifiableCollection<Short> collection;
+
+    /**
+     * Private constructor taking a collection with the shorts as its parameter.
+     *
+     * @param shorts The collection holding the shorts.
+     */
+    private ModifiableShortCollection(final ModifiableCollection<Short> shorts) {
+        this.collection = shorts;
+    }
+
+    @Override
+    public boolean add(final Short element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Short> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    /**
+     * Returns a new empty modifiable short collection.
+     *
+     * @return A new empty modifiable short collection.
+     */
+    static ModifiableShortCollection empty() {
+        return new ArrayCollection();
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return collection.iterator();
+    }
+
+    /**
+     * Returns a new modifiable shorts collection with the specified shorts.
+     *
+     * @param shorts The shorts for the new modifiable shorts collection.
+     * @return A new modifiable shorts collection with the specified shorts.
+     */
+    static ModifiableShortCollection of(final Short... shorts) {
+        return new ArrayCollection(shorts);
+    }
+
+    /**
+     * Returns a new modifiable shorts collection with the specified element cardinality and the shorts.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param shorts            The shorts for the new modifiable shorts collection.
+     * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
+     */
+    static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {
+        return new ArrayCollection(elementCardinality, shorts);
+    }
+
+    @Override
+    public boolean remove(final Short element) {
+        return collection.remove(element);
+    }
+
+    @Override
+    public boolean removeAll(final Collection<? extends Short> otherCollection) {
+        return collection.removeAll(otherCollection);
+    }
+
+    @Override
+    public boolean removeIf(final Predicate<? super Short> predicate) {
+        return collection.removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Collection<? extends Short> otherCollection) {
+        return collection.retainAll(otherCollection);
+    }
+
+    @Override
+    public int size() {
+        return collection.size();
+    }
+
+    @Override
+    public Spliterator<Short> spliterator() {
+        return collection.spliterator();
+    }
+
+    @Override
+    public Short[] toArray() {
+        return collection.toArray(EmptyArrays.SHORTS);
+    }
+}

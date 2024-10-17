@@ -52,8 +52,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
     /**
      * Map with the longs 1, 2 and 3.
      */
-    private final NumericMap<String, Long> map123 =
-            createLongMap(ENTRY1, new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+    private final NumericMap<String, Long> map123 = createLongMap(ENTRY1, new Entry<String, Long>("two", 2L),
+            new Entry<String, Long>("three", LONG_THREE));
 
     /**
      * Creates an empty longs map.
@@ -77,7 +77,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      * @param entries                The entries to be included in the longs map.
      * @return A longs map containing the provided entries.
      */
-    protected abstract T createLongMap(KeyAndValueCardinality keyAndValueCardinality, Entry<String, Long>... entries);
+    protected abstract T createLongMap(KeyAndValueCardinality keyAndValueCardinality,
+            Entry<String, Long>... entries);
 
     /**
      * Creates a longs map containing the provided key and value.
@@ -110,7 +111,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      * @param value3 The third value for the entry.
      * @return A longs map containing the provided keys and values.
      */
-    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3, Long value3);
+    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3,
+            Long value3);
 
     /**
      * Creates a longs map containing the provided keys and values.
@@ -125,8 +127,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      * @param value4 The fourth value for the entry.
      * @return A longs map containing the provided keys and values.
      */
-    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3, Long value3,
-            String key4, Long value4);
+    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3,
+            Long value3, String key4, Long value4);
 
     /**
      * Creates a longs map containing the provided keys and values.
@@ -143,8 +145,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      * @param value5 The fifth value for the entry.
      * @return A longs map containing the provided keys and values.
      */
-    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3, Long value3,
-            String key4, Long value4, String key5, Long value5);
+    protected abstract T createLongMap(String key1, Long value1, String key2, Long value2, String key3,
+            Long value3, String key4, Long value4, String key5, Long value5);
 
     /**
      * Verifies that a longs map with a specific key and value cardinality receives that key and value cardinality.
@@ -165,7 +167,8 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
         assertEquals(THREE, createLongMap("one", 1L, "two", 2L, "three", LONG_THREE).size());
         assertEquals(FOUR, createLongMap("one", 1L, "two", 2L, "three", LONG_THREE, "four", LONG_FOUR).size());
         assertEquals(FIVE,
-                createLongMap("one", 1L, "two", 2L, "three", LONG_THREE, "four", LONG_FOUR, "five", LONG_FIVE).size());
+                createLongMap("one", 1L, "two", 2L, "three", LONG_THREE, "four", LONG_FOUR, "five", LONG_FIVE)
+                        .size());
     }
 
     /**

@@ -11,10 +11,10 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     @Override
     public boolean augment(final Integer addend) {
         boolean result = false;
-        for (Integer i : toArray()) {
-            if (i != null && addend != 0) {
-                remove(i);
-                add(i + addend);
+        for (Integer n : toArray()) {
+            if (n != null && addend != 0) {
+                remove(n);
+                add(n + addend);
                 result = true;
             }
         }
@@ -22,12 +22,12 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     }
 
     @Override
-    public boolean multiply(final Integer multiplicand) {
+    public boolean multiply(final Integer value) {
         boolean result = false;
-        for (Integer i : toArray()) {
-            if (i != null && i != 0 && multiplicand != 1) {
-                remove(i);
-                add(i * multiplicand);
+        for (Integer n : toArray()) {
+            if (n != null && n != 0L && value != 1) {
+                remove(n);
+                add(n * value);
                 result = true;
             }
         }
@@ -37,10 +37,10 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     @Override
     public boolean negate() {
         boolean result = false;
-        for (Integer i : toArray()) {
-            if (i != null && i != 0) {
-                remove(i);
-                add(-i);
+        for (Integer n : toArray()) {
+            if (n != null && n != 0) {
+                remove(n);
+                add(-n);
                 result = true;
             }
         }

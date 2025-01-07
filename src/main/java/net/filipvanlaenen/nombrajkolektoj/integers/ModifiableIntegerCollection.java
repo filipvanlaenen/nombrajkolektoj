@@ -35,7 +35,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * Constructs a collection with the given integers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param integers           The integers of the collection.
+         * @param integers            The integers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... integers) {
             super(new ModifiableArrayCollection<Integer>(elementCardinality, integers));
@@ -70,7 +70,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * Constructs a collection with the given integers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param integers           The integers of the collection.
+         * @param integers            The integers of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... integers) {
             super(new ModifiableLinkedListCollection<Integer>(elementCardinality, integers));
@@ -127,9 +127,9 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
-     * Returns a new empty modifiable integer collection.
+     * Returns a new empty modifiable int collection.
      *
-     * @return A new empty modifiable integer collection.
+     * @return A new empty modifiable int collection.
      */
     static ModifiableIntegerCollection empty() {
         return new ArrayCollection();
@@ -151,21 +151,21 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
-     * Returns a new modifiable integer collection with the specified integers.
+     * Returns a new modifiable integers collection with the specified integers.
      *
-     * @param integers The integers for the new modifiable integer collection.
-     * @return A new modifiable integer collection with the specified integers.
+     * @param integers The integers for the new modifiable integers collection.
+     * @return A new modifiable integers collection with the specified integers.
      */
     static ModifiableIntegerCollection of(final Integer... integers) {
         return new ArrayCollection(integers);
     }
 
     /**
-     * Returns a new modifiable integer collection with the specified element cardinality and the integers.
+     * Returns a new modifiable integers collection with the specified element cardinality and the integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers           The integers for the new modifiable integer collection.
-     * @return A new modifiable integer collection with the specified element cardinality and the integers.
+     * @param integers            The integers for the new modifiable integers collection.
+     * @return A new modifiable integers collection with the specified element cardinality and the integers.
      */
     static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
         return new ArrayCollection(elementCardinality, integers);

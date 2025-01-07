@@ -12,7 +12,7 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     public boolean augment(final Float addend) {
         boolean result = false;
         for (Float n : toArray()) {
-            if (n != null && addend != 0L) {
+            if (n != null && addend != 0F) {
                 remove(n);
                 add(n + addend);
                 result = true;

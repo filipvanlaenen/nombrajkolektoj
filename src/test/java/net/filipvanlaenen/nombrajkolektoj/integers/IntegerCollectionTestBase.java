@@ -27,39 +27,39 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
     private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
     /**
-     * Creates an empty integer collection.
+     * Creates an empty integers collection.
      *
-     * @return An empty integer collection.
+     * @return An empty integers collection.
      */
     protected abstract T createEmptyIntegerCollection();
 
     /**
-     * Creates an integer collection from a collection of integers.
+     * Creates a integers collection from a collection of integers.
      *
      * @param source The collection of integers.
-     * @return An integer collection containing the provided integers.
+     * @return A integers collection containing the provided integers.
      */
     protected abstract T createIntegerCollection(Collection<Integer> source);
 
     /**
-     * Creates an integer collection with the provided element cardinality containing the provided integers.
+     * Creates a integers collection with the provided element cardinality containing the provided integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers           The integers to be included in the integer collection.
-     * @return An integer collection with the provided element cardinality containing the provided integers.
+     * @param integers            The integers to be included in the integers collection.
+     * @return A integers collection with the provided element cardinality containing the provided integers.
      */
     protected abstract T createIntegerCollection(ElementCardinality elementCardinality, Integer... integers);
 
     /**
-     * Creates an integer collection containing the provided integers.
+     * Creates a integers collection containing the provided integers.
      *
-     * @param integers The integers to be included in the integer collection.
-     * @return An integer collection containing the provided integers.
+     * @param integers The integers to be included in the integers collection.
+     * @return An integers collection containing the provided integers.
      */
     protected abstract T createIntegerCollection(Integer... integers);
 
     /**
-     * Verifies that an empty integer collection is empty.
+     * Verifies that an empty integers collection is empty.
      */
     @Test
     public void isEmptyShouldReturnTrueForAnEmptyIntegerCollection() {
@@ -67,19 +67,18 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
     }
 
     /**
-     * Verifies that an integer collection with a specific element cardinality receives that element cardinality.
+     * Verifies that a integers collection with a specific element cardinality receives that element cardinality.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnAnIntegerCollectionWithTheElementCardinality() {
+    public void ofWithElementCardinalityShouldReturnAIntegerCollectionWithTheElementCardinality() {
         assertEquals(DISTINCT_ELEMENTS, createIntegerCollection(DISTINCT_ELEMENTS, 1).getElementCardinality());
     }
 
     /**
-     * Verifies that an integer collection created from another collection has the same element cardinality and
-     * integers.
+     * Verifies that a integers collection created from another collection has the same element cardinality and integers.
      */
     @Test
-    public void ofWithCollectionShouldReturnAnIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
+    public void ofWithCollectionShouldReturnAIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
         Collection<Integer> source = Collection.of(DISTINCT_ELEMENTS, 1);
         T actual = createIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

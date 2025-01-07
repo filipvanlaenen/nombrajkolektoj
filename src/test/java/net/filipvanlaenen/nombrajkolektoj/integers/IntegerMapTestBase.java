@@ -18,6 +18,18 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
  */
 public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> {
     /**
+     * The int three.
+     */
+    private static final Integer INTEGER_THREE = 3;
+    /**
+     * The int four.
+     */
+    private static final Integer INTEGER_FOUR = 4;
+    /**
+     * The int five.
+     */
+    private static final Integer INTEGER_FIVE = 5;
+    /**
      * The magic number three.
      */
     private static final int THREE = 3;
@@ -40,56 +52,56 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     /**
      * Map with the integers 1, 2 and 3.
      */
-    private final NumericMap<String, Integer> map123 =
-            createIntegerMap(ENTRY1, new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", THREE));
+    private final NumericMap<String, Integer> map123 = createIntegerMap(ENTRY1, new Entry<String, Integer>("two", 2),
+            new Entry<String, Integer>("three", INTEGER_THREE));
 
     /**
-     * Creates an empty integer map.
+     * Creates an empty integers map.
      *
-     * @return An empty integer map.
+     * @return An empty integers map.
      */
     protected abstract T createEmptyIntegerMap();
 
     /**
-     * Creates an integer map containing the provided entries.
+     * Creates a integers map containing the provided entries.
      *
-     * @param entries The entries to be included in the integer map.
-     * @return An integer map containing the provided entries.
+     * @param entries The entries to be included in the integers map.
+     * @return A integers map containing the provided entries.
      */
     protected abstract T createIntegerMap(Entry<String, Integer>... entries);
 
     /**
-     * Creates an integer map containing the provided key and value cardinality and entries.
+     * Creates a integers map containing the provided key and value cardinality and entries.
      *
      * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries to be included in the integer map.
-     * @return An integer map containing the provided entries.
+     * @param entries                The entries to be included in the integers map.
+     * @return A integers map containing the provided entries.
      */
     protected abstract T createIntegerMap(KeyAndValueCardinality keyAndValueCardinality,
             Entry<String, Integer>... entries);
 
     /**
-     * Creates an integer map containing the provided key and value.
+     * Creates a integers map containing the provided key and value.
      *
      * @param key   The key for the entry.
      * @param value The value for the entry.
-     * @return An integer map containing the provided key and value.
+     * @return A integers map containing the provided key and value.
      */
     protected abstract T createIntegerMap(String key, Integer value);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a integers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A integers map containing the provided keys and values.
      */
     protected abstract T createIntegerMap(String key1, Integer value1, String key2, Integer value2);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a integers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -97,13 +109,13 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      * @param value2 The second value for the entry.
      * @param key3   The third key for the entry.
      * @param value3 The third value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A integers map containing the provided keys and values.
      */
     protected abstract T createIntegerMap(String key1, Integer value1, String key2, Integer value2, String key3,
             Integer value3);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a integers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -113,13 +125,13 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      * @param value3 The third value for the entry.
      * @param key4   The fourth key for the entry.
      * @param value4 The fourth value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A integers map containing the provided keys and values.
      */
     protected abstract T createIntegerMap(String key1, Integer value1, String key2, Integer value2, String key3,
             Integer value3, String key4, Integer value4);
 
     /**
-     * Creates an integer map containing the provided keys and values.
+     * Creates a integers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -131,16 +143,16 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      * @param value4 The fourth value for the entry.
      * @param key5   The fifth key for the entry.
      * @param value5 The fifth value for the entry.
-     * @return An integer map containing the provided keys and values.
+     * @return A integers map containing the provided keys and values.
      */
     protected abstract T createIntegerMap(String key1, Integer value1, String key2, Integer value2, String key3,
             Integer value3, String key4, Integer value4, String key5, Integer value5);
 
     /**
-     * Verifies that an integer map with a specific key and value cardinality receives that key and value cardinality.
+     * Verifies that a integers map with a specific key and value cardinality receives that key and value cardinality.
      */
     @Test
-    public void ofWithKeyAndValueCardinalityShouldReturnAnIntegerMapWithTheKeyAndValueCardinality() {
+    public void ofWithKeyAndValueCardinalityShouldReturnAIntegerMapWithTheKeyAndValueCardinality() {
         assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES,
                 createIntegerMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, ENTRY1).getKeyAndValueCardinality());
     }
@@ -152,9 +164,11 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     public void ofWithKeysAndValuesShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals(1, createIntegerMap("one", 1).size());
         assertEquals(2, createIntegerMap("one", 1, "two", 2).size());
-        assertEquals(THREE, createIntegerMap("one", 1, "two", 2, "three", THREE).size());
-        assertEquals(FOUR, createIntegerMap("one", 1, "two", 2, "three", THREE, "four", FOUR).size());
-        assertEquals(FIVE, createIntegerMap("one", 1, "two", 2, "three", THREE, "four", FOUR, "five", FIVE).size());
+        assertEquals(THREE, createIntegerMap("one", 1, "two", 2, "three", INTEGER_THREE).size());
+        assertEquals(FOUR, createIntegerMap("one", 1, "two", 2, "three", INTEGER_THREE, "four", INTEGER_FOUR).size());
+        assertEquals(FIVE,
+                createIntegerMap("one", 1, "two", 2, "three", INTEGER_THREE, "four", INTEGER_FOUR, "five", INTEGER_FIVE)
+                        .size());
     }
 
     /**
@@ -238,11 +252,11 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      */
     @Test
     public void getValuesShouldBeWiredCorrectlyToTheInternalMap() {
-        assertTrue(map123.getValues().containsSame(IntegerCollection.of(1, 2, THREE)));
+        assertTrue(map123.getValues().containsSame(IntegerCollection.of(1, 2, INTEGER_THREE)));
     }
 
     /**
-     * Verifies that an empty integer map is empty.
+     * Verifies that an empty integers map is empty.
      */
     @Test
     public void isEmptyShouldReturnTrueForAnEmptyIntegerMap() {

@@ -13,10 +13,10 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         Integer max = null;
-        for (Integer i : this) {
+        for (Integer n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (i != null && (max == null || i > max)) {
-                max = i;
+            if (n != null && (max == null || n > max)) {
+                max = n;
             }
         }
         return max;
@@ -28,10 +28,10 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         Integer min = null;
-        for (Integer i : this) {
+        for (Integer n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (i != null && (min == null || i < min)) {
-                min = i;
+            if (n != null && (min == null || n < min)) {
+                min = n;
             }
         }
         return min;
@@ -40,9 +40,9 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     @Override
     public Integer product() {
         Integer product = 1;
-        for (Integer i : this) {
-            if (i != null) {
-                product *= i;
+        for (Integer n : this) {
+            if (n != null) {
+                product *= n;
             }
         }
         return product;
@@ -51,9 +51,9 @@ abstract class AbstractIntegerCollection implements NumericCollection<Integer> {
     @Override
     public Integer sum() {
         Integer sum = 0;
-        for (Integer i : this) {
-            if (i != null) {
-                sum += i;
+        for (Integer n : this) {
+            if (n != null) {
+                sum += n;
             }
         }
         return sum;

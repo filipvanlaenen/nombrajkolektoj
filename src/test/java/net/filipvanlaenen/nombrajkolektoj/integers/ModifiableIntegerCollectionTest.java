@@ -96,8 +96,8 @@ public final class ModifiableIntegerCollectionTest extends IntegerCollectionTest
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalCollection() {
         ModifiableIntegerCollection collection = createIntegerCollection(1, 2);
-        assertTrue(collection.removeIf(i -> i == 1));
-        assertFalse(collection.removeIf(i -> i == 1));
+        assertTrue(collection.removeIf(l -> l == 1));
+        assertFalse(collection.removeIf(l -> l == 1));
         assertEquals(1, collection.size());
     }
 

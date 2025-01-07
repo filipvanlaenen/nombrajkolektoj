@@ -8,8 +8,8 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for
- * integers and containing inner classes with concrete implementations.
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for integers
+ * and containing inner classes with concrete implementations.
  */
 public abstract class IntegerCollection extends AbstractIntegerCollection implements NumericCollection<Integer> {
     /**
@@ -29,7 +29,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * Constructs a collection with the given integers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param integers           The integers of the collection.
+         * @param integers            The integers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... integers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, integers));
@@ -71,9 +71,9 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
-     * Returns a new empty integer collection.
+     * Returns a new empty integers collection.
      *
-     * @return A new empty integer collection.
+     * @return A new empty integers collection.
      */
     static IntegerCollection empty() {
         return new ArrayCollection();
@@ -95,21 +95,21 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
-     * Returns a new integer collection with the specified integers.
+     * Returns a new integers collection with the specified integers.
      *
-     * @param integers The integers for the new integer collection.
-     * @return A new integer collection with the specified integers.
+     * @param integers The integers for the new integers collection.
+     * @return A new integers collection with the specified integers.
      */
     static IntegerCollection of(final Integer... integers) {
         return new ArrayCollection(integers);
     }
 
     /**
-     * Returns a new integer collection with the specified element cardinality and the integers.
+     * Returns a new integers collection with the specified element cardinality and the integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers           The integers for the new integer collection.
-     * @return A new integer collection with the specified element cardinality and the integers.
+     * @param integers            The integers for the new integers collection.
+     * @return A new integers collection with the specified element cardinality and the integers.
      */
     static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
         return new ArrayCollection(elementCardinality, integers);

@@ -12,7 +12,7 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     public boolean augment(final Byte addend) {
         boolean result = false;
         for (Byte n : toArray()) {
-            if (n != null && addend != 0L) {
+            if (n != null && addend != (byte) 0) {
                 remove(n);
                 add((byte) (n + addend));
                 result = true;

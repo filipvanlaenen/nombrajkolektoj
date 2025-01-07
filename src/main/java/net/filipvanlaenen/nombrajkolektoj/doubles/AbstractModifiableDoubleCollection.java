@@ -12,7 +12,7 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     public boolean augment(final Double addend) {
         boolean result = false;
         for (Double n : toArray()) {
-            if (n != null && addend != 0L) {
+            if (n != null && addend != 0D) {
                 remove(n);
                 add(n + addend);
                 result = true;

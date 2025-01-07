@@ -7,14 +7,26 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.integers.AbstractModifiableIntegerCollection}
- * class. The class is tested through the
- * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} implementation.
+ * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection}
+ * implementation.
  */
 public class AbstractModifiableIntegerCollectionTest {
+    /**
+     * The magic number minus four.
+     */
+    private static final int MINUS_FOUR = -4;
+    /**
+     * The magic number minus three.
+     */
+    private static final int MINUS_THREE = -3;
     /**
      * The magic number minus two.
      */
     private static final int MINUS_TWO = -2;
+    /**
+     * The magic number minus one.
+     */
+    private static final int MINUS_ONE = -1;
     /**
      * The magic number three.
      */
@@ -261,7 +273,8 @@ public class AbstractModifiableIntegerCollectionTest {
     public void negateShouldNegateAllNumbersCorrectly() {
         ModifiableIntegerCollection collection = createCollection1234();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(-1, MINUS_TWO, -THREE, -FOUR)));
+        assertTrue(
+                collection.containsSame(ModifiableIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -271,6 +284,6 @@ public class AbstractModifiableIntegerCollectionTest {
     public void negateShouldNegateAllNumbersCorrectlyWhenNullIsPresent() {
         ModifiableIntegerCollection collection = createCollection123Null();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(-1, MINUS_TWO, -THREE, null)));
+        assertTrue(collection.containsSame(ModifiableIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
     }
 }

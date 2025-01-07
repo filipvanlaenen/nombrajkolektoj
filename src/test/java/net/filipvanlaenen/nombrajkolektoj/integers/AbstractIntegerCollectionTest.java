@@ -45,7 +45,7 @@ public class AbstractIntegerCollectionTest {
     private static final IntegerCollection COLLECTION_NULL = IntegerCollection.of(new Integer[] {null});
 
     /**
-     * Verifies that <code>max</code> returns the largest integer in the collection.
+     * Verifies that <code>max</code> returns the largest int in the collection.
      */
     @Test
     public void maxShouldReturnTheLargestInteger() {
@@ -53,7 +53,7 @@ public class AbstractIntegerCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest integer in the collection.
+     * Verifies that <code>min</code> returns the smallest int in the collection.
      */
     @Test
     public void minShouldReturnTheSmallestInteger() {
@@ -77,8 +77,8 @@ public class AbstractIntegerCollectionTest {
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest integer in the collection even when there are
-     * <code>null</code> elements in the collection.
+     * Verifies that <code>max</code> returns the largest int in the collection even when there are <code>null</code>
+     * elements in the collection.
      */
     @Test
     public void maxShouldIgnoreNullAndReturnTheLargestInteger() {
@@ -86,7 +86,7 @@ public class AbstractIntegerCollectionTest {
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest integer in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest int in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test

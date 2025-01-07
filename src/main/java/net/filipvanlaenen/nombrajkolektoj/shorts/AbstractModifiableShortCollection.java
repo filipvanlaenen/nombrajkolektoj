@@ -12,7 +12,7 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     public boolean augment(final Short addend) {
         boolean result = false;
         for (Short n : toArray()) {
-            if (n != null && addend != 0L) {
+            if (n != null && addend != (short) 0) {
                 remove(n);
                 add((short) (n + addend));
                 result = true;

@@ -25,7 +25,7 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     public boolean multiply(final Double value) {
         boolean result = false;
         for (Double n : toArray()) {
-            if (n != null && n != 0L && value != 1D) {
+            if (n != null && n != 0D && value != 1D) {
                 remove(n);
                 add(n * value);
                 result = true;

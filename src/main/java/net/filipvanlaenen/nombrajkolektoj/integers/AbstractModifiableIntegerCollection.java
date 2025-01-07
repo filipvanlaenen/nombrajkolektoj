@@ -25,7 +25,7 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     public boolean multiply(final Integer value) {
         boolean result = false;
         for (Integer n : toArray()) {
-            if (n != null && n != 0L && value != 1) {
+            if (n != null && n != 0 && value != 1) {
                 remove(n);
                 add(n * value);
                 result = true;

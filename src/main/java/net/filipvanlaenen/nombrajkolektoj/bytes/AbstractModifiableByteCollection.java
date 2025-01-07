@@ -25,7 +25,7 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     public boolean multiply(final Byte value) {
         boolean result = false;
         for (Byte n : toArray()) {
-            if (n != null && n != 0L && value != (byte) 1) {
+            if (n != null && n != (byte) 0 && value != (byte) 1) {
                 remove(n);
                 add((byte) (n * value));
                 result = true;

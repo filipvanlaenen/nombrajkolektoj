@@ -25,7 +25,7 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     public boolean multiply(final Float value) {
         boolean result = false;
         for (Float n : toArray()) {
-            if (n != null && n != 0L && value != 1F) {
+            if (n != null && n != 0F && value != 1F) {
                 remove(n);
                 add(n * value);
                 result = true;

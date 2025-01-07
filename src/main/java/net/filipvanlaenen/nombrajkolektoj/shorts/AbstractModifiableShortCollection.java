@@ -25,7 +25,7 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     public boolean multiply(final Short value) {
         boolean result = false;
         for (Short n : toArray()) {
-            if (n != null && n != 0L && value != (short) 1) {
+            if (n != null && n != (short) 0 && value != (short) 1) {
                 remove(n);
                 add((short) (n * value));
                 result = true;

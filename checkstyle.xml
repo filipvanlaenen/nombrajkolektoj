@@ -82,8 +82,8 @@
    <!-- Checks for Size Violations.               -->
    <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
    <module name="LineLength">
-      <!-- Modified for Nombraj Kolektoj to increase line length to 130. -->
-      <property name="max" value="130"/>
+      <!-- Modified for Nombraj Kolektoj to increase line length to 132. -->
+      <property name="max" value="132"/>
    </module>
 
    <!-- Checks for Headers                        -->
@@ -132,7 +132,10 @@
       </module>
 
       <module name="MethodLength"/>
-      <module name="ParameterNumber"/>
+      <module name="ParameterNumber">
+         <!-- Modified for Nombraj Kolektoj to 10. -->
+         <property name="max" value="10"/>
+      </module>
 
       <!-- Checks for whitespace                        -->
       <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->

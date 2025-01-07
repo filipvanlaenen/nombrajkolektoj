@@ -13,6 +13,11 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
  */
 public final class OrderedLongCollectionTest extends LongCollectionTestBase<OrderedLongCollection> {
+    /**
+     * The long three.
+     */
+    private static final Long LONG_THREE = 3L;
+
     @Override
     protected OrderedLongCollection createEmptyLongCollection() {
         return OrderedLongCollection.empty();
@@ -40,6 +45,6 @@ public final class OrderedLongCollectionTest extends LongCollectionTestBase<Orde
      */
     @Test
     public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, 3L).getAt(1));
+        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getAt(1));
     }
 }

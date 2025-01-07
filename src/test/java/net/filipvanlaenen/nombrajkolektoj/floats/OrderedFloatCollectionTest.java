@@ -13,6 +13,11 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
  */
 public final class OrderedFloatCollectionTest extends FloatCollectionTestBase<OrderedFloatCollection> {
+    /**
+     * The float three.
+     */
+    private static final Float FLOAT_THREE = 3F;
+
     @Override
     protected OrderedFloatCollection createEmptyFloatCollection() {
         return OrderedFloatCollection.empty();
@@ -40,6 +45,6 @@ public final class OrderedFloatCollectionTest extends FloatCollectionTestBase<Or
      */
     @Test
     public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createFloatCollection(1F, 2F, 3F).getAt(1));
+        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getAt(1));
     }
 }

@@ -13,6 +13,11 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} class.
  */
 public final class OrderedShortCollectionTest extends ShortCollectionTestBase<OrderedShortCollection> {
+    /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+
     @Override
     protected OrderedShortCollection createEmptyShortCollection() {
         return OrderedShortCollection.empty();
@@ -40,6 +45,6 @@ public final class OrderedShortCollectionTest extends ShortCollectionTestBase<Or
      */
     @Test
     public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, (short) 3).getAt(1));
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getAt(1));
     }
 }

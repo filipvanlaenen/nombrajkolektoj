@@ -13,6 +13,11 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
  */
 public final class OrderedByteCollectionTest extends ByteCollectionTestBase<OrderedByteCollection> {
+    /**
+     * The byte three.
+     */
+    private static final Byte BYTE_THREE = (byte) 3;
+
     @Override
     protected OrderedByteCollection createEmptyByteCollection() {
         return OrderedByteCollection.empty();
@@ -40,6 +45,6 @@ public final class OrderedByteCollectionTest extends ByteCollectionTestBase<Orde
      */
     @Test
     public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, (byte) 3).getAt(1));
+        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getAt(1));
     }
 }

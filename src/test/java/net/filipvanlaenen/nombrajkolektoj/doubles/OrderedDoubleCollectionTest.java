@@ -13,6 +13,11 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
  */
 public final class OrderedDoubleCollectionTest extends DoubleCollectionTestBase<OrderedDoubleCollection> {
+    /**
+     * The double three.
+     */
+    private static final Double DOUBLE_THREE = 3D;
+
     @Override
     protected OrderedDoubleCollection createEmptyDoubleCollection() {
         return OrderedDoubleCollection.empty();
@@ -40,6 +45,6 @@ public final class OrderedDoubleCollectionTest extends DoubleCollectionTestBase<
      */
     @Test
     public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createDoubleCollection(1D, 2D, 3D).getAt(1));
+        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).getAt(1));
     }
 }

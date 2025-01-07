@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -12,12 +8,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
  */
-public final class OrderedLongCollectionTest extends LongCollectionTestBase<OrderedLongCollection> {
-    /**
-     * The long three.
-     */
-    private static final Long LONG_THREE = 3L;
-
+public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBase<OrderedLongCollection> {
     @Override
     protected OrderedLongCollection createEmptyLongCollection() {
         return OrderedLongCollection.empty();
@@ -40,11 +31,8 @@ public final class OrderedLongCollectionTest extends LongCollectionTestBase<Orde
         return OrderedLongCollection.of(longs);
     }
 
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getAt(1));
+    @Override
+    protected OrderedLongCollection createOrderedLongCollection(final Long... longs) {
+        return OrderedLongCollection.of(longs);
     }
 }

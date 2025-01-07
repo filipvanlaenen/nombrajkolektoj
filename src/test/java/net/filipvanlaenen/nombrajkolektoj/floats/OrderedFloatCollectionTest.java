@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -12,12 +8,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
  */
-public final class OrderedFloatCollectionTest extends FloatCollectionTestBase<OrderedFloatCollection> {
-    /**
-     * The float three.
-     */
-    private static final Float FLOAT_THREE = 3F;
-
+public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTestBase<OrderedFloatCollection> {
     @Override
     protected OrderedFloatCollection createEmptyFloatCollection() {
         return OrderedFloatCollection.empty();
@@ -40,11 +31,8 @@ public final class OrderedFloatCollectionTest extends FloatCollectionTestBase<Or
         return OrderedFloatCollection.of(floats);
     }
 
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getAt(1));
+    @Override
+    protected OrderedFloatCollection createOrderedFloatCollection(final Float... floats) {
+        return OrderedFloatCollection.of(floats);
     }
 }

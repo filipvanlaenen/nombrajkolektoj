@@ -7,5 +7,5 @@ import net.filipvanlaenen.kolektoj.SortedCollection;
  *
  * @param <N> The element type.
  */
-public interface SortedNumericCollection<N extends Number> extends NumericCollection<N>, SortedCollection<N> {
+public interface SortedNumericCollection<N extends Number> extends OrderedNumericCollection<N>, SortedCollection<N> {
 }

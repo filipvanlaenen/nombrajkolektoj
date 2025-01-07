@@ -33,7 +33,7 @@ public final class SortedDoubleCollectionTest extends OrderedDoubleCollectionTes
     }
 
     @Override
-    protected SortedDoubleCollection createOrderedDoubleCollection(Double... doubles) {
+    protected SortedDoubleCollection createOrderedDoubleCollection(final Double... doubles) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), doubles);
     }
 }

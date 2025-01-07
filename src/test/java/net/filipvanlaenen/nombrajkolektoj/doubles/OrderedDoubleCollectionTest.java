@@ -32,7 +32,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(Double... doubles) {
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final Double... doubles) {
         return OrderedDoubleCollection.of(doubles);
     }
 }

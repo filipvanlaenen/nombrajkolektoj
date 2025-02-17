@@ -90,6 +90,16 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
         return map.containsValue(value);
     }
 
+    /**
+     * Returns a new empty doubles map.
+     *
+     * @param <K> The key type.
+     * @return A new empty doubles map.
+     */
+    static <K> UpdatableDoubleMap<K> empty() {
+        return new HashMap<K>();
+    }
+
     @Override
     public Entry<K, Double> get() throws IndexOutOfBoundsException {
         return map.get();
@@ -123,6 +133,117 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
     @Override
     public Iterator<Entry<K, Double>> iterator() {
         return map.iterator();
+    }
+
+    /**
+     * Returns a new doubles map with the specified entries.
+     *
+     * @param <K>     The key type.
+     * @param entries The entries for the new map.
+     * @return A new doubles map with the specified entries.
+     */
+    static <K> UpdatableDoubleMap<K> of(final Entry<K, Double>... entries) {
+        return new HashMap<K>(entries);
+    }
+
+    /**
+     * Returns a new doubles map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new doubles map with the specified entries.
+     */
+    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Double>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new doubles map containing an entry with the key and the value.
+     *
+     * @param <K>   The key type.
+     * @param key   The key for the entry.
+     * @param value The value for the entry.
+     * @return A new doubles map containing an entry with the key and the value.
+     */
+    public static <K> UpdatableDoubleMap<K> of(final K key, final Double value) {
+        return new HashMap<K>(new Entry<K, Double>(key, value));
+    }
+
+    /**
+     * Returns a new doubles map containing two entries using the provided keys and values.
+     *
+     * @param <K>    The key type.
+     * @param key1   The first key for the entry.
+     * @param value1 The first value for the entry.
+     * @param key2   The second key for the entry.
+     * @param value2 The second value for the entry.
+     * @return A new doubles map containing two entries using the provided keys and values.
+     */
+    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2) {
+        return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2));
+    }
+
+    /**
+     * Returns a new doubles map containing three entries using the provided keys and values.
+     *
+     * @param <K>    The key type.
+     * @param key1   The first key for the entry.
+     * @param value1 The first value for the entry.
+     * @param key2   The second key for the entry.
+     * @param value2 The second value for the entry.
+     * @param key3   The third key for the entry.
+     * @param value3 The third value for the entry.
+     * @return A new doubles map containing three entries using the provided keys and values.
+     */
+    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+            final K key3, final Double value3) {
+        return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
+                new Entry<K, Double>(key3, value3));
+    }
+
+    /**
+     * Returns a new doubles map containing four entries using the provided keys and values.
+     *
+     * @param <K>    The key type.
+     * @param key1   The first key for the entry.
+     * @param value1 The first value for the entry.
+     * @param key2   The second key for the entry.
+     * @param value2 The second value for the entry.
+     * @param key3   The third key for the entry.
+     * @param value3 The third value for the entry.
+     * @param key4   The fourth key for the entry.
+     * @param value4 The fourth value for the entry.
+     * @return A new doubles map containing four entries using the provided keys and values.
+     */
+    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+            final K key3, final Double value3, final K key4, final Double value4) {
+        return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
+                new Entry<K, Double>(key3, value3), new Entry<K, Double>(key4, value4));
+    }
+
+    /**
+     * Returns a new doubles map containing five entries using the provided keys and values.
+     *
+     * @param <K>    The key type.
+     * @param key1   The first key for the entry.
+     * @param value1 The first value for the entry.
+     * @param key2   The second key for the entry.
+     * @param value2 The second value for the entry.
+     * @param key3   The third key for the entry.
+     * @param value3 The third value for the entry.
+     * @param key4   The fourth key for the entry.
+     * @param value4 The fourth value for the entry.
+     * @param key5   The fifth key for the entry.
+     * @param value5 The fifth value for the entry.
+     * @return A new doubles map containing five entries using the provided keys and values.
+     */
+    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+            final K key3, final Double value3, final K key4, final Double value4, final K key5, final Double value5) {
+        return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
+                new Entry<K, Double>(key3, value3), new Entry<K, Double>(key4, value4),
+                new Entry<K, Double>(key5, value5));
     }
 
     @Override

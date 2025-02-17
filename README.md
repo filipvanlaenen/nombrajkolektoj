@@ -45,3 +45,6 @@ Be sure to update to the appropriate version number.
 ## Projects Using Nombraj Kolektoj
 
 The following projects use Nombraj Kolektoj:
+
+* [ASAPOP](https://github.com/filipvanlaenen/asapop)
+* [IACAJ](https://github.com/filipvanlaenen/iacaj)

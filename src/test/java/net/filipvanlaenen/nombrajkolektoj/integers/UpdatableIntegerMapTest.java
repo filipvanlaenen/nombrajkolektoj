@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.UpdatableIntegerMap} class.
  */
-public class UpdatableIntegerMapTest extends IntegerMapTestBase<UpdatableIntegerMap<String>> {
+public final class UpdatableIntegerMapTest extends IntegerMapTestBase<UpdatableIntegerMap<String>> {
     @Override
     protected UpdatableIntegerMap<String> createEmptyIntegerMap() {
         return UpdatableIntegerMap.<String>empty();

@@ -81,7 +81,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     }
 
     @Override
-    public NumericCollection<Short> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Short> getAll(final K key) throws IllegalArgumentException {
         return new ShortCollection.ArrayCollection(map.getAll(key));
     }
 

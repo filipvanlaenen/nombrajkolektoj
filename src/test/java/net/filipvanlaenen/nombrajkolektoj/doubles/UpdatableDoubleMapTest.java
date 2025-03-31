@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.UpdatableDoubleMap} class.
  */
-public class UpdatableDoubleMapTest extends DoubleMapTestBase<UpdatableDoubleMap<String>> {
+public final class UpdatableDoubleMapTest extends DoubleMapTestBase<UpdatableDoubleMap<String>> {
     @Override
     protected UpdatableDoubleMap<String> createEmptyDoubleMap() {
         return UpdatableDoubleMap.<String>empty();

@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.UpdatableByteMap} class.
  */
-public class UpdatableByteMapTest extends ByteMapTestBase<UpdatableByteMap<String>> {
+public final class UpdatableByteMapTest extends ByteMapTestBase<UpdatableByteMap<String>> {
     @Override
     protected UpdatableByteMap<String> createEmptyByteMap() {
         return UpdatableByteMap.<String>empty();

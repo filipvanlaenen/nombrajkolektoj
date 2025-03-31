@@ -81,7 +81,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
     }
 
     @Override
-    public NumericCollection<Double> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Double> getAll(final K key) throws IllegalArgumentException {
         return new DoubleCollection.ArrayCollection(map.getAll(key));
     }
 

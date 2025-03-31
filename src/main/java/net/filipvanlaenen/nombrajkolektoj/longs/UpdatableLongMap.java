@@ -81,7 +81,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     }
 
     @Override
-    public NumericCollection<Long> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Long> getAll(final K key) throws IllegalArgumentException {
         return new LongCollection.ArrayCollection(map.getAll(key));
     }
 

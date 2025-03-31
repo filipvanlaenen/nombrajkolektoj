@@ -81,7 +81,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
     }
 
     @Override
-    public NumericCollection<Integer> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Integer> getAll(final K key) throws IllegalArgumentException {
         return new IntegerCollection.ArrayCollection(map.getAll(key));
     }
 

@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.UpdatableShortMap} class.
  */
-public class UpdatableShortMapTest extends ShortMapTestBase<UpdatableShortMap<String>> {
+public final class UpdatableShortMapTest extends ShortMapTestBase<UpdatableShortMap<String>> {
     @Override
     protected UpdatableShortMap<String> createEmptyShortMap() {
         return UpdatableShortMap.<String>empty();

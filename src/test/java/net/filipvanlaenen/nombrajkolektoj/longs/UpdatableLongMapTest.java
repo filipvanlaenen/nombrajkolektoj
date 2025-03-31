@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.UpdatableLongMap} class.
  */
-public class UpdatableLongMapTest extends LongMapTestBase<UpdatableLongMap<String>> {
+public final class UpdatableLongMapTest extends LongMapTestBase<UpdatableLongMap<String>> {
     @Override
     protected UpdatableLongMap<String> createEmptyLongMap() {
         return UpdatableLongMap.<String>empty();

@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.UpdatableFloatMap} class.
  */
-public class UpdatableFloatMapTest extends FloatMapTestBase<UpdatableFloatMap<String>> {
+public final class UpdatableFloatMapTest extends FloatMapTestBase<UpdatableFloatMap<String>> {
     @Override
     protected UpdatableFloatMap<String> createEmptyFloatMap() {
         return UpdatableFloatMap.<String>empty();

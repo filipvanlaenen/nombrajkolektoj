@@ -81,7 +81,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
     }
 
     @Override
-    public NumericCollection<Float> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Float> getAll(final K key) throws IllegalArgumentException {
         return new FloatCollection.ArrayCollection(map.getAll(key));
     }
 

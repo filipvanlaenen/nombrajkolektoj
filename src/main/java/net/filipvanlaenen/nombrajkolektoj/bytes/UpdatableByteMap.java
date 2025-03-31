@@ -81,7 +81,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(final K key) {
         return map.containsKey(key);
     }
 
@@ -111,7 +111,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
     }
 
     @Override
-    public NumericCollection<Byte> getAll(K key) throws IllegalArgumentException {
+    public NumericCollection<Byte> getAll(final K key) throws IllegalArgumentException {
         return new ByteCollection.ArrayCollection(map.getAll(key));
     }
 

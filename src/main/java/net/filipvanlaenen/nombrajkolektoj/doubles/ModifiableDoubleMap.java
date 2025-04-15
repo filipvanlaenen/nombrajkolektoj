@@ -2,71 +2,86 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
-import net.filipvanlaenen.kolektoj.UpdatableMap;
+import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface for
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
  * Doubles and containing inner classes with concrete implementations.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K>
-        implements UpdatableNumericMap<K, Double> {
+public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> implements ModifiableNumericMap<K, Double> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableMap}
+     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
      * interface.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableDoubleMap<K> {
+    public static final class HashMap<K> extends ModifiableDoubleMap<K> {
         /**
-         * Constructs an updatable map from another map, with the same keys and Doubles and the same key and value
+         * Constructs a modifiable map from another map, with the same keys and Doubles and the same key and value
          * cardinality.
          *
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<K, Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Double>(source));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(source));
         }
 
         /**
-         * Constructs an updatable map with the given entries and key and value cardinality.
+         * Constructs a modifiable map with the given entries and key and value cardinality.
          *
          * @param keyAndValueCardinality The key and value cardinality.
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Double>(keyAndValueCardinality, entries));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(keyAndValueCardinality, entries));
         }
 
         /**
-         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
+         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
          *
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Double>(entries));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(entries));
         }
     }
 
     /**
-     * The updatable map holding the keys and the doubles.
+     * The modifiable map holding the keys and the doubles.
      */
-    private final UpdatableMap<K, Double> map;
+    private final ModifiableMap<K, Double> map;
 
     /**
      * Private constructor taking a map with the keys and the doubles as its parameter.
      *
      * @param map The map holding the keys and the doubles.
      */
-    private UpdatableDoubleMap(final UpdatableMap<K, Double> map) {
+    private ModifiableDoubleMap(final ModifiableMap<K, Double> map) {
         this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Double value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Double> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
     }
 
     @Override
@@ -95,7 +110,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param <K> The key type.
      * @return A new empty doubles map.
      */
-    static <K> UpdatableDoubleMap<K> empty() {
+    static <K> ModifiableDoubleMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +156,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param entries The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final Entry<K, Double>... entries) {
+    static <K> ModifiableDoubleMap<K> of(final Entry<K, Double>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -153,7 +168,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param entries                The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <K> ModifiableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Double>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -166,7 +181,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param value The value for the entry.
      * @return A new doubles map containing an entry with the key and the value.
      */
-    public static <K> UpdatableDoubleMap<K> of(final K key, final Double value) {
+    public static <K> ModifiableDoubleMap<K> of(final K key, final Double value) {
         return new HashMap<K>(new Entry<K, Double>(key, value));
     }
 
@@ -180,7 +195,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param value2 The second value for the entry.
      * @return A new doubles map containing two entries using the provided keys and values.
      */
-    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2) {
+    public static <K> ModifiableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2) {
         return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2));
     }
 
@@ -196,7 +211,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param value3 The third value for the entry.
      * @return A new doubles map containing three entries using the provided keys and values.
      */
-    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+    public static <K> ModifiableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
             final K key3, final Double value3) {
         return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
                 new Entry<K, Double>(key3, value3));
@@ -216,7 +231,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param value4 The fourth value for the entry.
      * @return A new doubles map containing four entries using the provided keys and values.
      */
-    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+    public static <K> ModifiableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
             final K key3, final Double value3, final K key4, final Double value4) {
         return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
                 new Entry<K, Double>(key3, value3), new Entry<K, Double>(key4, value4));
@@ -238,11 +253,31 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param value5 The fifth value for the entry.
      * @return A new doubles map containing five entries using the provided keys and values.
      */
-    public static <K> UpdatableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
+    public static <K> ModifiableDoubleMap<K> of(final K key1, final Double value1, final K key2, final Double value2,
             final K key3, final Double value3, final K key4, final Double value4, final K key5, final Double value5) {
         return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
                 new Entry<K, Double>(key3, value3), new Entry<K, Double>(key4, value4),
                 new Entry<K, Double>(key5, value5));
+    }
+
+    @Override
+    public Double remove(final K key) throws IllegalArgumentException {
+        return map.remove(key);
+    }
+
+    @Override
+    public boolean removeAll(final Map<? extends K, ? extends Double> aMap) {
+        return map.removeAll(aMap);
+    }
+
+    @Override
+    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Double>> predicate) {
+        return map.removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Map<? extends K, ? extends Double> aMap) {
+        return map.retainAll(aMap);
     }
 
     @Override

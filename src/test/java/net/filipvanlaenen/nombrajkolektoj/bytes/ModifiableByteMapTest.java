@@ -138,4 +138,15 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
     }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
+                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        assertTrue(map123.retainAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
+        assertFalse(map123.retainAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
+    }
 }

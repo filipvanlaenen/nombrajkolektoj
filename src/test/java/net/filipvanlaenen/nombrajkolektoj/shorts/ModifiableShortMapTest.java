@@ -138,4 +138,15 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
     }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertTrue(map123.retainAll(createUpdatableShortMap(new Entry<String, Short>("three", SHORT_THREE))));
+        assertFalse(map123.retainAll(createUpdatableShortMap(new Entry<String, Short>("three", SHORT_THREE))));
+    }
 }

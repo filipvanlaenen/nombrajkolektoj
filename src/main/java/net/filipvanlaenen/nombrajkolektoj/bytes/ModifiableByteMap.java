@@ -2,71 +2,86 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
-import net.filipvanlaenen.kolektoj.UpdatableMap;
+import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface for
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
  * Bytes and containing inner classes with concrete implementations.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
-        implements UpdatableNumericMap<K, Byte> {
+public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implements ModifiableNumericMap<K, Byte> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableMap}
+     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
      * interface.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableByteMap<K> {
+    public static final class HashMap<K> extends ModifiableByteMap<K> {
         /**
-         * Constructs an updatable map from another map, with the same keys and Bytes and the same key and value
+         * Constructs a modifiable map from another map, with the same keys and Bytes and the same key and value
          * cardinality.
          *
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Byte>(source));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(source));
         }
 
         /**
-         * Constructs an updatable map with the given entries and key and value cardinality.
+         * Constructs a modifiable map with the given entries and key and value cardinality.
          *
          * @param keyAndValueCardinality The key and value cardinality.
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Byte>(keyAndValueCardinality, entries));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(keyAndValueCardinality, entries));
         }
 
         /**
-         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
+         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
          *
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Byte>(entries));
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(entries));
         }
     }
 
     /**
-     * The updatable map holding the keys and the bytes.
+     * The modifiable map holding the keys and the bytes.
      */
-    private final UpdatableMap<K, Byte> map;
+    private final ModifiableMap<K, Byte> map;
 
     /**
      * Private constructor taking a map with the keys and the bytes as its parameter.
      *
      * @param map The map holding the keys and the bytes.
      */
-    private UpdatableByteMap(final UpdatableMap<K, Byte> map) {
+    private ModifiableByteMap(final ModifiableMap<K, Byte> map) {
         this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Byte value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Byte> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
     }
 
     @Override
@@ -95,7 +110,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param <K> The key type.
      * @return A new empty bytes map.
      */
-    static <K> UpdatableByteMap<K> empty() {
+    static <K> ModifiableByteMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +156,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final Entry<K, Byte>... entries) {
+    static <K> ModifiableByteMap<K> of(final Entry<K, Byte>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -153,7 +168,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param entries                The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <K> ModifiableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Byte>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -166,7 +181,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param value The value for the entry.
      * @return A new bytes map containing an entry with the key and the value.
      */
-    public static <K> UpdatableByteMap<K> of(final K key, final Byte value) {
+    public static <K> ModifiableByteMap<K> of(final K key, final Byte value) {
         return new HashMap<K>(new Entry<K, Byte>(key, value));
     }
 
@@ -180,7 +195,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param value2 The second value for the entry.
      * @return A new bytes map containing two entries using the provided keys and values.
      */
-    public static <K> UpdatableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2) {
+    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2) {
         return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2));
     }
 
@@ -196,7 +211,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param value3 The third value for the entry.
      * @return A new bytes map containing three entries using the provided keys and values.
      */
-    public static <K> UpdatableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
+    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
             final K key3, final Byte value3) {
         return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
                 new Entry<K, Byte>(key3, value3));
@@ -216,7 +231,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param value4 The fourth value for the entry.
      * @return A new bytes map containing four entries using the provided keys and values.
      */
-    public static <K> UpdatableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
+    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
             final K key3, final Byte value3, final K key4, final Byte value4) {
         return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
                 new Entry<K, Byte>(key3, value3), new Entry<K, Byte>(key4, value4));
@@ -238,11 +253,31 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param value5 The fifth value for the entry.
      * @return A new bytes map containing five entries using the provided keys and values.
      */
-    public static <K> UpdatableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
+    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
             final K key3, final Byte value3, final K key4, final Byte value4, final K key5, final Byte value5) {
         return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
                 new Entry<K, Byte>(key3, value3), new Entry<K, Byte>(key4, value4),
                 new Entry<K, Byte>(key5, value5));
+    }
+
+    @Override
+    public Byte remove(final K key) throws IllegalArgumentException {
+        return map.remove(key);
+    }
+
+    @Override
+    public boolean removeAll(final Map<? extends K, ? extends Byte> aMap) {
+        return map.removeAll(aMap);
+    }
+
+    @Override
+    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Byte>> predicate) {
+        return map.removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Map<? extends K, ? extends Byte> aMap) {
+        return map.retainAll(aMap);
     }
 
     @Override

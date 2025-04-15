@@ -86,6 +86,17 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>addAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
+                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        assertTrue(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
+        assertFalse(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
+    }
+
+    /**
      * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -104,5 +115,16 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
         ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
                 new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
         assertEquals((byte) 1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
+                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        assertTrue(map123.removeAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
+        assertFalse(map123.removeAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
     }
 }

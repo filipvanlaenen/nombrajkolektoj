@@ -86,6 +86,17 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>addAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        assertTrue(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
+        assertFalse(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
+    }
+
+    /**
      * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -104,5 +115,16 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
         ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
                 new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
         assertEquals(1F, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        assertTrue(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
+        assertFalse(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
     }
 }

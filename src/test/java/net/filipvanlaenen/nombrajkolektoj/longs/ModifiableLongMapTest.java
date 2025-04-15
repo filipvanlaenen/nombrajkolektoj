@@ -86,6 +86,17 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>addAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertTrue(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
+        assertFalse(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
+    }
+
+    /**
      * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -104,5 +115,16 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
         ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
                 new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
         assertEquals(1L, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertTrue(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
+        assertFalse(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
     }
 }

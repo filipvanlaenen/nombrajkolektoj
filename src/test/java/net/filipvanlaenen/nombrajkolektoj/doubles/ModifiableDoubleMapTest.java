@@ -86,6 +86,17 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     }
 
     /**
+     * Verifies that the <code>addAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        assertTrue(map123.addAll(createUpdatableDoubleMap(new Entry<String, Double>("four", DOUBLE_FOUR))));
+        assertFalse(map123.addAll(createUpdatableDoubleMap(new Entry<String, Double>("four", DOUBLE_FOUR))));
+    }
+
+    /**
      * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -104,5 +115,16 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
         ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
                 new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
         assertEquals(1D, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        assertTrue(map123.removeAll(createUpdatableDoubleMap(new Entry<String, Double>("three", DOUBLE_THREE))));
+        assertFalse(map123.removeAll(createUpdatableDoubleMap(new Entry<String, Double>("three", DOUBLE_THREE))));
     }
 }

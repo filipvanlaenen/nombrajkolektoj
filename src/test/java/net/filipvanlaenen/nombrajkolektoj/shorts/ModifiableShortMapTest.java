@@ -86,6 +86,17 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>addAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertTrue(map123.addAll(createUpdatableShortMap(new Entry<String, Short>("four", SHORT_FOUR))));
+        assertFalse(map123.addAll(createUpdatableShortMap(new Entry<String, Short>("four", SHORT_FOUR))));
+    }
+
+    /**
      * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -104,5 +115,16 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
         ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
                 new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
         assertEquals((short) 1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertTrue(map123.removeAll(createUpdatableShortMap(new Entry<String, Short>("three", SHORT_THREE))));
+        assertFalse(map123.removeAll(createUpdatableShortMap(new Entry<String, Short>("three", SHORT_THREE))));
     }
 }

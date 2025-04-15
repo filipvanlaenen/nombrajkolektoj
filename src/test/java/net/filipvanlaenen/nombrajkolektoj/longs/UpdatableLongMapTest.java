@@ -1,25 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.UpdatableLongMap} class.
  */
-public final class UpdatableLongMapTest extends LongMapTestBase<UpdatableLongMap<String>> {
-    /**
-     * The long three.
-     */
-    private static final Long LONG_THREE = 3L;
-    /**
-     * The long four.
-     */
-    private static final Long LONG_FOUR = 4L;
-
+public final class UpdatableLongMapTest extends UpdatableLongMapTestBase<UpdatableLongMap<String>> {
     @Override
     protected UpdatableLongMap<String> createEmptyLongMap() {
         return UpdatableLongMap.<String>empty();
@@ -66,14 +53,8 @@ public final class UpdatableLongMapTest extends LongMapTestBase<UpdatableLongMap
         return UpdatableLongMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    /**
-     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void updateShouldBeWiredCorrectlyToTheInternalMap() {
-        UpdatableLongMap<String> map123 = createLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
-        assertEquals(1L, map123.update("one", LONG_FOUR));
-        assertEquals(LONG_FOUR, map123.get("one"));
+    @Override
+    protected UpdatableLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
+        return UpdatableLongMap.of(entries);
     }
 }

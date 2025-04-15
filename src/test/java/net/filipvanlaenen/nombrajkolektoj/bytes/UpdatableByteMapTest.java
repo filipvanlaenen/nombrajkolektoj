@@ -1,25 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.UpdatableByteMap} class.
  */
-public final class UpdatableByteMapTest extends ByteMapTestBase<UpdatableByteMap<String>> {
-    /**
-     * The byte three.
-     */
-    private static final Byte BYTE_THREE = (byte) 3;
-    /**
-     * The byte four.
-     */
-    private static final Byte BYTE_FOUR = (byte) 4;
-
+public final class UpdatableByteMapTest extends UpdatableByteMapTestBase<UpdatableByteMap<String>> {
     @Override
     protected UpdatableByteMap<String> createEmptyByteMap() {
         return UpdatableByteMap.<String>empty();
@@ -66,14 +53,8 @@ public final class UpdatableByteMapTest extends ByteMapTestBase<UpdatableByteMap
         return UpdatableByteMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    /**
-     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void updateShouldBeWiredCorrectlyToTheInternalMap() {
-        UpdatableByteMap<String> map123 = createByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
-        assertEquals((byte) 1, map123.update("one", BYTE_FOUR));
-        assertEquals(BYTE_FOUR, map123.get("one"));
+    @Override
+    protected UpdatableByteMap<String> createUpdatableByteMap(final Entry<String, Byte>... entries) {
+        return UpdatableByteMap.of(entries);
     }
 }

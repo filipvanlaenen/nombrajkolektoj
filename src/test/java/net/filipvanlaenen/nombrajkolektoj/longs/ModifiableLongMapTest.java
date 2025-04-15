@@ -127,4 +127,15 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
         assertTrue(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
         assertFalse(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
     }
+
+    /**
+     * Verifies that the <code>removeIf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertTrue(map123.removeIf(x -> x.key().equals("one")));
+        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
 }

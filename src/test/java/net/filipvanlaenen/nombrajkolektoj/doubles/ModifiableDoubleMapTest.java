@@ -127,4 +127,15 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
         assertTrue(map123.removeAll(createUpdatableDoubleMap(new Entry<String, Double>("three", DOUBLE_THREE))));
         assertFalse(map123.removeAll(createUpdatableDoubleMap(new Entry<String, Double>("three", DOUBLE_THREE))));
     }
+
+    /**
+     * Verifies that the <code>removeIf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        assertTrue(map123.removeIf(x -> x.key().equals("one")));
+        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
 }

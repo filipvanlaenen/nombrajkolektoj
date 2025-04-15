@@ -127,4 +127,15 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
         assertTrue(map123.removeAll(createUpdatableIntegerMap(new Entry<String, Integer>("three", INTEGER_THREE))));
         assertFalse(map123.removeAll(createUpdatableIntegerMap(new Entry<String, Integer>("three", INTEGER_THREE))));
     }
+
+    /**
+     * Verifies that the <code>removeIf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
+                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        assertTrue(map123.removeIf(x -> x.key().equals("one")));
+        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
 }

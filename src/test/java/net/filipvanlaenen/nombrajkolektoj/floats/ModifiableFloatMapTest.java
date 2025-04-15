@@ -127,4 +127,15 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
         assertTrue(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
         assertFalse(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
     }
+
+    /**
+     * Verifies that the <code>removeIf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        assertTrue(map123.removeIf(x -> x.key().equals("one")));
+        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
 }

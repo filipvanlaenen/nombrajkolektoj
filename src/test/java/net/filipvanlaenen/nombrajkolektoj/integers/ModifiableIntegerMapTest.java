@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -7,6 +13,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerMap} class.
  */
 public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<ModifiableIntegerMap<String>> {
+    /**
+     * The int three.
+     */
+    private static final Integer INTEGER_THREE = 3;
+    /**
+     * The int four.
+     */
+    private static final Integer INTEGER_FOUR = 4;
+
     @Override
     protected ModifiableIntegerMap<String> createEmptyIntegerMap() {
         return ModifiableIntegerMap.<String>empty();
@@ -56,5 +71,27 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
     @Override
     protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
         return ModifiableIntegerMap.of(entries);
+    }
+
+    /**
+     * Verifies that the <code>add</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
+                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        assertTrue(map123.add("four", INTEGER_FOUR));
+        assertEquals(INTEGER_FOUR, map123.get("four"));
+        assertFalse(map123.add("four", INTEGER_FOUR));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
+                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        assertEquals(1, map123.remove("one"));
     }
 }

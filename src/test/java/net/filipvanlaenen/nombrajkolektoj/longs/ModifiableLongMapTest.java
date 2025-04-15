@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -7,6 +13,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongMap} class.
  */
 public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<ModifiableLongMap<String>> {
+    /**
+     * The long three.
+     */
+    private static final Long LONG_THREE = 3L;
+    /**
+     * The long four.
+     */
+    private static final Long LONG_FOUR = 4L;
+
     @Override
     protected ModifiableLongMap<String> createEmptyLongMap() {
         return ModifiableLongMap.<String>empty();
@@ -56,5 +71,27 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     @Override
     protected ModifiableLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
         return ModifiableLongMap.of(entries);
+    }
+
+    /**
+     * Verifies that the <code>add</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertTrue(map123.add("four", LONG_FOUR));
+        assertEquals(LONG_FOUR, map123.get("four"));
+        assertFalse(map123.add("four", LONG_FOUR));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertEquals(1L, map123.remove("one"));
     }
 }

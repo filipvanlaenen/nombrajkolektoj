@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -7,6 +13,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatMap} class.
  */
 public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<ModifiableFloatMap<String>> {
+    /**
+     * The float three.
+     */
+    private static final Float FLOAT_THREE = 3F;
+    /**
+     * The float four.
+     */
+    private static final Float FLOAT_FOUR = 4F;
+
     @Override
     protected ModifiableFloatMap<String> createEmptyFloatMap() {
         return ModifiableFloatMap.<String>empty();
@@ -56,5 +71,27 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     @Override
     protected ModifiableFloatMap<String> createUpdatableFloatMap(final Entry<String, Float>... entries) {
         return ModifiableFloatMap.of(entries);
+    }
+
+    /**
+     * Verifies that the <code>add</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        assertTrue(map123.add("four", FLOAT_FOUR));
+        assertEquals(FLOAT_FOUR, map123.get("four"));
+        assertFalse(map123.add("four", FLOAT_FOUR));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        assertEquals(1F, map123.remove("one"));
     }
 }

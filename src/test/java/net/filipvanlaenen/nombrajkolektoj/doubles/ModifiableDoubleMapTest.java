@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -7,6 +13,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleMap} class.
  */
 public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<ModifiableDoubleMap<String>> {
+    /**
+     * The double three.
+     */
+    private static final Double DOUBLE_THREE = 3D;
+    /**
+     * The double four.
+     */
+    private static final Double DOUBLE_FOUR = 4D;
+
     @Override
     protected ModifiableDoubleMap<String> createEmptyDoubleMap() {
         return ModifiableDoubleMap.<String>empty();
@@ -56,5 +71,27 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     @Override
     protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
         return ModifiableDoubleMap.of(entries);
+    }
+
+    /**
+     * Verifies that the <code>add</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        assertTrue(map123.add("four", DOUBLE_FOUR));
+        assertEquals(DOUBLE_FOUR, map123.get("four"));
+        assertFalse(map123.add("four", DOUBLE_FOUR));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        assertEquals(1D, map123.remove("one"));
     }
 }

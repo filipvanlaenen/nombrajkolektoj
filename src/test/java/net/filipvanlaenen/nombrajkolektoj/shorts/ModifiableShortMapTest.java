@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -7,6 +13,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortMap} class.
  */
 public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<ModifiableShortMap<String>> {
+    /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+    /**
+     * The short four.
+     */
+    private static final Short SHORT_FOUR = (short) 4;
+
     @Override
     protected ModifiableShortMap<String> createEmptyShortMap() {
         return ModifiableShortMap.<String>empty();
@@ -56,5 +71,27 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     @Override
     protected ModifiableShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
         return ModifiableShortMap.of(entries);
+    }
+
+    /**
+     * Verifies that the <code>add</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertTrue(map123.add("four", SHORT_FOUR));
+        assertEquals(SHORT_FOUR, map123.get("four"));
+        assertFalse(map123.add("four", SHORT_FOUR));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertEquals((short) 1, map123.remove("one"));
     }
 }

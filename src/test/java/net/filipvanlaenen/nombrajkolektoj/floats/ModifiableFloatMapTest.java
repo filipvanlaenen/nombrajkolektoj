@@ -86,6 +86,17 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
+                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

@@ -86,6 +86,17 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
+                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

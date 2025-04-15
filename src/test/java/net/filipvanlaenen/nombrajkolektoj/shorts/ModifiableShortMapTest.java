@@ -86,6 +86,17 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

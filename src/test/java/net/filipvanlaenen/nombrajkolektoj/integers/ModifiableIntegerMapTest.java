@@ -86,6 +86,17 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
+                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

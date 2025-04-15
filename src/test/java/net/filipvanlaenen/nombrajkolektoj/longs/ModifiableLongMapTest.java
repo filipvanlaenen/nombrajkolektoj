@@ -86,6 +86,17 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

@@ -86,6 +86,17 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>clear</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void clearShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
+                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        map123.clear();
+        assertTrue(map123.isEmpty());
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test

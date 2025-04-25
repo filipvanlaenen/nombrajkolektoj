@@ -133,8 +133,8 @@
 
       <module name="MethodLength"/>
       <module name="ParameterNumber">
-         <!-- Modified for Nombraj Kolektoj to 10. -->
-         <property name="max" value="10"/>
+         <!-- Modified for Nombraj Kolektoj to 11. -->
+         <property name="max" value="11"/>
       </module>
 
       <!-- Checks for whitespace                        -->

@@ -146,19 +146,6 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
     }
 
     /**
-     * Returns a new bytes map with the specified entries and key and value cardinality.
-     *
-     * @param <K>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new bytes map with the specified entries.
-     */
-    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Byte>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
-    }
-
-    /**
      * Returns a new bytes map containing an entry with the key and the value.
      *
      * @param <K>   The key type.
@@ -243,6 +230,53 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
         return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
                 new Entry<K, Byte>(key3, value3), new Entry<K, Byte>(key4, value4),
                 new Entry<K, Byte>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable bytes map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable bytes map with the specified entries.
+     */
+    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
+            final K... keys) {
+        ModifiableByteMap<K> map = ModifiableByteMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
+    }
+
+    /**
+     * Returns a new bytes map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new bytes map with the specified entries.
+     */
+    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Byte>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new updatable bytes map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable bytes map with the specified entries.
+     */
+    static <K> UpdatableByteMap<K> of(final Byte defaultValue, final K... keys) {
+        ModifiableByteMap<K> map = ModifiableByteMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
     }
 
     @Override

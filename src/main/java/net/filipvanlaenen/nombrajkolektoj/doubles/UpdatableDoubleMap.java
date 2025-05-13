@@ -146,19 +146,6 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
     }
 
     /**
-     * Returns a new doubles map with the specified entries and key and value cardinality.
-     *
-     * @param <K>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new doubles map with the specified entries.
-     */
-    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Double>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
-    }
-
-    /**
      * Returns a new doubles map containing an entry with the key and the value.
      *
      * @param <K>   The key type.
@@ -243,6 +230,53 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
         return new HashMap<K>(new Entry<K, Double>(key1, value1), new Entry<K, Double>(key2, value2),
                 new Entry<K, Double>(key3, value3), new Entry<K, Double>(key4, value4),
                 new Entry<K, Double>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable doubles map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable doubles map with the specified entries.
+     */
+    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
+            final K... keys) {
+        ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
+    }
+
+    /**
+     * Returns a new doubles map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new doubles map with the specified entries.
+     */
+    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Double>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new updatable doubles map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable doubles map with the specified entries.
+     */
+    static <K> UpdatableDoubleMap<K> of(final Double defaultValue, final K... keys) {
+        ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
     }
 
     @Override

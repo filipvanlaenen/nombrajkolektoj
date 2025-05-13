@@ -146,19 +146,6 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
     }
 
     /**
-     * Returns a new integers map with the specified entries and key and value cardinality.
-     *
-     * @param <K>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new integers map with the specified entries.
-     */
-    static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Integer>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
-    }
-
-    /**
      * Returns a new integers map containing an entry with the key and the value.
      *
      * @param <K>   The key type.
@@ -243,6 +230,53 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
         return new HashMap<K>(new Entry<K, Integer>(key1, value1), new Entry<K, Integer>(key2, value2),
                 new Entry<K, Integer>(key3, value3), new Entry<K, Integer>(key4, value4),
                 new Entry<K, Integer>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable integers map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
+     */
+    static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
+            final K... keys) {
+        ModifiableIntegerMap<K> map = ModifiableIntegerMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
+    }
+
+    /**
+     * Returns a new integers map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new integers map with the specified entries.
+     */
+    static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Integer>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new updatable integers map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
+     */
+    static <K> UpdatableIntegerMap<K> of(final Integer defaultValue, final K... keys) {
+        ModifiableIntegerMap<K> map = ModifiableIntegerMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
     }
 
     @Override

@@ -185,6 +185,24 @@ public abstract class UpdatableSortedDoubleMap<K> extends AbstractUpdatableSorte
     }
 
     /**
+     * Returns a new updatable sorted doubles map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param comparator   The comparator by which to sort the keys.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable sorted doubles map with the specified entries.
+     */
+    static <K> UpdatableSortedDoubleMap<K> of(final Comparator<K> comparator, final Double defaultValue,
+            final K... keys) {
+        ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<K>(comparator, map);
+    }
+
+    /**
      * Returns a new updatable sorted doubles map with the specified entries.
      *
      * @param <K>        The key type.
@@ -194,6 +212,26 @@ public abstract class UpdatableSortedDoubleMap<K> extends AbstractUpdatableSorte
      */
     static <K> UpdatableSortedDoubleMap<K> of(final Comparator<K> comparator, final Entry<K, Double>... entries) {
         return new SortedTreeMap<K>(comparator, entries);
+    }
+
+    /**
+     * Returns a new updatable sorted doubles map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable sorted doubles map with the specified entries.
+     */
+    static <K> UpdatableSortedDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<K> comparator, final Double defaultValue, final K... keys) {
+        ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<K>(comparator, map);
     }
 
     /**

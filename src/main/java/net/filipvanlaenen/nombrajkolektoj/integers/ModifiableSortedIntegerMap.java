@@ -158,6 +158,24 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
     }
 
     /**
+     * Returns a new modifiable sorted integers map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param comparator   The comparator by which to sort the keys.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable sorted integers map with the specified entries.
+     */
+    static <K> ModifiableSortedIntegerMap<K> of(final Comparator<K> comparator, final Integer defaultValue,
+            final K... keys) {
+        ModifiableSortedIntegerMap<K> map = ModifiableSortedIntegerMap.<K>empty(comparator);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
      * Returns a new modifiable sorted integers map with the specified entries.
      *
      * @param <K>        The key type.
@@ -167,6 +185,26 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      */
     static <K> ModifiableSortedIntegerMap<K> of(final Comparator<K> comparator, final Entry<K, Integer>... entries) {
         return new SortedTreeMap<K>(comparator, entries);
+    }
+
+    /**
+     * Returns a new modifiable sorted integers map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable sorted integers map with the specified entries.
+     */
+    static <K> ModifiableSortedIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<K> comparator, final Integer defaultValue, final K... keys) {
+        ModifiableSortedIntegerMap<K> map = ModifiableSortedIntegerMap.<K>of(keyAndValueCardinality, comparator);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
     }
 
     /**

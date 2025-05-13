@@ -161,19 +161,6 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     /**
-     * Returns a new floats map with the specified entries and key and value cardinality.
-     *
-     * @param <K>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new floats map with the specified entries.
-     */
-    static <K> ModifiableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Float>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
-    }
-
-    /**
      * Returns a new floats map containing an entry with the key and the value.
      *
      * @param <K>   The key type.
@@ -258,6 +245,53 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
         return new HashMap<K>(new Entry<K, Float>(key1, value1), new Entry<K, Float>(key2, value2),
                 new Entry<K, Float>(key3, value3), new Entry<K, Float>(key4, value4),
                 new Entry<K, Float>(key5, value5));
+    }
+
+    /**
+     * Returns a new modifiable floats map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new modifiable floats map with the specified entries.
+     */
+    static <K> ModifiableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Float>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new modifiable floats map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable floats map with the specified entries.
+     */
+    static <K> ModifiableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
+            final K... keys) {
+        ModifiableFloatMap<K> map = ModifiableFloatMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable floats map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable floats map with the specified entries.
+     */
+    static <K> ModifiableFloatMap<K> of(final Float defaultValue, final K... keys) {
+        ModifiableFloatMap<K> map = ModifiableFloatMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
     }
 
     @Override

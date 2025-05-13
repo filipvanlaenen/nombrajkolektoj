@@ -185,6 +185,24 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
     }
 
     /**
+     * Returns a new updatable sorted bytes map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param comparator   The comparator by which to sort the keys.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable sorted bytes map with the specified entries.
+     */
+    static <K> UpdatableSortedByteMap<K> of(final Comparator<K> comparator, final Byte defaultValue,
+            final K... keys) {
+        ModifiableByteMap<K> map = ModifiableByteMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<K>(comparator, map);
+    }
+
+    /**
      * Returns a new updatable sorted bytes map with the specified entries.
      *
      * @param <K>        The key type.
@@ -194,6 +212,26 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
      */
     static <K> UpdatableSortedByteMap<K> of(final Comparator<K> comparator, final Entry<K, Byte>... entries) {
         return new SortedTreeMap<K>(comparator, entries);
+    }
+
+    /**
+     * Returns a new updatable sorted bytes map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable sorted bytes map with the specified entries.
+     */
+    static <K> UpdatableSortedByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<K> comparator, final Byte defaultValue, final K... keys) {
+        ModifiableByteMap<K> map = ModifiableByteMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<K>(comparator, map);
     }
 
     /**

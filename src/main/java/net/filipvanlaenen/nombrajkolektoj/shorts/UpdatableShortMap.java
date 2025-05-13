@@ -146,19 +146,6 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     }
 
     /**
-     * Returns a new shorts map with the specified entries and key and value cardinality.
-     *
-     * @param <K>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new shorts map with the specified entries.
-     */
-    static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Short>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
-    }
-
-    /**
      * Returns a new shorts map containing an entry with the key and the value.
      *
      * @param <K>   The key type.
@@ -243,6 +230,53 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
         return new HashMap<K>(new Entry<K, Short>(key1, value1), new Entry<K, Short>(key2, value2),
                 new Entry<K, Short>(key3, value3), new Entry<K, Short>(key4, value4),
                 new Entry<K, Short>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable shorts map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable shorts map with the specified entries.
+     */
+    static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final K... keys) {
+        ModifiableShortMap<K> map = ModifiableShortMap.<K>of(keyAndValueCardinality);
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
+    }
+
+    /**
+     * Returns a new shorts map with the specified entries and key and value cardinality.
+     *
+     * @param <K>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new shorts map with the specified entries.
+     */
+    static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<K, Short>... entries) {
+        return new HashMap<K>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new updatable shorts map with the specified keys with a default value.
+     *
+     * @param <K>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable shorts map with the specified entries.
+     */
+    static <K> UpdatableShortMap<K> of(final Short defaultValue, final K... keys) {
+        ModifiableShortMap<K> map = ModifiableShortMap.<K>empty();
+        for (K key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<K>(map);
     }
 
     @Override

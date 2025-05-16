@@ -95,7 +95,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param <K> The key type.
      * @return A new empty doubles map.
      */
-    static <K> UpdatableDoubleMap<K> empty() {
+    public static <K> UpdatableDoubleMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param entries The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final Entry<K, Double>... entries) {
+    public static <K> UpdatableDoubleMap<K> of(final Entry<K, Double>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param keys                   The keys for the new map.
      * @return A new updatable doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
-            final K... keys) {
+    public static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Double defaultValue, final K... keys) {
         ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param entries                The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableDoubleMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Double>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param keys         The keys for the new map.
      * @return A new updatable doubles map with the specified entries.
      */
-    static <K> UpdatableDoubleMap<K> of(final Double defaultValue, final K... keys) {
+    public static <K> UpdatableDoubleMap<K> of(final Double defaultValue, final K... keys) {
         ModifiableDoubleMap<K> map = ModifiableDoubleMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

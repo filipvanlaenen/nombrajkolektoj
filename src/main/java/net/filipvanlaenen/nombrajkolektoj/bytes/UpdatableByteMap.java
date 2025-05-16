@@ -95,7 +95,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param <K> The key type.
      * @return A new empty bytes map.
      */
-    static <K> UpdatableByteMap<K> empty() {
+    public static <K> UpdatableByteMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final Entry<K, Byte>... entries) {
+    public static <K> UpdatableByteMap<K> of(final Entry<K, Byte>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
-            final K... keys) {
+    public static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final K... keys) {
         ModifiableByteMap<K> map = ModifiableByteMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param entries                The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Byte>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable bytes map with the specified entries.
      */
-    static <K> UpdatableByteMap<K> of(final Byte defaultValue, final K... keys) {
+    public static <K> UpdatableByteMap<K> of(final Byte defaultValue, final K... keys) {
         ModifiableByteMap<K> map = ModifiableByteMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

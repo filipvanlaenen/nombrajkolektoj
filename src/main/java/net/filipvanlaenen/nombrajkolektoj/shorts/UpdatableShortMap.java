@@ -95,7 +95,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param <K> The key type.
      * @return A new empty shorts map.
      */
-    static <K> UpdatableShortMap<K> empty() {
+    public static <K> UpdatableShortMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    static <K> UpdatableShortMap<K> of(final Entry<K, Short>... entries) {
+    public static <K> UpdatableShortMap<K> of(final Entry<K, Short>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
-            final K... keys) {
+    public static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Short defaultValue, final K... keys) {
         ModifiableShortMap<K> map = ModifiableShortMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param entries                The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Short>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    static <K> UpdatableShortMap<K> of(final Short defaultValue, final K... keys) {
+    public static <K> UpdatableShortMap<K> of(final Short defaultValue, final K... keys) {
         ModifiableShortMap<K> map = ModifiableShortMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

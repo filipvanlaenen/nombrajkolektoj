@@ -95,7 +95,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param <K> The key type.
      * @return A new empty longs map.
      */
-    static <K> UpdatableLongMap<K> empty() {
+    public static <K> UpdatableLongMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <K> UpdatableLongMap<K> of(final Entry<K, Long>... entries) {
+    public static <K> UpdatableLongMap<K> of(final Entry<K, Long>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable longs map with the specified entries.
      */
-    static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
-            final K... keys) {
+    public static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final K... keys) {
         ModifiableLongMap<K> map = ModifiableLongMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param entries                The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Long>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable longs map with the specified entries.
      */
-    static <K> UpdatableLongMap<K> of(final Long defaultValue, final K... keys) {
+    public static <K> UpdatableLongMap<K> of(final Long defaultValue, final K... keys) {
         ModifiableLongMap<K> map = ModifiableLongMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

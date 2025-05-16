@@ -95,7 +95,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param <K> The key type.
      * @return A new empty integers map.
      */
-    static <K> UpdatableIntegerMap<K> empty() {
+    public static <K> UpdatableIntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param entries The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <K> UpdatableIntegerMap<K> of(final Entry<K, Integer>... entries) {
+    public static <K> UpdatableIntegerMap<K> of(final Entry<K, Integer>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys                   The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
-            final K... keys) {
+    public static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final K... keys) {
         ModifiableIntegerMap<K> map = ModifiableIntegerMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param entries                The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Integer>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys         The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    static <K> UpdatableIntegerMap<K> of(final Integer defaultValue, final K... keys) {
+    public static <K> UpdatableIntegerMap<K> of(final Integer defaultValue, final K... keys) {
         ModifiableIntegerMap<K> map = ModifiableIntegerMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

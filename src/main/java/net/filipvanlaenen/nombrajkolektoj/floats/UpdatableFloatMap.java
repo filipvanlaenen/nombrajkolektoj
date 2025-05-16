@@ -95,7 +95,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
      * @param <K> The key type.
      * @return A new empty floats map.
      */
-    static <K> UpdatableFloatMap<K> empty() {
+    public static <K> UpdatableFloatMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -141,7 +141,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
      * @param entries The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    static <K> UpdatableFloatMap<K> of(final Entry<K, Float>... entries) {
+    public static <K> UpdatableFloatMap<K> of(final Entry<K, Float>... entries) {
         return new HashMap<K>(entries);
     }
 
@@ -241,8 +241,8 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable floats map with the specified entries.
      */
-    static <K> UpdatableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
-            final K... keys) {
+    public static <K> UpdatableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Float defaultValue, final K... keys) {
         ModifiableFloatMap<K> map = ModifiableFloatMap.<K>of(keyAndValueCardinality);
         for (K key : keys) {
             map.add(key, defaultValue);
@@ -258,7 +258,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
      * @param entries                The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    static <K> UpdatableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <K> UpdatableFloatMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<K, Float>... entries) {
         return new HashMap<K>(keyAndValueCardinality, entries);
     }
@@ -271,7 +271,7 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable floats map with the specified entries.
      */
-    static <K> UpdatableFloatMap<K> of(final Float defaultValue, final K... keys) {
+    public static <K> UpdatableFloatMap<K> of(final Float defaultValue, final K... keys) {
         ModifiableFloatMap<K> map = ModifiableFloatMap.<K>empty();
         for (K key : keys) {
             map.add(key, defaultValue);

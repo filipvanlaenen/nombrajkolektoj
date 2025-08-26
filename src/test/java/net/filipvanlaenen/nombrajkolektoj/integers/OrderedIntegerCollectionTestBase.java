@@ -21,10 +21,10 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
     /**
      * Creates an ordered integers collection containing the provided integers.
      *
-     * @param integers The integers to be included in the ordered integers collection.
+     * @param numbers The integers to be included in the ordered integers collection.
      * @return An ordered integers collection containing the provided integers.
      */
-    protected abstract T createOrderedIntegerCollection(Integer... integers);
+    protected abstract T createOrderedIntegerCollection(Integer... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

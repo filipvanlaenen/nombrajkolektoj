@@ -22,17 +22,17 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
 
     @Override
     protected OrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final Integer... integers) {
-        return OrderedIntegerCollection.of(elementCardinality, integers);
+            final Integer... numbers) {
+        return OrderedIntegerCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedIntegerCollection createIntegerCollection(final Integer... integers) {
-        return OrderedIntegerCollection.of(integers);
+    protected OrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return OrderedIntegerCollection.of(numbers);
     }
 
     @Override
-    protected OrderedIntegerCollection createOrderedIntegerCollection(final Integer... integers) {
-        return OrderedIntegerCollection.of(integers);
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final Integer... numbers) {
+        return OrderedIntegerCollection.of(numbers);
     }
 }

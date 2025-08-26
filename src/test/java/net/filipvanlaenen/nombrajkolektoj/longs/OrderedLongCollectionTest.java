@@ -22,17 +22,17 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
 
     @Override
     protected OrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final Long... longs) {
-        return OrderedLongCollection.of(elementCardinality, longs);
+            final Long... numbers) {
+        return OrderedLongCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedLongCollection createLongCollection(final Long... longs) {
-        return OrderedLongCollection.of(longs);
+    protected OrderedLongCollection createLongCollection(final Long... numbers) {
+        return OrderedLongCollection.of(numbers);
     }
 
     @Override
-    protected OrderedLongCollection createOrderedLongCollection(final Long... longs) {
-        return OrderedLongCollection.of(longs);
+    protected OrderedLongCollection createOrderedLongCollection(final Long... numbers) {
+        return OrderedLongCollection.of(numbers);
     }
 }

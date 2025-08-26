@@ -21,10 +21,10 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
     /**
      * Creates an ordered floats collection containing the provided floats.
      *
-     * @param floats The floats to be included in the ordered floats collection.
+     * @param numbers The floats to be included in the ordered floats collection.
      * @return An ordered floats collection containing the provided floats.
      */
-    protected abstract T createOrderedFloatCollection(Float... floats);
+    protected abstract T createOrderedFloatCollection(Float... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

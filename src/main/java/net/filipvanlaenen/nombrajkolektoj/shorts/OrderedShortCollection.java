@@ -33,45 +33,45 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
          * Constructs an ordered collection with the given shorts and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param shorts            The shorts of the ordered collection.
+         * @param numbers            The shorts of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, shorts));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param shorts The shorts of the ordered collection.
+         * @param numbers The shorts of the ordered collection.
          */
-        public ArrayCollection(final Short... shorts) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(shorts));
+        public ArrayCollection(final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the shorts.
      */
-    private final OrderedCollection<Short> shorts;
+    private final OrderedCollection<Short> collection;
 
     /**
      * Private constructor taking an ordered collection with the shorts as its parameter.
      *
-     * @param shorts The ordered collection holding the shorts.
+     * @param numbers The ordered collection holding the shorts.
      */
-    private OrderedShortCollection(final OrderedCollection<Short> shorts) {
-        this.shorts = shorts;
+    private OrderedShortCollection(final OrderedCollection<Short> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Short element) {
-        return shorts.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return shorts.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
 
     @Override
     public Short get() throws IndexOutOfBoundsException {
-        return shorts.get();
+        return collection.get();
     }
 
     @Override
     public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return shorts.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return shorts.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Short> iterator() {
-        return shorts.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered shorts collection with the specified shorts.
      *
-     * @param shorts The shorts for the new ordered shorts collection.
+     * @param numbers The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified shorts.
      */
-    static OrderedShortCollection of(final Short... shorts) {
-        return new ArrayCollection(shorts);
+    static OrderedShortCollection of(final Short... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered shorts collection with the specified element cardinality and the shorts.
      *
      * @param elementCardinality The element cardinality.
-     * @param shorts            The shorts for the new ordered shorts collection.
+     * @param numbers            The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified element cardinality and the shorts.
      */
-    static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {
-        return new ArrayCollection(elementCardinality, shorts);
+    static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return shorts.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Short> spliterator() {
-        return shorts.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Short[] toArray() {
-        return shorts.toArray(EmptyArrays.SHORTS);
+        return collection.toArray(EmptyArrays.SHORTS);
     }
 }

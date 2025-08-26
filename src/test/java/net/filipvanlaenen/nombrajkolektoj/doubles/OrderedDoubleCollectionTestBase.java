@@ -21,10 +21,10 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
     /**
      * Creates an ordered doubles collection containing the provided doubles.
      *
-     * @param doubles The doubles to be included in the ordered doubles collection.
+     * @param numbers The doubles to be included in the ordered doubles collection.
      * @return An ordered doubles collection containing the provided doubles.
      */
-    protected abstract T createOrderedDoubleCollection(Double... doubles);
+    protected abstract T createOrderedDoubleCollection(Double... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

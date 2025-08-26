@@ -22,17 +22,17 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
 
     @Override
     protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... floats) {
-        return OrderedFloatCollection.of(elementCardinality, floats);
+            final Float... numbers) {
+        return OrderedFloatCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final Float... floats) {
-        return OrderedFloatCollection.of(floats);
+    protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
+        return OrderedFloatCollection.of(numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final Float... floats) {
-        return OrderedFloatCollection.of(floats);
+    protected OrderedFloatCollection createOrderedFloatCollection(final Float... numbers) {
+        return OrderedFloatCollection.of(numbers);
     }
 }

@@ -33,45 +33,45 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
          * Constructs an ordered collection with the given bytes and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bytes            The bytes of the ordered collection.
+         * @param numbers            The bytes of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(elementCardinality, bytes));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given bytes. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bytes The bytes of the ordered collection.
+         * @param numbers The bytes of the ordered collection.
          */
-        public ArrayCollection(final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(bytes));
+        public ArrayCollection(final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the bytes.
      */
-    private final OrderedCollection<Byte> bytes;
+    private final OrderedCollection<Byte> collection;
 
     /**
      * Private constructor taking an ordered collection with the bytes as its parameter.
      *
-     * @param bytes The ordered collection holding the bytes.
+     * @param numbers The ordered collection holding the bytes.
      */
-    private OrderedByteCollection(final OrderedCollection<Byte> bytes) {
-        this.bytes = bytes;
+    private OrderedByteCollection(final OrderedCollection<Byte> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Byte element) {
-        return bytes.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return bytes.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
 
     @Override
     public Byte get() throws IndexOutOfBoundsException {
-        return bytes.get();
+        return collection.get();
     }
 
     @Override
     public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return bytes.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return bytes.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Byte> iterator() {
-        return bytes.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered bytes collection with the specified bytes.
      *
-     * @param bytes The bytes for the new ordered bytes collection.
+     * @param numbers The bytes for the new ordered bytes collection.
      * @return A new ordered bytes collection with the specified bytes.
      */
-    static OrderedByteCollection of(final Byte... bytes) {
-        return new ArrayCollection(bytes);
+    static OrderedByteCollection of(final Byte... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered bytes collection with the specified element cardinality and the bytes.
      *
      * @param elementCardinality The element cardinality.
-     * @param bytes            The bytes for the new ordered bytes collection.
+     * @param numbers            The bytes for the new ordered bytes collection.
      * @return A new ordered bytes collection with the specified element cardinality and the bytes.
      */
-    static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... bytes) {
-        return new ArrayCollection(elementCardinality, bytes);
+    static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return bytes.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Byte> spliterator() {
-        return bytes.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Byte[] toArray() {
-        return bytes.toArray(EmptyArrays.BYTES);
+        return collection.toArray(EmptyArrays.BYTES);
     }
 }

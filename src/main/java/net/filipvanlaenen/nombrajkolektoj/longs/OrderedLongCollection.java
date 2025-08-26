@@ -33,45 +33,45 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
          * Constructs an ordered collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs            The longs of the ordered collection.
+         * @param numbers            The longs of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, longs));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param longs The longs of the ordered collection.
+         * @param numbers The longs of the ordered collection.
          */
-        public ArrayCollection(final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(longs));
+        public ArrayCollection(final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the longs.
      */
-    private final OrderedCollection<Long> longs;
+    private final OrderedCollection<Long> collection;
 
     /**
      * Private constructor taking an ordered collection with the longs as its parameter.
      *
-     * @param longs The ordered collection holding the longs.
+     * @param numbers The ordered collection holding the longs.
      */
-    private OrderedLongCollection(final OrderedCollection<Long> longs) {
-        this.longs = longs;
+    private OrderedLongCollection(final OrderedCollection<Long> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Long element) {
-        return longs.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return longs.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
 
     @Override
     public Long get() throws IndexOutOfBoundsException {
-        return longs.get();
+        return collection.get();
     }
 
     @Override
     public Long getAt(final int index) throws IndexOutOfBoundsException {
-        return longs.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return longs.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Long> iterator() {
-        return longs.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered longs collection with the specified longs.
      *
-     * @param longs The longs for the new ordered longs collection.
+     * @param numbers The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified longs.
      */
-    static OrderedLongCollection of(final Long... longs) {
-        return new ArrayCollection(longs);
+    static OrderedLongCollection of(final Long... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered longs collection with the specified element cardinality and the longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs            The longs for the new ordered longs collection.
+     * @param numbers            The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified element cardinality and the longs.
      */
-    static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... longs) {
-        return new ArrayCollection(elementCardinality, longs);
+    static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return longs.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Long> spliterator() {
-        return longs.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Long[] toArray() {
-        return longs.toArray(EmptyArrays.LONGS);
+        return collection.toArray(EmptyArrays.LONGS);
     }
 }

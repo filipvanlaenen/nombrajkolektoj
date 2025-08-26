@@ -22,17 +22,17 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
 
     @Override
     protected OrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final Byte... bytes) {
-        return OrderedByteCollection.of(elementCardinality, bytes);
+            final Byte... numbers) {
+        return OrderedByteCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedByteCollection createByteCollection(final Byte... bytes) {
-        return OrderedByteCollection.of(bytes);
+    protected OrderedByteCollection createByteCollection(final Byte... numbers) {
+        return OrderedByteCollection.of(numbers);
     }
 
     @Override
-    protected OrderedByteCollection createOrderedByteCollection(final Byte... bytes) {
-        return OrderedByteCollection.of(bytes);
+    protected OrderedByteCollection createOrderedByteCollection(final Byte... numbers) {
+        return OrderedByteCollection.of(numbers);
     }
 }

@@ -21,10 +21,10 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
     /**
      * Creates an ordered bytes collection containing the provided bytes.
      *
-     * @param bytes The bytes to be included in the ordered bytes collection.
+     * @param numbers The bytes to be included in the ordered bytes collection.
      * @return An ordered bytes collection containing the provided bytes.
      */
-    protected abstract T createOrderedByteCollection(Byte... bytes);
+    protected abstract T createOrderedByteCollection(Byte... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

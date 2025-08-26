@@ -22,17 +22,17 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
 
     @Override
     protected OrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final Double... doubles) {
-        return OrderedDoubleCollection.of(elementCardinality, doubles);
+            final Double... numbers) {
+        return OrderedDoubleCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final Double... doubles) {
-        return OrderedDoubleCollection.of(doubles);
+    protected OrderedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return OrderedDoubleCollection.of(numbers);
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(final Double... doubles) {
-        return OrderedDoubleCollection.of(doubles);
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final Double... numbers) {
+        return OrderedDoubleCollection.of(numbers);
     }
 }

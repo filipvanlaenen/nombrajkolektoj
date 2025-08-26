@@ -21,10 +21,10 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
     /**
      * Creates an ordered shorts collection containing the provided shorts.
      *
-     * @param shorts The shorts to be included in the ordered shorts collection.
+     * @param numbers The shorts to be included in the ordered shorts collection.
      * @return An ordered shorts collection containing the provided shorts.
      */
-    protected abstract T createOrderedShortCollection(Short... shorts);
+    protected abstract T createOrderedShortCollection(Short... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

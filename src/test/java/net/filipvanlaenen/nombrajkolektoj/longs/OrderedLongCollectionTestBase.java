@@ -21,10 +21,10 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
     /**
      * Creates an ordered longs collection containing the provided longs.
      *
-     * @param longs The longs to be included in the ordered longs collection.
+     * @param numbers The longs to be included in the ordered longs collection.
      * @return An ordered longs collection containing the provided longs.
      */
-    protected abstract T createOrderedLongCollection(Long... longs);
+    protected abstract T createOrderedLongCollection(Long... numbers);
 
     /**
      * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.

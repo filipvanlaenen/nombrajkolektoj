@@ -22,17 +22,17 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
 
     @Override
     protected OrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final Short... shorts) {
-        return OrderedShortCollection.of(elementCardinality, shorts);
+            final Short... numbers) {
+        return OrderedShortCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedShortCollection createShortCollection(final Short... shorts) {
-        return OrderedShortCollection.of(shorts);
+    protected OrderedShortCollection createShortCollection(final Short... numbers) {
+        return OrderedShortCollection.of(numbers);
     }
 
     @Override
-    protected OrderedShortCollection createOrderedShortCollection(final Short... shorts) {
-        return OrderedShortCollection.of(shorts);
+    protected OrderedShortCollection createOrderedShortCollection(final Short... numbers) {
+        return OrderedShortCollection.of(numbers);
     }
 }

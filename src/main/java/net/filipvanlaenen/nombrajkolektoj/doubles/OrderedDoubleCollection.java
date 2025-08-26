@@ -33,45 +33,45 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
          * Constructs an ordered collection with the given doubles and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param doubles            The doubles of the ordered collection.
+         * @param numbers            The doubles of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, doubles));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param doubles The doubles of the ordered collection.
+         * @param numbers The doubles of the ordered collection.
          */
-        public ArrayCollection(final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(doubles));
+        public ArrayCollection(final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the doubles.
      */
-    private final OrderedCollection<Double> doubles;
+    private final OrderedCollection<Double> collection;
 
     /**
      * Private constructor taking an ordered collection with the doubles as its parameter.
      *
-     * @param doubles The ordered collection holding the doubles.
+     * @param numbers The ordered collection holding the doubles.
      */
-    private OrderedDoubleCollection(final OrderedCollection<Double> doubles) {
-        this.doubles = doubles;
+    private OrderedDoubleCollection(final OrderedCollection<Double> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Double element) {
-        return doubles.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return doubles.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
 
     @Override
     public Double get() throws IndexOutOfBoundsException {
-        return doubles.get();
+        return collection.get();
     }
 
     @Override
     public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return doubles.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return doubles.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Double> iterator() {
-        return doubles.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered doubles collection with the specified doubles.
      *
-     * @param doubles The doubles for the new ordered doubles collection.
+     * @param numbers The doubles for the new ordered doubles collection.
      * @return A new ordered doubles collection with the specified doubles.
      */
-    static OrderedDoubleCollection of(final Double... doubles) {
-        return new ArrayCollection(doubles);
+    static OrderedDoubleCollection of(final Double... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered doubles collection with the specified element cardinality and the doubles.
      *
      * @param elementCardinality The element cardinality.
-     * @param doubles            The doubles for the new ordered doubles collection.
+     * @param numbers            The doubles for the new ordered doubles collection.
      * @return A new ordered doubles collection with the specified element cardinality and the doubles.
      */
-    static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... doubles) {
-        return new ArrayCollection(elementCardinality, doubles);
+    static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return doubles.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Double> spliterator() {
-        return doubles.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Double[] toArray() {
-        return doubles.toArray(EmptyArrays.DOUBLES);
+        return collection.toArray(EmptyArrays.DOUBLES);
     }
 }

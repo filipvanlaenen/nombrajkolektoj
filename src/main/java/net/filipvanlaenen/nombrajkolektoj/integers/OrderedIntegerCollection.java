@@ -33,45 +33,45 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
          * Constructs an ordered collection with the given integers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param integers            The integers of the ordered collection.
+         * @param numbers            The integers of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... integers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(elementCardinality, integers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given integers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param integers The integers of the ordered collection.
+         * @param numbers The integers of the ordered collection.
          */
-        public ArrayCollection(final Integer... integers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(integers));
+        public ArrayCollection(final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the integers.
      */
-    private final OrderedCollection<Integer> integers;
+    private final OrderedCollection<Integer> collection;
 
     /**
      * Private constructor taking an ordered collection with the integers as its parameter.
      *
-     * @param integers The ordered collection holding the integers.
+     * @param numbers The ordered collection holding the integers.
      */
-    private OrderedIntegerCollection(final OrderedCollection<Integer> integers) {
-        this.integers = integers;
+    private OrderedIntegerCollection(final OrderedCollection<Integer> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Integer element) {
-        return integers.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return integers.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
 
     @Override
     public Integer get() throws IndexOutOfBoundsException {
-        return integers.get();
+        return collection.get();
     }
 
     @Override
     public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return integers.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return integers.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Integer> iterator() {
-        return integers.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered integers collection with the specified integers.
      *
-     * @param integers The integers for the new ordered integers collection.
+     * @param numbers The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified integers.
      */
-    static OrderedIntegerCollection of(final Integer... integers) {
-        return new ArrayCollection(integers);
+    static OrderedIntegerCollection of(final Integer... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered integers collection with the specified element cardinality and the integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers            The integers for the new ordered integers collection.
+     * @param numbers            The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified element cardinality and the integers.
      */
-    static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
-        return new ArrayCollection(elementCardinality, integers);
+    static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return integers.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Integer> spliterator() {
-        return integers.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Integer[] toArray() {
-        return integers.toArray(EmptyArrays.INTEGERS);
+        return collection.toArray(EmptyArrays.INTEGERS);
     }
 }

@@ -33,45 +33,45 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
          * Constructs an ordered collection with the given floats and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param floats            The floats of the ordered collection.
+         * @param numbers            The floats of the ordered collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(elementCardinality, floats));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(elementCardinality, numbers));
         }
 
         /**
          * Constructs an ordered collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param floats The floats of the ordered collection.
+         * @param numbers The floats of the ordered collection.
          */
-        public ArrayCollection(final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(floats));
+        public ArrayCollection(final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(numbers));
         }
     }
 
     /**
      * The ordered collection holding the floats.
      */
-    private final OrderedCollection<Float> floats;
+    private final OrderedCollection<Float> collection;
 
     /**
      * Private constructor taking an ordered collection with the floats as its parameter.
      *
-     * @param floats The ordered collection holding the floats.
+     * @param numbers The ordered collection holding the floats.
      */
-    private OrderedFloatCollection(final OrderedCollection<Float> floats) {
-        this.floats = floats;
+    private OrderedFloatCollection(final OrderedCollection<Float> numbers) {
+        this.collection = numbers;
     }
 
     @Override
     public boolean contains(final Float element) {
-        return floats.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return floats.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -85,57 +85,57 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
 
     @Override
     public Float get() throws IndexOutOfBoundsException {
-        return floats.get();
+        return collection.get();
     }
 
     @Override
     public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return floats.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return floats.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Float> iterator() {
-        return floats.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new ordered floats collection with the specified floats.
      *
-     * @param floats The floats for the new ordered floats collection.
+     * @param numbers The floats for the new ordered floats collection.
      * @return A new ordered floats collection with the specified floats.
      */
-    static OrderedFloatCollection of(final Float... floats) {
-        return new ArrayCollection(floats);
+    static OrderedFloatCollection of(final Float... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new ordered floats collection with the specified element cardinality and the floats.
      *
      * @param elementCardinality The element cardinality.
-     * @param floats            The floats for the new ordered floats collection.
+     * @param numbers            The floats for the new ordered floats collection.
      * @return A new ordered floats collection with the specified element cardinality and the floats.
      */
-    static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... floats) {
-        return new ArrayCollection(elementCardinality, floats);
+    static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return floats.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Float> spliterator() {
-        return floats.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Float[] toArray() {
-        return floats.toArray(EmptyArrays.FLOATS);
+        return collection.toArray(EmptyArrays.FLOATS);
     }
 }

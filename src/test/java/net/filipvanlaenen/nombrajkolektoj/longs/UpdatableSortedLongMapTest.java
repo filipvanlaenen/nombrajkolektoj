@@ -62,4 +62,10 @@ public final class UpdatableSortedLongMapTest extends UpdatableLongMapTestBase<U
     protected UpdatableSortedLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
         return UpdatableSortedLongMap.of(Comparator.naturalOrder(), entries);
     }
+
+    @Override
+    protected UpdatableSortedLongMap<String> createUpdatableLongMap(final Long defaultValue,
+            final String... keys) {
+        return UpdatableSortedLongMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

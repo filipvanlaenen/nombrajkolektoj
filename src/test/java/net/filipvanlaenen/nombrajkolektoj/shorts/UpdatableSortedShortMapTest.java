@@ -62,4 +62,10 @@ public final class UpdatableSortedShortMapTest extends UpdatableShortMapTestBase
     protected UpdatableSortedShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
         return UpdatableSortedShortMap.of(Comparator.naturalOrder(), entries);
     }
+
+    @Override
+    protected UpdatableSortedShortMap<String> createUpdatableShortMap(final Short defaultValue,
+            final String... keys) {
+        return UpdatableSortedShortMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

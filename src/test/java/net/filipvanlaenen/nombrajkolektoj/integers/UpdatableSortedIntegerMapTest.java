@@ -62,4 +62,10 @@ public final class UpdatableSortedIntegerMapTest extends UpdatableIntegerMapTest
     protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
         return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), entries);
     }
+
+    @Override
+    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue,
+            final String... keys) {
+        return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

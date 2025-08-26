@@ -15,6 +15,10 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 public abstract class UpdatableByteMapTestBase<T extends UpdatableNumericMap<String, Byte>>
         extends ByteMapTestBase<T> {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * The byte three.
      */
     private static final Byte BYTE_THREE = (byte) 3;
@@ -30,6 +34,25 @@ public abstract class UpdatableByteMapTestBase<T extends UpdatableNumericMap<Str
      * @return A bytes map containing the provided entries.
      */
     protected abstract T createUpdatableByteMap(Entry<String, Byte>... entries);
+
+    /**
+     * Creates a bytes map containing the provided keys and a default value.
+     *
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A bytes map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableByteMap(Byte defaultValue, String... keys);
+
+    /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableByteMap((byte) 0, "a", "b", "c");
+        assertEquals((byte) 0, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
 
     /**
      * Verifies that the <code>update</code> method is wired correctly to the internal collection.

@@ -152,44 +152,44 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     /**
      * Returns a new bytes map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <K> ModifiableByteMap<K> of(final Entry<K, Byte>... entries) {
-        return new HashMap<K>(entries);
+    static <L> ModifiableByteMap<L> of(final Entry<L, Byte>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new bytes map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new bytes map containing an entry with the key and the value.
      */
-    public static <K> ModifiableByteMap<K> of(final K key, final Byte value) {
-        return new HashMap<K>(new Entry<K, Byte>(key, value));
+    public static <L> ModifiableByteMap<L> of(final L key, final Byte value) {
+        return new HashMap<L>(new Entry<L, Byte>(key, value));
     }
 
     /**
      * Returns a new bytes map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new bytes map containing two entries using the provided keys and values.
      */
-    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2) {
-        return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2));
+    public static <L> ModifiableByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2) {
+        return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2));
     }
 
     /**
      * Returns a new bytes map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -198,16 +198,16 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param value3 The third value for the entry.
      * @return A new bytes map containing three entries using the provided keys and values.
      */
-    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
-            final K key3, final Byte value3) {
-        return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
-                new Entry<K, Byte>(key3, value3));
+    public static <L> ModifiableByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
+            final L key3, final Byte value3) {
+        return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
+                new Entry<L, Byte>(key3, value3));
     }
 
     /**
      * Returns a new bytes map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -218,16 +218,16 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param value4 The fourth value for the entry.
      * @return A new bytes map containing four entries using the provided keys and values.
      */
-    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
-            final K key3, final Byte value3, final K key4, final Byte value4) {
-        return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
-                new Entry<K, Byte>(key3, value3), new Entry<K, Byte>(key4, value4));
+    public static <L> ModifiableByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
+            final L key3, final Byte value3, final L key4, final Byte value4) {
+        return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
+                new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4));
     }
 
     /**
      * Returns a new bytes map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -240,39 +240,39 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param value5 The fifth value for the entry.
      * @return A new bytes map containing five entries using the provided keys and values.
      */
-    public static <K> ModifiableByteMap<K> of(final K key1, final Byte value1, final K key2, final Byte value2,
-            final K key3, final Byte value3, final K key4, final Byte value4, final K key5, final Byte value5) {
-        return new HashMap<K>(new Entry<K, Byte>(key1, value1), new Entry<K, Byte>(key2, value2),
-                new Entry<K, Byte>(key3, value3), new Entry<K, Byte>(key4, value4),
-                new Entry<K, Byte>(key5, value5));
+    public static <L> ModifiableByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
+            final L key3, final Byte value3, final L key4, final Byte value4, final L key5, final Byte value5) {
+        return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
+                new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4),
+                new Entry<L, Byte>(key5, value5));
     }
 
     /**
      * Returns a new modifiable bytes map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    static <K> ModifiableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Byte>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Byte>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new modifiable bytes map with the specified keys with a default value and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param defaultValue           The default value for the entries.
      * @param keys                   The keys for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    static <K> ModifiableByteMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
-            final K... keys) {
-        ModifiableByteMap<K> map = ModifiableByteMap.<K>of(keyAndValueCardinality);
-        for (K key : keys) {
+    static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
+            final L... keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
         return map;
@@ -281,14 +281,14 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     /**
      * Returns a new modifiable bytes map with the specified keys with a default value.
      *
-     * @param <K>          The key type.
+     * @param <L>          The key type.
      * @param defaultValue The default value for the entries.
      * @param keys         The keys for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    static <K> ModifiableByteMap<K> of(final Byte defaultValue, final K... keys) {
-        ModifiableByteMap<K> map = ModifiableByteMap.<K>empty();
-        for (K key : keys) {
+    static <L> ModifiableByteMap<L> of(final Byte defaultValue, final L... keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>empty();
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
         return map;

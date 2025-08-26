@@ -15,6 +15,10 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 public abstract class UpdatableFloatMapTestBase<T extends UpdatableNumericMap<String, Float>>
         extends FloatMapTestBase<T> {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * The float three.
      */
     private static final Float FLOAT_THREE = 3F;
@@ -30,6 +34,25 @@ public abstract class UpdatableFloatMapTestBase<T extends UpdatableNumericMap<St
      * @return A floats map containing the provided entries.
      */
     protected abstract T createUpdatableFloatMap(Entry<String, Float>... entries);
+
+    /**
+     * Creates a floats map containing the provided keys and a default value.
+     *
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A floats map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableFloatMap(Float defaultValue, String... keys);
+
+    /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableFloatMap(0F, "a", "b", "c");
+        assertEquals(0F, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
 
     /**
      * Verifies that the <code>update</code> method is wired correctly to the internal collection.

@@ -152,44 +152,44 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
     /**
      * Returns a new longs map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <K> ModifiableLongMap<K> of(final Entry<K, Long>... entries) {
-        return new HashMap<K>(entries);
+    static <L> ModifiableLongMap<L> of(final Entry<L, Long>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new longs map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new longs map containing an entry with the key and the value.
      */
-    public static <K> ModifiableLongMap<K> of(final K key, final Long value) {
-        return new HashMap<K>(new Entry<K, Long>(key, value));
+    public static <L> ModifiableLongMap<L> of(final L key, final Long value) {
+        return new HashMap<L>(new Entry<L, Long>(key, value));
     }
 
     /**
      * Returns a new longs map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new longs map containing two entries using the provided keys and values.
      */
-    public static <K> ModifiableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2));
+    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2));
     }
 
     /**
      * Returns a new longs map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -198,16 +198,16 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value3 The third value for the entry.
      * @return A new longs map containing three entries using the provided keys and values.
      */
-    public static <K> ModifiableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3));
+    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3));
     }
 
     /**
      * Returns a new longs map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -218,16 +218,16 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value4 The fourth value for the entry.
      * @return A new longs map containing four entries using the provided keys and values.
      */
-    public static <K> ModifiableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3, final K key4, final Long value4) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4));
+    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3, final L key4, final Long value4) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4));
     }
 
     /**
      * Returns a new longs map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -240,39 +240,39 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value5 The fifth value for the entry.
      * @return A new longs map containing five entries using the provided keys and values.
      */
-    public static <K> ModifiableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3, final K key4, final Long value4, final K key5, final Long value5) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4),
-                new Entry<K, Long>(key5, value5));
+    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3, final L key4, final Long value4, final L key5, final Long value5) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
+                new Entry<L, Long>(key5, value5));
     }
 
     /**
      * Returns a new modifiable longs map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    static <K> ModifiableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Long>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Long>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new modifiable longs map with the specified keys with a default value and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param defaultValue           The default value for the entries.
      * @param keys                   The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    static <K> ModifiableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
-            final K... keys) {
-        ModifiableLongMap<K> map = ModifiableLongMap.<K>of(keyAndValueCardinality);
-        for (K key : keys) {
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
+            final L... keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
         return map;
@@ -281,14 +281,14 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
     /**
      * Returns a new modifiable longs map with the specified keys with a default value.
      *
-     * @param <K>          The key type.
+     * @param <L>          The key type.
      * @param defaultValue The default value for the entries.
      * @param keys         The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    static <K> ModifiableLongMap<K> of(final Long defaultValue, final K... keys) {
-        ModifiableLongMap<K> map = ModifiableLongMap.<K>empty();
-        for (K key : keys) {
+    static <L> ModifiableLongMap<L> of(final Long defaultValue, final L... keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
         return map;

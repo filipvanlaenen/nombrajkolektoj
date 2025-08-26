@@ -15,6 +15,10 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 public abstract class UpdatableLongMapTestBase<T extends UpdatableNumericMap<String, Long>>
         extends LongMapTestBase<T> {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * The long three.
      */
     private static final Long LONG_THREE = 3L;
@@ -30,6 +34,25 @@ public abstract class UpdatableLongMapTestBase<T extends UpdatableNumericMap<Str
      * @return A longs map containing the provided entries.
      */
     protected abstract T createUpdatableLongMap(Entry<String, Long>... entries);
+
+    /**
+     * Creates a longs map containing the provided keys and a default value.
+     *
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A longs map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableLongMap(Long defaultValue, String... keys);
+
+    /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableLongMap(0L, "a", "b", "c");
+        assertEquals(0L, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
 
     /**
      * Verifies that the <code>update</code> method is wired correctly to the internal collection.

@@ -57,4 +57,9 @@ public final class UpdatableByteMapTest extends UpdatableByteMapTestBase<Updatab
     protected UpdatableByteMap<String> createUpdatableByteMap(final Entry<String, Byte>... entries) {
         return UpdatableByteMap.of(entries);
     }
+
+    @Override
+    protected UpdatableByteMap<String> createUpdatableByteMap(final Byte defaultValue, final String... keys) {
+        return UpdatableByteMap.of(defaultValue, keys);
+    }
 }

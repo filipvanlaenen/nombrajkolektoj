@@ -62,4 +62,10 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
     protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
         return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), entries);
     }
+
+    @Override
+    protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
+            final String... keys) {
+        return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

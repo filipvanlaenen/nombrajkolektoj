@@ -69,6 +69,11 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     }
 
     @Override
+    protected ModifiableShortMap<String> createUpdatableShortMap(final Short defaultValue, final String... keys) {
+        return ModifiableShortMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
         return ModifiableShortMap.of(entries);
     }

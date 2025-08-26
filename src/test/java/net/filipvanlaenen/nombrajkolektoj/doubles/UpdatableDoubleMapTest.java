@@ -57,4 +57,9 @@ public final class UpdatableDoubleMapTest extends UpdatableDoubleMapTestBase<Upd
     protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
         return UpdatableDoubleMap.of(entries);
     }
+
+    @Override
+    protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue, final String... keys) {
+        return UpdatableDoubleMap.of(defaultValue, keys);
+    }
 }

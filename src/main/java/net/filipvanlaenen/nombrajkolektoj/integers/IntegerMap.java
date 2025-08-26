@@ -133,56 +133,56 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
     /**
      * Returns a new integers map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <K> IntegerMap<K> of(final Entry<K, Integer>... entries) {
-        return new HashMap<K>(entries);
+    static <L> IntegerMap<L> of(final Entry<L, Integer>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new integers map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <K> IntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Integer>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    static <L> IntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Integer>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new integers map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new integers map containing an entry with the key and the value.
      */
-    public static <K> IntegerMap<K> of(final K key, final Integer value) {
-        return new HashMap<K>(new Entry<K, Integer>(key, value));
+    public static <L> IntegerMap<L> of(final L key, final Integer value) {
+        return new HashMap<L>(new Entry<L, Integer>(key, value));
     }
 
     /**
      * Returns a new integers map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new integers map containing two entries using the provided keys and values.
      */
-    public static <K> IntegerMap<K> of(final K key1, final Integer value1, final K key2, final Integer value2) {
-        return new HashMap<K>(new Entry<K, Integer>(key1, value1), new Entry<K, Integer>(key2, value2));
+    public static <L> IntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2) {
+        return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2));
     }
 
     /**
      * Returns a new integers map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -191,16 +191,16 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param value3 The third value for the entry.
      * @return A new integers map containing three entries using the provided keys and values.
      */
-    public static <K> IntegerMap<K> of(final K key1, final Integer value1, final K key2, final Integer value2,
-            final K key3, final Integer value3) {
-        return new HashMap<K>(new Entry<K, Integer>(key1, value1), new Entry<K, Integer>(key2, value2),
-                new Entry<K, Integer>(key3, value3));
+    public static <L> IntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+            final L key3, final Integer value3) {
+        return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3));
     }
 
     /**
      * Returns a new integers map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -211,16 +211,16 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param value4 The fourth value for the entry.
      * @return A new integers map containing four entries using the provided keys and values.
      */
-    public static <K> IntegerMap<K> of(final K key1, final Integer value1, final K key2, final Integer value2,
-            final K key3, final Integer value3, final K key4, final Integer value4) {
-        return new HashMap<K>(new Entry<K, Integer>(key1, value1), new Entry<K, Integer>(key2, value2),
-                new Entry<K, Integer>(key3, value3), new Entry<K, Integer>(key4, value4));
+    public static <L> IntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+            final L key3, final Integer value3, final L key4, final Integer value4) {
+        return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4));
     }
 
     /**
      * Returns a new integers map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -233,11 +233,11 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param value5 The fifth value for the entry.
      * @return A new integers map containing five entries using the provided keys and values.
      */
-    public static <K> IntegerMap<K> of(final K key1, final Integer value1, final K key2, final Integer value2,
-            final K key3, final Integer value3, final K key4, final Integer value4, final K key5, final Integer value5) {
-        return new HashMap<K>(new Entry<K, Integer>(key1, value1), new Entry<K, Integer>(key2, value2),
-                new Entry<K, Integer>(key3, value3), new Entry<K, Integer>(key4, value4),
-                new Entry<K, Integer>(key5, value5));
+    public static <L> IntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+            final L key3, final Integer value3, final L key4, final Integer value4, final L key5, final Integer value5) {
+        return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
+                new Entry<L, Integer>(key5, value5));
     }
 
     @Override

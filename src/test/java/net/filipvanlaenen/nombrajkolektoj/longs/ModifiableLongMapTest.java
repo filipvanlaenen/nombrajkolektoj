@@ -69,6 +69,11 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     @Override
+    protected ModifiableLongMap<String> createUpdatableLongMap(final Long defaultValue, final String... keys) {
+        return ModifiableLongMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
         return ModifiableLongMap.of(entries);
     }

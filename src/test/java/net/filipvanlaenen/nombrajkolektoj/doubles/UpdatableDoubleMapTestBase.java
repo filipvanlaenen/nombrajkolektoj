@@ -15,6 +15,10 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 public abstract class UpdatableDoubleMapTestBase<T extends UpdatableNumericMap<String, Double>>
         extends DoubleMapTestBase<T> {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * The double three.
      */
     private static final Double DOUBLE_THREE = 3D;
@@ -30,6 +34,25 @@ public abstract class UpdatableDoubleMapTestBase<T extends UpdatableNumericMap<S
      * @return A doubles map containing the provided entries.
      */
     protected abstract T createUpdatableDoubleMap(Entry<String, Double>... entries);
+
+    /**
+     * Creates a doubles map containing the provided keys and a default value.
+     *
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A doubles map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableDoubleMap(Double defaultValue, String... keys);
+
+    /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableDoubleMap(0D, "a", "b", "c");
+        assertEquals(0D, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
 
     /**
      * Verifies that the <code>update</code> method is wired correctly to the internal collection.

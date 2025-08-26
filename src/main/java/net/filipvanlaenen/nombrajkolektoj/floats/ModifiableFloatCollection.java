@@ -35,20 +35,20 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * Constructs a collection with the given floats and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param floats            The floats of the collection.
+         * @param numbers            The floats of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
-            super(new ModifiableArrayCollection<Float>(elementCardinality, floats));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new ModifiableArrayCollection<Float>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param floats The floats of the collection.
+         * @param numbers The floats of the collection.
          */
-        public ArrayCollection(final Float... floats) {
-            super(new ModifiableArrayCollection<Float>(floats));
+        public ArrayCollection(final Float... numbers) {
+            super(new ModifiableArrayCollection<Float>(numbers));
         }
     }
 
@@ -70,20 +70,20 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * Constructs a collection with the given floats and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param floats            The floats of the collection.
+         * @param numbers            The floats of the collection.
          */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Float... floats) {
-            super(new ModifiableLinkedListCollection<Float>(elementCardinality, floats));
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new ModifiableLinkedListCollection<Float>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param floats The floats of the collection.
+         * @param numbers The floats of the collection.
          */
-        public LinkedListCollection(final Float... floats) {
-            super(new ModifiableLinkedListCollection<Float>(floats));
+        public LinkedListCollection(final Float... numbers) {
+            super(new ModifiableLinkedListCollection<Float>(numbers));
         }
     }
 
@@ -95,10 +95,10 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
     /**
      * Private constructor taking a collection with the floats as its parameter.
      *
-     * @param floats The collection holding the floats.
+     * @param numbers The collection holding the floats.
      */
-    private ModifiableFloatCollection(final ModifiableCollection<Float> floats) {
-        this.collection = floats;
+    private ModifiableFloatCollection(final ModifiableCollection<Float> numbers) {
+        this.collection = numbers;
     }
 
     @Override
@@ -153,22 +153,22 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
     /**
      * Returns a new modifiable floats collection with the specified floats.
      *
-     * @param floats The floats for the new modifiable floats collection.
+     * @param numbers The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified floats.
      */
-    static ModifiableFloatCollection of(final Float... floats) {
-        return new ArrayCollection(floats);
+    static ModifiableFloatCollection of(final Float... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new modifiable floats collection with the specified element cardinality and the floats.
      *
      * @param elementCardinality The element cardinality.
-     * @param floats            The floats for the new modifiable floats collection.
+     * @param numbers            The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified element cardinality and the floats.
      */
-    static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... floats) {
-        return new ArrayCollection(elementCardinality, floats);
+    static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override

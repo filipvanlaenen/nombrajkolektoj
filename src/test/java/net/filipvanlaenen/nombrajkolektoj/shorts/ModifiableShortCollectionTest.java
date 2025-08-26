@@ -27,13 +27,13 @@ public final class ModifiableShortCollectionTest extends ShortCollectionTestBase
 
     @Override
     protected ModifiableShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final Short... shorts) {
-        return ModifiableShortCollection.of(elementCardinality, shorts);
+            final Short... numbers) {
+        return ModifiableShortCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ModifiableShortCollection createShortCollection(final Short... integers) {
-        return ModifiableShortCollection.of(integers);
+    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
+        return ModifiableShortCollection.of(numbers);
     }
 
     /**

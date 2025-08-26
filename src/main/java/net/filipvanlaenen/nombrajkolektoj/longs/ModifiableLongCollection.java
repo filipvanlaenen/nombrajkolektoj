@@ -35,20 +35,20 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs            The longs of the collection.
+         * @param numbers            The longs of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
-            super(new ModifiableArrayCollection<Long>(elementCardinality, longs));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new ModifiableArrayCollection<Long>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param longs The longs of the collection.
+         * @param numbers The longs of the collection.
          */
-        public ArrayCollection(final Long... longs) {
-            super(new ModifiableArrayCollection<Long>(longs));
+        public ArrayCollection(final Long... numbers) {
+            super(new ModifiableArrayCollection<Long>(numbers));
         }
     }
 
@@ -70,20 +70,20 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs            The longs of the collection.
+         * @param numbers            The longs of the collection.
          */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... longs) {
-            super(new ModifiableLinkedListCollection<Long>(elementCardinality, longs));
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new ModifiableLinkedListCollection<Long>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param longs The longs of the collection.
+         * @param numbers The longs of the collection.
          */
-        public LinkedListCollection(final Long... longs) {
-            super(new ModifiableLinkedListCollection<Long>(longs));
+        public LinkedListCollection(final Long... numbers) {
+            super(new ModifiableLinkedListCollection<Long>(numbers));
         }
     }
 
@@ -95,10 +95,10 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     /**
      * Private constructor taking a collection with the longs as its parameter.
      *
-     * @param longs The collection holding the longs.
+     * @param numbers The collection holding the longs.
      */
-    private ModifiableLongCollection(final ModifiableCollection<Long> longs) {
-        this.collection = longs;
+    private ModifiableLongCollection(final ModifiableCollection<Long> numbers) {
+        this.collection = numbers;
     }
 
     @Override
@@ -153,22 +153,22 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     /**
      * Returns a new modifiable longs collection with the specified longs.
      *
-     * @param longs The longs for the new modifiable longs collection.
+     * @param numbers The longs for the new modifiable longs collection.
      * @return A new modifiable longs collection with the specified longs.
      */
-    static ModifiableLongCollection of(final Long... longs) {
-        return new ArrayCollection(longs);
+    static ModifiableLongCollection of(final Long... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new modifiable longs collection with the specified element cardinality and the longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs            The longs for the new modifiable longs collection.
+     * @param numbers            The longs for the new modifiable longs collection.
      * @return A new modifiable longs collection with the specified element cardinality and the longs.
      */
-    static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... longs) {
-        return new ArrayCollection(elementCardinality, longs);
+    static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override

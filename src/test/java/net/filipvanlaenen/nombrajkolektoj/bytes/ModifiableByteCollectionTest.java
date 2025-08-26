@@ -27,13 +27,13 @@ public final class ModifiableByteCollectionTest extends ByteCollectionTestBase<M
 
     @Override
     protected ModifiableByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final Byte... bytes) {
-        return ModifiableByteCollection.of(elementCardinality, bytes);
+            final Byte... numbers) {
+        return ModifiableByteCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ModifiableByteCollection createByteCollection(final Byte... integers) {
-        return ModifiableByteCollection.of(integers);
+    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableByteCollection.of(numbers);
     }
 
     /**

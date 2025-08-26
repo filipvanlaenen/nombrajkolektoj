@@ -35,20 +35,20 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * Constructs a collection with the given bytes and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bytes            The bytes of the collection.
+         * @param numbers            The bytes of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
-            super(new ModifiableArrayCollection<Byte>(elementCardinality, bytes));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new ModifiableArrayCollection<Byte>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given bytes. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bytes The bytes of the collection.
+         * @param numbers The bytes of the collection.
          */
-        public ArrayCollection(final Byte... bytes) {
-            super(new ModifiableArrayCollection<Byte>(bytes));
+        public ArrayCollection(final Byte... numbers) {
+            super(new ModifiableArrayCollection<Byte>(numbers));
         }
     }
 
@@ -70,20 +70,20 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * Constructs a collection with the given bytes and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bytes            The bytes of the collection.
+         * @param numbers            The bytes of the collection.
          */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
-            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, bytes));
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given bytes. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bytes The bytes of the collection.
+         * @param numbers The bytes of the collection.
          */
-        public LinkedListCollection(final Byte... bytes) {
-            super(new ModifiableLinkedListCollection<Byte>(bytes));
+        public LinkedListCollection(final Byte... numbers) {
+            super(new ModifiableLinkedListCollection<Byte>(numbers));
         }
     }
 
@@ -95,10 +95,10 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     /**
      * Private constructor taking a collection with the bytes as its parameter.
      *
-     * @param bytes The collection holding the bytes.
+     * @param numbers The collection holding the bytes.
      */
-    private ModifiableByteCollection(final ModifiableCollection<Byte> bytes) {
-        this.collection = bytes;
+    private ModifiableByteCollection(final ModifiableCollection<Byte> numbers) {
+        this.collection = numbers;
     }
 
     @Override
@@ -153,22 +153,22 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     /**
      * Returns a new modifiable bytes collection with the specified bytes.
      *
-     * @param bytes The bytes for the new modifiable bytes collection.
+     * @param numbers The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified bytes.
      */
-    static ModifiableByteCollection of(final Byte... bytes) {
-        return new ArrayCollection(bytes);
+    static ModifiableByteCollection of(final Byte... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new modifiable bytes collection with the specified element cardinality and the bytes.
      *
      * @param elementCardinality The element cardinality.
-     * @param bytes            The bytes for the new modifiable bytes collection.
+     * @param numbers            The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified element cardinality and the bytes.
      */
-    static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... bytes) {
-        return new ArrayCollection(elementCardinality, bytes);
+    static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override

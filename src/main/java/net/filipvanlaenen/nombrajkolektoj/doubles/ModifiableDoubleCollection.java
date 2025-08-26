@@ -35,20 +35,20 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * Constructs a collection with the given doubles and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param doubles            The doubles of the collection.
+         * @param numbers            The doubles of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Double... doubles) {
-            super(new ModifiableArrayCollection<Double>(elementCardinality, doubles));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new ModifiableArrayCollection<Double>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param doubles The doubles of the collection.
+         * @param numbers The doubles of the collection.
          */
-        public ArrayCollection(final Double... doubles) {
-            super(new ModifiableArrayCollection<Double>(doubles));
+        public ArrayCollection(final Double... numbers) {
+            super(new ModifiableArrayCollection<Double>(numbers));
         }
     }
 
@@ -70,20 +70,20 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * Constructs a collection with the given doubles and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param doubles            The doubles of the collection.
+         * @param numbers            The doubles of the collection.
          */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... doubles) {
-            super(new ModifiableLinkedListCollection<Double>(elementCardinality, doubles));
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new ModifiableLinkedListCollection<Double>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param doubles The doubles of the collection.
+         * @param numbers The doubles of the collection.
          */
-        public LinkedListCollection(final Double... doubles) {
-            super(new ModifiableLinkedListCollection<Double>(doubles));
+        public LinkedListCollection(final Double... numbers) {
+            super(new ModifiableLinkedListCollection<Double>(numbers));
         }
     }
 
@@ -95,10 +95,10 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     /**
      * Private constructor taking a collection with the doubles as its parameter.
      *
-     * @param doubles The collection holding the doubles.
+     * @param numbers The collection holding the doubles.
      */
-    private ModifiableDoubleCollection(final ModifiableCollection<Double> doubles) {
-        this.collection = doubles;
+    private ModifiableDoubleCollection(final ModifiableCollection<Double> numbers) {
+        this.collection = numbers;
     }
 
     @Override
@@ -153,22 +153,22 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     /**
      * Returns a new modifiable doubles collection with the specified doubles.
      *
-     * @param doubles The doubles for the new modifiable doubles collection.
+     * @param numbers The doubles for the new modifiable doubles collection.
      * @return A new modifiable doubles collection with the specified doubles.
      */
-    static ModifiableDoubleCollection of(final Double... doubles) {
-        return new ArrayCollection(doubles);
+    static ModifiableDoubleCollection of(final Double... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new modifiable doubles collection with the specified element cardinality and the doubles.
      *
      * @param elementCardinality The element cardinality.
-     * @param doubles            The doubles for the new modifiable doubles collection.
+     * @param numbers            The doubles for the new modifiable doubles collection.
      * @return A new modifiable doubles collection with the specified element cardinality and the doubles.
      */
-    static ModifiableDoubleCollection of(final ElementCardinality elementCardinality, final Double... doubles) {
-        return new ArrayCollection(elementCardinality, doubles);
+    static ModifiableDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override

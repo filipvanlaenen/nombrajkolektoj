@@ -27,13 +27,13 @@ public final class ModifiableFloatCollectionTest extends FloatCollectionTestBase
 
     @Override
     protected ModifiableFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... floats) {
-        return ModifiableFloatCollection.of(elementCardinality, floats);
+            final Float... numbers) {
+        return ModifiableFloatCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ModifiableFloatCollection createFloatCollection(final Float... integers) {
-        return ModifiableFloatCollection.of(integers);
+    protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
+        return ModifiableFloatCollection.of(numbers);
     }
 
     /**

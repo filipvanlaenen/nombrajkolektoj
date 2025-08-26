@@ -35,20 +35,20 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * Constructs a collection with the given shorts and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param shorts            The shorts of the collection.
+         * @param numbers            The shorts of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
-            super(new ModifiableArrayCollection<Short>(elementCardinality, shorts));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new ModifiableArrayCollection<Short>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param shorts The shorts of the collection.
+         * @param numbers The shorts of the collection.
          */
-        public ArrayCollection(final Short... shorts) {
-            super(new ModifiableArrayCollection<Short>(shorts));
+        public ArrayCollection(final Short... numbers) {
+            super(new ModifiableArrayCollection<Short>(numbers));
         }
     }
 
@@ -70,20 +70,20 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * Constructs a collection with the given shorts and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param shorts            The shorts of the collection.
+         * @param numbers            The shorts of the collection.
          */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... shorts) {
-            super(new ModifiableLinkedListCollection<Short>(elementCardinality, shorts));
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new ModifiableLinkedListCollection<Short>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param shorts The shorts of the collection.
+         * @param numbers The shorts of the collection.
          */
-        public LinkedListCollection(final Short... shorts) {
-            super(new ModifiableLinkedListCollection<Short>(shorts));
+        public LinkedListCollection(final Short... numbers) {
+            super(new ModifiableLinkedListCollection<Short>(numbers));
         }
     }
 
@@ -95,10 +95,10 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     /**
      * Private constructor taking a collection with the shorts as its parameter.
      *
-     * @param shorts The collection holding the shorts.
+     * @param numbers The collection holding the shorts.
      */
-    private ModifiableShortCollection(final ModifiableCollection<Short> shorts) {
-        this.collection = shorts;
+    private ModifiableShortCollection(final ModifiableCollection<Short> numbers) {
+        this.collection = numbers;
     }
 
     @Override
@@ -153,22 +153,22 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     /**
      * Returns a new modifiable shorts collection with the specified shorts.
      *
-     * @param shorts The shorts for the new modifiable shorts collection.
+     * @param numbers The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified shorts.
      */
-    static ModifiableShortCollection of(final Short... shorts) {
-        return new ArrayCollection(shorts);
+    static ModifiableShortCollection of(final Short... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new modifiable shorts collection with the specified element cardinality and the shorts.
      *
      * @param elementCardinality The element cardinality.
-     * @param shorts            The shorts for the new modifiable shorts collection.
+     * @param numbers            The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
      */
-    static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {
-        return new ArrayCollection(elementCardinality, shorts);
+    static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override

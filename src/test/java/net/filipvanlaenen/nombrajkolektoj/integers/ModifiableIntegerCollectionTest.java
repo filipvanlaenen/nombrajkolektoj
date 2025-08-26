@@ -27,13 +27,13 @@ public final class ModifiableIntegerCollectionTest extends IntegerCollectionTest
 
     @Override
     protected ModifiableIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final Integer... integers) {
-        return ModifiableIntegerCollection.of(elementCardinality, integers);
+            final Integer... numbers) {
+        return ModifiableIntegerCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ModifiableIntegerCollection createIntegerCollection(final Integer... integers) {
-        return ModifiableIntegerCollection.of(integers);
+    protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return ModifiableIntegerCollection.of(numbers);
     }
 
     /**

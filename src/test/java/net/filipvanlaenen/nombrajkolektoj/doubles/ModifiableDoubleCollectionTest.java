@@ -27,13 +27,13 @@ public final class ModifiableDoubleCollectionTest extends DoubleCollectionTestBa
 
     @Override
     protected ModifiableDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final Double... doubles) {
-        return ModifiableDoubleCollection.of(elementCardinality, doubles);
+            final Double... numbers) {
+        return ModifiableDoubleCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ModifiableDoubleCollection createDoubleCollection(final Double... integers) {
-        return ModifiableDoubleCollection.of(integers);
+    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableDoubleCollection.of(numbers);
     }
 
     /**

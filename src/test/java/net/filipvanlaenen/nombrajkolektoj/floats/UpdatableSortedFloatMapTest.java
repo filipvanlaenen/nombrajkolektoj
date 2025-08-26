@@ -68,4 +68,10 @@ public final class UpdatableSortedFloatMapTest extends UpdatableFloatMapTestBase
             final String... keys) {
         return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
+
+    @Override
+    protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue, final String... keys) {
+        return UpdatableSortedFloatMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

@@ -68,4 +68,10 @@ public final class UpdatableSortedIntegerMapTest extends UpdatableIntegerMapTest
             final String... keys) {
         return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
+
+    @Override
+    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue, final String... keys) {
+        return UpdatableSortedIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
+    }
 }

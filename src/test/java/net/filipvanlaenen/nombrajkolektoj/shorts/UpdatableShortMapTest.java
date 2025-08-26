@@ -62,4 +62,10 @@ public final class UpdatableShortMapTest extends UpdatableShortMapTestBase<Updat
     protected UpdatableShortMap<String> createUpdatableShortMap(final Short defaultValue, final String... keys) {
         return UpdatableShortMap.of(defaultValue, keys);
     }
+
+    @Override
+    protected UpdatableShortMap<String> createUpdatableShortMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Short defaultValue, final String... keys) {
+        return UpdatableShortMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
 }

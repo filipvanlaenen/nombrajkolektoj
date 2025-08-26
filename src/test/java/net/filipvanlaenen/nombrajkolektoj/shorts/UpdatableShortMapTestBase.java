@@ -1,10 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Map.Entry;
+import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -45,6 +47,18 @@ public abstract class UpdatableShortMapTestBase<T extends UpdatableNumericMap<St
     protected abstract T createUpdatableShortMap(Short defaultValue, String... keys);
 
     /**
+     * Creates a shorts map containing the provided keys and a default value with the provided key and value
+     * cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value.
+     * @param keys                   The keys.
+     * @return A shorts map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableShortMap(KeyAndValueCardinality keyAndValueCardinality, Short defaultValue,
+            String... keys);
+
+    /**
      * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
      */
     @Test
@@ -52,6 +66,18 @@ public abstract class UpdatableShortMapTestBase<T extends UpdatableNumericMap<St
         T map = createUpdatableShortMap((short) 0, "a", "b", "c");
         assertEquals((short) 0, map.get("a"));
         assertEquals(THREE, map.size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
+     * correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableShortMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, (short) 0, "a", "b", "c");
+        assertEquals((short) 0, map.get("a"));
+        assertEquals(THREE, map.size());
+        assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());
     }
 
     /**

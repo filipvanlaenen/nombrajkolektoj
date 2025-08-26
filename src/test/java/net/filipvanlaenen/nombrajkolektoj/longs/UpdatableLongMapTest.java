@@ -62,4 +62,10 @@ public final class UpdatableLongMapTest extends UpdatableLongMapTestBase<Updatab
     protected UpdatableLongMap<String> createUpdatableLongMap(final Long defaultValue, final String... keys) {
         return UpdatableLongMap.of(defaultValue, keys);
     }
+
+    @Override
+    protected UpdatableLongMap<String> createUpdatableLongMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final String... keys) {
+        return UpdatableLongMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
 }

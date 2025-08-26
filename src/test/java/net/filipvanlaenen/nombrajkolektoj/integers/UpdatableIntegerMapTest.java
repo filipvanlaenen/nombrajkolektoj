@@ -62,4 +62,10 @@ public final class UpdatableIntegerMapTest extends UpdatableIntegerMapTestBase<U
     protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue, final String... keys) {
         return UpdatableIntegerMap.of(defaultValue, keys);
     }
+
+    @Override
+    protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final String... keys) {
+        return UpdatableIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
 }

@@ -35,12 +35,12 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param longs            The longs of the sorted collection.
+         * @param numbers            The longs of the sorted collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
-                final Long... longs) {
+                final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Long>(elementCardinality, comparator,
-                    longs));
+                    numbers));
         }
 
         /**
@@ -48,10 +48,10 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param longs    The longs of the sorted collection.
+         * @param numbers    The longs of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Long> comparator, final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Long>(comparator, longs));
+        public ArrayCollection(final Comparator<Long> comparator, final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Long>(comparator, numbers));
         }
     }
 
@@ -75,12 +75,12 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param longs            The longs of the sorted collection.
+         * @param numbers            The longs of the sorted collection.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
-                final Long... longs) {
+                final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(elementCardinality,
-                    comparator, longs));
+                    comparator, numbers));
         }
 
         /**
@@ -88,35 +88,35 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param longs    The longs of the sorted collection.
+         * @param numbers    The longs of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Long> comparator, final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(comparator, longs));
+        public SortedTreeCollection(final Comparator<Long> comparator, final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(comparator, numbers));
         }
     }
 
     /**
      * The sorted collection holding the longs.
      */
-    private final SortedCollection<Long> longs;
+    private final SortedCollection<Long> collection;
 
     /**
      * Private constructor taking a sorted collection with the longs as its parameter.
      *
-     * @param longs The sorted collection holding the longs.
+     * @param collection The sorted collection holding the longs.
      */
-    private SortedLongCollection(final SortedCollection<Long> longs) {
-        this.longs = longs;
+    private SortedLongCollection(final SortedCollection<Long> collection) {
+        this.collection = collection;
     }
 
     @Override
     public boolean contains(final Long element) {
-        return longs.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return longs.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -131,38 +131,38 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
 
     @Override
     public Long get() throws IndexOutOfBoundsException {
-        return longs.get();
+        return collection.get();
     }
 
     @Override
     public Long getAt(final int index) throws IndexOutOfBoundsException {
-        return longs.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public Comparator<? super Long> getComparator() {
-        return longs.getComparator();
+        return collection.getComparator();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return longs.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Long> iterator() {
-        return longs.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new sorted longs collection with the specified longs.
      *
-     * @param longs    The longs for the new sorted longs collection.
+     * @param numbers    The longs for the new sorted longs collection.
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted longs collection with the specified longs.
      */
-    static SortedLongCollection of(final Comparator<Long> comparator, final Long... longs) {
-        return new ArrayCollection(comparator, longs);
+    static SortedLongCollection of(final Comparator<Long> comparator, final Long... numbers) {
+        return new ArrayCollection(comparator, numbers);
     }
 
     /**
@@ -170,26 +170,26 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
      *
      * @param elementCardinality The element cardinality.
      * @param comparator         The comparator by which to sort the elements.
-     * @param longs            The longs for the new sorted longs collection.
+     * @param numbers            The longs for the new sorted longs collection.
      * @return A new sorted longs collection with the specified element cardinality and the longs.
      */
     static SortedLongCollection of(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
-            final Long... longs) {
-        return new ArrayCollection(elementCardinality, comparator, longs);
+            final Long... numbers) {
+        return new ArrayCollection(elementCardinality, comparator, numbers);
     }
 
     @Override
     public int size() {
-        return longs.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Long> spliterator() {
-        return longs.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Long[] toArray() {
-        return longs.toArray(EmptyArrays.LONGS);
+        return collection.toArray(EmptyArrays.LONGS);
     }
 }

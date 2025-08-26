@@ -19,11 +19,11 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedNumericCol
     /**
      * Creates a sorted integers collection containing the provided integers.
      *
-     * @param integers    The integers to be included in the sorted integers collection.
+     * @param numbers    The integers to be included in the sorted integers collection.
      * @param comparator The comparator for the integers.
      * @return An sorted integers collection containing the provided integers.
      */
-    protected abstract T createSortedIntegerCollection(Comparator<Integer> comparator, Integer... integers);
+    protected abstract T createSortedIntegerCollection(Comparator<Integer> comparator, Integer... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

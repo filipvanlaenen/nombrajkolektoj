@@ -19,11 +19,11 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedNumericColle
     /**
      * Creates a sorted floats collection containing the provided floats.
      *
-     * @param floats    The floats to be included in the sorted floats collection.
+     * @param numbers    The floats to be included in the sorted floats collection.
      * @param comparator The comparator for the floats.
      * @return An sorted floats collection containing the provided floats.
      */
-    protected abstract T createSortedFloatCollection(Comparator<Float> comparator, Float... floats);
+    protected abstract T createSortedFloatCollection(Comparator<Float> comparator, Float... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

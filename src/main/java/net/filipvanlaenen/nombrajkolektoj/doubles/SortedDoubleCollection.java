@@ -35,12 +35,12 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param doubles            The doubles of the sorted collection.
+         * @param numbers            The doubles of the sorted collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-                final Double... doubles) {
+                final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(elementCardinality, comparator,
-                    doubles));
+                    numbers));
         }
 
         /**
@@ -48,10 +48,10 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param doubles    The doubles of the sorted collection.
+         * @param numbers    The doubles of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Double> comparator, final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(comparator, doubles));
+        public ArrayCollection(final Comparator<Double> comparator, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(comparator, numbers));
         }
     }
 
@@ -75,12 +75,12 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param doubles            The doubles of the sorted collection.
+         * @param numbers            The doubles of the sorted collection.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-                final Double... doubles) {
+                final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(elementCardinality,
-                    comparator, doubles));
+                    comparator, numbers));
         }
 
         /**
@@ -88,35 +88,35 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param doubles    The doubles of the sorted collection.
+         * @param numbers    The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Double> comparator, final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, doubles));
+        public SortedTreeCollection(final Comparator<Double> comparator, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers));
         }
     }
 
     /**
      * The sorted collection holding the doubles.
      */
-    private final SortedCollection<Double> doubles;
+    private final SortedCollection<Double> collection;
 
     /**
      * Private constructor taking a sorted collection with the doubles as its parameter.
      *
-     * @param doubles The sorted collection holding the doubles.
+     * @param collection The sorted collection holding the doubles.
      */
-    private SortedDoubleCollection(final SortedCollection<Double> doubles) {
-        this.doubles = doubles;
+    private SortedDoubleCollection(final SortedCollection<Double> collection) {
+        this.collection = collection;
     }
 
     @Override
     public boolean contains(final Double element) {
-        return doubles.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return doubles.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -131,38 +131,38 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
 
     @Override
     public Double get() throws IndexOutOfBoundsException {
-        return doubles.get();
+        return collection.get();
     }
 
     @Override
     public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return doubles.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public Comparator<? super Double> getComparator() {
-        return doubles.getComparator();
+        return collection.getComparator();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return doubles.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Double> iterator() {
-        return doubles.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new sorted doubles collection with the specified doubles.
      *
-     * @param doubles    The doubles for the new sorted doubles collection.
+     * @param numbers    The doubles for the new sorted doubles collection.
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted doubles collection with the specified doubles.
      */
-    static SortedDoubleCollection of(final Comparator<Double> comparator, final Double... doubles) {
-        return new ArrayCollection(comparator, doubles);
+    static SortedDoubleCollection of(final Comparator<Double> comparator, final Double... numbers) {
+        return new ArrayCollection(comparator, numbers);
     }
 
     /**
@@ -170,26 +170,26 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      *
      * @param elementCardinality The element cardinality.
      * @param comparator         The comparator by which to sort the elements.
-     * @param doubles            The doubles for the new sorted doubles collection.
+     * @param numbers            The doubles for the new sorted doubles collection.
      * @return A new sorted doubles collection with the specified element cardinality and the doubles.
      */
     static SortedDoubleCollection of(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-            final Double... doubles) {
-        return new ArrayCollection(elementCardinality, comparator, doubles);
+            final Double... numbers) {
+        return new ArrayCollection(elementCardinality, comparator, numbers);
     }
 
     @Override
     public int size() {
-        return doubles.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Double> spliterator() {
-        return doubles.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Double[] toArray() {
-        return doubles.toArray(EmptyArrays.DOUBLES);
+        return collection.toArray(EmptyArrays.DOUBLES);
     }
 }

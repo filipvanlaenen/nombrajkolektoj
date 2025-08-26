@@ -19,11 +19,11 @@ public abstract class SortedShortCollectionTestBase<T extends SortedNumericColle
     /**
      * Creates a sorted shorts collection containing the provided shorts.
      *
-     * @param shorts    The shorts to be included in the sorted shorts collection.
+     * @param numbers    The shorts to be included in the sorted shorts collection.
      * @param comparator The comparator for the shorts.
      * @return An sorted shorts collection containing the provided shorts.
      */
-    protected abstract T createSortedShortCollection(Comparator<Short> comparator, Short... shorts);
+    protected abstract T createSortedShortCollection(Comparator<Short> comparator, Short... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

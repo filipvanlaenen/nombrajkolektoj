@@ -23,23 +23,23 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
 
     @Override
     protected SortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... floats) {
-        return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), floats);
+            final Float... numbers) {
+        return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedFloatCollection createFloatCollection(final Float... floats) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), floats);
+    protected SortedFloatCollection createFloatCollection(final Float... numbers) {
+        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedFloatCollection createOrderedFloatCollection(final Float... floats) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), floats);
+    protected SortedFloatCollection createOrderedFloatCollection(final Float... numbers) {
+        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
     protected SortedFloatCollection createSortedFloatCollection(final Comparator<Float> comparator,
-            final Float... floats) {
-        return SortedFloatCollection.of(comparator, floats);
+            final Float... numbers) {
+        return SortedFloatCollection.of(comparator, numbers);
     }
 }

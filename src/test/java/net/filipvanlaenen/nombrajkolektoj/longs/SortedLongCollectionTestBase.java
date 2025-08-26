@@ -19,11 +19,11 @@ public abstract class SortedLongCollectionTestBase<T extends SortedNumericCollec
     /**
      * Creates a sorted longs collection containing the provided longs.
      *
-     * @param longs    The longs to be included in the sorted longs collection.
+     * @param numbers    The longs to be included in the sorted longs collection.
      * @param comparator The comparator for the longs.
      * @return An sorted longs collection containing the provided longs.
      */
-    protected abstract T createSortedLongCollection(Comparator<Long> comparator, Long... longs);
+    protected abstract T createSortedLongCollection(Comparator<Long> comparator, Long... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

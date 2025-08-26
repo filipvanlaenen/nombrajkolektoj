@@ -19,11 +19,11 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedNumericColl
     /**
      * Creates a sorted doubles collection containing the provided doubles.
      *
-     * @param doubles    The doubles to be included in the sorted doubles collection.
+     * @param numbers    The doubles to be included in the sorted doubles collection.
      * @param comparator The comparator for the doubles.
      * @return An sorted doubles collection containing the provided doubles.
      */
-    protected abstract T createSortedDoubleCollection(Comparator<Double> comparator, Double... doubles);
+    protected abstract T createSortedDoubleCollection(Comparator<Double> comparator, Double... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

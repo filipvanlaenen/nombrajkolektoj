@@ -35,12 +35,12 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param bytes            The bytes of the sorted collection.
+         * @param numbers            The bytes of the sorted collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-                final Byte... bytes) {
+                final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Byte>(elementCardinality, comparator,
-                    bytes));
+                    numbers));
         }
 
         /**
@@ -48,10 +48,10 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param bytes    The bytes of the sorted collection.
+         * @param numbers    The bytes of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Byte> comparator, final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Byte>(comparator, bytes));
+        public ArrayCollection(final Comparator<Byte> comparator, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Byte>(comparator, numbers));
         }
     }
 
@@ -75,12 +75,12 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param bytes            The bytes of the sorted collection.
+         * @param numbers            The bytes of the sorted collection.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-                final Byte... bytes) {
+                final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(elementCardinality,
-                    comparator, bytes));
+                    comparator, numbers));
         }
 
         /**
@@ -88,35 +88,35 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param bytes    The bytes of the sorted collection.
+         * @param numbers    The bytes of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Byte> comparator, final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(comparator, bytes));
+        public SortedTreeCollection(final Comparator<Byte> comparator, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(comparator, numbers));
         }
     }
 
     /**
      * The sorted collection holding the bytes.
      */
-    private final SortedCollection<Byte> bytes;
+    private final SortedCollection<Byte> collection;
 
     /**
      * Private constructor taking a sorted collection with the bytes as its parameter.
      *
-     * @param bytes The sorted collection holding the bytes.
+     * @param collection The sorted collection holding the bytes.
      */
-    private SortedByteCollection(final SortedCollection<Byte> bytes) {
-        this.bytes = bytes;
+    private SortedByteCollection(final SortedCollection<Byte> collection) {
+        this.collection = collection;
     }
 
     @Override
     public boolean contains(final Byte element) {
-        return bytes.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return bytes.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -131,38 +131,38 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
 
     @Override
     public Byte get() throws IndexOutOfBoundsException {
-        return bytes.get();
+        return collection.get();
     }
 
     @Override
     public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return bytes.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public Comparator<? super Byte> getComparator() {
-        return bytes.getComparator();
+        return collection.getComparator();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return bytes.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Byte> iterator() {
-        return bytes.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new sorted bytes collection with the specified bytes.
      *
-     * @param bytes    The bytes for the new sorted bytes collection.
+     * @param numbers    The bytes for the new sorted bytes collection.
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted bytes collection with the specified bytes.
      */
-    static SortedByteCollection of(final Comparator<Byte> comparator, final Byte... bytes) {
-        return new ArrayCollection(comparator, bytes);
+    static SortedByteCollection of(final Comparator<Byte> comparator, final Byte... numbers) {
+        return new ArrayCollection(comparator, numbers);
     }
 
     /**
@@ -170,26 +170,26 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      *
      * @param elementCardinality The element cardinality.
      * @param comparator         The comparator by which to sort the elements.
-     * @param bytes            The bytes for the new sorted bytes collection.
+     * @param numbers            The bytes for the new sorted bytes collection.
      * @return A new sorted bytes collection with the specified element cardinality and the bytes.
      */
     static SortedByteCollection of(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-            final Byte... bytes) {
-        return new ArrayCollection(elementCardinality, comparator, bytes);
+            final Byte... numbers) {
+        return new ArrayCollection(elementCardinality, comparator, numbers);
     }
 
     @Override
     public int size() {
-        return bytes.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Byte> spliterator() {
-        return bytes.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Byte[] toArray() {
-        return bytes.toArray(EmptyArrays.BYTES);
+        return collection.toArray(EmptyArrays.BYTES);
     }
 }

@@ -23,23 +23,23 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
 
     @Override
     protected SortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final Long... longs) {
-        return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), longs);
+            final Long... numbers) {
+        return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedLongCollection createLongCollection(final Long... longs) {
-        return SortedLongCollection.of(Comparator.naturalOrder(), longs);
+    protected SortedLongCollection createLongCollection(final Long... numbers) {
+        return SortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedLongCollection createOrderedLongCollection(final Long... longs) {
-        return SortedLongCollection.of(Comparator.naturalOrder(), longs);
+    protected SortedLongCollection createOrderedLongCollection(final Long... numbers) {
+        return SortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
     protected SortedLongCollection createSortedLongCollection(final Comparator<Long> comparator,
-            final Long... longs) {
-        return SortedLongCollection.of(comparator, longs);
+            final Long... numbers) {
+        return SortedLongCollection.of(comparator, numbers);
     }
 }

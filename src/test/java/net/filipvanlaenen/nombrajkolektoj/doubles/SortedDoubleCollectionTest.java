@@ -23,23 +23,23 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
 
     @Override
     protected SortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final Double... doubles) {
-        return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), doubles);
+            final Double... numbers) {
+        return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedDoubleCollection createDoubleCollection(final Double... doubles) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), doubles);
+    protected SortedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedDoubleCollection createOrderedDoubleCollection(final Double... doubles) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), doubles);
+    protected SortedDoubleCollection createOrderedDoubleCollection(final Double... numbers) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
     protected SortedDoubleCollection createSortedDoubleCollection(final Comparator<Double> comparator,
-            final Double... doubles) {
-        return SortedDoubleCollection.of(comparator, doubles);
+            final Double... numbers) {
+        return SortedDoubleCollection.of(comparator, numbers);
     }
 }

@@ -19,11 +19,11 @@ public abstract class SortedByteCollectionTestBase<T extends SortedNumericCollec
     /**
      * Creates a sorted bytes collection containing the provided bytes.
      *
-     * @param bytes    The bytes to be included in the sorted bytes collection.
+     * @param numbers    The bytes to be included in the sorted bytes collection.
      * @param comparator The comparator for the bytes.
      * @return An sorted bytes collection containing the provided bytes.
      */
-    protected abstract T createSortedByteCollection(Comparator<Byte> comparator, Byte... bytes);
+    protected abstract T createSortedByteCollection(Comparator<Byte> comparator, Byte... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.

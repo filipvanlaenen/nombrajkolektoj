@@ -23,23 +23,23 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
 
     @Override
     protected SortedShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final Short... shorts) {
-        return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), shorts);
+            final Short... numbers) {
+        return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedShortCollection createShortCollection(final Short... shorts) {
-        return SortedShortCollection.of(Comparator.naturalOrder(), shorts);
+    protected SortedShortCollection createShortCollection(final Short... numbers) {
+        return SortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedShortCollection createOrderedShortCollection(final Short... shorts) {
-        return SortedShortCollection.of(Comparator.naturalOrder(), shorts);
+    protected SortedShortCollection createOrderedShortCollection(final Short... numbers) {
+        return SortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
     protected SortedShortCollection createSortedShortCollection(final Comparator<Short> comparator,
-            final Short... shorts) {
-        return SortedShortCollection.of(comparator, shorts);
+            final Short... numbers) {
+        return SortedShortCollection.of(comparator, numbers);
     }
 }

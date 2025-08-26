@@ -35,12 +35,12 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param floats            The floats of the sorted collection.
+         * @param numbers            The floats of the sorted collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Float> comparator,
-                final Float... floats) {
+                final Float... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Float>(elementCardinality, comparator,
-                    floats));
+                    numbers));
         }
 
         /**
@@ -48,10 +48,10 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param floats    The floats of the sorted collection.
+         * @param numbers    The floats of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Float> comparator, final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Float>(comparator, floats));
+        public ArrayCollection(final Comparator<Float> comparator, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Float>(comparator, numbers));
         }
     }
 
@@ -75,12 +75,12 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param floats            The floats of the sorted collection.
+         * @param numbers            The floats of the sorted collection.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Float> comparator,
-                final Float... floats) {
+                final Float... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(elementCardinality,
-                    comparator, floats));
+                    comparator, numbers));
         }
 
         /**
@@ -88,35 +88,35 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          * <code>DUPLICATE_ELEMENTS</code>.
          *
          * @param comparator The comparator by which to sort the elements.
-         * @param floats    The floats of the sorted collection.
+         * @param numbers    The floats of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Float> comparator, final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(comparator, floats));
+        public SortedTreeCollection(final Comparator<Float> comparator, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(comparator, numbers));
         }
     }
 
     /**
      * The sorted collection holding the floats.
      */
-    private final SortedCollection<Float> floats;
+    private final SortedCollection<Float> collection;
 
     /**
      * Private constructor taking a sorted collection with the floats as its parameter.
      *
-     * @param floats The sorted collection holding the floats.
+     * @param collection The sorted collection holding the floats.
      */
-    private SortedFloatCollection(final SortedCollection<Float> floats) {
-        this.floats = floats;
+    private SortedFloatCollection(final SortedCollection<Float> collection) {
+        this.collection = collection;
     }
 
     @Override
     public boolean contains(final Float element) {
-        return floats.contains(element);
+        return collection.contains(element);
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return floats.containsAll(collection);
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -131,38 +131,38 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
 
     @Override
     public Float get() throws IndexOutOfBoundsException {
-        return floats.get();
+        return collection.get();
     }
 
     @Override
     public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return floats.getAt(index);
+        return collection.getAt(index);
     }
 
     @Override
     public Comparator<? super Float> getComparator() {
-        return floats.getComparator();
+        return collection.getComparator();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return floats.getElementCardinality();
+        return collection.getElementCardinality();
     }
 
     @Override
     public Iterator<Float> iterator() {
-        return floats.iterator();
+        return collection.iterator();
     }
 
     /**
      * Returns a new sorted floats collection with the specified floats.
      *
-     * @param floats    The floats for the new sorted floats collection.
+     * @param numbers    The floats for the new sorted floats collection.
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted floats collection with the specified floats.
      */
-    static SortedFloatCollection of(final Comparator<Float> comparator, final Float... floats) {
-        return new ArrayCollection(comparator, floats);
+    static SortedFloatCollection of(final Comparator<Float> comparator, final Float... numbers) {
+        return new ArrayCollection(comparator, numbers);
     }
 
     /**
@@ -170,26 +170,26 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      *
      * @param elementCardinality The element cardinality.
      * @param comparator         The comparator by which to sort the elements.
-     * @param floats            The floats for the new sorted floats collection.
+     * @param numbers            The floats for the new sorted floats collection.
      * @return A new sorted floats collection with the specified element cardinality and the floats.
      */
     static SortedFloatCollection of(final ElementCardinality elementCardinality, final Comparator<Float> comparator,
-            final Float... floats) {
-        return new ArrayCollection(elementCardinality, comparator, floats);
+            final Float... numbers) {
+        return new ArrayCollection(elementCardinality, comparator, numbers);
     }
 
     @Override
     public int size() {
-        return floats.size();
+        return collection.size();
     }
 
     @Override
     public Spliterator<Float> spliterator() {
-        return floats.spliterator();
+        return collection.spliterator();
     }
 
     @Override
     public Float[] toArray() {
-        return floats.toArray(EmptyArrays.FLOATS);
+        return collection.toArray(EmptyArrays.FLOATS);
     }
 }

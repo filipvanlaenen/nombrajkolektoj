@@ -23,23 +23,23 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
 
     @Override
     protected SortedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final Integer... integers) {
-        return SortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), integers);
+            final Integer... numbers) {
+        return SortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedIntegerCollection createIntegerCollection(final Integer... integers) {
-        return SortedIntegerCollection.of(Comparator.naturalOrder(), integers);
+    protected SortedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return SortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
-    protected SortedIntegerCollection createOrderedIntegerCollection(final Integer... integers) {
-        return SortedIntegerCollection.of(Comparator.naturalOrder(), integers);
+    protected SortedIntegerCollection createOrderedIntegerCollection(final Integer... numbers) {
+        return SortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
     protected SortedIntegerCollection createSortedIntegerCollection(final Comparator<Integer> comparator,
-            final Integer... integers) {
-        return SortedIntegerCollection.of(comparator, integers);
+            final Integer... numbers) {
+        return SortedIntegerCollection.of(comparator, numbers);
     }
 }

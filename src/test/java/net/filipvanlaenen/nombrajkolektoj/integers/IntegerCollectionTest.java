@@ -19,12 +19,12 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
 
     @Override
     protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final Integer... integers) {
-        return IntegerCollection.of(elementCardinality, integers);
+            final Integer... numbers) {
+        return IntegerCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(final Integer... integers) {
-        return IntegerCollection.of(integers);
+    protected IntegerCollection createIntegerCollection(final Integer... numbers) {
+        return IntegerCollection.of(numbers);
     }
 }

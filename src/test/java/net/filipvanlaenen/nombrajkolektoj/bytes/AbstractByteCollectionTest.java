@@ -34,11 +34,11 @@ public class AbstractByteCollectionTest {
     /**
      * Collection with the bytes 1, 2, 3 and 4.
      */
-    private static final ByteCollection COLLECTION1234 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+    private static final ByteCollection COLLECTION1234 = ByteCollection.of((byte) 1, (byte) 2, THREE, FOUR);
     /**
      * Collection with the bytes 1, 2 and 3 and <code>null</code>.
      */
-    private static final ByteCollection COLLECTION123NULL = ByteCollection.of((byte) 1, (byte) 2, (byte) 3, null);
+    private static final ByteCollection COLLECTION123NULL = ByteCollection.of((byte) 1, (byte) 2, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

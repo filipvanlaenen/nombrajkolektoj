@@ -19,12 +19,12 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
 
     @Override
     protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final Double... doubles) {
-        return DoubleCollection.of(elementCardinality, doubles);
+            final Double... numbers) {
+        return DoubleCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected DoubleCollection createDoubleCollection(final Double... doubles) {
-        return DoubleCollection.of(doubles);
+    protected DoubleCollection createDoubleCollection(final Double... numbers) {
+        return DoubleCollection.of(numbers);
     }
 }

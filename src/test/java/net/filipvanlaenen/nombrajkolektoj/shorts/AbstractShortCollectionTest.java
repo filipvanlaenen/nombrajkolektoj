@@ -34,11 +34,11 @@ public class AbstractShortCollectionTest {
     /**
      * Collection with the shorts 1, 2, 3 and 4.
      */
-    private static final ShortCollection COLLECTION1234 = ShortCollection.of((short) 1, (short) 2, (short) 3, (short) 4);
+    private static final ShortCollection COLLECTION1234 = ShortCollection.of((short) 1, (short) 2, THREE, FOUR);
     /**
      * Collection with the shorts 1, 2 and 3 and <code>null</code>.
      */
-    private static final ShortCollection COLLECTION123NULL = ShortCollection.of((short) 1, (short) 2, (short) 3, null);
+    private static final ShortCollection COLLECTION123NULL = ShortCollection.of((short) 1, (short) 2, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

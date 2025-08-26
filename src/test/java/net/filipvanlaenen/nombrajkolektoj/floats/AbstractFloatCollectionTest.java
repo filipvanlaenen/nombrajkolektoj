@@ -34,11 +34,11 @@ public class AbstractFloatCollectionTest {
     /**
      * Collection with the floats 1, 2, 3 and 4.
      */
-    private static final FloatCollection COLLECTION1234 = FloatCollection.of(1F, 2F, 3F, 4F);
+    private static final FloatCollection COLLECTION1234 = FloatCollection.of(1F, 2F, THREE, FOUR);
     /**
      * Collection with the floats 1, 2 and 3 and <code>null</code>.
      */
-    private static final FloatCollection COLLECTION123NULL = FloatCollection.of(1F, 2F, 3F, null);
+    private static final FloatCollection COLLECTION123NULL = FloatCollection.of(1F, 2F, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

@@ -19,12 +19,12 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
 
     @Override
     protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final Byte... bytes) {
-        return ByteCollection.of(elementCardinality, bytes);
+            final Byte... numbers) {
+        return ByteCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ByteCollection createByteCollection(final Byte... bytes) {
-        return ByteCollection.of(bytes);
+    protected ByteCollection createByteCollection(final Byte... numbers) {
+        return ByteCollection.of(numbers);
     }
 }

@@ -19,12 +19,12 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
 
     @Override
     protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final Short... shorts) {
-        return ShortCollection.of(elementCardinality, shorts);
+            final Short... numbers) {
+        return ShortCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected ShortCollection createShortCollection(final Short... shorts) {
-        return ShortCollection.of(shorts);
+    protected ShortCollection createShortCollection(final Short... numbers) {
+        return ShortCollection.of(numbers);
     }
 }

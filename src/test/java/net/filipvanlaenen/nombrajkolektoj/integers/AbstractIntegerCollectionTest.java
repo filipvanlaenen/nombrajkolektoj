@@ -34,11 +34,11 @@ public class AbstractIntegerCollectionTest {
     /**
      * Collection with the integers 1, 2, 3 and 4.
      */
-    private static final IntegerCollection COLLECTION1234 = IntegerCollection.of(1, 2, 3, 4);
+    private static final IntegerCollection COLLECTION1234 = IntegerCollection.of(1, 2, THREE, FOUR);
     /**
      * Collection with the integers 1, 2 and 3 and <code>null</code>.
      */
-    private static final IntegerCollection COLLECTION123NULL = IntegerCollection.of(1, 2, 3, null);
+    private static final IntegerCollection COLLECTION123NULL = IntegerCollection.of(1, 2, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

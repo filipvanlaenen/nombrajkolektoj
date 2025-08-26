@@ -34,11 +34,11 @@ public class AbstractDoubleCollectionTest {
     /**
      * Collection with the doubles 1, 2, 3 and 4.
      */
-    private static final DoubleCollection COLLECTION1234 = DoubleCollection.of(1D, 2D, 3D, 4D);
+    private static final DoubleCollection COLLECTION1234 = DoubleCollection.of(1D, 2D, THREE, FOUR);
     /**
      * Collection with the doubles 1, 2 and 3 and <code>null</code>.
      */
-    private static final DoubleCollection COLLECTION123NULL = DoubleCollection.of(1D, 2D, 3D, null);
+    private static final DoubleCollection COLLECTION123NULL = DoubleCollection.of(1D, 2D, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

@@ -34,11 +34,11 @@ public class AbstractLongCollectionTest {
     /**
      * Collection with the longs 1, 2, 3 and 4.
      */
-    private static final LongCollection COLLECTION1234 = LongCollection.of(1L, 2L, 3L, 4L);
+    private static final LongCollection COLLECTION1234 = LongCollection.of(1L, 2L, THREE, FOUR);
     /**
      * Collection with the longs 1, 2 and 3 and <code>null</code>.
      */
-    private static final LongCollection COLLECTION123NULL = LongCollection.of(1L, 2L, 3L, null);
+    private static final LongCollection COLLECTION123NULL = LongCollection.of(1L, 2L, THREE, null);
     /**
      * Collection with <code>null</code>.
      */

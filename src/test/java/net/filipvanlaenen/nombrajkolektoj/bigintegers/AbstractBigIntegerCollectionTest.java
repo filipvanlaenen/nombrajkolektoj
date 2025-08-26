@@ -1,23 +1,18 @@
 package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
+import java.math.BigInteger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.math.BigInteger;
-
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.AbstractBigIntegerCollection} class.
- * The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.BigIntegerCollection}
- * implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.AbstractBigIntegerCollection} class. The
+ * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} implementation.
  */
 public class AbstractBigIntegerCollectionTest {
-    /**
-     * The magic number two.
-     */
-    private static final BigInteger TWO = BigInteger.valueOf(2L);
     /**
      * The magic number three.
      */
@@ -33,7 +28,7 @@ public class AbstractBigIntegerCollectionTest {
     /**
      * The magic number ten.
      */
-    private static final BigInteger TEN = BigInteger.valueOf(10L);
+    private static final BigInteger TEN = BigInteger.TEN;
     /**
      * The magic number twenty-four.
      */
@@ -41,13 +36,11 @@ public class AbstractBigIntegerCollectionTest {
     /**
      * Collection with the BigIntegers 1, 2, 3 and 4.
      */
-    private static final BigIntegerCollection COLLECTION1234 =
-            BigIntegerCollection.of(BigInteger.ONE, TWO, THREE, FOUR);
+    private static final BigIntegerCollection COLLECTION1234 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, THREE, FOUR);
     /**
      * Collection with the BigIntegers 1, 2 and 3 and <code>null</code>.
      */
-    private static final BigIntegerCollection COLLECTION123NULL =
-            BigIntegerCollection.of(BigInteger.ONE, TWO, THREE, null);
+    private static final BigIntegerCollection COLLECTION123NULL = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, THREE, null);
     /**
      * Collection with <code>null</code>.
      */
@@ -86,8 +79,8 @@ public class AbstractBigIntegerCollectionTest {
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest BigInteger in the collection even when there are
-     * <code>null</code> elements in the collection.
+     * Verifies that <code>max</code> returns the largest BigInteger in the collection even when there are <code>null</code>
+     * elements in the collection.
      */
     @Test
     public void maxShouldIgnoreNullAndReturnTheLargestBigInteger() {

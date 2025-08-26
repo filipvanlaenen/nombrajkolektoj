@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.BigIntegerMap} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerMap} class.
  */
 public final class BigIntegerMapTest extends BigIntegerMapTestBase<BigIntegerMap<String>> {
     @Override
@@ -44,15 +44,14 @@ public final class BigIntegerMapTest extends BigIntegerMapTestBase<BigIntegerMap
 
     @Override
     protected BigIntegerMap<String> createBigIntegerMap(final String key1, final BigInteger value1, final String key2,
-            final BigInteger value2, final String key3, final BigInteger value3, final String key4,
-            final BigInteger value4) {
+            final BigInteger value2, final String key3, final BigInteger value3, final String key4, final BigInteger value4) {
         return BigIntegerMap.of(key1, value1, key2, value2, key3, value3, key4, value4);
     }
 
     @Override
     protected BigIntegerMap<String> createBigIntegerMap(final String key1, final BigInteger value1, final String key2,
-            final BigInteger value2, final String key3, final BigInteger value3, final String key4,
-            final BigInteger value4, final String key5, final BigInteger value5) {
+            final BigInteger value2, final String key3, final BigInteger value3, final String key4, final BigInteger value4,
+            final String key5, final BigInteger value5) {
         return BigIntegerMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 }

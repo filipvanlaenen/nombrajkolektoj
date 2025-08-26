@@ -1,10 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
+import java.math.BigInteger;
+
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DISTINCT_KEYS;
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,15 +14,11 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bigintegers.BigIntegerMap} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerMap} class.
  *
  * @param <T> The subclass type to be tested.
  */
 public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInteger>> {
-    /**
-     * The BigInteger two.
-     */
-    private static final BigInteger BIG_INTEGER_TWO = BigInteger.valueOf(2L);
     /**
      * The BigInteger three.
      */
@@ -58,57 +54,56 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     /**
      * Map with the BigIntegers 1, 2 and 3.
      */
-    private final NumericMap<String, BigInteger> map123 =
-            createBigIntegerMap(ENTRY1, new Entry<String, BigInteger>("two", BIG_INTEGER_TWO),
-                    new Entry<String, BigInteger>("three", BIG_INTEGER_THREE));
+    private final NumericMap<String, BigInteger> map123 = createBigIntegerMap(ENTRY1, new Entry<String, BigInteger>("two", BigInteger.TWO),
+            new Entry<String, BigInteger>("three", BIG_INTEGER_THREE));
 
     /**
-     * Creates an empty BigInteger map.
+     * Creates an empty BigIntegers map.
      *
-     * @return An empty BigInteger map.
+     * @return An empty BigIntegers map.
      */
     protected abstract T createEmptyBigIntegerMap();
 
     /**
-     * Creates a BigInteger map containing the provided entries.
+     * Creates a BigIntegers map containing the provided entries.
      *
-     * @param entries The entries to be included in the BigInteger map.
-     * @return A BigInteger map containing the provided entries.
+     * @param entries The entries to be included in the BigIntegers map.
+     * @return A BigIntegers map containing the provided entries.
      */
     protected abstract T createBigIntegerMap(Entry<String, BigInteger>... entries);
 
     /**
-     * Creates a BigInteger map containing the provided key and value cardinality and entries.
+     * Creates a BigIntegers map containing the provided key and value cardinality and entries.
      *
      * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries to be included in the BigInteger map.
-     * @return A BigInteger map containing the provided entries.
+     * @param entries                The entries to be included in the BigIntegers map.
+     * @return A BigIntegers map containing the provided entries.
      */
     protected abstract T createBigIntegerMap(KeyAndValueCardinality keyAndValueCardinality,
             Entry<String, BigInteger>... entries);
 
     /**
-     * Creates a BigInteger map containing the provided key and value.
+     * Creates a BigIntegers map containing the provided key and value.
      *
      * @param key   The key for the entry.
      * @param value The value for the entry.
-     * @return A BigInteger map containing the provided key and value.
+     * @return A BigIntegers map containing the provided key and value.
      */
     protected abstract T createBigIntegerMap(String key, BigInteger value);
 
     /**
-     * Creates a BigInteger map containing the provided keys and values.
+     * Creates a BigIntegers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
-     * @return A BigInteger map containing the provided keys and values.
+     * @return A BigIntegers map containing the provided keys and values.
      */
     protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2);
 
     /**
-     * Creates a BigInteger map containing the provided keys and values.
+     * Creates a BigIntegers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -116,13 +111,13 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      * @param value2 The second value for the entry.
      * @param key3   The third key for the entry.
      * @param value3 The third value for the entry.
-     * @return A BigInteger map containing the provided keys and values.
+     * @return A BigIntegers map containing the provided keys and values.
      */
-    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2,
-            String key3, BigInteger value3);
+    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2, String key3,
+            BigInteger value3);
 
     /**
-     * Creates a BigInteger map containing the provided keys and values.
+     * Creates a BigIntegers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -132,13 +127,13 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      * @param value3 The third value for the entry.
      * @param key4   The fourth key for the entry.
      * @param value4 The fourth value for the entry.
-     * @return A BigInteger map containing the provided keys and values.
+     * @return A BigIntegers map containing the provided keys and values.
      */
-    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2,
-            String key3, BigInteger value3, String key4, BigInteger value4);
+    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2, String key3,
+            BigInteger value3, String key4, BigInteger value4);
 
     /**
-     * Creates a BigInteger map containing the provided keys and values.
+     * Creates a BigIntegers map containing the provided keys and values.
      *
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
@@ -150,13 +145,13 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      * @param value4 The fourth value for the entry.
      * @param key5   The fifth key for the entry.
      * @param value5 The fifth value for the entry.
-     * @return A BigInteger map containing the provided keys and values.
+     * @return A BigIntegers map containing the provided keys and values.
      */
-    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2,
-            String key3, BigInteger value3, String key4, BigInteger value4, String key5, BigInteger value5);
+    protected abstract T createBigIntegerMap(String key1, BigInteger value1, String key2, BigInteger value2, String key3,
+            BigInteger value3, String key4, BigInteger value4, String key5, BigInteger value5);
 
     /**
-     * Verifies that a BigInteger map with a specific key and value cardinality receives that key and value cardinality.
+     * Verifies that a BigIntegers map with a specific key and value cardinality receives that key and value cardinality.
      */
     @Test
     public void ofWithKeyAndValueCardinalityShouldReturnABigIntegerMapWithTheKeyAndValueCardinality() {
@@ -170,13 +165,12 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     @Test
     public void ofWithKeysAndValuesShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals(1, createBigIntegerMap("one", BigInteger.ONE).size());
-        assertEquals(2, createBigIntegerMap("one", BigInteger.ONE, "two", BIG_INTEGER_TWO).size());
-        assertEquals(THREE,
-                createBigIntegerMap("one", BigInteger.ONE, "two", BIG_INTEGER_TWO, "three", BIG_INTEGER_THREE).size());
-        assertEquals(FOUR, createBigIntegerMap("one", BigInteger.ONE, "two", BIG_INTEGER_TWO, "three",
-                BIG_INTEGER_THREE, "four", BIG_INTEGER_FOUR).size());
-        assertEquals(FIVE, createBigIntegerMap("one", BigInteger.ONE, "two", BIG_INTEGER_TWO, "three",
-                BIG_INTEGER_THREE, "four", BIG_INTEGER_FOUR, "five", BIG_INTEGER_FIVE).size());
+        assertEquals(2, createBigIntegerMap("one", BigInteger.ONE, "two", BigInteger.TWO).size());
+        assertEquals(THREE, createBigIntegerMap("one", BigInteger.ONE, "two", BigInteger.TWO, "three", BIG_INTEGER_THREE).size());
+        assertEquals(FOUR, createBigIntegerMap("one", BigInteger.ONE, "two", BigInteger.TWO, "three", BIG_INTEGER_THREE, "four", BIG_INTEGER_FOUR).size());
+        assertEquals(FIVE,
+                createBigIntegerMap("one", BigInteger.ONE, "two", BigInteger.TWO, "three", BIG_INTEGER_THREE, "four", BIG_INTEGER_FOUR, "five", BIG_INTEGER_FIVE)
+                        .size());
     }
 
     /**
@@ -260,12 +254,11 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      */
     @Test
     public void getValuesShouldBeWiredCorrectlyToTheInternalMap() {
-        assertTrue(map123.getValues()
-                .containsSame(BigIntegerCollection.of(BigInteger.ONE, BIG_INTEGER_TWO, BIG_INTEGER_THREE)));
+        assertTrue(map123.getValues().containsSame(BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)));
     }
 
     /**
-     * Verifies that an empty BigInteger map is empty.
+     * Verifies that an empty BigIntegers map is empty.
      */
     @Test
     public void isEmptyShouldReturnTrueForAnEmptyBigIntegerMap() {

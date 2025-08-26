@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
+
 import java.util.Iterator;
 import java.util.Spliterator;
 
@@ -10,8 +11,8 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for BigIntegers
- * and containing inner classes with concrete implementations.
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for BigIntegers and
+ * containing inner classes with concrete implementations.
  *
  * @param <K> The key type.
  */
@@ -134,58 +135,56 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
     /**
      * Returns a new BigIntegers map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    static <K> BigIntegerMap<K> of(final Entry<K, BigInteger>... entries) {
-        return new HashMap<K>(entries);
+    static <L> BigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new BigIntegers map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    static <K> BigIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, BigInteger>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    static <L> BigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, BigInteger>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new BigIntegers map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new BigIntegers map containing an entry with the key and the value.
      */
-    public static <K> BigIntegerMap<K> of(final K key, final BigInteger value) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key, value));
+    public static <L> BigIntegerMap<L> of(final L key, final BigInteger value) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key, value));
     }
 
     /**
      * Returns a new BigIntegers map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new BigIntegers map containing two entries using the provided keys and values.
      */
-    public static <K> BigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2,
-            final BigInteger value2) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2));
+    public static <L> BigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2));
     }
 
     /**
      * Returns a new BigIntegers map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -194,16 +193,16 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param value3 The third value for the entry.
      * @return A new BigIntegers map containing three entries using the provided keys and values.
      */
-    public static <K> BigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3));
+    public static <L> BigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3));
     }
 
     /**
      * Returns a new BigIntegers map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -214,16 +213,16 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param value4 The fourth value for the entry.
      * @return A new BigIntegers map containing four entries using the provided keys and values.
      */
-    public static <K> BigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3, final K key4, final BigInteger value4) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3), new Entry<K, BigInteger>(key4, value4));
+    public static <L> BigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3, final L key4, final BigInteger value4) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4));
     }
 
     /**
      * Returns a new BigIntegers map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -236,12 +235,11 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param value5 The fifth value for the entry.
      * @return A new BigIntegers map containing five entries using the provided keys and values.
      */
-    public static <K> BigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3, final K key4, final BigInteger value4, final K key5,
-            final BigInteger value5) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3), new Entry<K, BigInteger>(key4, value4),
-                new Entry<K, BigInteger>(key5, value5));
+    public static <L> BigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3, final L key4, final BigInteger value4, final L key5, final BigInteger value5) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
+                new Entry<L, BigInteger>(key5, value5));
     }
 
     @Override

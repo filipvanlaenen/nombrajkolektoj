@@ -1,6 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Comparator;
+
+import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
@@ -9,6 +13,11 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.UpdatableSortedDoubleMap} class.
  */
 public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBase<UpdatableSortedDoubleMap<String>> {
+    /**
+     * The double three.
+     */
+    private static final Double DOUBLE_THREE = 3D;
+
     @Override
     protected UpdatableSortedDoubleMap<String> createEmptyDoubleMap() {
         return UpdatableSortedDoubleMap.<String>empty(Comparator.naturalOrder());
@@ -73,5 +82,54 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
     protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(
             final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue, final String... keys) {
         return UpdatableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    /**
+     * Creates a doubles map with three entries.
+     *
+     * @return A doubles map with three entries.
+     */
+    private UpdatableSortedDoubleMap<String> createDoubleMap123() {
+        return createDoubleMap("one", 1D, "two", 2D, "three", DOUBLE_THREE);
+    }
+
+    /**
+     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getComparatorShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(Comparator.naturalOrder(), createDoubleMap123().getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, Double>("two", 2D), createDoubleMap123().getGreatest());
+    }
+
+    /**
+     * Verifies that the <code>getGreatestKey</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreatestKeyShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createDoubleMap123().getGreatestKey());
+    }
+
+    /**
+     * Verifies that the <code>getLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, Double>("one", 1D), createDoubleMap123().getLeast());
+    }
+
+    /**
+     * Verifies that the <code>getLeastKey</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLeastKeyShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createDoubleMap123().getLeastKey());
     }
 }

@@ -45,18 +45,18 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      * Creates a bytes collection with the provided element cardinality containing the provided bytes.
      *
      * @param elementCardinality The element cardinality.
-     * @param bytes            The bytes to be included in the bytes collection.
+     * @param numbers            The bytes to be included in the bytes collection.
      * @return A bytes collection with the provided element cardinality containing the provided bytes.
      */
-    protected abstract T createByteCollection(ElementCardinality elementCardinality, Byte... bytes);
+    protected abstract T createByteCollection(ElementCardinality elementCardinality, Byte... numbers);
 
     /**
      * Creates a bytes collection containing the provided bytes.
      *
-     * @param bytes The bytes to be included in the bytes collection.
+     * @param numbers The bytes to be included in the bytes collection.
      * @return An bytes collection containing the provided bytes.
      */
-    protected abstract T createByteCollection(Byte... bytes);
+    protected abstract T createByteCollection(Byte... numbers);
 
     /**
      * Verifies that an empty bytes collection is empty.

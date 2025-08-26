@@ -45,18 +45,18 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      * Creates a doubles collection with the provided element cardinality containing the provided doubles.
      *
      * @param elementCardinality The element cardinality.
-     * @param doubles            The doubles to be included in the doubles collection.
+     * @param numbers            The doubles to be included in the doubles collection.
      * @return A doubles collection with the provided element cardinality containing the provided doubles.
      */
-    protected abstract T createDoubleCollection(ElementCardinality elementCardinality, Double... doubles);
+    protected abstract T createDoubleCollection(ElementCardinality elementCardinality, Double... numbers);
 
     /**
      * Creates a doubles collection containing the provided doubles.
      *
-     * @param doubles The doubles to be included in the doubles collection.
+     * @param numbers The doubles to be included in the doubles collection.
      * @return An doubles collection containing the provided doubles.
      */
-    protected abstract T createDoubleCollection(Double... doubles);
+    protected abstract T createDoubleCollection(Double... numbers);
 
     /**
      * Verifies that an empty doubles collection is empty.

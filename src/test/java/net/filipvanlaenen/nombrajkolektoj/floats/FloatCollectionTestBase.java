@@ -45,18 +45,18 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
      * Creates a floats collection with the provided element cardinality containing the provided floats.
      *
      * @param elementCardinality The element cardinality.
-     * @param floats            The floats to be included in the floats collection.
+     * @param numbers            The floats to be included in the floats collection.
      * @return A floats collection with the provided element cardinality containing the provided floats.
      */
-    protected abstract T createFloatCollection(ElementCardinality elementCardinality, Float... floats);
+    protected abstract T createFloatCollection(ElementCardinality elementCardinality, Float... numbers);
 
     /**
      * Creates a floats collection containing the provided floats.
      *
-     * @param floats The floats to be included in the floats collection.
+     * @param numbers The floats to be included in the floats collection.
      * @return An floats collection containing the provided floats.
      */
-    protected abstract T createFloatCollection(Float... floats);
+    protected abstract T createFloatCollection(Float... numbers);
 
     /**
      * Verifies that an empty floats collection is empty.

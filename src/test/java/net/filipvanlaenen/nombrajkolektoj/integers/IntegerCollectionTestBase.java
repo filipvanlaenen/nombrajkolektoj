@@ -45,18 +45,18 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      * Creates a integers collection with the provided element cardinality containing the provided integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers            The integers to be included in the integers collection.
+     * @param numbers            The integers to be included in the integers collection.
      * @return A integers collection with the provided element cardinality containing the provided integers.
      */
-    protected abstract T createIntegerCollection(ElementCardinality elementCardinality, Integer... integers);
+    protected abstract T createIntegerCollection(ElementCardinality elementCardinality, Integer... numbers);
 
     /**
      * Creates a integers collection containing the provided integers.
      *
-     * @param integers The integers to be included in the integers collection.
+     * @param numbers The integers to be included in the integers collection.
      * @return An integers collection containing the provided integers.
      */
-    protected abstract T createIntegerCollection(Integer... integers);
+    protected abstract T createIntegerCollection(Integer... numbers);
 
     /**
      * Verifies that an empty integers collection is empty.

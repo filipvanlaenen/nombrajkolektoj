@@ -82,8 +82,8 @@
    <!-- Checks for Size Violations.               -->
    <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
    <module name="LineLength">
-      <!-- Modified for Nombraj Kolektoj to increase line length to 132. -->
-      <property name="max" value="132"/>
+      <!-- Modified for Nombraj Kolektoj to increase line length to 147. -->
+      <property name="max" value="147"/>
    </module>
 
    <!-- Checks for Headers                        -->

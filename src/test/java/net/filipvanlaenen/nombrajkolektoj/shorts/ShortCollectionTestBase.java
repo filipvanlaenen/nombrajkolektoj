@@ -45,18 +45,18 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
      * Creates a shorts collection with the provided element cardinality containing the provided shorts.
      *
      * @param elementCardinality The element cardinality.
-     * @param shorts            The shorts to be included in the shorts collection.
+     * @param numbers            The shorts to be included in the shorts collection.
      * @return A shorts collection with the provided element cardinality containing the provided shorts.
      */
-    protected abstract T createShortCollection(ElementCardinality elementCardinality, Short... shorts);
+    protected abstract T createShortCollection(ElementCardinality elementCardinality, Short... numbers);
 
     /**
      * Creates a shorts collection containing the provided shorts.
      *
-     * @param shorts The shorts to be included in the shorts collection.
+     * @param numbers The shorts to be included in the shorts collection.
      * @return An shorts collection containing the provided shorts.
      */
-    protected abstract T createShortCollection(Short... shorts);
+    protected abstract T createShortCollection(Short... numbers);
 
     /**
      * Verifies that an empty shorts collection is empty.

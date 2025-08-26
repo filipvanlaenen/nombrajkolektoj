@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
+
 import java.util.Iterator;
 import java.util.Spliterator;
 
@@ -9,11 +10,10 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for
- * BigIntegers and containing inner classes with concrete implementations.
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigIntegers
+ * and containing inner classes with concrete implementations.
  */
-public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
-        implements NumericCollection<BigInteger> {
+public abstract class BigIntegerCollection extends AbstractBigIntegerCollection implements NumericCollection<BigInteger> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
@@ -31,45 +31,45 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
          * Constructs a collection with the given BigIntegers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bigIntegers        The bigIntegers of the collection.
+         * @param numbers            The BigIntegers of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... bigIntegers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, bigIntegers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given BigIntegers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bigIntegers The bigIntegers of the collection.
+         * @param numbers The BigIntegers of the collection.
          */
-        public ArrayCollection(final BigInteger... bigIntegers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(bigIntegers));
+        public ArrayCollection(final BigInteger... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(numbers));
         }
     }
 
     /**
      * The collection holding the BigIntegers.
      */
-    private final Collection<BigInteger> bigIntegers;
+    private final Collection<BigInteger> numbers;
 
     /**
      * Private constructor taking a collection with the BigIntegers as its parameter.
      *
-     * @param bigIntegers The collection holding the BigIntegers.
+     * @param numbers The collection holding the BigIntegers.
      */
-    private BigIntegerCollection(final Collection<BigInteger> bigIntegers) {
-        this.bigIntegers = bigIntegers;
+    private BigIntegerCollection(final Collection<BigInteger> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final BigInteger element) {
-        return bigIntegers.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return bigIntegers.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -83,52 +83,52 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection
 
     @Override
     public BigInteger get() throws IndexOutOfBoundsException {
-        return bigIntegers.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return bigIntegers.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<BigInteger> iterator() {
-        return bigIntegers.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new BigIntegers collection with the specified BigIntegers.
      *
-     * @param bigIntegers The BigIntegers for the new bigIntegers collection.
+     * @param numbers The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified BigIntegers.
      */
-    static BigIntegerCollection of(final BigInteger... bigIntegers) {
-        return new ArrayCollection(bigIntegers);
+    static BigIntegerCollection of(final BigInteger... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new BigIntegers collection with the specified element cardinality and the BigIntegers.
      *
      * @param elementCardinality The element cardinality.
-     * @param bigIntegers        The BigIntegers for the new BigIntegers collection.
+     * @param numbers            The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... bigIntegers) {
-        return new ArrayCollection(elementCardinality, bigIntegers);
+    static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return bigIntegers.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<BigInteger> spliterator() {
-        return bigIntegers.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public BigInteger[] toArray() {
-        return bigIntegers.toArray(EmptyArrays.BIG_INTEGERS);
+        return numbers.toArray(EmptyArrays.BIG_INTEGERS);
     }
 }

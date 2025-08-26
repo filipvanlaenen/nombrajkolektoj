@@ -15,10 +15,10 @@ abstract class AbstractBigIntegerCollection implements NumericCollection<BigInte
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         BigInteger max = null;
-        for (BigInteger bi : this) {
+        for (BigInteger n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (bi != null && (max == null || bi.compareTo(max) > 0)) {
-                max = bi;
+            if (n != null && (max == null || n.compareTo(max) > 0)) {
+                max = n;
             }
         }
         return max;
@@ -30,10 +30,10 @@ abstract class AbstractBigIntegerCollection implements NumericCollection<BigInte
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         BigInteger min = null;
-        for (BigInteger bi : this) {
+        for (BigInteger n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (bi != null && (min == null || bi.compareTo(min) < 0)) {
-                min = bi;
+            if (n != null && (min == null || n.compareTo(min) < 0)) {
+                min = n;
             }
         }
         return min;
@@ -42,9 +42,9 @@ abstract class AbstractBigIntegerCollection implements NumericCollection<BigInte
     @Override
     public BigInteger product() {
         BigInteger product = BigInteger.ONE;
-        for (BigInteger bi : this) {
-            if (bi != null) {
-                product = product.multiply(bi);
+        for (BigInteger n : this) {
+            if (n != null) {
+                product = product.multiply(n);
             }
         }
         return product;
@@ -53,11 +53,14 @@ abstract class AbstractBigIntegerCollection implements NumericCollection<BigInte
     @Override
     public BigInteger sum() {
         BigInteger sum = BigInteger.ZERO;
-        for (BigInteger bi : this) {
-            if (bi != null) {
-                sum = sum.add(bi);
+        for (BigInteger n : this) {
+            if (n != null) {
+                sum = sum.add(n);
             }
         }
         return sum;
     }
+
+    @Override
+    public abstract BigInteger[] toArray();
 }

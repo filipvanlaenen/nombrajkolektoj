@@ -29,45 +29,45 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * Constructs a collection with the given floats and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param floats            The floats of the collection.
+         * @param numbers            The floats of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, floats));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param floats The floats of the collection.
+         * @param numbers The floats of the collection.
          */
-        public ArrayCollection(final Float... floats) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(floats));
+        public ArrayCollection(final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(numbers));
         }
     }
 
     /**
      * The collection holding the floats.
      */
-    private final Collection<Float> floats;
+    private final Collection<Float> numbers;
 
     /**
      * Private constructor taking a collection with the floats as its parameter.
      *
-     * @param floats The collection holding the floats.
+     * @param numbers The collection holding the floats.
      */
-    private FloatCollection(final Collection<Float> floats) {
-        this.floats = floats;
+    private FloatCollection(final Collection<Float> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Float element) {
-        return floats.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return floats.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
 
     @Override
     public Float get() throws IndexOutOfBoundsException {
-        return floats.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return floats.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Float> iterator() {
-        return floats.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new floats collection with the specified floats.
      *
-     * @param floats The floats for the new floats collection.
+     * @param numbers The floats for the new floats collection.
      * @return A new floats collection with the specified floats.
      */
-    static FloatCollection of(final Float... floats) {
-        return new ArrayCollection(floats);
+    static FloatCollection of(final Float... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new floats collection with the specified element cardinality and the floats.
      *
      * @param elementCardinality The element cardinality.
-     * @param floats            The floats for the new floats collection.
+     * @param numbers            The floats for the new floats collection.
      * @return A new floats collection with the specified element cardinality and the floats.
      */
-    static FloatCollection of(final ElementCardinality elementCardinality, final Float... floats) {
-        return new ArrayCollection(elementCardinality, floats);
+    static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return floats.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Float> spliterator() {
-        return floats.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Float[] toArray() {
-        return floats.toArray(EmptyArrays.FLOATS);
+        return numbers.toArray(EmptyArrays.FLOATS);
     }
 }

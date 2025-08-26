@@ -29,45 +29,45 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * Constructs a collection with the given integers and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param integers            The integers of the collection.
+         * @param numbers            The integers of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... integers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, integers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given integers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param integers The integers of the collection.
+         * @param numbers The integers of the collection.
          */
-        public ArrayCollection(final Integer... integers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(integers));
+        public ArrayCollection(final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(numbers));
         }
     }
 
     /**
      * The collection holding the integers.
      */
-    private final Collection<Integer> integers;
+    private final Collection<Integer> numbers;
 
     /**
      * Private constructor taking a collection with the integers as its parameter.
      *
-     * @param integers The collection holding the integers.
+     * @param numbers The collection holding the integers.
      */
-    private IntegerCollection(final Collection<Integer> integers) {
-        this.integers = integers;
+    private IntegerCollection(final Collection<Integer> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Integer element) {
-        return integers.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return integers.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
 
     @Override
     public Integer get() throws IndexOutOfBoundsException {
-        return integers.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return integers.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Integer> iterator() {
-        return integers.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new integers collection with the specified integers.
      *
-     * @param integers The integers for the new integers collection.
+     * @param numbers The integers for the new integers collection.
      * @return A new integers collection with the specified integers.
      */
-    static IntegerCollection of(final Integer... integers) {
-        return new ArrayCollection(integers);
+    static IntegerCollection of(final Integer... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new integers collection with the specified element cardinality and the integers.
      *
      * @param elementCardinality The element cardinality.
-     * @param integers            The integers for the new integers collection.
+     * @param numbers            The integers for the new integers collection.
      * @return A new integers collection with the specified element cardinality and the integers.
      */
-    static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... integers) {
-        return new ArrayCollection(elementCardinality, integers);
+    static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return integers.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Integer> spliterator() {
-        return integers.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Integer[] toArray() {
-        return integers.toArray(EmptyArrays.INTEGERS);
+        return numbers.toArray(EmptyArrays.INTEGERS);
     }
 }

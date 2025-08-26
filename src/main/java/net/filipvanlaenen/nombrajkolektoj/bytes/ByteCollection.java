@@ -29,45 +29,45 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * Constructs a collection with the given bytes and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bytes            The bytes of the collection.
+         * @param numbers            The bytes of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, bytes));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given bytes. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bytes The bytes of the collection.
+         * @param numbers The bytes of the collection.
          */
-        public ArrayCollection(final Byte... bytes) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(bytes));
+        public ArrayCollection(final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(numbers));
         }
     }
 
     /**
      * The collection holding the bytes.
      */
-    private final Collection<Byte> bytes;
+    private final Collection<Byte> numbers;
 
     /**
      * Private constructor taking a collection with the bytes as its parameter.
      *
-     * @param bytes The collection holding the bytes.
+     * @param numbers The collection holding the bytes.
      */
-    private ByteCollection(final Collection<Byte> bytes) {
-        this.bytes = bytes;
+    private ByteCollection(final Collection<Byte> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Byte element) {
-        return bytes.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return bytes.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
 
     @Override
     public Byte get() throws IndexOutOfBoundsException {
-        return bytes.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return bytes.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Byte> iterator() {
-        return bytes.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new bytes collection with the specified bytes.
      *
-     * @param bytes The bytes for the new bytes collection.
+     * @param numbers The bytes for the new bytes collection.
      * @return A new bytes collection with the specified bytes.
      */
-    static ByteCollection of(final Byte... bytes) {
-        return new ArrayCollection(bytes);
+    static ByteCollection of(final Byte... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new bytes collection with the specified element cardinality and the bytes.
      *
      * @param elementCardinality The element cardinality.
-     * @param bytes            The bytes for the new bytes collection.
+     * @param numbers            The bytes for the new bytes collection.
      * @return A new bytes collection with the specified element cardinality and the bytes.
      */
-    static ByteCollection of(final ElementCardinality elementCardinality, final Byte... bytes) {
-        return new ArrayCollection(elementCardinality, bytes);
+    static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return bytes.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Byte> spliterator() {
-        return bytes.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Byte[] toArray() {
-        return bytes.toArray(EmptyArrays.BYTES);
+        return numbers.toArray(EmptyArrays.BYTES);
     }
 }

@@ -29,45 +29,45 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * Constructs a collection with the given doubles and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param doubles            The doubles of the collection.
+         * @param numbers            The doubles of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, doubles));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param doubles The doubles of the collection.
+         * @param numbers The doubles of the collection.
          */
-        public ArrayCollection(final Double... doubles) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(doubles));
+        public ArrayCollection(final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(numbers));
         }
     }
 
     /**
      * The collection holding the doubles.
      */
-    private final Collection<Double> doubles;
+    private final Collection<Double> numbers;
 
     /**
      * Private constructor taking a collection with the doubles as its parameter.
      *
-     * @param doubles The collection holding the doubles.
+     * @param numbers The collection holding the doubles.
      */
-    private DoubleCollection(final Collection<Double> doubles) {
-        this.doubles = doubles;
+    private DoubleCollection(final Collection<Double> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Double element) {
-        return doubles.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return doubles.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
 
     @Override
     public Double get() throws IndexOutOfBoundsException {
-        return doubles.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return doubles.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Double> iterator() {
-        return doubles.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new doubles collection with the specified doubles.
      *
-     * @param doubles The doubles for the new doubles collection.
+     * @param numbers The doubles for the new doubles collection.
      * @return A new doubles collection with the specified doubles.
      */
-    static DoubleCollection of(final Double... doubles) {
-        return new ArrayCollection(doubles);
+    static DoubleCollection of(final Double... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new doubles collection with the specified element cardinality and the doubles.
      *
      * @param elementCardinality The element cardinality.
-     * @param doubles            The doubles for the new doubles collection.
+     * @param numbers            The doubles for the new doubles collection.
      * @return A new doubles collection with the specified element cardinality and the doubles.
      */
-    static DoubleCollection of(final ElementCardinality elementCardinality, final Double... doubles) {
-        return new ArrayCollection(elementCardinality, doubles);
+    static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return doubles.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Double> spliterator() {
-        return doubles.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Double[] toArray() {
-        return doubles.toArray(EmptyArrays.DOUBLES);
+        return numbers.toArray(EmptyArrays.DOUBLES);
     }
 }

@@ -29,45 +29,45 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * Constructs a collection with the given shorts and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param shorts            The shorts of the collection.
+         * @param numbers            The shorts of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Short... shorts) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, shorts));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param shorts The shorts of the collection.
+         * @param numbers The shorts of the collection.
          */
-        public ArrayCollection(final Short... shorts) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(shorts));
+        public ArrayCollection(final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(numbers));
         }
     }
 
     /**
      * The collection holding the shorts.
      */
-    private final Collection<Short> shorts;
+    private final Collection<Short> numbers;
 
     /**
      * Private constructor taking a collection with the shorts as its parameter.
      *
-     * @param shorts The collection holding the shorts.
+     * @param numbers The collection holding the shorts.
      */
-    private ShortCollection(final Collection<Short> shorts) {
-        this.shorts = shorts;
+    private ShortCollection(final Collection<Short> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Short element) {
-        return shorts.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return shorts.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class ShortCollection extends AbstractShortCollection implements
 
     @Override
     public Short get() throws IndexOutOfBoundsException {
-        return shorts.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return shorts.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Short> iterator() {
-        return shorts.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new shorts collection with the specified shorts.
      *
-     * @param shorts The shorts for the new shorts collection.
+     * @param numbers The shorts for the new shorts collection.
      * @return A new shorts collection with the specified shorts.
      */
-    static ShortCollection of(final Short... shorts) {
-        return new ArrayCollection(shorts);
+    static ShortCollection of(final Short... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new shorts collection with the specified element cardinality and the shorts.
      *
      * @param elementCardinality The element cardinality.
-     * @param shorts            The shorts for the new shorts collection.
+     * @param numbers            The shorts for the new shorts collection.
      * @return A new shorts collection with the specified element cardinality and the shorts.
      */
-    static ShortCollection of(final ElementCardinality elementCardinality, final Short... shorts) {
-        return new ArrayCollection(elementCardinality, shorts);
+    static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return shorts.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Short> spliterator() {
-        return shorts.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Short[] toArray() {
-        return shorts.toArray(EmptyArrays.SHORTS);
+        return numbers.toArray(EmptyArrays.SHORTS);
     }
 }

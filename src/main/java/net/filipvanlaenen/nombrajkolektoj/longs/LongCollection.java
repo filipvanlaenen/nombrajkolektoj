@@ -29,45 +29,45 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * Constructs a collection with the given longs and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param longs            The longs of the collection.
+         * @param numbers            The longs of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, longs));
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param longs The longs of the collection.
+         * @param numbers The longs of the collection.
          */
-        public ArrayCollection(final Long... longs) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(longs));
+        public ArrayCollection(final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(numbers));
         }
     }
 
     /**
      * The collection holding the longs.
      */
-    private final Collection<Long> longs;
+    private final Collection<Long> numbers;
 
     /**
      * Private constructor taking a collection with the longs as its parameter.
      *
-     * @param longs The collection holding the longs.
+     * @param numbers The collection holding the longs.
      */
-    private LongCollection(final Collection<Long> longs) {
-        this.longs = longs;
+    private LongCollection(final Collection<Long> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final Long element) {
-        return longs.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return longs.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -81,52 +81,52 @@ public abstract class LongCollection extends AbstractLongCollection implements N
 
     @Override
     public Long get() throws IndexOutOfBoundsException {
-        return longs.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return longs.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<Long> iterator() {
-        return longs.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new longs collection with the specified longs.
      *
-     * @param longs The longs for the new longs collection.
+     * @param numbers The longs for the new longs collection.
      * @return A new longs collection with the specified longs.
      */
-    static LongCollection of(final Long... longs) {
-        return new ArrayCollection(longs);
+    static LongCollection of(final Long... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new longs collection with the specified element cardinality and the longs.
      *
      * @param elementCardinality The element cardinality.
-     * @param longs            The longs for the new longs collection.
+     * @param numbers            The longs for the new longs collection.
      * @return A new longs collection with the specified element cardinality and the longs.
      */
-    static LongCollection of(final ElementCardinality elementCardinality, final Long... longs) {
-        return new ArrayCollection(elementCardinality, longs);
+    static LongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return longs.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<Long> spliterator() {
-        return longs.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public Long[] toArray() {
-        return longs.toArray(EmptyArrays.LONGS);
+        return numbers.toArray(EmptyArrays.LONGS);
     }
 }

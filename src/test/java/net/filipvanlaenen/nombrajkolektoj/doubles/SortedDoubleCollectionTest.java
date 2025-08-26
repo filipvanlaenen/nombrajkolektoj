@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.SortedDoubleCollection} class.
  */
-public final class SortedDoubleCollectionTest extends OrderedDoubleCollectionTestBase<SortedDoubleCollection> {
+public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTestBase<SortedDoubleCollection> {
     @Override
     protected SortedDoubleCollection createEmptyDoubleCollection() {
         return SortedDoubleCollection.empty(Comparator.naturalOrder());
@@ -35,5 +35,11 @@ public final class SortedDoubleCollectionTest extends OrderedDoubleCollectionTes
     @Override
     protected SortedDoubleCollection createOrderedDoubleCollection(final Double... doubles) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), doubles);
+    }
+
+    @Override
+    protected SortedDoubleCollection createSortedDoubleCollection(final Comparator<Double> comparator,
+            final Double... doubles) {
+        return SortedDoubleCollection.of(comparator, doubles);
     }
 }

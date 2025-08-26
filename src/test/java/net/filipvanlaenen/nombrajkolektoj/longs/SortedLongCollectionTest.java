@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.SortedLongCollection} class.
  */
-public final class SortedLongCollectionTest extends OrderedLongCollectionTestBase<SortedLongCollection> {
+public final class SortedLongCollectionTest extends SortedLongCollectionTestBase<SortedLongCollection> {
     @Override
     protected SortedLongCollection createEmptyLongCollection() {
         return SortedLongCollection.empty(Comparator.naturalOrder());
@@ -35,5 +35,11 @@ public final class SortedLongCollectionTest extends OrderedLongCollectionTestBas
     @Override
     protected SortedLongCollection createOrderedLongCollection(final Long... longs) {
         return SortedLongCollection.of(Comparator.naturalOrder(), longs);
+    }
+
+    @Override
+    protected SortedLongCollection createSortedLongCollection(final Comparator<Long> comparator,
+            final Long... longs) {
+        return SortedLongCollection.of(comparator, longs);
     }
 }

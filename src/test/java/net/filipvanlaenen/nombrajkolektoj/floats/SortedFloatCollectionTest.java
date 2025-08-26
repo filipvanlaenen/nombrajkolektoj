@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.SortedFloatCollection} class.
  */
-public final class SortedFloatCollectionTest extends OrderedFloatCollectionTestBase<SortedFloatCollection> {
+public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBase<SortedFloatCollection> {
     @Override
     protected SortedFloatCollection createEmptyFloatCollection() {
         return SortedFloatCollection.empty(Comparator.naturalOrder());
@@ -35,5 +35,11 @@ public final class SortedFloatCollectionTest extends OrderedFloatCollectionTestB
     @Override
     protected SortedFloatCollection createOrderedFloatCollection(final Float... floats) {
         return SortedFloatCollection.of(Comparator.naturalOrder(), floats);
+    }
+
+    @Override
+    protected SortedFloatCollection createSortedFloatCollection(final Comparator<Float> comparator,
+            final Float... floats) {
+        return SortedFloatCollection.of(comparator, floats);
     }
 }

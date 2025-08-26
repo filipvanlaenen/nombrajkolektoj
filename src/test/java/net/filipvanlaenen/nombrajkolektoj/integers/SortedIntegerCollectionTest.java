@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.SortedIntegerCollection} class.
  */
-public final class SortedIntegerCollectionTest extends OrderedIntegerCollectionTestBase<SortedIntegerCollection> {
+public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTestBase<SortedIntegerCollection> {
     @Override
     protected SortedIntegerCollection createEmptyIntegerCollection() {
         return SortedIntegerCollection.empty(Comparator.naturalOrder());
@@ -35,5 +35,11 @@ public final class SortedIntegerCollectionTest extends OrderedIntegerCollectionT
     @Override
     protected SortedIntegerCollection createOrderedIntegerCollection(final Integer... integers) {
         return SortedIntegerCollection.of(Comparator.naturalOrder(), integers);
+    }
+
+    @Override
+    protected SortedIntegerCollection createSortedIntegerCollection(final Comparator<Integer> comparator,
+            final Integer... integers) {
+        return SortedIntegerCollection.of(comparator, integers);
     }
 }

@@ -9,7 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.SortedByteCollection} class.
  */
-public final class SortedByteCollectionTest extends OrderedByteCollectionTestBase<SortedByteCollection> {
+public final class SortedByteCollectionTest extends SortedByteCollectionTestBase<SortedByteCollection> {
     @Override
     protected SortedByteCollection createEmptyByteCollection() {
         return SortedByteCollection.empty(Comparator.naturalOrder());
@@ -35,5 +35,11 @@ public final class SortedByteCollectionTest extends OrderedByteCollectionTestBas
     @Override
     protected SortedByteCollection createOrderedByteCollection(final Byte... bytes) {
         return SortedByteCollection.of(Comparator.naturalOrder(), bytes);
+    }
+
+    @Override
+    protected SortedByteCollection createSortedByteCollection(final Comparator<Byte> comparator,
+            final Byte... bytes) {
+        return SortedByteCollection.of(comparator, bytes);
     }
 }

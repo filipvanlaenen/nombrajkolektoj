@@ -163,6 +163,21 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
     }
 
     @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Long> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
     }
@@ -170,6 +185,16 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
     @Override
     public Collection<K> getKeys() {
         return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Long> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
     }
 
     @Override

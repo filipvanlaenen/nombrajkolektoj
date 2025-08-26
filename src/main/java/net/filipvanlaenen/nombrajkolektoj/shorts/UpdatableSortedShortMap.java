@@ -165,6 +165,21 @@ public abstract class UpdatableSortedShortMap<K> extends AbstractUpdatableSorted
     }
 
     @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Short> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
     }
@@ -172,6 +187,16 @@ public abstract class UpdatableSortedShortMap<K> extends AbstractUpdatableSorted
     @Override
     public Collection<K> getKeys() {
         return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Short> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
     }
 
     @Override

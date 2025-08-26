@@ -138,6 +138,21 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
     }
 
     @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Byte> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
     }
@@ -145,6 +160,16 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
     @Override
     public Collection<K> getKeys() {
         return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Byte> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
     }
 
     @Override
@@ -326,8 +351,18 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
     }
 
     @Override
+    public Entry<K, Byte> removeGreatest() {
+        return map.removeGreatest();
+    }
+
+    @Override
     public boolean removeIf(final Predicate<Entry<? extends K, ? extends Byte>> predicate) {
         return map.removeIf(predicate);
+    }
+
+    @Override
+    public Entry<K, Byte> removeLeast() {
+        return map.removeLeast();
     }
 
     @Override

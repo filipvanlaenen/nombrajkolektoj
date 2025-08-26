@@ -93,6 +93,21 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     @Override
+    public Comparator<? super K> getComparator() {
+        return bigdecimals.getComparator();
+    }
+
+    @Override
+    public Entry<K, BigDecimal> getGreatest() {
+        return bigdecimals.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return bigdecimals.getGreatestKey();
+    }
+
+    @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return bigdecimals.getKeyAndValueCardinality();
     }
@@ -100,6 +115,16 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     @Override
     public Collection<K> getKeys() {
         return bigdecimals.getKeys();
+    }
+
+    @Override
+    public Entry<K, BigDecimal> getLeast() {
+        return bigdecimals.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return bigdecimals.getLeastKey();
     }
 
     @Override

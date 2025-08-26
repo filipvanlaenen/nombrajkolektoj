@@ -140,6 +140,11 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     }
 
     @Override
+    public Comparator<? super Double> getComparator() {
+        return doubles.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return doubles.getElementCardinality();
     }

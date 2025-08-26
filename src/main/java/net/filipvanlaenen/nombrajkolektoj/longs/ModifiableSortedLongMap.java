@@ -138,6 +138,21 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     }
 
     @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Long> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
     }
@@ -145,6 +160,16 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     @Override
     public Collection<K> getKeys() {
         return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Long> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
     }
 
     @Override
@@ -326,8 +351,18 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     }
 
     @Override
+    public Entry<K, Long> removeGreatest() {
+        return map.removeGreatest();
+    }
+
+    @Override
     public boolean removeIf(final Predicate<Entry<? extends K, ? extends Long>> predicate) {
         return map.removeIf(predicate);
+    }
+
+    @Override
+    public Entry<K, Long> removeLeast() {
+        return map.removeLeast();
     }
 
     @Override

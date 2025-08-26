@@ -140,6 +140,11 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     }
 
     @Override
+    public Comparator<? super Float> getComparator() {
+        return floats.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return floats.getElementCardinality();
     }

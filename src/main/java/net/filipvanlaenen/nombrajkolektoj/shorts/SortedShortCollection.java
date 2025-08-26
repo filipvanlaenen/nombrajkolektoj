@@ -140,6 +140,11 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
     }
 
     @Override
+    public Comparator<? super Short> getComparator() {
+        return shorts.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return shorts.getElementCardinality();
     }

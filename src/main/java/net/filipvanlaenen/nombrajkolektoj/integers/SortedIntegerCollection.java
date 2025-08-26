@@ -140,6 +140,11 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
     }
 
     @Override
+    public Comparator<? super Integer> getComparator() {
+        return integers.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return integers.getElementCardinality();
     }

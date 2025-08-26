@@ -140,6 +140,11 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
     }
 
     @Override
+    public Comparator<? super Long> getComparator() {
+        return longs.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return longs.getElementCardinality();
     }

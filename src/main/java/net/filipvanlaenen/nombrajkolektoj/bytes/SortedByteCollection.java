@@ -140,6 +140,11 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
     }
 
     @Override
+    public Comparator<? super Byte> getComparator() {
+        return bytes.getComparator();
+    }
+
+    @Override
     public ElementCardinality getElementCardinality() {
         return bytes.getElementCardinality();
     }

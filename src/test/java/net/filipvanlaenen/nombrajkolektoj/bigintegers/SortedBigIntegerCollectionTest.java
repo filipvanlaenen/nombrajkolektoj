@@ -40,6 +40,12 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     }
 
     @Override
+    protected SortedBigIntegerCollection createOrderedBigIntegerCollection(final ElementCardinality elementCardinality,
+            final BigInteger... numbers) {
+        return SortedBigIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
     protected SortedBigIntegerCollection createSortedBigIntegerCollection(final Comparator<BigInteger> comparator,
             final BigInteger... numbers) {
         return SortedBigIntegerCollection.of(comparator, numbers);

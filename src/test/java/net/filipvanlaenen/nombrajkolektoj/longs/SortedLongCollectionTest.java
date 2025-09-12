@@ -38,6 +38,12 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
+    protected SortedLongCollection createOrderedLongCollection(final ElementCardinality elementCardinality,
+            final Long... numbers) {
+        return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
     protected SortedLongCollection createSortedLongCollection(final Comparator<Long> comparator,
             final Long... numbers) {
         return SortedLongCollection.of(comparator, numbers);

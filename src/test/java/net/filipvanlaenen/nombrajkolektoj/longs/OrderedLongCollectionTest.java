@@ -35,4 +35,10 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     protected OrderedLongCollection createOrderedLongCollection(final Long... numbers) {
         return OrderedLongCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedLongCollection createOrderedLongCollection(final ElementCardinality elementCardinality,
+            final Long... numbers) {
+        return OrderedLongCollection.of(elementCardinality, numbers);
+    }
 }

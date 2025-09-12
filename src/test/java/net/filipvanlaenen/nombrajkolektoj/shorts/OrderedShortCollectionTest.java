@@ -35,4 +35,10 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     protected OrderedShortCollection createOrderedShortCollection(final Short... numbers) {
         return OrderedShortCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedShortCollection createOrderedShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return OrderedShortCollection.of(elementCardinality, numbers);
+    }
 }

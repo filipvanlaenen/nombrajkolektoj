@@ -38,6 +38,12 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
     }
 
     @Override
+    protected SortedIntegerCollection createOrderedIntegerCollection(final ElementCardinality elementCardinality,
+            final Integer... numbers) {
+        return SortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
     protected SortedIntegerCollection createSortedIntegerCollection(final Comparator<Integer> comparator,
             final Integer... numbers) {
         return SortedIntegerCollection.of(comparator, numbers);

@@ -37,4 +37,10 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final BigInteger... numbers) {
         return OrderedBigIntegerCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final ElementCardinality elementCardinality,
+            final BigInteger... numbers) {
+        return OrderedBigIntegerCollection.of(elementCardinality, numbers);
+    }
 }

@@ -35,4 +35,10 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     protected OrderedFloatCollection createOrderedFloatCollection(final Float... numbers) {
         return OrderedFloatCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedFloatCollection createOrderedFloatCollection(final ElementCardinality elementCardinality,
+            final Float... numbers) {
+        return OrderedFloatCollection.of(elementCardinality, numbers);
+    }
 }

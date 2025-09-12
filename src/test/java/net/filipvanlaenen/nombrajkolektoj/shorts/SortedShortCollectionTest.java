@@ -38,6 +38,12 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
+    protected SortedShortCollection createOrderedShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
     protected SortedShortCollection createSortedShortCollection(final Comparator<Short> comparator,
             final Short... numbers) {
         return SortedShortCollection.of(comparator, numbers);

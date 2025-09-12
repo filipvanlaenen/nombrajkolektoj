@@ -35,4 +35,10 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     protected OrderedByteCollection createOrderedByteCollection(final Byte... numbers) {
         return OrderedByteCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedByteCollection createOrderedByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return OrderedByteCollection.of(elementCardinality, numbers);
+    }
 }

@@ -35,4 +35,10 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     protected OrderedIntegerCollection createOrderedIntegerCollection(final Integer... numbers) {
         return OrderedIntegerCollection.of(numbers);
     }
+
+    @Override
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final ElementCardinality elementCardinality,
+            final Integer... numbers) {
+        return OrderedIntegerCollection.of(elementCardinality, numbers);
+    }
 }

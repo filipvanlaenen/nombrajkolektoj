@@ -24,6 +24,18 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      * The byte four.
      */
     private static final Byte BYTE_FOUR = (byte) 4;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Byte> ENTRY1 = new Entry<String, Byte>("one", (byte) 1);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Byte> ENTRY2 = new Entry<String, Byte>("two", (byte) 2);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Byte> ENTRY3 = new Entry<String, Byte>("three", BYTE_THREE);
 
     @Override
     protected ModifiableSortedByteMap<String> createByteMap(final Entry<String, Byte>... entries) {
@@ -87,7 +99,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
 
     @Override
     protected ModifiableSortedByteMap<String> createUpdatableByteMap(
-            final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue, String... keys) {
+            final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue, final String... keys) {
         return ModifiableSortedByteMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
@@ -105,8 +117,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
         assertFalse(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
     }
@@ -116,8 +127,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", BYTE_FOUR));
         assertEquals(BYTE_FOUR, map123.get("four"));
         assertFalse(map123.add("four", BYTE_FOUR));
@@ -128,8 +138,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -147,7 +156,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Byte>("two", (byte) 2), createByteMap123().getGreatest());
+        assertEquals(ENTRY2, createByteMap123().getGreatest());
     }
 
     /**
@@ -163,7 +172,7 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Byte>("one", (byte) 1), createByteMap123().getLeast());
+        assertEquals(ENTRY1, createByteMap123().getLeast());
     }
 
     /**
@@ -179,9 +188,18 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals((byte) 1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY2, map123.removeGreatest());
+        assertFalse(map123.containsKey("two"));
     }
 
     /**
@@ -189,9 +207,18 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
+
+    /**
+     * Verifies that the <code>removeLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY1, map123.removeLeast());
+        assertFalse(map123.containsKey("one"));
     }
 }

@@ -24,6 +24,18 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      * The double four.
      */
     private static final Double DOUBLE_FOUR = 4D;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Double> ENTRY1 = new Entry<String, Double>("one", 1D);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Double> ENTRY2 = new Entry<String, Double>("two", 2D);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Double> ENTRY3 = new Entry<String, Double>("three", DOUBLE_THREE);
 
     @Override
     protected ModifiableSortedDoubleMap<String> createDoubleMap(final Entry<String, Double>... entries) {
@@ -87,7 +99,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
 
     @Override
     protected ModifiableSortedDoubleMap<String> createUpdatableDoubleMap(
-            final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue, String... keys) {
+            final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue, final String... keys) {
         return ModifiableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
@@ -105,8 +117,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
-                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.addAll(createUpdatableDoubleMap(new Entry<String, Double>("four", DOUBLE_FOUR))));
         assertFalse(map123.addAll(createUpdatableDoubleMap(new Entry<String, Double>("four", DOUBLE_FOUR))));
     }
@@ -116,8 +127,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
-                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", DOUBLE_FOUR));
         assertEquals(DOUBLE_FOUR, map123.get("four"));
         assertFalse(map123.add("four", DOUBLE_FOUR));
@@ -128,8 +138,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
-                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -147,7 +156,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Double>("two", 2D), createDoubleMap123().getGreatest());
+        assertEquals(ENTRY2, createDoubleMap123().getGreatest());
     }
 
     /**
@@ -163,7 +172,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Double>("one", 1D), createDoubleMap123().getLeast());
+        assertEquals(ENTRY1, createDoubleMap123().getLeast());
     }
 
     /**
@@ -179,9 +188,18 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
-                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1D, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY2, map123.removeGreatest());
+        assertFalse(map123.containsKey("two"));
     }
 
     /**
@@ -189,9 +207,18 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(new Entry<String, Double>("one", 1D),
-                new Entry<String, Double>("two", 2D), new Entry<String, Double>("three", DOUBLE_THREE));
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
+
+    /**
+     * Verifies that the <code>removeLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY1, map123.removeLeast());
+        assertFalse(map123.containsKey("one"));
     }
 }

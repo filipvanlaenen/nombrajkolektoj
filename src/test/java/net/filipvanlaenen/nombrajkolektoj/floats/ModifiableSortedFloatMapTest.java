@@ -24,6 +24,18 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      * The float four.
      */
     private static final Float FLOAT_FOUR = 4F;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Float> ENTRY1 = new Entry<String, Float>("one", 1F);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Float> ENTRY2 = new Entry<String, Float>("two", 2F);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", FLOAT_THREE);
 
     @Override
     protected ModifiableSortedFloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
@@ -87,7 +99,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
 
     @Override
     protected ModifiableSortedFloatMap<String> createUpdatableFloatMap(
-            final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue, String... keys) {
+            final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue, final String... keys) {
         return ModifiableSortedFloatMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
@@ -105,8 +117,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
         assertFalse(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
     }
@@ -116,8 +127,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", FLOAT_FOUR));
         assertEquals(FLOAT_FOUR, map123.get("four"));
         assertFalse(map123.add("four", FLOAT_FOUR));
@@ -128,8 +138,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -147,7 +156,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Float>("two", 2F), createFloatMap123().getGreatest());
+        assertEquals(ENTRY2, createFloatMap123().getGreatest());
     }
 
     /**
@@ -163,7 +172,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Float>("one", 1F), createFloatMap123().getLeast());
+        assertEquals(ENTRY1, createFloatMap123().getLeast());
     }
 
     /**
@@ -179,9 +188,18 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1F, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY2, map123.removeGreatest());
+        assertFalse(map123.containsKey("two"));
     }
 
     /**
@@ -189,9 +207,18 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
+
+    /**
+     * Verifies that the <code>removeLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY1, map123.removeLeast());
+        assertFalse(map123.containsKey("one"));
     }
 }

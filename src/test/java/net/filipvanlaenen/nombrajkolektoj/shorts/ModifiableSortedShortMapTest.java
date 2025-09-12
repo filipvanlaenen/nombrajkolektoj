@@ -24,6 +24,18 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      * The short four.
      */
     private static final Short SHORT_FOUR = (short) 4;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Short> ENTRY1 = new Entry<String, Short>("one", (short) 1);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Short> ENTRY2 = new Entry<String, Short>("two", (short) 2);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Short> ENTRY3 = new Entry<String, Short>("three", SHORT_THREE);
 
     @Override
     protected ModifiableSortedShortMap<String> createShortMap(final Entry<String, Short>... entries) {
@@ -87,7 +99,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
 
     @Override
     protected ModifiableSortedShortMap<String> createUpdatableShortMap(
-            final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue, String... keys) {
+            final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue, final String... keys) {
         return ModifiableSortedShortMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
@@ -105,8 +117,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
-                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.addAll(createUpdatableShortMap(new Entry<String, Short>("four", SHORT_FOUR))));
         assertFalse(map123.addAll(createUpdatableShortMap(new Entry<String, Short>("four", SHORT_FOUR))));
     }
@@ -116,8 +127,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
-                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", SHORT_FOUR));
         assertEquals(SHORT_FOUR, map123.get("four"));
         assertFalse(map123.add("four", SHORT_FOUR));
@@ -128,8 +138,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
-                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -147,7 +156,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Short>("two", (short) 2), createShortMap123().getGreatest());
+        assertEquals(ENTRY2, createShortMap123().getGreatest());
     }
 
     /**
@@ -163,7 +172,7 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Short>("one", (short) 1), createShortMap123().getLeast());
+        assertEquals(ENTRY1, createShortMap123().getLeast());
     }
 
     /**
@@ -179,9 +188,18 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
-                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals((short) 1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY2, map123.removeGreatest());
+        assertFalse(map123.containsKey("two"));
     }
 
     /**
@@ -189,9 +207,18 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
-                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
+
+    /**
+     * Verifies that the <code>removeLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY1, map123.removeLeast());
+        assertFalse(map123.containsKey("one"));
     }
 }

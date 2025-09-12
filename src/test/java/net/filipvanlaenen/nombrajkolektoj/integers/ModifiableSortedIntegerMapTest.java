@@ -24,6 +24,18 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      * The int four.
      */
     private static final Integer INTEGER_FOUR = 4;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Integer> ENTRY1 = new Entry<String, Integer>("one", 1);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Integer> ENTRY2 = new Entry<String, Integer>("two", 2);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Integer> ENTRY3 = new Entry<String, Integer>("three", INTEGER_THREE);
 
     @Override
     protected ModifiableSortedIntegerMap<String> createIntegerMap(final Entry<String, Integer>... entries) {
@@ -87,7 +99,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
 
     @Override
     protected ModifiableSortedIntegerMap<String> createUpdatableIntegerMap(
-            final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue, String... keys) {
+            final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue, final String... keys) {
         return ModifiableSortedIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
@@ -105,8 +117,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
-                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.addAll(createUpdatableIntegerMap(new Entry<String, Integer>("four", INTEGER_FOUR))));
         assertFalse(map123.addAll(createUpdatableIntegerMap(new Entry<String, Integer>("four", INTEGER_FOUR))));
     }
@@ -116,8 +127,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
-                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", INTEGER_FOUR));
         assertEquals(INTEGER_FOUR, map123.get("four"));
         assertFalse(map123.add("four", INTEGER_FOUR));
@@ -128,8 +138,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
-                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -147,7 +156,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Integer>("two", 2), createIntegerMap123().getGreatest());
+        assertEquals(ENTRY2, createIntegerMap123().getGreatest());
     }
 
     /**
@@ -163,7 +172,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Integer>("one", 1), createIntegerMap123().getLeast());
+        assertEquals(ENTRY1, createIntegerMap123().getLeast());
     }
 
     /**
@@ -179,9 +188,18 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
-                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeGreatestShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY2, map123.removeGreatest());
+        assertFalse(map123.containsKey("two"));
     }
 
     /**
@@ -189,9 +207,18 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(new Entry<String, Integer>("one", 1),
-                new Entry<String, Integer>("two", 2), new Entry<String, Integer>("three", INTEGER_THREE));
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
+    }
+
+    /**
+     * Verifies that the <code>removeLeast</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeLeastShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(ENTRY1, map123.removeLeast());
+        assertFalse(map123.containsKey("one"));
     }
 }

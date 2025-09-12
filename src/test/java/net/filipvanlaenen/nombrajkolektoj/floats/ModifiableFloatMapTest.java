@@ -21,6 +21,22 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      * The float four.
      */
     private static final Float FLOAT_FOUR = 4F;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Float> ENTRY1 = new Entry<String, Float>("one", 1F);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Float> ENTRY2 = new Entry<String, Float>("two", 2F);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", FLOAT_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Float> ENTRY4 = new Entry<String, Float>("four", FLOAT_FOUR);
 
     @Override
     protected ModifiableFloatMap<String> createEmptyFloatMap() {
@@ -89,8 +105,7 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", FLOAT_FOUR));
         assertEquals(FLOAT_FOUR, map123.get("four"));
         assertFalse(map123.add("four", FLOAT_FOUR));
@@ -101,10 +116,9 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
-        assertTrue(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
-        assertFalse(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.addAll(createUpdatableFloatMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableFloatMap(ENTRY4)));
     }
 
     /**
@@ -112,8 +126,7 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -123,8 +136,7 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1F, map123.remove("one"));
     }
 
@@ -133,10 +145,9 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
-        assertTrue(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
-        assertFalse(map123.removeAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createFloatMap(ENTRY3)));
+        assertFalse(map123.removeAll(createFloatMap(ENTRY3)));
     }
 
     /**
@@ -144,8 +155,7 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
     }
@@ -155,9 +165,8 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(new Entry<String, Float>("one", 1F),
-                new Entry<String, Float>("two", 2F), new Entry<String, Float>("three", FLOAT_THREE));
-        assertTrue(map123.retainAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
-        assertFalse(map123.retainAll(createUpdatableFloatMap(new Entry<String, Float>("three", FLOAT_THREE))));
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
     }
 }

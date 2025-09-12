@@ -21,6 +21,22 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      * The byte four.
      */
     private static final Byte BYTE_FOUR = (byte) 4;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Byte> ENTRY1 = new Entry<String, Byte>("one", (byte) 1);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Byte> ENTRY2 = new Entry<String, Byte>("two", (byte) 2);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Byte> ENTRY3 = new Entry<String, Byte>("three", BYTE_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Byte> ENTRY4 = new Entry<String, Byte>("four", BYTE_FOUR);
 
     @Override
     protected ModifiableByteMap<String> createEmptyByteMap() {
@@ -89,8 +105,7 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", BYTE_FOUR));
         assertEquals(BYTE_FOUR, map123.get("four"));
         assertFalse(map123.add("four", BYTE_FOUR));
@@ -101,10 +116,9 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
-        assertTrue(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
-        assertFalse(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.addAll(createUpdatableByteMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableByteMap(ENTRY4)));
     }
 
     /**
@@ -112,8 +126,7 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -123,8 +136,7 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals((byte) 1, map123.remove("one"));
     }
 
@@ -133,10 +145,9 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
-        assertTrue(map123.removeAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
-        assertFalse(map123.removeAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createByteMap(ENTRY3)));
+        assertFalse(map123.removeAll(createByteMap(ENTRY3)));
     }
 
     /**
@@ -144,8 +155,7 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
     }
@@ -155,9 +165,8 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableByteMap<String> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
-                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
-        assertTrue(map123.retainAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
-        assertFalse(map123.retainAll(createUpdatableByteMap(new Entry<String, Byte>("three", BYTE_THREE))));
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableByteMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableByteMap(ENTRY3)));
     }
 }

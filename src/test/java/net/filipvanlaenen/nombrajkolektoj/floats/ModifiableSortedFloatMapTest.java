@@ -36,6 +36,10 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
      * An entry for three.
      */
     private static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", FLOAT_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Float> ENTRY4 = new Entry<String, Float>("four", FLOAT_FOUR);
 
     @Override
     protected ModifiableSortedFloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
@@ -118,8 +122,8 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
-        assertFalse(map123.addAll(createUpdatableFloatMap(new Entry<String, Float>("four", FLOAT_FOUR))));
+        assertTrue(map123.addAll(createUpdatableFloatMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableFloatMap(ENTRY4)));
     }
 
     /**
@@ -193,6 +197,16 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
     }
 
     /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createFloatMap(ENTRY3)));
+        assertFalse(map123.removeAll(createFloatMap(ENTRY3)));
+    }
+
+    /**
      * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -220,5 +234,15 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
         ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(ENTRY1, map123.removeLeast());
         assertFalse(map123.containsKey("one"));
+    }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
     }
 }

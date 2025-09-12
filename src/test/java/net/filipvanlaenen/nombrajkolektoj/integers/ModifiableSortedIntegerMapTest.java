@@ -36,6 +36,10 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
      * An entry for three.
      */
     private static final Entry<String, Integer> ENTRY3 = new Entry<String, Integer>("three", INTEGER_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Integer> ENTRY4 = new Entry<String, Integer>("four", INTEGER_FOUR);
 
     @Override
     protected ModifiableSortedIntegerMap<String> createIntegerMap(final Entry<String, Integer>... entries) {
@@ -118,8 +122,8 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableIntegerMap(new Entry<String, Integer>("four", INTEGER_FOUR))));
-        assertFalse(map123.addAll(createUpdatableIntegerMap(new Entry<String, Integer>("four", INTEGER_FOUR))));
+        assertTrue(map123.addAll(createUpdatableIntegerMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableIntegerMap(ENTRY4)));
     }
 
     /**
@@ -193,6 +197,16 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     }
 
     /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createIntegerMap(ENTRY3)));
+        assertFalse(map123.removeAll(createIntegerMap(ENTRY3)));
+    }
+
+    /**
      * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -220,5 +234,15 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
         ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(ENTRY1, map123.removeLeast());
         assertFalse(map123.containsKey("one"));
+    }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
     }
 }

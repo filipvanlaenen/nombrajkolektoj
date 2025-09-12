@@ -21,6 +21,22 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      * The long four.
      */
     private static final Long LONG_FOUR = 4L;
+    /**
+     * An entry for one.
+     */
+    private static final Entry<String, Long> ENTRY1 = new Entry<String, Long>("one", 1L);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Long> ENTRY2 = new Entry<String, Long>("two", 2L);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Long> ENTRY3 = new Entry<String, Long>("three", LONG_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Long> ENTRY4 = new Entry<String, Long>("four", LONG_FOUR);
 
     @Override
     protected ModifiableLongMap<String> createEmptyLongMap() {
@@ -89,8 +105,7 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.add("four", LONG_FOUR));
         assertEquals(LONG_FOUR, map123.get("four"));
         assertFalse(map123.add("four", LONG_FOUR));
@@ -101,10 +116,9 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
-        assertTrue(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
-        assertFalse(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.addAll(createUpdatableLongMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableLongMap(ENTRY4)));
     }
 
     /**
@@ -112,8 +126,7 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         map123.clear();
         assertTrue(map123.isEmpty());
     }
@@ -123,8 +136,7 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1L, map123.remove("one"));
     }
 
@@ -133,10 +145,9 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
-        assertTrue(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
-        assertFalse(map123.removeAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createLongMap(ENTRY3)));
+        assertFalse(map123.removeAll(createLongMap(ENTRY3)));
     }
 
     /**
@@ -144,8 +155,7 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.removeIf(x -> x.key().equals("one")));
         assertFalse(map123.removeIf(x -> x.key().equals("one")));
     }
@@ -155,9 +165,8 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableLongMap<String> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
-                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
-        assertTrue(map123.retainAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
-        assertFalse(map123.retainAll(createUpdatableLongMap(new Entry<String, Long>("three", LONG_THREE))));
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableLongMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableLongMap(ENTRY3)));
     }
 }

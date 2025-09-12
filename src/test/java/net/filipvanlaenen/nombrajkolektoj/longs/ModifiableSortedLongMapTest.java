@@ -36,6 +36,10 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
      * An entry for three.
      */
     private static final Entry<String, Long> ENTRY3 = new Entry<String, Long>("three", LONG_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Long> ENTRY4 = new Entry<String, Long>("four", LONG_FOUR);
 
     @Override
     protected ModifiableSortedLongMap<String> createLongMap(final Entry<String, Long>... entries) {
@@ -118,8 +122,8 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
-        assertFalse(map123.addAll(createUpdatableLongMap(new Entry<String, Long>("four", LONG_FOUR))));
+        assertTrue(map123.addAll(createUpdatableLongMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableLongMap(ENTRY4)));
     }
 
     /**
@@ -193,6 +197,16 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
     }
 
     /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createLongMap(ENTRY3)));
+        assertFalse(map123.removeAll(createLongMap(ENTRY3)));
+    }
+
+    /**
      * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -220,5 +234,15 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
         ModifiableSortedLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(ENTRY1, map123.removeLeast());
         assertFalse(map123.containsKey("one"));
+    }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableLongMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableLongMap(ENTRY3)));
     }
 }

@@ -36,6 +36,10 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
      * An entry for three.
      */
     private static final Entry<String, Byte> ENTRY3 = new Entry<String, Byte>("three", BYTE_THREE);
+    /**
+     * An entry for four.
+     */
+    private static final Entry<String, Byte> ENTRY4 = new Entry<String, Byte>("four", BYTE_FOUR);
 
     @Override
     protected ModifiableSortedByteMap<String> createByteMap(final Entry<String, Byte>... entries) {
@@ -118,8 +122,8 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
-        assertFalse(map123.addAll(createUpdatableByteMap(new Entry<String, Byte>("four", BYTE_FOUR))));
+        assertTrue(map123.addAll(createUpdatableByteMap(ENTRY4)));
+        assertFalse(map123.addAll(createUpdatableByteMap(ENTRY4)));
     }
 
     /**
@@ -193,6 +197,16 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
     }
 
     /**
+     * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.removeAll(createByteMap(ENTRY3)));
+        assertFalse(map123.removeAll(createByteMap(ENTRY3)));
+    }
+
+    /**
      * Verifies that the <code>removeGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -220,5 +234,15 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
         ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(ENTRY1, map123.removeLeast());
         assertFalse(map123.containsKey("one"));
+    }
+
+    /**
+     * Verifies that the <code>retainAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map123.retainAll(createUpdatableByteMap(ENTRY3)));
+        assertFalse(map123.retainAll(createUpdatableByteMap(ENTRY3)));
     }
 }

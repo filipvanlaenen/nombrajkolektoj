@@ -84,6 +84,11 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     @Override
+    public int firstIndexOf(final Long element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Long get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     @Override
+    public int indexOf(final Long element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Long> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Long element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

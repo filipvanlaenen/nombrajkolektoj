@@ -86,6 +86,11 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
     }
 
     @Override
+    public int firstIndexOf(final BigInteger element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public BigInteger get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -101,8 +106,18 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
     }
 
     @Override
+    public int indexOf(final BigInteger element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<BigInteger> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final BigInteger element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

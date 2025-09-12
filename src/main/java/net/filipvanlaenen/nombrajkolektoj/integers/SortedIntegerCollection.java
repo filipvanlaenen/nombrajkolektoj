@@ -130,6 +130,11 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
     }
 
     @Override
+    public int firstIndexOf(final Integer element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Integer get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -147,6 +152,11 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Integer element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -176,6 +186,11 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
     static SortedIntegerCollection of(final ElementCardinality elementCardinality, final Comparator<Integer> comparator,
             final Integer... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

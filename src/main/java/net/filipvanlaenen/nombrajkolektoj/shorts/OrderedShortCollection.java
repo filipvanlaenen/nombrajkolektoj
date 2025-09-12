@@ -84,6 +84,11 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
     }
 
     @Override
+    public int firstIndexOf(final Short element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Short get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
     }
 
     @Override
+    public int indexOf(final Short element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Short> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Short element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

@@ -84,6 +84,11 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
     }
 
     @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Float get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
     }
 
     @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Float> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Float element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

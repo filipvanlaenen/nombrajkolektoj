@@ -130,6 +130,11 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     }
 
     @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Float get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -147,6 +152,11 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -176,6 +186,11 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     static SortedFloatCollection of(final ElementCardinality elementCardinality, final Comparator<Float> comparator,
             final Float... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final Float element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

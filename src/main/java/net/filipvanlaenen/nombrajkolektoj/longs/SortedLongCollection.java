@@ -130,6 +130,11 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
     }
 
     @Override
+    public int firstIndexOf(final Long element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Long get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -147,6 +152,11 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Long element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -176,6 +186,11 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
     static SortedLongCollection of(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
             final Long... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final Long element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

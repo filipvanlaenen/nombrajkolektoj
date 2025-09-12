@@ -84,6 +84,11 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
     }
 
     @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Double get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
     }
 
     @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Double> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Double element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

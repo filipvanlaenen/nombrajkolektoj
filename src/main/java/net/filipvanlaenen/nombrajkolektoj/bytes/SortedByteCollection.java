@@ -130,6 +130,11 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
     }
 
     @Override
+    public int firstIndexOf(final Byte element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Byte get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -147,6 +152,11 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Byte element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -176,6 +186,11 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
     static SortedByteCollection of(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
             final Byte... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final Byte element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

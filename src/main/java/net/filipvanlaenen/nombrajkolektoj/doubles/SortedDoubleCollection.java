@@ -130,6 +130,11 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     }
 
     @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Double get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -147,6 +152,11 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -176,6 +186,11 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     static SortedDoubleCollection of(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
             final Double... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final Double element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

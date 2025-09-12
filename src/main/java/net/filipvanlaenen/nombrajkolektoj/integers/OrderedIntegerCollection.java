@@ -84,6 +84,11 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     @Override
+    public int firstIndexOf(final Integer element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Integer get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     @Override
+    public int indexOf(final Integer element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Integer> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

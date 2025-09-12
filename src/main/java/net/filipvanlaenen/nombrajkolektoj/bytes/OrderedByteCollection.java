@@ -84,6 +84,11 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
     }
 
     @Override
+    public int firstIndexOf(final Byte element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public Byte get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -99,8 +104,18 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
     }
 
     @Override
+    public int indexOf(final Byte element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
     public Iterator<Byte> iterator() {
         return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Byte element) {
+        return collection.lastIndexOf(element);
     }
 
     /**

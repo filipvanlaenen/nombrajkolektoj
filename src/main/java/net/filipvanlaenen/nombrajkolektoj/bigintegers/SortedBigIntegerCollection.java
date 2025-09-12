@@ -132,6 +132,11 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
     }
 
     @Override
+    public int firstIndexOf(final BigInteger element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
     public BigInteger get() throws IndexOutOfBoundsException {
         return collection.get();
     }
@@ -149,6 +154,11 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
     @Override
     public ElementCardinality getElementCardinality() {
         return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final BigInteger element) {
+        return collection.indexOf(element);
     }
 
     @Override
@@ -178,6 +188,11 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
     static SortedBigIntegerCollection of(final ElementCardinality elementCardinality, final Comparator<BigInteger> comparator,
             final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    @Override
+    public int lastIndexOf(final BigInteger element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

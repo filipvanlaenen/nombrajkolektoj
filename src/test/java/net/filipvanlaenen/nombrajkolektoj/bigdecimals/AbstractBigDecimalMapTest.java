@@ -1,18 +1,18 @@
 package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Map.Entry;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.AbstractBigDecimalMap} class. The
- * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.BigDecimalMap} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.AbstractBigDecimalMap} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalMap} implementation.
  */
 public class AbstractBigDecimalMapTest {
     /**
@@ -30,7 +30,7 @@ public class AbstractBigDecimalMapTest {
     /**
      * The magic number ten.
      */
-    private static final BigDecimal TEN = BigDecimal.valueOf(10L);
+    private static final BigDecimal TEN = BigDecimal.TEN;
     /**
      * The magic number twenty-four.
      */
@@ -38,65 +38,63 @@ public class AbstractBigDecimalMapTest {
     /**
      * Map with the BigDecimals 1, 2, 3 and 4.
      */
-    private static final BigDecimalMap<String> MAP1234 =
-            BigDecimalMap.of("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L), "three", THREE, "four", FOUR);
+    private static final BigDecimalMap<String> MAP1234 = BigDecimalMap.of("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L), "three", THREE, "four", FOUR);
     /**
      * Map with the BigDecimals 1, 2 and 3 and <code>null</code>.
      */
-    private static final BigDecimalMap<String> MAP123NULL =
-            BigDecimalMap.of("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L), "three", THREE, null, null);
+    private static final BigDecimalMap<String> MAP123NULL = BigDecimalMap.of("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L), "three", THREE, null, null);
     /**
      * Map with <code>null</code>.
      */
     private static final BigDecimalMap<String> MAP_NULL = BigDecimalMap.of(new Entry<String, BigDecimal>(null, null));
 
     /**
-     * Verifies that <code>max</code> returns the largest integer in the map.
+     * Verifies that <code>max</code> returns the largest number in the map.
      */
     @Test
-    public void maxShouldReturnTheLargestInteger() {
+    public void maxShouldReturnTheLargestNumber() {
         assertEquals(FOUR, MAP1234.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest integer in the collection.
+     * Verifies that <code>min</code> returns the smallest number in the collection.
      */
     @Test
-    public void minShouldReturnTheSmallestInteger() {
+    public void minShouldReturnTheSmallestNumber() {
         assertEquals(BigDecimal.ONE, MAP1234.min());
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the integers in the collection.
+     * Verifies that <code>product</code> returns the product of the numbers in the collection.
      */
     @Test
-    public void productShouldReturnTheProductOfTheIntegers() {
+    public void productShouldReturnTheProductOfTheNumbers() {
         assertEquals(TWENTY_FOUR, MAP1234.product());
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the integers in the collection.
+     * Verifies that <code>sum</code> returns the sum of the numbers in the collection.
      */
     @Test
-    public void sumShouldReturnTheSumOfTheIntegers() {
+    public void sumShouldReturnTheSumOfTheNumbers() {
         assertEquals(TEN, MAP1234.sum());
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest integer in the collection even when there are
-     * <code>null</code> elements in the collection.
+     * Verifies that <code>max</code> returns the largest number in the collection even when there are <code>null</code>
+     * elements in the collection.
      */
     @Test
-    public void maxShouldIgnoreNullAndReturnTheLargestInteger() {
+    public void maxShouldIgnoreNullAndReturnTheLargestNumber() {
         assertEquals(THREE, MAP123NULL.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest integer in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest number in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void minShouldIgnoreNullAndReturnTheSmallestInteger() {
+    public void minShouldIgnoreNullAndReturnTheSmallestNumber() {
         assertEquals(BigDecimal.ONE, MAP123NULL.min());
     }
 

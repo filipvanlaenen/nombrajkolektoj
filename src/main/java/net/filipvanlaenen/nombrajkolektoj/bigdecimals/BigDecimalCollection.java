@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
+
 import java.util.Iterator;
 import java.util.Spliterator;
 
@@ -9,11 +10,10 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for
- * BigDecimals and containing inner classes with concrete implementations.
+ * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigDecimals
+ * and containing inner classes with concrete implementations.
  */
-public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
-        implements NumericCollection<BigDecimal> {
+public abstract class BigDecimalCollection extends AbstractBigDecimalCollection implements NumericCollection<BigDecimal> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
@@ -31,45 +31,45 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
          * Constructs a collection with the given BigDecimals and element cardinality.
          *
          * @param elementCardinality The element cardinality.
-         * @param bigDecimals        The bigDecimals of the collection.
+         * @param numbers            The BigDecimals of the collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... bigDecimals) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, bigDecimals));
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, numbers));
         }
 
         /**
          * Constructs a collection with the given BigDecimals. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param bigDecimals The bigDecimals of the collection.
+         * @param numbers The BigDecimals of the collection.
          */
-        public ArrayCollection(final BigDecimal... bigDecimals) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(bigDecimals));
+        public ArrayCollection(final BigDecimal... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(numbers));
         }
     }
 
     /**
      * The collection holding the BigDecimals.
      */
-    private final Collection<BigDecimal> bigDecimals;
+    private final Collection<BigDecimal> numbers;
 
     /**
-     * Private constructor taking a collection with the bigDecimals as its parameter.
+     * Private constructor taking a collection with the BigDecimals as its parameter.
      *
-     * @param bigDecimals The collection holding the bigDecimals.
+     * @param numbers The collection holding the BigDecimals.
      */
-    private BigDecimalCollection(final Collection<BigDecimal> bigDecimals) {
-        this.bigDecimals = bigDecimals;
+    private BigDecimalCollection(final Collection<BigDecimal> numbers) {
+        this.numbers = numbers;
     }
 
     @Override
     public boolean contains(final BigDecimal element) {
-        return bigDecimals.contains(element);
+        return numbers.contains(element);
     }
 
     @Override
     public boolean containsAll(final Collection<?> collection) {
-        return bigDecimals.containsAll(collection);
+        return numbers.containsAll(collection);
     }
 
     /**
@@ -83,52 +83,52 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection
 
     @Override
     public BigDecimal get() throws IndexOutOfBoundsException {
-        return bigDecimals.get();
+        return numbers.get();
     }
 
     @Override
     public ElementCardinality getElementCardinality() {
-        return bigDecimals.getElementCardinality();
+        return numbers.getElementCardinality();
     }
 
     @Override
     public Iterator<BigDecimal> iterator() {
-        return bigDecimals.iterator();
+        return numbers.iterator();
     }
 
     /**
      * Returns a new BigDecimals collection with the specified BigDecimals.
      *
-     * @param bigDecimals The BigDecimals for the new bigDecimals collection.
+     * @param numbers The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified BigDecimals.
      */
-    static BigDecimalCollection of(final BigDecimal... bigDecimals) {
-        return new ArrayCollection(bigDecimals);
+    static BigDecimalCollection of(final BigDecimal... numbers) {
+        return new ArrayCollection(numbers);
     }
 
     /**
      * Returns a new BigDecimals collection with the specified element cardinality and the BigDecimals.
      *
      * @param elementCardinality The element cardinality.
-     * @param bigDecimals        The BigDecimals for the new BigDecimals collection.
+     * @param numbers            The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... bigDecimals) {
-        return new ArrayCollection(elementCardinality, bigDecimals);
+    static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+        return new ArrayCollection(elementCardinality, numbers);
     }
 
     @Override
     public int size() {
-        return bigDecimals.size();
+        return numbers.size();
     }
 
     @Override
     public Spliterator<BigDecimal> spliterator() {
-        return bigDecimals.spliterator();
+        return numbers.spliterator();
     }
 
     @Override
     public BigDecimal[] toArray() {
-        return bigDecimals.toArray(EmptyArrays.BIG_DECIMALS);
+        return numbers.toArray(EmptyArrays.BIG_DECIMALS);
     }
 }

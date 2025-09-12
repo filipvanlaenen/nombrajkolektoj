@@ -6,7 +6,7 @@ import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.BigDecimalMap} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalMap} class.
  */
 public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap<String>> {
     @Override
@@ -44,15 +44,14 @@ public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap
 
     @Override
     protected BigDecimalMap<String> createBigDecimalMap(final String key1, final BigDecimal value1, final String key2,
-            final BigDecimal value2, final String key3, final BigDecimal value3, final String key4,
-            final BigDecimal value4) {
+            final BigDecimal value2, final String key3, final BigDecimal value3, final String key4, final BigDecimal value4) {
         return BigDecimalMap.of(key1, value1, key2, value2, key3, value3, key4, value4);
     }
 
     @Override
     protected BigDecimalMap<String> createBigDecimalMap(final String key1, final BigDecimal value1, final String key2,
-            final BigDecimal value2, final String key3, final BigDecimal value3, final String key4,
-            final BigDecimal value4, final String key5, final BigDecimal value5) {
+            final BigDecimal value2, final String key3, final BigDecimal value3, final String key4, final BigDecimal value4,
+            final String key5, final BigDecimal value5) {
         return BigDecimalMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 }

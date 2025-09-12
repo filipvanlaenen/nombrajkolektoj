@@ -15,10 +15,10 @@ abstract class AbstractBigDecimalCollection implements NumericCollection<BigDeci
             throw new IndexOutOfBoundsException("Cannot return a maximum for an empty collection.");
         }
         BigDecimal max = null;
-        for (BigDecimal bd : this) {
+        for (BigDecimal n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (bd != null && (max == null || bd.compareTo(max) > 0)) {
-                max = bd;
+            if (n != null && (max == null || n.compareTo(max) > 0)) {
+                max = n;
             }
         }
         return max;
@@ -30,10 +30,10 @@ abstract class AbstractBigDecimalCollection implements NumericCollection<BigDeci
             throw new IndexOutOfBoundsException("Cannot return a minimum for an empty collection.");
         }
         BigDecimal min = null;
-        for (BigDecimal bd : this) {
+        for (BigDecimal n : this) {
             // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-            if (bd != null && (min == null || bd.compareTo(min) < 0)) {
-                min = bd;
+            if (n != null && (min == null || n.compareTo(min) < 0)) {
+                min = n;
             }
         }
         return min;
@@ -42,9 +42,9 @@ abstract class AbstractBigDecimalCollection implements NumericCollection<BigDeci
     @Override
     public BigDecimal product() {
         BigDecimal product = BigDecimal.ONE;
-        for (BigDecimal bd : this) {
-            if (bd != null) {
-                product = product.multiply(bd);
+        for (BigDecimal n : this) {
+            if (n != null) {
+                product = product.multiply(n);
             }
         }
         return product;
@@ -53,11 +53,14 @@ abstract class AbstractBigDecimalCollection implements NumericCollection<BigDeci
     @Override
     public BigDecimal sum() {
         BigDecimal sum = BigDecimal.ZERO;
-        for (BigDecimal bd : this) {
-            if (bd != null) {
-                sum = sum.add(bd);
+        for (BigDecimal n : this) {
+            if (n != null) {
+                sum = sum.add(n);
             }
         }
         return sum;
     }
+
+    @Override
+    public abstract BigDecimal[] toArray();
 }

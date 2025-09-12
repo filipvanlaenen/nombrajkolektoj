@@ -1,23 +1,18 @@
 package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.AbstractBigDecimalCollection} class.
- * The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bigdecimals.BigDecimalCollection}
- * implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.AbstractBigDecimalCollection} class. The
+ * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} implementation.
  */
 public class AbstractBigDecimalCollectionTest {
-    /**
-     * The magic number two.
-     */
-    private static final BigDecimal TWO = BigDecimal.valueOf(2L);
     /**
      * The magic number three.
      */
@@ -33,7 +28,7 @@ public class AbstractBigDecimalCollectionTest {
     /**
      * The magic number ten.
      */
-    private static final BigDecimal TEN = BigDecimal.valueOf(10L);
+    private static final BigDecimal TEN = BigDecimal.TEN;
     /**
      * The magic number twenty-four.
      */
@@ -41,13 +36,11 @@ public class AbstractBigDecimalCollectionTest {
     /**
      * Collection with the BigDecimals 1, 2, 3 and 4.
      */
-    private static final BigDecimalCollection COLLECTION1234 =
-            BigDecimalCollection.of(BigDecimal.ONE, TWO, THREE, FOUR);
+    private static final BigDecimalCollection COLLECTION1234 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), THREE, FOUR);
     /**
      * Collection with the BigDecimals 1, 2 and 3 and <code>null</code>.
      */
-    private static final BigDecimalCollection COLLECTION123NULL =
-            BigDecimalCollection.of(BigDecimal.ONE, TWO, THREE, null);
+    private static final BigDecimalCollection COLLECTION123NULL = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), THREE, null);
     /**
      * Collection with <code>null</code>.
      */
@@ -86,8 +79,8 @@ public class AbstractBigDecimalCollectionTest {
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest BigDecimal in the collection even when there are
-     * <code>null</code> elements in the collection.
+     * Verifies that <code>max</code> returns the largest BigDecimal in the collection even when there are <code>null</code>
+     * elements in the collection.
      */
     @Test
     public void maxShouldIgnoreNullAndReturnTheLargestBigDecimal() {

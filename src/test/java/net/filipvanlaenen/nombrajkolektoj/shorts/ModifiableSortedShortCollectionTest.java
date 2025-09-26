@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
@@ -93,5 +94,45 @@ public final class ModifiableSortedShortCollectionTest
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).firstIndexOf((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createShortCollection((short) 1, (short) 2, SHORT_THREE).indexOf((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).removeAt(1));
     }
 }

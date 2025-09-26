@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
@@ -93,5 +94,45 @@ public final class ModifiableSortedDoubleCollectionTest
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).getLessThanOrEqualTo(2D));
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).firstIndexOf(2D));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createDoubleCollection(1D, 2D, DOUBLE_THREE).indexOf(2D));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).lastIndexOf(2D));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).removeAt(1));
     }
 }

@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
@@ -93,5 +94,45 @@ public final class ModifiableSortedIntegerCollectionTest
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).getLessThanOrEqualTo(2));
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).firstIndexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createIntegerCollection(1, 2, INTEGER_THREE).indexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).lastIndexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).removeAt(1));
     }
 }

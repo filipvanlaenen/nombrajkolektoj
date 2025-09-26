@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
@@ -95,5 +96,45 @@ public final class ModifiableSortedBigDecimalCollectionTest
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(BigDecimal.valueOf(2L), createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThanOrEqualTo(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).firstIndexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).indexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).lastIndexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).removeAt(1));
     }
 }

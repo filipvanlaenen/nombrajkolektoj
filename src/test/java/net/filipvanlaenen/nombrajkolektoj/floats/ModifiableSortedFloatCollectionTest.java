@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
@@ -93,5 +94,45 @@ public final class ModifiableSortedFloatCollectionTest
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getLessThanOrEqualTo(2F));
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).firstIndexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createFloatCollection(1F, 2F, FLOAT_THREE).indexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).lastIndexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).removeAt(1));
     }
 }

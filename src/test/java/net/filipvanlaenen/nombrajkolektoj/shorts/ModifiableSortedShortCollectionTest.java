@@ -1,6 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Comparator;
+
+import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -11,6 +15,11 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public final class ModifiableSortedShortCollectionTest
         extends ModifiableShortCollectionTestBase<ModifiableSortedShortCollection> {
+    /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+
     @Override
     protected ModifiableSortedShortCollection createShortCollection(final Collection<Short> source) {
         return new ModifiableSortedShortCollection.SortedTreeCollection(Comparator.naturalOrder(),
@@ -31,5 +40,58 @@ public final class ModifiableSortedShortCollectionTest
     @Override
     protected ModifiableSortedShortCollection createEmptyShortCollection() {
         return ModifiableSortedShortCollection.empty(Comparator.naturalOrder());
+    }
+
+    /**
+     * Creates a modifiable sorted shorts collection containing the provided shorts.
+     *
+     * @param numbers    The shorts to be included in the modifiable sorted shorts collection.
+     * @param comparator The comparator for the shorts.
+     * @return An modifiable sorted shorts collection containing the provided shorts.
+     */
+    private ModifiableSortedShortCollection createSortedShortCollection(final Comparator<Short> comparator,
+            final Short... numbers) {
+        return ModifiableSortedShortCollection.of(comparator, numbers);
+    }
+
+    /**
+     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableSortedShortCollection collection = createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2);
+        assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(SHORT_THREE, createShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThan((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThanOrEqualTo((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 1, createShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThan((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
     }
 }

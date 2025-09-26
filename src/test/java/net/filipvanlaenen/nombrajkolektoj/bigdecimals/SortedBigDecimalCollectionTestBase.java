@@ -19,6 +19,11 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 public abstract class SortedBigDecimalCollectionTestBase<T extends SortedNumericCollection<BigDecimal>>
         extends OrderedBigDecimalCollectionTestBase<T> {
     /**
+     * The BigDecimal three.
+     */
+    private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
+
+    /**
      * Creates a sorted BigDecimals collection containing the provided BigDecimals.
      *
      * @param numbers    The BigDecimals to be included in the sorted BigDecimals collection.
@@ -34,5 +39,37 @@ public abstract class SortedBigDecimalCollectionTestBase<T extends SortedNumeric
     public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
         T collection = createSortedBigDecimalCollection(Comparator.naturalOrder(), BigDecimal.ONE, BigDecimal.valueOf(2L));
         assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BIG_DECIMAL_THREE, createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getGreaterThan(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getGreaterThanOrEqualTo(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.ONE, createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThan(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThanOrEqualTo(BigDecimal.valueOf(2L)));
     }
 }

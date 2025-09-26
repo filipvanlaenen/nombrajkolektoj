@@ -17,6 +17,11 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 public abstract class SortedFloatCollectionTestBase<T extends SortedNumericCollection<Float>>
         extends OrderedFloatCollectionTestBase<T> {
     /**
+     * The float three.
+     */
+    private static final Float FLOAT_THREE = 3F;
+
+    /**
      * Creates a sorted floats collection containing the provided floats.
      *
      * @param numbers    The floats to be included in the sorted floats collection.
@@ -32,5 +37,37 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedNumericColle
     public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
         T collection = createSortedFloatCollection(Comparator.naturalOrder(), 1F, 2F);
         assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(FLOAT_THREE, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getGreaterThan(2F));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getGreaterThanOrEqualTo(2F));
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getLessThan(2F));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getLessThanOrEqualTo(2F));
     }
 }

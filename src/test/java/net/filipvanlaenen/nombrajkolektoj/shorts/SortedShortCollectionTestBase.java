@@ -17,6 +17,11 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 public abstract class SortedShortCollectionTestBase<T extends SortedNumericCollection<Short>>
         extends OrderedShortCollectionTestBase<T> {
     /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+
+    /**
      * Creates a sorted shorts collection containing the provided shorts.
      *
      * @param numbers    The shorts to be included in the sorted shorts collection.
@@ -32,5 +37,37 @@ public abstract class SortedShortCollectionTestBase<T extends SortedNumericColle
     public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
         T collection = createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2);
         assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(SHORT_THREE, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThan((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThanOrEqualTo((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 1, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThan((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((short) 2, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
     }
 }

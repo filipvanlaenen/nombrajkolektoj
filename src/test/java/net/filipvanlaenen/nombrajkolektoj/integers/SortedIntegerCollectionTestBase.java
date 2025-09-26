@@ -17,6 +17,11 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 public abstract class SortedIntegerCollectionTestBase<T extends SortedNumericCollection<Integer>>
         extends OrderedIntegerCollectionTestBase<T> {
     /**
+     * The int three.
+     */
+    private static final Integer INTEGER_THREE = 3;
+
+    /**
      * Creates a sorted integers collection containing the provided integers.
      *
      * @param numbers    The integers to be included in the sorted integers collection.
@@ -32,5 +37,37 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedNumericCol
     public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
         T collection = createSortedIntegerCollection(Comparator.naturalOrder(), 1, 2);
         assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(INTEGER_THREE, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getGreaterThan(2));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getGreaterThanOrEqualTo(2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getLessThan(2));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getLessThanOrEqualTo(2));
     }
 }

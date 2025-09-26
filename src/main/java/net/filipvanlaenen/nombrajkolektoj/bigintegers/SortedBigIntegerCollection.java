@@ -157,6 +157,26 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
     }
 
     @Override
+    public BigInteger getGreaterThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigInteger getGreaterThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigInteger getLessThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigInteger getLessThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final BigInteger element) {
         return collection.indexOf(element);
     }

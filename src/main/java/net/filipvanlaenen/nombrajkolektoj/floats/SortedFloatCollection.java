@@ -155,6 +155,26 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     }
 
     @Override
+    public Float getGreaterThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Float getGreaterThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Float getLessThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Float getLessThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Float element) {
         return collection.indexOf(element);
     }

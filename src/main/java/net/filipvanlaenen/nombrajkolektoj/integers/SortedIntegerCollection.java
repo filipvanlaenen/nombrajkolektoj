@@ -155,6 +155,26 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
     }
 
     @Override
+    public Integer getGreaterThan(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Integer getGreaterThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Integer getLessThan(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Integer getLessThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Integer element) {
         return collection.indexOf(element);
     }

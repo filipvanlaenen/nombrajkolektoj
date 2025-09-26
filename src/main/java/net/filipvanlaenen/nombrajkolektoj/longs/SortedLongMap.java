@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
+import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
@@ -183,7 +184,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
     }
 
     @Override
-    public Collection<K> getKeys() {
+    public SortedCollection<K> getKeys() {
         return map.getKeys();
     }
 

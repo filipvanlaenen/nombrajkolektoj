@@ -155,6 +155,26 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
     }
 
     @Override
+    public Long getGreaterThan(final Long element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Long getGreaterThanOrEqualTo(final Long element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Long getLessThan(final Long element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Long getLessThanOrEqualTo(final Long element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Long element) {
         return collection.indexOf(element);
     }

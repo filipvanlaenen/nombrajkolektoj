@@ -155,6 +155,26 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     }
 
     @Override
+    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Double element) {
         return collection.indexOf(element);
     }

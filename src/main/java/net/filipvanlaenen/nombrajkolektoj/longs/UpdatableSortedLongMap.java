@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
+import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
@@ -185,7 +186,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
     }
 
     @Override
-    public Collection<K> getKeys() {
+    public SortedCollection<K> getKeys() {
         return map.getKeys();
     }
 

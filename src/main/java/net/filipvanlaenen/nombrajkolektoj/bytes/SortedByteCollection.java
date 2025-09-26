@@ -155,6 +155,26 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
     }
 
     @Override
+    public Byte getGreaterThan(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Byte getGreaterThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Byte getLessThan(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Byte getLessThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Byte element) {
         return collection.indexOf(element);
     }

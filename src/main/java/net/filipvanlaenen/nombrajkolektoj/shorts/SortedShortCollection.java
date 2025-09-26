@@ -155,6 +155,26 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
     }
 
     @Override
+    public Short getGreaterThan(final Short element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Short getGreaterThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Short getLessThan(final Short element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Short getLessThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final Short element) {
         return collection.indexOf(element);
     }

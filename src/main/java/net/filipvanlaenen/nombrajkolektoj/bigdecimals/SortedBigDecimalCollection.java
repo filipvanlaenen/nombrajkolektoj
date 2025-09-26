@@ -157,6 +157,26 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
     }
 
     @Override
+    public BigDecimal getGreaterThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigDecimal getGreaterThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigDecimal getLessThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigDecimal getLessThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
     public int indexOf(final BigDecimal element) {
         return collection.indexOf(element);
     }

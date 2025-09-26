@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
+import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
@@ -160,7 +161,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
-    public Collection<K> getKeys() {
+    public SortedCollection<K> getKeys() {
         return map.getKeys();
     }
 

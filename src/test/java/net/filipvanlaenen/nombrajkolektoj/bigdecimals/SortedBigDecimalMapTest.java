@@ -19,14 +19,6 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
      * The BigDecimal three.
      */
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, BigDecimal> ENTRY2 = new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L));
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, BigDecimal> ENTRY3 = new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L));
 
     @Override
     protected SortedBigDecimalMap<String> createEmptyBigDecimalMap() {

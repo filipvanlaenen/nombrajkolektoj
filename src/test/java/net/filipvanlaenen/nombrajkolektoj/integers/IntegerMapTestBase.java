@@ -50,10 +50,17 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      */
     protected static final Entry<String, Integer> ENTRY1 = new Entry<String, Integer>("one", 1);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Integer> ENTRY2 = new Entry<String, Integer>("two", 2);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Integer> ENTRY3 = new Entry<String, Integer>("three", 3);
+    /**
      * Map with the integers 1, 2 and 3.
      */
-    private final NumericMap<String, Integer> map123 = createIntegerMap(ENTRY1, new Entry<String, Integer>("two", 2),
-            new Entry<String, Integer>("three", INTEGER_THREE));
+    private final NumericMap<String, Integer> map123 = createIntegerMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty integers map.

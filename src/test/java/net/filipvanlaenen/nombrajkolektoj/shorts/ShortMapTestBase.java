@@ -50,10 +50,17 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
      */
     protected static final Entry<String, Short> ENTRY1 = new Entry<String, Short>("one", (short) 1);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Short> ENTRY2 = new Entry<String, Short>("two", (short) 2);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Short> ENTRY3 = new Entry<String, Short>("three", (short) 3);
+    /**
      * Map with the shorts 1, 2 and 3.
      */
-    private final NumericMap<String, Short> map123 = createShortMap(ENTRY1, new Entry<String, Short>("two", (short) 2),
-            new Entry<String, Short>("three", SHORT_THREE));
+    private final NumericMap<String, Short> map123 = createShortMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty shorts map.

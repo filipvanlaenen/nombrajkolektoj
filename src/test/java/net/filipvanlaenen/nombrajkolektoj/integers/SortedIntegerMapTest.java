@@ -17,14 +17,6 @@ public final class SortedIntegerMapTest extends IntegerMapTestBase<SortedInteger
      * The int three.
      */
     private static final Integer INTEGER_THREE = 3;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Integer> ENTRY2 = new Entry<String, Integer>("two", 2);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Integer> ENTRY3 = new Entry<String, Integer>("three", 3);
 
     @Override
     protected SortedIntegerMap<String> createEmptyIntegerMap() {

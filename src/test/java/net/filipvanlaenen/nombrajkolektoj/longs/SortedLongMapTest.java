@@ -17,14 +17,6 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
      * The long three.
      */
     private static final Long LONG_THREE = 3L;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Long> ENTRY2 = new Entry<String, Long>("two", 2L);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Long> ENTRY3 = new Entry<String, Long>("three", 3L);
 
     @Override
     protected SortedLongMap<String> createEmptyLongMap() {

@@ -52,10 +52,17 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
      */
     protected static final Entry<String, BigDecimal> ENTRY1 = new Entry<String, BigDecimal>("one", BigDecimal.ONE);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, BigDecimal> ENTRY2 = new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L));
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, BigDecimal> ENTRY3 = new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L));
+    /**
      * Map with the BigDecimals 1, 2 and 3.
      */
-    private final NumericMap<String, BigDecimal> map123 = createBigDecimalMap(ENTRY1, new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L)),
-            new Entry<String, BigDecimal>("three", BIG_DECIMAL_THREE));
+    private final NumericMap<String, BigDecimal> map123 = createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty BigDecimals map.

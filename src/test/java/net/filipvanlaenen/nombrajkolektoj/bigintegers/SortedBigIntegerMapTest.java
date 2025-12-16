@@ -19,14 +19,6 @@ public final class SortedBigIntegerMapTest extends BigIntegerMapTestBase<SortedB
      * The BigInteger three.
      */
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, BigInteger> ENTRY2 = new Entry<String, BigInteger>("two", BigInteger.TWO);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, BigInteger> ENTRY3 = new Entry<String, BigInteger>("three", BigInteger.valueOf(3L));
 
     @Override
     protected SortedBigIntegerMap<String> createEmptyBigIntegerMap() {

@@ -17,14 +17,6 @@ public final class SortedDoubleMapTest extends DoubleMapTestBase<SortedDoubleMap
      * The double three.
      */
     private static final Double DOUBLE_THREE = 3D;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Double> ENTRY2 = new Entry<String, Double>("two", 2D);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Double> ENTRY3 = new Entry<String, Double>("three", 3D);
 
     @Override
     protected SortedDoubleMap<String> createEmptyDoubleMap() {

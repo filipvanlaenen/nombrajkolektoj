@@ -50,10 +50,17 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
      */
     protected static final Entry<String, Byte> ENTRY1 = new Entry<String, Byte>("one", (byte) 1);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Byte> ENTRY2 = new Entry<String, Byte>("two", (byte) 2);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Byte> ENTRY3 = new Entry<String, Byte>("three", (byte) 3);
+    /**
      * Map with the bytes 1, 2 and 3.
      */
-    private final NumericMap<String, Byte> map123 = createByteMap(ENTRY1, new Entry<String, Byte>("two", (byte) 2),
-            new Entry<String, Byte>("three", BYTE_THREE));
+    private final NumericMap<String, Byte> map123 = createByteMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty bytes map.

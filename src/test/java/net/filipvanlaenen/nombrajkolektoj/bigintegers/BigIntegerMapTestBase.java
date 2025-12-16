@@ -52,10 +52,17 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      */
     protected static final Entry<String, BigInteger> ENTRY1 = new Entry<String, BigInteger>("one", BigInteger.ONE);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, BigInteger> ENTRY2 = new Entry<String, BigInteger>("two", BigInteger.TWO);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, BigInteger> ENTRY3 = new Entry<String, BigInteger>("three", BigInteger.valueOf(3L));
+    /**
      * Map with the BigIntegers 1, 2 and 3.
      */
-    private final NumericMap<String, BigInteger> map123 = createBigIntegerMap(ENTRY1, new Entry<String, BigInteger>("two", BigInteger.TWO),
-            new Entry<String, BigInteger>("three", BIG_INTEGER_THREE));
+    private final NumericMap<String, BigInteger> map123 = createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty BigIntegers map.

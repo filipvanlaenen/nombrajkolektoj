@@ -17,14 +17,6 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
      * The float three.
      */
     private static final Float FLOAT_THREE = 3F;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Float> ENTRY2 = new Entry<String, Float>("two", 2F);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", 3F);
 
     @Override
     protected SortedFloatMap<String> createEmptyFloatMap() {

@@ -17,14 +17,6 @@ public final class SortedShortMapTest extends ShortMapTestBase<SortedShortMap<St
      * The short three.
      */
     private static final Short SHORT_THREE = (short) 3;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Short> ENTRY2 = new Entry<String, Short>("two", (short) 2);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Short> ENTRY3 = new Entry<String, Short>("three", (short) 3);
 
     @Override
     protected SortedShortMap<String> createEmptyShortMap() {

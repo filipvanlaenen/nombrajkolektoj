@@ -50,10 +50,17 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      */
     protected static final Entry<String, Long> ENTRY1 = new Entry<String, Long>("one", 1L);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Long> ENTRY2 = new Entry<String, Long>("two", 2L);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Long> ENTRY3 = new Entry<String, Long>("three", 3L);
+    /**
      * Map with the longs 1, 2 and 3.
      */
-    private final NumericMap<String, Long> map123 = createLongMap(ENTRY1, new Entry<String, Long>("two", 2L),
-            new Entry<String, Long>("three", LONG_THREE));
+    private final NumericMap<String, Long> map123 = createLongMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty longs map.

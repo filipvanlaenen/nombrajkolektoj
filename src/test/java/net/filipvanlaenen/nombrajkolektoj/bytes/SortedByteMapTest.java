@@ -17,14 +17,6 @@ public final class SortedByteMapTest extends ByteMapTestBase<SortedByteMap<Strin
      * The byte three.
      */
     private static final Byte BYTE_THREE = (byte) 3;
-    /**
-     * An entry for two.
-     */
-    private static final Entry<String, Byte> ENTRY2 = new Entry<String, Byte>("two", (byte) 2);
-    /**
-     * An entry for three.
-     */
-    private static final Entry<String, Byte> ENTRY3 = new Entry<String, Byte>("three", (byte) 3);
 
     @Override
     protected SortedByteMap<String> createEmptyByteMap() {

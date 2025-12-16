@@ -50,10 +50,17 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
      */
     protected static final Entry<String, Double> ENTRY1 = new Entry<String, Double>("one", 1D);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Double> ENTRY2 = new Entry<String, Double>("two", 2D);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Double> ENTRY3 = new Entry<String, Double>("three", 3D);
+    /**
      * Map with the doubles 1, 2 and 3.
      */
-    private final NumericMap<String, Double> map123 = createDoubleMap(ENTRY1, new Entry<String, Double>("two", 2D),
-            new Entry<String, Double>("three", DOUBLE_THREE));
+    private final NumericMap<String, Double> map123 = createDoubleMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty doubles map.

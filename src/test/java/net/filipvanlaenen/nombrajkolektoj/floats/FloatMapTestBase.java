@@ -50,10 +50,17 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
      */
     protected static final Entry<String, Float> ENTRY1 = new Entry<String, Float>("one", 1F);
     /**
+     * An entry for two.
+     */
+    protected static final Entry<String, Float> ENTRY2 = new Entry<String, Float>("two", 2F);
+    /**
+     * An entry for three.
+     */
+    protected static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", 3F);
+    /**
      * Map with the floats 1, 2 and 3.
      */
-    private final NumericMap<String, Float> map123 = createFloatMap(ENTRY1, new Entry<String, Float>("two", 2F),
-            new Entry<String, Float>("three", FLOAT_THREE));
+    private final NumericMap<String, Float> map123 = createFloatMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty floats map.

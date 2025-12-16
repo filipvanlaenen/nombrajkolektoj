@@ -50,7 +50,7 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     /**
      * An entry for one.
      */
-    private static final Entry<String, BigInteger> ENTRY1 = new Entry<String, BigInteger>("one", BigInteger.ONE);
+    protected static final Entry<String, BigInteger> ENTRY1 = new Entry<String, BigInteger>("one", BigInteger.ONE);
     /**
      * Map with the BigIntegers 1, 2 and 3.
      */

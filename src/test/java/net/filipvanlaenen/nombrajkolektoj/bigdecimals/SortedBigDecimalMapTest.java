@@ -19,6 +19,14 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
      * The BigDecimal three.
      */
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, BigDecimal> ENTRY2 = new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L));
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, BigDecimal> ENTRY3 = new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L));
 
     @Override
     protected SortedBigDecimalMap<String> createEmptyBigDecimalMap() {
@@ -85,11 +93,27 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
     }
 
     /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY2, createBigDecimalMap123().getGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L)), createBigDecimalMap123().getGreaterThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L)), createBigDecimalMap123().getGreatest());
+        assertEquals(ENTRY2, createBigDecimalMap123().getGreatest());
     }
 
     /**
@@ -101,11 +125,43 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
     }
 
     /**
+     * Verifies that the <code>getKeyGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createBigDecimalMap123().getKeyGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createBigDecimalMap123().getKeyGreaterThanOrEqualTo("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createBigDecimalMap123().getKeyLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createBigDecimalMap123().getKeyLessThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getLeast</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, BigDecimal>("one", BigDecimal.ONE), createBigDecimalMap123().getLeast());
+        assertEquals(ENTRY1, createBigDecimalMap123().getLeast());
     }
 
     /**
@@ -114,5 +170,21 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
     @Test
     public void getLeastKeyShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals("one", createBigDecimalMap123().getLeastKey());
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY1, createBigDecimalMap123().getLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY3, createBigDecimalMap123().getLessThanOrEqualTo("three"));
     }
 }

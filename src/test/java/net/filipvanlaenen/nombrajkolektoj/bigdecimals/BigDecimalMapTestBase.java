@@ -50,7 +50,7 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     /**
      * An entry for one.
      */
-    private static final Entry<String, BigDecimal> ENTRY1 = new Entry<String, BigDecimal>("one", BigDecimal.ONE);
+    protected static final Entry<String, BigDecimal> ENTRY1 = new Entry<String, BigDecimal>("one", BigDecimal.ONE);
     /**
      * Map with the BigDecimals 1, 2 and 3.
      */

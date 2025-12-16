@@ -48,7 +48,7 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     /**
      * An entry for one.
      */
-    private static final Entry<String, Integer> ENTRY1 = new Entry<String, Integer>("one", 1);
+    protected static final Entry<String, Integer> ENTRY1 = new Entry<String, Integer>("one", 1);
     /**
      * Map with the integers 1, 2 and 3.
      */

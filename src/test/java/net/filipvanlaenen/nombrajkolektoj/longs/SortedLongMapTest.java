@@ -17,6 +17,14 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
      * The long three.
      */
     private static final Long LONG_THREE = 3L;
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Long> ENTRY2 = new Entry<String, Long>("two", 2L);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Long> ENTRY3 = new Entry<String, Long>("three", 3L);
 
     @Override
     protected SortedLongMap<String> createEmptyLongMap() {
@@ -83,11 +91,27 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
     }
 
     /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY2, createLongMap123().getGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, Long>("three", 3L), createLongMap123().getGreaterThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Long>("two", 2L), createLongMap123().getGreatest());
+        assertEquals(ENTRY2, createLongMap123().getGreatest());
     }
 
     /**
@@ -99,11 +123,43 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
     }
 
     /**
+     * Verifies that the <code>getKeyGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createLongMap123().getKeyGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createLongMap123().getKeyGreaterThanOrEqualTo("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createLongMap123().getKeyLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createLongMap123().getKeyLessThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getLeast</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Long>("one", 1L), createLongMap123().getLeast());
+        assertEquals(ENTRY1, createLongMap123().getLeast());
     }
 
     /**
@@ -112,5 +168,21 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
     @Test
     public void getLeastKeyShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals("one", createLongMap123().getLeastKey());
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY1, createLongMap123().getLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY3, createLongMap123().getLessThanOrEqualTo("three"));
     }
 }

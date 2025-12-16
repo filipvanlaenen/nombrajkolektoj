@@ -17,6 +17,14 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
      * The float three.
      */
     private static final Float FLOAT_THREE = 3F;
+    /**
+     * An entry for two.
+     */
+    private static final Entry<String, Float> ENTRY2 = new Entry<String, Float>("two", 2F);
+    /**
+     * An entry for three.
+     */
+    private static final Entry<String, Float> ENTRY3 = new Entry<String, Float>("three", 3F);
 
     @Override
     protected SortedFloatMap<String> createEmptyFloatMap() {
@@ -83,11 +91,27 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     }
 
     /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY2, createFloatMap123().getGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, Float>("three", 3F), createFloatMap123().getGreaterThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getGreatestShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Float>("two", 2F), createFloatMap123().getGreatest());
+        assertEquals(ENTRY2, createFloatMap123().getGreatest());
     }
 
     /**
@@ -99,11 +123,43 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     }
 
     /**
+     * Verifies that the <code>getKeyGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createFloatMap123().getKeyGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createFloatMap123().getKeyGreaterThanOrEqualTo("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createFloatMap123().getKeyLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createFloatMap123().getKeyLessThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getLeast</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getLeastShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Float>("one", 1F), createFloatMap123().getLeast());
+        assertEquals(ENTRY1, createFloatMap123().getLeast());
     }
 
     /**
@@ -112,5 +168,21 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     @Test
     public void getLeastKeyShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals("one", createFloatMap123().getLeastKey());
+    }
+
+    /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY1, createFloatMap123().getLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY3, createFloatMap123().getLessThanOrEqualTo("three"));
     }
 }

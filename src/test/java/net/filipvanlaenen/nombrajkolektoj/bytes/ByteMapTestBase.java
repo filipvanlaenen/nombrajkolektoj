@@ -48,7 +48,7 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
     /**
      * An entry for one.
      */
-    private static final Entry<String, Byte> ENTRY1 = new Entry<String, Byte>("one", (byte) 1);
+    protected static final Entry<String, Byte> ENTRY1 = new Entry<String, Byte>("one", (byte) 1);
     /**
      * Map with the bytes 1, 2 and 3.
      */

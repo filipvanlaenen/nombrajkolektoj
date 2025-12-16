@@ -48,7 +48,7 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
     /**
      * An entry for one.
      */
-    private static final Entry<String, Float> ENTRY1 = new Entry<String, Float>("one", 1F);
+    protected static final Entry<String, Float> ENTRY1 = new Entry<String, Float>("one", 1F);
     /**
      * Map with the floats 1, 2 and 3.
      */

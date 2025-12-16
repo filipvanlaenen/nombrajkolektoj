@@ -48,7 +48,7 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
     /**
      * An entry for one.
      */
-    private static final Entry<String, Short> ENTRY1 = new Entry<String, Short>("one", (short) 1);
+    protected static final Entry<String, Short> ENTRY1 = new Entry<String, Short>("one", (short) 1);
     /**
      * Map with the shorts 1, 2 and 3.
      */

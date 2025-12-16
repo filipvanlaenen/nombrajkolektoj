@@ -48,7 +48,7 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
     /**
      * An entry for one.
      */
-    private static final Entry<String, Long> ENTRY1 = new Entry<String, Long>("one", 1L);
+    protected static final Entry<String, Long> ENTRY1 = new Entry<String, Long>("one", 1L);
     /**
      * Map with the longs 1, 2 and 3.
      */

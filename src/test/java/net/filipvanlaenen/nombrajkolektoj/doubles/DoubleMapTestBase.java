@@ -48,7 +48,7 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     /**
      * An entry for one.
      */
-    private static final Entry<String, Double> ENTRY1 = new Entry<String, Double>("one", 1D);
+    protected static final Entry<String, Double> ENTRY1 = new Entry<String, Double>("one", 1D);
     /**
      * Map with the doubles 1, 2 and 3.
      */

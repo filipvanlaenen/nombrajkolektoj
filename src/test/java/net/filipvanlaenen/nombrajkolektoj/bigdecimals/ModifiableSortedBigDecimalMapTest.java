@@ -158,6 +158,22 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
     }
 
     /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY2, createBigDecimalMap123().getGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L)), createBigDecimalMap123().getGreaterThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -171,6 +187,38 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
     @Test
     public void getGreatestKeyShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals("two", createBigDecimalMap123().getGreatestKey());
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createBigDecimalMap123().getKeyGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createBigDecimalMap123().getKeyGreaterThanOrEqualTo("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createBigDecimalMap123().getKeyLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createBigDecimalMap123().getKeyLessThanOrEqualTo("three"));
     }
 
     /**
@@ -190,12 +238,38 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
     }
 
     /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY1, createBigDecimalMap123().getLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY3, createBigDecimalMap123().getLessThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedBigDecimalMap<String> map123 = createUpdatableBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(BigDecimal.ONE, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedBigDecimalMap<String> map123 = createUpdatableBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", BigDecimal.valueOf(2L)));
+        assertTrue(map123.remove("one", BigDecimal.ONE));
     }
 
     /**

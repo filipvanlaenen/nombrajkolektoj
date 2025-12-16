@@ -156,6 +156,22 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     }
 
     /**
+     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY2, createIntegerMap123().getGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(new Entry<String, Integer>("three", 3), createIntegerMap123().getGreaterThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>getGreatest</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -169,6 +185,38 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     @Test
     public void getGreatestKeyShouldBeWiredCorrectlyToTheInternalMap() {
         assertEquals("two", createIntegerMap123().getGreatestKey());
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("two", createIntegerMap123().getKeyGreaterThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createIntegerMap123().getKeyGreaterThanOrEqualTo("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("one", createIntegerMap123().getKeyLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getKeyLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getKeyLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals("three", createIntegerMap123().getKeyLessThanOrEqualTo("three"));
     }
 
     /**
@@ -188,12 +236,38 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     }
 
     /**
+     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY1, createIntegerMap123().getLessThan("three"));
+    }
+
+    /**
+     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
+        assertEquals(ENTRY3, createIntegerMap123().getLessThanOrEqualTo("three"));
+    }
+
+    /**
      * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
         ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertEquals(1, map123.remove("one"));
+    }
+
+    /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableSortedIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", 2));
+        assertTrue(map123.remove("one", 1));
     }
 
     /**

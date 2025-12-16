@@ -42,12 +42,30 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
     @Override
     public boolean augment(final OrderedNumericCollection<BigInteger> addends)
             throws IllegalArgumentException, NullPointerException {
-        if (size() != addends.size()) {
+        int n = size();
+        if (n != addends.size()) {
             throw new IllegalArgumentException("Cannot augment a collection with a collection of a different size.");
         }
         BigInteger[] results = this.toArray();
-        // TODO: To be done.
-        return false;
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            BigInteger addend = addends.getAt(i);
+            if (originalValue == null ^ addend == null) {
+                throw new NullPointerException(
+                        "Cannot augment a collection with a collection when null values don't match.");
+            }
+            if (originalValue != null) {
+                results[i] = originalValue.add(addend);
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
     }
 
     @Override
@@ -75,6 +93,54 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
     }
 
     @Override
+    public boolean multiply(final OrderedNumericCollection<BigInteger> multiplicands)
+            throws IllegalArgumentException, NullPointerException {
+        int n = size();
+        if (n != multiplicands.size()) {
+            throw new IllegalArgumentException("Cannot multiply a collection with a collection of a different size.");
+        }
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            BigInteger multiplicand = multiplicands.getAt(i);
+            if (originalValue == null ^ multiplicand == null) {
+                throw new NullPointerException(
+                        "Cannot multiply a collection with a collection when null values don't match.");
+            }
+            if (originalValue != null) {
+                results[i] = originalValue.multiply(multiplicand);
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
+    }
+
+    @Override
+    public boolean negate() {
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < size(); i++) {
+            BigInteger originalValue = results[i];
+            if (results[i] != null) {
+                results[i] = originalValue.negate();
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
+    }
+
+    @Override
     public BigInteger negate(final int index)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
@@ -93,5 +159,30 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         }
         putAt(index, result);
         return originalValue;
+    }
+
+    private void putResults(BigInteger[] results) {
+        int n = size();
+        boolean[] updated = new boolean[n];
+        boolean allUpdated = false;
+        BigInteger counter = BigInteger.ZERO;
+        while (!allUpdated) {
+            allUpdated = true;
+            for (int i = 0; i < n; i++) {
+                if (!updated[i]) {
+                    try {
+                        putAt(i, results[i]);
+                        updated[i] = true;
+                    } catch (IllegalArgumentException iae) {
+                        allUpdated = false;
+                        try {
+                            putAt(i, counter);
+                        } catch (IllegalArgumentException iae2) {
+                        }
+                        counter = counter.add(BigInteger.ONE);
+                    }
+                }
+            }
+        }
     }
 }

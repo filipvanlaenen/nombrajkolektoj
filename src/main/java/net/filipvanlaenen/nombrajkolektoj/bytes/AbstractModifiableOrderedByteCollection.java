@@ -40,12 +40,30 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
     @Override
     public boolean augment(final OrderedNumericCollection<Byte> addends)
             throws IllegalArgumentException, NullPointerException {
-        if (size() != addends.size()) {
+        int n = size();
+        if (n != addends.size()) {
             throw new IllegalArgumentException("Cannot augment a collection with a collection of a different size.");
         }
         Byte[] results = this.toArray();
-        // TODO: To be done.
-        return false;
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            Byte addend = addends.getAt(i);
+            if (originalValue == null ^ addend == null) {
+                throw new NullPointerException(
+                        "Cannot augment a collection with a collection when null values don't match.");
+            }
+            if (originalValue != null) {
+                results[i] = (byte) (originalValue + addend);
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
     }
 
     @Override
@@ -73,6 +91,54 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
     }
 
     @Override
+    public boolean multiply(final OrderedNumericCollection<Byte> multiplicands)
+            throws IllegalArgumentException, NullPointerException {
+        int n = size();
+        if (n != multiplicands.size()) {
+            throw new IllegalArgumentException("Cannot multiply a collection with a collection of a different size.");
+        }
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            Byte multiplicand = multiplicands.getAt(i);
+            if (originalValue == null ^ multiplicand == null) {
+                throw new NullPointerException(
+                        "Cannot multiply a collection with a collection when null values don't match.");
+            }
+            if (originalValue != null) {
+                results[i] = (byte) (originalValue * multiplicand);
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
+    }
+
+    @Override
+    public boolean negate() {
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < size(); i++) {
+            Byte originalValue = results[i];
+            if (results[i] != null) {
+                results[i] = (byte) (-originalValue);
+                changed |= results[i] != originalValue;
+            }
+            i++;
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results);
+        return true;
+    }
+
+    @Override
     public Byte negate(final int index)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
@@ -91,5 +157,30 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
         }
         putAt(index, result);
         return originalValue;
+    }
+
+    private void putResults(Byte[] results) {
+        int n = size();
+        boolean[] updated = new boolean[n];
+        boolean allUpdated = false;
+        Byte counter = (byte) 0;
+        while (!allUpdated) {
+            allUpdated = true;
+            for (int i = 0; i < n; i++) {
+                if (!updated[i]) {
+                    try {
+                        putAt(i, results[i]);
+                        updated[i] = true;
+                    } catch (IllegalArgumentException iae) {
+                        allUpdated = false;
+                        try {
+                            putAt(i, counter);
+                        } catch (IllegalArgumentException iae2) {
+                        }
+                        counter = (byte) (counter + 1);
+                    }
+                }
+            }
+        }
     }
 }

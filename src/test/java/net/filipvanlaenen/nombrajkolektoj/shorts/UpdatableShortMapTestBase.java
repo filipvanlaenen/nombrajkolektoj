@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +90,19 @@ public abstract class UpdatableShortMapTestBase<T extends UpdatableNumericMap<St
         UpdatableNumericMap<String, Short> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
                 new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
         assertEquals((short) 1, map123.update("one", SHORT_FOUR));
+        assertEquals(SHORT_FOUR, map123.get("one"));
+    }
+
+    /**
+     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void updateWithOldValueShouldBeWiredCorrectlyToTheInternalMap() {
+        UpdatableNumericMap<String, Short> map123 = createUpdatableShortMap(new Entry<String, Short>("one", (short) 1),
+                new Entry<String, Short>("two", (short) 2), new Entry<String, Short>("three", SHORT_THREE));
+        assertFalse(map123.update("one", (short) 1, (short) 1));
+        assertEquals((short) 1, map123.get("one"));
+        assertTrue(map123.update("one", (short) 1, SHORT_FOUR));
         assertEquals(SHORT_FOUR, map123.get("one"));
     }
 }

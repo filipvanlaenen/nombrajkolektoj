@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +90,19 @@ public abstract class UpdatableLongMapTestBase<T extends UpdatableNumericMap<Str
         UpdatableNumericMap<String, Long> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
                 new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
         assertEquals(1L, map123.update("one", LONG_FOUR));
+        assertEquals(LONG_FOUR, map123.get("one"));
+    }
+
+    /**
+     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void updateWithOldValueShouldBeWiredCorrectlyToTheInternalMap() {
+        UpdatableNumericMap<String, Long> map123 = createUpdatableLongMap(new Entry<String, Long>("one", 1L),
+                new Entry<String, Long>("two", 2L), new Entry<String, Long>("three", LONG_THREE));
+        assertFalse(map123.update("one", 1L, 1L));
+        assertEquals(1L, map123.get("one"));
+        assertTrue(map123.update("one", 1L, LONG_FOUR));
         assertEquals(LONG_FOUR, map123.get("one"));
     }
 }

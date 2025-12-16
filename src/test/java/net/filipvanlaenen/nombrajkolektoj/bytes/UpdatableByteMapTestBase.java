@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +90,19 @@ public abstract class UpdatableByteMapTestBase<T extends UpdatableNumericMap<Str
         UpdatableNumericMap<String, Byte> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
                 new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
         assertEquals((byte) 1, map123.update("one", BYTE_FOUR));
+        assertEquals(BYTE_FOUR, map123.get("one"));
+    }
+
+    /**
+     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void updateWithOldValueShouldBeWiredCorrectlyToTheInternalMap() {
+        UpdatableNumericMap<String, Byte> map123 = createUpdatableByteMap(new Entry<String, Byte>("one", (byte) 1),
+                new Entry<String, Byte>("two", (byte) 2), new Entry<String, Byte>("three", BYTE_THREE));
+        assertFalse(map123.update("one", (byte) 1, (byte) 1));
+        assertEquals((byte) 1, map123.get("one"));
+        assertTrue(map123.update("one", (byte) 1, BYTE_FOUR));
         assertEquals(BYTE_FOUR, map123.get("one"));
     }
 }

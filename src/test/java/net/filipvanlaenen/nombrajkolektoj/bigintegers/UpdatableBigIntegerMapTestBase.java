@@ -4,6 +4,8 @@ import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -90,6 +92,19 @@ public abstract class UpdatableBigIntegerMapTestBase<T extends UpdatableNumericM
         UpdatableNumericMap<String, BigInteger> map123 = createUpdatableBigIntegerMap(new Entry<String, BigInteger>("one", BigInteger.ONE),
                 new Entry<String, BigInteger>("two", BigInteger.TWO), new Entry<String, BigInteger>("three", BIG_INTEGER_THREE));
         assertEquals(BigInteger.ONE, map123.update("one", BIG_INTEGER_FOUR));
+        assertEquals(BIG_INTEGER_FOUR, map123.get("one"));
+    }
+
+    /**
+     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void updateWithOldValueShouldBeWiredCorrectlyToTheInternalMap() {
+        UpdatableNumericMap<String, BigInteger> map123 = createUpdatableBigIntegerMap(new Entry<String, BigInteger>("one", BigInteger.ONE),
+                new Entry<String, BigInteger>("two", BigInteger.TWO), new Entry<String, BigInteger>("three", BIG_INTEGER_THREE));
+        assertFalse(map123.update("one", BigInteger.ONE, BigInteger.ONE));
+        assertEquals(BigInteger.ONE, map123.get("one"));
+        assertTrue(map123.update("one", BigInteger.ONE, BIG_INTEGER_FOUR));
         assertEquals(BIG_INTEGER_FOUR, map123.get("one"));
     }
 }

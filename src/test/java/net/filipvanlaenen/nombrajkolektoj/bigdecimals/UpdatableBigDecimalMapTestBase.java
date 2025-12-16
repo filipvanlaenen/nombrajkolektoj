@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DISTINCT_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -90,6 +92,19 @@ public abstract class UpdatableBigDecimalMapTestBase<T extends UpdatableNumericM
         UpdatableNumericMap<String, BigDecimal> map123 = createUpdatableBigDecimalMap(new Entry<String, BigDecimal>("one", BigDecimal.ONE),
                 new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L)), new Entry<String, BigDecimal>("three", BIG_DECIMAL_THREE));
         assertEquals(BigDecimal.ONE, map123.update("one", BIG_DECIMAL_FOUR));
+        assertEquals(BIG_DECIMAL_FOUR, map123.get("one"));
+    }
+
+    /**
+     * Verifies that the <code>update</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void updateWithOldValueShouldBeWiredCorrectlyToTheInternalMap() {
+        UpdatableNumericMap<String, BigDecimal> map123 = createUpdatableBigDecimalMap(new Entry<String, BigDecimal>("one", BigDecimal.ONE),
+                new Entry<String, BigDecimal>("two", BigDecimal.valueOf(2L)), new Entry<String, BigDecimal>("three", BIG_DECIMAL_THREE));
+        assertFalse(map123.update("one", BigDecimal.ONE, BigDecimal.ONE));
+        assertEquals(BigDecimal.ONE, map123.get("one"));
+        assertTrue(map123.update("one", BigDecimal.ONE, BIG_DECIMAL_FOUR));
         assertEquals(BIG_DECIMAL_FOUR, map123.get("one"));
     }
 }

@@ -298,4 +298,9 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
     public Double update(final K key, final Double value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Double oldValye, final Double newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

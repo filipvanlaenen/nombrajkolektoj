@@ -300,6 +300,11 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     @Override
+    public boolean remove(final K key, final Float value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Float> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     @Override
     public Float update(final K key, final Float value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Float oldValue, final Float newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

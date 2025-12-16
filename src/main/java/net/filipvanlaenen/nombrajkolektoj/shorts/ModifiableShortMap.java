@@ -300,6 +300,11 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
     }
 
     @Override
+    public boolean remove(final K key, final Short value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Short> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
     @Override
     public Short update(final K key, final Short value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Short oldValue, final Short newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

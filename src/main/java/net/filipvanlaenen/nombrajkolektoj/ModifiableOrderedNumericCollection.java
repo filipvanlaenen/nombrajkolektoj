@@ -18,7 +18,8 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @throws IllegalArgumentException  Thrown if the resulting number at the given position would result into
      *                                   duplicates when they're not allowed.
      * @throws IndexOutOfBoundsException Thrown if the index is out of bounds.
-     * @throws NullPointerException      Thrown if the original value at the given position is <code>null</code>.
+     * @throws NullPointerException      Thrown either if the original value at the given position is <code>null</code>
+     *                                   or the addend is <code>null</code>.
      */
     N augment(int index, N addend) throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
 
@@ -30,11 +31,10 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @return True if any of the numbers in the collection was changed.
      * @throws IllegalArgumentException Thrown if the collections are not of the same size, or if the resulting numbers
      *                                  would result into duplicates when they're not allowed.
-     * @throws NullPointerException     Thrown a <code>null</code> in one collection isn't matched by a
-     *                                  <code>null</code> in the other collection.
+     * @throws NullPointerException     Thrown a <code>null</code> value in one collection isn't matched by a
+     *                                  <code>null</code> value in the other collection.
      */
-    boolean augment(OrderedNumericCollection<N> addends)
-            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
+    boolean augment(OrderedNumericCollection<N> addends) throws IllegalArgumentException, NullPointerException;
 
     /**
      * Multiplies the number at a given position in this collection and returns the original value.
@@ -45,7 +45,8 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @throws IllegalArgumentException  Thrown if the resulting number at the given position would result into
      *                                   duplicates when they're not allowed.
      * @throws IndexOutOfBoundsException Thrown if the index is out of bounds.
-     * @throws NullPointerException      Thrown if the original value at the given position is <code>null</code>.
+     * @throws NullPointerException      Thrown either if the original value at the given position is <code>null</code>
+     *                                   or the multiplicand is <code>null</code>.
      */
     N multiply(int index, N multiplicand)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
@@ -58,11 +59,10 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @return True if any of the numbers in the collection was changed.
      * @throws IllegalArgumentException Thrown if the collections are not of the same size, or if the resulting numbers
      *                                  would result into duplicates when they're not allowed.
-     * @throws NullPointerException     Thrown a <code>null</code> in one collection isn't matched by a
-     *                                  <code>null</code> in the other collection.
+     * @throws NullPointerException     Thrown a <code>null</code> value in one collection isn't matched by a
+     *                                  <code>null</code> value in the other collection.
      */
-    boolean multiply(OrderedNumericCollection<N> multiplicands)
-            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
+    boolean multiply(OrderedNumericCollection<N> multiplicands) throws IllegalArgumentException, NullPointerException;
 
     /**
      * Negates the number at a given position in this collection and returns the original value.

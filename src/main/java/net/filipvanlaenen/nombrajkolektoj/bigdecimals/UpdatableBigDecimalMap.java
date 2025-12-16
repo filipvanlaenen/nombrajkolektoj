@@ -300,4 +300,9 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
     public BigDecimal update(final K key, final BigDecimal value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final BigDecimal oldValye, final BigDecimal newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

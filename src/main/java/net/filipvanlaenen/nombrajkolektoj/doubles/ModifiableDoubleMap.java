@@ -300,6 +300,11 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     }
 
     @Override
+    public boolean remove(final K key, final Double value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Double> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     @Override
     public Double update(final K key, final Double value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Double oldValue, final Double newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

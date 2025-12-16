@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
@@ -169,6 +170,16 @@ public abstract class SortedByteMap<K> extends AbstractSortedByteMap<K> implemen
     }
 
     @Override
+    public Entry<K, Byte> getGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThan(key);
+    }
+
+    @Override
+    public Entry<K, Byte> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThanOrEqualTo(key);
+    }
+
+    @Override
     public Entry<K, Byte> getGreatest() {
         return map.getGreatest();
     }
@@ -181,6 +192,26 @@ public abstract class SortedByteMap<K> extends AbstractSortedByteMap<K> implemen
     @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThan(key);
+    }
+
+    @Override
+    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThan(key);
+    }
+
+    @Override
+    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThanOrEqualTo(key);
     }
 
     @Override
@@ -199,8 +230,18 @@ public abstract class SortedByteMap<K> extends AbstractSortedByteMap<K> implemen
     }
 
     @Override
-    public NumericCollection<Byte> getValues() {
-        return new ByteCollection.ArrayCollection(map.getValues());
+    public Entry<K, Byte> getLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThan(key);
+    }
+
+    @Override
+    public Entry<K, Byte> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public OrderedNumericCollection<Byte> getValues() {
+        return new OrderedByteCollection.ArrayCollection(map.getValues());
     }
 
     @Override

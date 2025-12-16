@@ -298,4 +298,9 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     public Short update(final K key, final Short value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Short oldValye, final Short newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

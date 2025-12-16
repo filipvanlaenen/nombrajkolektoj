@@ -298,4 +298,9 @@ public abstract class UpdatableFloatMap<K> extends AbstractUpdatableFloatMap<K>
     public Float update(final K key, final Float value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Float oldValye, final Float newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

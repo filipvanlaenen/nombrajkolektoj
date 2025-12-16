@@ -298,4 +298,9 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     public Long update(final K key, final Long value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Long oldValye, final Long newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

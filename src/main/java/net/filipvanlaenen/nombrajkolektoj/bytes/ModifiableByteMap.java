@@ -300,6 +300,11 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     }
 
     @Override
+    public boolean remove(final K key, final Byte value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Byte> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     @Override
     public Byte update(final K key, final Byte value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Byte oldValue, final Byte newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

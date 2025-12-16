@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
 /**
@@ -171,6 +172,16 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     }
 
     @Override
+    public Entry<K, Integer> getGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThan(key);
+    }
+
+    @Override
+    public Entry<K, Integer> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThanOrEqualTo(key);
+    }
+
+    @Override
     public Entry<K, Integer> getGreatest() {
         return map.getGreatest();
     }
@@ -183,6 +194,26 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThan(key);
+    }
+
+    @Override
+    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThan(key);
+    }
+
+    @Override
+    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThanOrEqualTo(key);
     }
 
     @Override
@@ -201,8 +232,18 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     }
 
     @Override
-    public NumericCollection<Integer> getValues() {
-        return new IntegerCollection.ArrayCollection(map.getValues());
+    public Entry<K, Integer> getLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThan(key);
+    }
+
+    @Override
+    public Entry<K, Integer> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public OrderedNumericCollection<Integer> getValues() {
+        return new OrderedIntegerCollection.ArrayCollection(map.getValues());
     }
 
     @Override
@@ -386,5 +427,10 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     @Override
     public Integer update(final K key, final Integer value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Integer oldValye, final Integer newValue) {
+        return map.update(key, oldValye, newValue);
     }
 }

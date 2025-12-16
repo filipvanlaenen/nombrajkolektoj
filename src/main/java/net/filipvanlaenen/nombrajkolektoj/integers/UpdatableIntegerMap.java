@@ -298,4 +298,9 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
     public Integer update(final K key, final Integer value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Integer oldValye, final Integer newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

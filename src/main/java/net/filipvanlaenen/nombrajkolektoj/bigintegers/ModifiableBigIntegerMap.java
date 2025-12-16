@@ -302,6 +302,11 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
     }
 
     @Override
+    public boolean remove(final K key, final BigInteger value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends BigInteger> aMap) {
         return map.removeAll(aMap);
     }
@@ -334,5 +339,10 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
     @Override
     public BigInteger update(final K key, final BigInteger value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final BigInteger oldValue, final BigInteger newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

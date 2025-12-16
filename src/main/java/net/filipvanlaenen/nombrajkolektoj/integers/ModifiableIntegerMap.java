@@ -300,6 +300,11 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
     }
 
     @Override
+    public boolean remove(final K key, final Integer value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Integer> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
     @Override
     public Integer update(final K key, final Integer value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Integer oldValue, final Integer newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

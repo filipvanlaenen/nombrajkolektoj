@@ -300,4 +300,9 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
     public BigInteger update(final K key, final BigInteger value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final BigInteger oldValye, final BigInteger newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

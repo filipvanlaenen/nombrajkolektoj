@@ -13,6 +13,7 @@ import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap} interface
@@ -146,6 +147,16 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
+    public Entry<K, BigDecimal> getGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThan(key);
+    }
+
+    @Override
+    public Entry<K, BigDecimal> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThanOrEqualTo(key);
+    }
+
+    @Override
     public Entry<K, BigDecimal> getGreatest() {
         return map.getGreatest();
     }
@@ -158,6 +169,26 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     @Override
     public KeyAndValueCardinality getKeyAndValueCardinality() {
         return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThan(key);
+    }
+
+    @Override
+    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThan(key);
+    }
+
+    @Override
+    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThanOrEqualTo(key);
     }
 
     @Override
@@ -176,8 +207,18 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
-    public NumericCollection<BigDecimal> getValues() {
-        return new BigDecimalCollection.ArrayCollection(map.getValues());
+    public Entry<K, BigDecimal> getLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThan(key);
+    }
+
+    @Override
+    public Entry<K, BigDecimal> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public OrderedNumericCollection<BigDecimal> getValues() {
+        return new OrderedBigDecimalCollection.ArrayCollection(map.getValues());
     }
 
     @Override
@@ -349,6 +390,11 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
+    public boolean remove(final K key, final BigDecimal value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends BigDecimal> aMap) {
         return map.removeAll(aMap);
     }
@@ -391,5 +437,10 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     @Override
     public BigDecimal update(final K key, final BigDecimal value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final BigDecimal oldValye, final BigDecimal newValue) {
+        return map.update(key, oldValye, newValue);
     }
 }

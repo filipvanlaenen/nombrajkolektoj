@@ -298,4 +298,9 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
     public Byte update(final K key, final Byte value) throws IllegalArgumentException {
         return map.update(key, value);
     }
+
+    @Override
+    public boolean update(final K key, final Byte oldValye, final Byte newValue) {
+        return map.update(key, oldValye, newValue);
+    }
 }

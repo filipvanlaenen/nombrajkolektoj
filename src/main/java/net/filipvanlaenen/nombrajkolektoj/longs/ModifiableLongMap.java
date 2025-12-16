@@ -300,6 +300,11 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
     }
 
     @Override
+    public boolean remove(final K key, final Long value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends Long> aMap) {
         return map.removeAll(aMap);
     }
@@ -332,5 +337,10 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
     @Override
     public Long update(final K key, final Long value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final Long oldValue, final Long newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

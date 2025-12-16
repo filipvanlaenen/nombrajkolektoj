@@ -302,6 +302,11 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
     }
 
     @Override
+    public boolean remove(final K key, final BigDecimal value) {
+        return map.remove(key, value);
+    }
+
+    @Override
     public boolean removeAll(final Map<? extends K, ? extends BigDecimal> aMap) {
         return map.removeAll(aMap);
     }
@@ -334,5 +339,10 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
     @Override
     public BigDecimal update(final K key, final BigDecimal value) throws IllegalArgumentException {
         return map.update(key, value);
+    }
+
+    @Override
+    public boolean update(final K key, final BigDecimal oldValue, final BigDecimal newValue) {
+        return map.update(key, oldValue, newValue);
     }
 }

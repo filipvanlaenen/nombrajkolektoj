@@ -141,6 +141,16 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", 2L));
+        assertTrue(map123.remove("one", 1L));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

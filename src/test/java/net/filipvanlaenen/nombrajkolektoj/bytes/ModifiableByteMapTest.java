@@ -141,6 +141,16 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", (byte) 2));
+        assertTrue(map123.remove("one", (byte) 1));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

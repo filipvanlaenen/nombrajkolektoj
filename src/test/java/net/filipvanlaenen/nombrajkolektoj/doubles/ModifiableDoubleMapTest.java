@@ -141,6 +141,16 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", 2D));
+        assertTrue(map123.remove("one", 1D));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

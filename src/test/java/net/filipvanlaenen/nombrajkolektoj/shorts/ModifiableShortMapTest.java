@@ -141,6 +141,16 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", (short) 2));
+        assertTrue(map123.remove("one", (short) 1));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

@@ -143,6 +143,16 @@ public final class ModifiableBigDecimalMapTest extends UpdatableBigDecimalMapTes
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableBigDecimalMap<String> map123 = createUpdatableBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", BigDecimal.valueOf(2L)));
+        assertTrue(map123.remove("one", BigDecimal.ONE));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

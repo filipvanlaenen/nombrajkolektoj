@@ -141,6 +141,16 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", 2));
+        assertTrue(map123.remove("one", 1));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

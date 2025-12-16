@@ -141,6 +141,16 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     }
 
     /**
+     * Verifies that the <code>remove</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
+        ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map123.remove("one", 2F));
+        assertTrue(map123.remove("one", 1F));
+    }
+
+    /**
      * Verifies that the <code>removeAll</code> method is wired correctly to the internal collection.
      */
     @Test

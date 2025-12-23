@@ -173,6 +173,7 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
                         }
+                        // EQMU: Replacing the short addition with subtraction below produces an equivalent mutant.
                         counter = (short) (counter + 1);
                     }
                 }

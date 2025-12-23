@@ -175,6 +175,7 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
                         }
+                        // EQMU: Replacing the BigInteger addition with subtraction below produces an equivalent mutant.
                         counter = counter.add(BigInteger.ONE);
                     }
                 }

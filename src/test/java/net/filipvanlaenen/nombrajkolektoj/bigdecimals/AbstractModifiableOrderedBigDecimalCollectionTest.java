@@ -55,6 +55,14 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
      * The magic number eight.
      */
     private static final BigDecimal BIG_DECIMAL_EIGHT = BigDecimal.valueOf(8L);
+    /**
+     * The magic number nine.
+     */
+    private static final BigDecimal BIG_DECIMAL_NINE = BigDecimal.valueOf(9L);
+    /**
+     * The magic number sixteen.
+     */
+    private static final BigDecimal BIG_DECIMAL_SIXTEEN = BigDecimal.valueOf(16L);
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -205,6 +213,39 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
     }
 
     /**
+     * Verifies that augment with a collection augments the collection correctly with matching <code>null</code> values.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        collection.augment(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
+        assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
+        assertEquals("Cannot augment a collection with a collection when null values don't match.",
+                exception.getMessage());
+    }
+
+    /**
      * Verifies that multiply with an index returns the original number.
      */
     @Test
@@ -286,6 +327,75 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, BigDecimal.valueOf(2L)));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().multiply(createCollection1234()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().multiply(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns false if no change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.multiply(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_FOUR, BIG_DECIMAL_NINE, BIG_DECIMAL_SIXTEEN)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        collection.multiply(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_FOUR, BIG_DECIMAL_NINE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
+        assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
+        assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
 

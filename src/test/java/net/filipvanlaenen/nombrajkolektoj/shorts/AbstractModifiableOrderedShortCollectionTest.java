@@ -53,6 +53,14 @@ public class AbstractModifiableOrderedShortCollectionTest {
      * The magic number eight.
      */
     private static final short SHORT_EIGHT = (short) 8;
+    /**
+     * The magic number nine.
+     */
+    private static final short SHORT_NINE = (short) 9;
+    /**
+     * The magic number sixteen.
+     */
+    private static final short SHORT_SIXTEEN = (short) 16;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -203,6 +211,39 @@ public class AbstractModifiableOrderedShortCollectionTest {
     }
 
     /**
+     * Verifies that augment with a collection augments the collection correctly with matching <code>null</code> values.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        collection.augment(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 2, SHORT_FOUR, SHORT_SIX, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedShortCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.augment(ModifiableOrderedShortCollection.of((short) 1, (short) 2)));
+        assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.augment(ModifiableOrderedShortCollection.of((short) 1, null, (short) 2, SHORT_THREE)));
+        assertEquals("Cannot augment a collection with a collection when null values don't match.",
+                exception.getMessage());
+    }
+
+    /**
      * Verifies that multiply with an index returns the original number.
      */
     @Test
@@ -284,6 +325,75 @@ public class AbstractModifiableOrderedShortCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, (short) 2));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().multiply(createCollection1234()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().multiply(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns false if no change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedShortCollection.of((short) 1, (short) 1, (short) 1, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
+        ModifiableOrderedShortCollection collection = createCollection1234();
+        collection.multiply(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_FOUR, SHORT_NINE, SHORT_SIXTEEN)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        collection.multiply(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_FOUR, SHORT_NINE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedShortCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.multiply(ModifiableOrderedShortCollection.of((short) 1, (short) 2)));
+        assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.multiply(ModifiableOrderedShortCollection.of((short) 1, null, (short) 2, SHORT_THREE)));
+        assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
 

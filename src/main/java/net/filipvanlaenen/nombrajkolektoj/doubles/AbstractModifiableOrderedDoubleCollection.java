@@ -173,6 +173,7 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
                         }
+                        // EQMU: Replacing the double addition with subtraction below produces an equivalent mutant.
                         counter += 1D;
                     }
                 }

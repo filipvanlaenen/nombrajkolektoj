@@ -53,6 +53,14 @@ public class AbstractModifiableOrderedFloatCollectionTest {
      * The magic number eight.
      */
     private static final float FLOAT_EIGHT = 8F;
+    /**
+     * The magic number nine.
+     */
+    private static final float FLOAT_NINE = 9F;
+    /**
+     * The magic number sixteen.
+     */
+    private static final float FLOAT_SIXTEEN = 16F;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -203,6 +211,39 @@ public class AbstractModifiableOrderedFloatCollectionTest {
     }
 
     /**
+     * Verifies that augment with a collection augments the collection correctly with matching <code>null</code> values.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        collection.augment(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.augment(ModifiableOrderedFloatCollection.of(1F, 2F)));
+        assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.augment(ModifiableOrderedFloatCollection.of(1F, null, 2F, FLOAT_THREE)));
+        assertEquals("Cannot augment a collection with a collection when null values don't match.",
+                exception.getMessage());
+    }
+
+    /**
      * Verifies that multiply with an index returns the original number.
      */
     @Test
@@ -284,6 +325,75 @@ public class AbstractModifiableOrderedFloatCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2F));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().multiply(createCollection1234()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().multiply(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns false if no change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedFloatCollection.of(1F, 1F, 1F, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        collection.multiply(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedFloatCollection.of(1F, FLOAT_FOUR, FLOAT_NINE, FLOAT_SIXTEEN)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        collection.multiply(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(1F, FLOAT_FOUR, FLOAT_NINE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.multiply(ModifiableOrderedFloatCollection.of(1F, 2F)));
+        assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.multiply(ModifiableOrderedFloatCollection.of(1F, null, 2F, FLOAT_THREE)));
+        assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
 

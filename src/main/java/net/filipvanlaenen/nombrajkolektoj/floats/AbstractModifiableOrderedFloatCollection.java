@@ -173,6 +173,7 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
                         }
+                        // EQMU: Replacing the float addition with subtraction below produces an equivalent mutant.
                         counter += 1F;
                     }
                 }

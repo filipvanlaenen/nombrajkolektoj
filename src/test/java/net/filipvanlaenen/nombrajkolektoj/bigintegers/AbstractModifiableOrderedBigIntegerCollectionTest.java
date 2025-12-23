@@ -55,6 +55,14 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
      * The magic number eight.
      */
     private static final BigInteger BIG_INTEGER_EIGHT = BigInteger.valueOf(8L);
+    /**
+     * The magic number nine.
+     */
+    private static final BigInteger BIG_INTEGER_NINE = BigInteger.valueOf(9L);
+    /**
+     * The magic number sixteen.
+     */
+    private static final BigInteger BIG_INTEGER_SIXTEEN = BigInteger.valueOf(16L);
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -205,6 +213,39 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
     }
 
     /**
+     * Verifies that augment with a collection augments the collection correctly with matching <code>null</code> values.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        collection.augment(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedBigIntegerCollection.of(BigInteger.TWO, BIG_INTEGER_FOUR, BIG_INTEGER_SIX, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.augment(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO)));
+        assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.augment(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, null, BigInteger.TWO, BIG_INTEGER_THREE)));
+        assertEquals("Cannot augment a collection with a collection when null values don't match.",
+                exception.getMessage());
+    }
+
+    /**
      * Verifies that multiply with an index returns the original number.
      */
     @Test
@@ -286,6 +327,75 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, BigInteger.TWO));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().multiply(createCollection1234()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().multiply(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns false if no change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.ONE, BigInteger.ONE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection1234();
+        collection.multiply(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BIG_INTEGER_FOUR, BIG_INTEGER_NINE, BIG_INTEGER_SIXTEEN)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        collection.multiply(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BIG_INTEGER_FOUR, BIG_INTEGER_NINE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.multiply(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO)));
+        assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.multiply(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, null, BigInteger.TWO, BIG_INTEGER_THREE)));
+        assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
 

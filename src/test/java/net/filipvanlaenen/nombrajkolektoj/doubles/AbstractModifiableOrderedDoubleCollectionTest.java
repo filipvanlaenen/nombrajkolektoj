@@ -53,6 +53,14 @@ public class AbstractModifiableOrderedDoubleCollectionTest {
      * The magic number eight.
      */
     private static final double DOUBLE_EIGHT = 8D;
+    /**
+     * The magic number nine.
+     */
+    private static final double DOUBLE_NINE = 9D;
+    /**
+     * The magic number sixteen.
+     */
+    private static final double DOUBLE_SIXTEEN = 16D;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -203,6 +211,39 @@ public class AbstractModifiableOrderedDoubleCollectionTest {
     }
 
     /**
+     * Verifies that augment with a collection augments the collection correctly with matching <code>null</code> values.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
+        collection.augment(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(2D, DOUBLE_FOUR, DOUBLE_SIX, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.augment(ModifiableOrderedDoubleCollection.of(1D, 2D)));
+        assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.augment(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
+        assertEquals("Cannot augment a collection with a collection when null values don't match.",
+                exception.getMessage());
+    }
+
+    /**
      * Verifies that multiply with an index returns the original number.
      */
     @Test
@@ -284,6 +325,75 @@ public class AbstractModifiableOrderedDoubleCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2D));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().multiply(createCollection1234()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().multiply(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that multiply with a collection returns false if no change was made.
+     */
+    @Test
+    public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedDoubleCollection.of(1D, 1D, 1D, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        collection.multiply(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_FOUR, DOUBLE_NINE, DOUBLE_SIXTEEN)));
+    }
+
+    /**
+     * Verifies that multiply with a collection multiplies the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
+        collection.multiply(createCollection123Null());
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_FOUR, DOUBLE_NINE, null)));
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.multiply(ModifiableOrderedDoubleCollection.of(1D, 2D)));
+        assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.multiply(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
+        assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
 

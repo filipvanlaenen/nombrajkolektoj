@@ -173,6 +173,7 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
                         }
+                        // EQMU: Replacing the byte addition with subtraction below produces an equivalent mutant.
                         counter = (byte) (counter + 1);
                     }
                 }

@@ -17,6 +17,10 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public class AbstractModifiableOrderedShortCollectionTest {
     /**
+     * The magic number minus two.
+     */
+    private static final short MINUS_TWO = -(short) 2;
+    /**
      * The magic number three.
      */
     private static final int THREE = 3;
@@ -179,7 +183,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      * Verifies that multiply with an index multiplies the number in the collection correctly.
      */
     @Test
-    public void multiplyWithIndexShouldAugmentNumberCorrectly() {
+    public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
         ModifiableOrderedShortCollection collection = createCollection1234();
         collection.multiply(1, SHORT_THREE);
         assertTrue(collection
@@ -240,6 +244,70 @@ public class AbstractModifiableOrderedShortCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, (short) 2));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with an index returns the original number.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginal() {
+        assertEquals((short) 2, createCollection1234().negate(1));
+    }
+
+    /**
+     * Verifies that negate with an index returns <code>null</code> when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginalNullWhenCalledWithIndexHoldingNullValue() {
+        assertNull(createCollection123Null().negate(THREE));
+    }
+
+    /**
+     * Verifies that negate with an index negates the number in the collection correctly.
+     */
+    @Test
+    public void negateWithIndexShouldNegateNumberCorrectly() {
+        ModifiableOrderedShortCollection collection = createCollection1234();
+        collection.negate(1);
+        assertTrue(collection
+                .containsSame(ModifiableOrderedShortCollection.of((short) 1, MINUS_TWO, SHORT_THREE, SHORT_FOUR)));
+    }
+
+    /**
+     * Verifies that negate with an index holding <code>null</code> leaves the collection unchanged.
+     */
+    @Test
+    public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        collection.negate(THREE);
+        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null)));
+    }
+
+    /**
+     * Verifies that negate with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedShortCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
+        assertEquals("Cannot negate an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, (short) 1, (short) 2, MINUS_TWO, SHORT_THREE);
+        ;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
+        assertEquals(
+                "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
     }
 }

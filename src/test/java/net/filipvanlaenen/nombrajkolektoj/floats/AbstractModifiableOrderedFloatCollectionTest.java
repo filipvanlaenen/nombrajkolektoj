@@ -17,6 +17,10 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public class AbstractModifiableOrderedFloatCollectionTest {
     /**
+     * The magic number minus two.
+     */
+    private static final float MINUS_TWO = -2F;
+    /**
      * The magic number three.
      */
     private static final int THREE = 3;
@@ -179,7 +183,7 @@ public class AbstractModifiableOrderedFloatCollectionTest {
      * Verifies that multiply with an index multiplies the number in the collection correctly.
      */
     @Test
-    public void multiplyWithIndexShouldAugmentNumberCorrectly() {
+    public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
         ModifiableOrderedFloatCollection collection = createCollection1234();
         collection.multiply(1, FLOAT_THREE);
         assertTrue(collection
@@ -240,6 +244,70 @@ public class AbstractModifiableOrderedFloatCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2F));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with an index returns the original number.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginal() {
+        assertEquals(2F, createCollection1234().negate(1));
+    }
+
+    /**
+     * Verifies that negate with an index returns <code>null</code> when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginalNullWhenCalledWithIndexHoldingNullValue() {
+        assertNull(createCollection123Null().negate(THREE));
+    }
+
+    /**
+     * Verifies that negate with an index negates the number in the collection correctly.
+     */
+    @Test
+    public void negateWithIndexShouldNegateNumberCorrectly() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        collection.negate(1);
+        assertTrue(collection
+                .containsSame(ModifiableOrderedFloatCollection.of(1F, MINUS_TWO, FLOAT_THREE, FLOAT_FOUR)));
+    }
+
+    /**
+     * Verifies that negate with an index holding <code>null</code> leaves the collection unchanged.
+     */
+    @Test
+    public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        collection.negate(THREE);
+        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(1F, 2F, FLOAT_THREE, null)));
+    }
+
+    /**
+     * Verifies that negate with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
+        assertEquals("Cannot negate an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedFloatCollection collection = ModifiableOrderedFloatCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, 1F, 2F, MINUS_TWO, FLOAT_THREE);
+        ;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
+        assertEquals(
+                "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
     }
 }

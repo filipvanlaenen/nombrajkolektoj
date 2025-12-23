@@ -139,8 +139,7 @@ abstract class AbstractModifiableOrderedIntegerCollection extends AbstractModifi
     }
 
     @Override
-    public Integer negate(final int index)
-            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
+    public Integer negate(final int index) throws IllegalArgumentException, IndexOutOfBoundsException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot negate an element at a position beyond the size of the collection.");

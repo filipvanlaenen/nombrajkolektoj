@@ -19,6 +19,10 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public class AbstractModifiableOrderedBigIntegerCollectionTest {
     /**
+     * The magic number minus two.
+     */
+    private static final BigInteger MINUS_TWO = BigInteger.valueOf(-2L);
+    /**
      * The magic number three.
      */
     private static final int THREE = 3;
@@ -181,7 +185,7 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
      * Verifies that multiply with an index multiplies the number in the collection correctly.
      */
     @Test
-    public void multiplyWithIndexShouldAugmentNumberCorrectly() {
+    public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
         ModifiableOrderedBigIntegerCollection collection = createCollection1234();
         collection.multiply(1, BIG_INTEGER_THREE);
         assertTrue(collection
@@ -242,6 +246,70 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, BigInteger.TWO));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with an index returns the original number.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginal() {
+        assertEquals(BigInteger.TWO, createCollection1234().negate(1));
+    }
+
+    /**
+     * Verifies that negate with an index returns <code>null</code> when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void negateWithIndexShouldReturnOriginalNullWhenCalledWithIndexHoldingNullValue() {
+        assertNull(createCollection123Null().negate(THREE));
+    }
+
+    /**
+     * Verifies that negate with an index negates the number in the collection correctly.
+     */
+    @Test
+    public void negateWithIndexShouldNegateNumberCorrectly() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection1234();
+        collection.negate(1);
+        assertTrue(collection
+                .containsSame(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, MINUS_TWO, BIG_INTEGER_THREE, BIG_INTEGER_FOUR)));
+    }
+
+    /**
+     * Verifies that negate with an index holding <code>null</code> leaves the collection unchanged.
+     */
+    @Test
+    public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        collection.negate(THREE);
+        assertTrue(collection.containsSame(ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, null)));
+    }
+
+    /**
+     * Verifies that negate with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedBigIntegerCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
+        assertEquals("Cannot negate an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void negateWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, MINUS_TWO, BIG_INTEGER_THREE);
+        ;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
+        assertEquals(
+                "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
     }
 }

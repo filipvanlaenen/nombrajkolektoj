@@ -141,8 +141,7 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
     }
 
     @Override
-    public BigInteger negate(final int index)
-            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
+    public BigInteger negate(final int index) throws IllegalArgumentException, IndexOutOfBoundsException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot negate an element at a position beyond the size of the collection.");

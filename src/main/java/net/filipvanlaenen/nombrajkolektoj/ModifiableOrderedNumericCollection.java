@@ -72,7 +72,6 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @throws IllegalArgumentException  Thrown if the resulting number at the given position would result into
      *                                   duplicates when they're not allowed.
      * @throws IndexOutOfBoundsException Thrown if the index is out of bounds.
-     * @throws NullPointerException      Thrown if the original value at the given position is <code>null</code>.
      */
-    N negate(int index) throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
+    N negate(int index) throws IllegalArgumentException, IndexOutOfBoundsException;
 }

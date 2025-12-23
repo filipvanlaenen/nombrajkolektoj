@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,6 +49,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      * The magic number seven.
      */
     private static final short SHORT_SEVEN = (short) 7;
+    /**
+     * The magic number eight.
+     */
+    private static final short SHORT_EIGHT = (short) 8;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -160,6 +165,41 @@ public class AbstractModifiableOrderedShortCollectionTest {
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().augment(createCollection1234()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().augment(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns false if no change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().augment(ModifiableOrderedShortCollection.of((short) 0, (short) 0, (short) 0, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection augments the collection correctly.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedShortCollection collection = createCollection1234();
+        collection.augment(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedShortCollection.of((short) 2, SHORT_FOUR, SHORT_SIX, SHORT_EIGHT)));
     }
 
     /**

@@ -57,9 +57,8 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
             }
             if (originalValue != null) {
                 results[i] = originalValue.add(addend);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -110,9 +109,8 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
             }
             if (originalValue != null) {
                 results[i] = originalValue.multiply(multiplicand);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -129,9 +127,8 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
             BigInteger originalValue = results[i];
             if (results[i] != null) {
                 results[i] = originalValue.negate();
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;

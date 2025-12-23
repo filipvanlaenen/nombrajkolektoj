@@ -55,9 +55,8 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
             }
             if (originalValue != null) {
                 results[i] = (byte) (originalValue + addend);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -108,9 +107,8 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
             }
             if (originalValue != null) {
                 results[i] = (byte) (originalValue * multiplicand);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -127,9 +125,8 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
             Byte originalValue = results[i];
             if (results[i] != null) {
                 results[i] = (byte) (-originalValue);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;

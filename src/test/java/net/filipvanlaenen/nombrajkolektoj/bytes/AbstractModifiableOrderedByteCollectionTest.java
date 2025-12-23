@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,6 +49,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      * The magic number seven.
      */
     private static final byte BYTE_SEVEN = (byte) 7;
+    /**
+     * The magic number eight.
+     */
+    private static final byte BYTE_EIGHT = (byte) 8;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -160,6 +165,41 @@ public class AbstractModifiableOrderedByteCollectionTest {
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().augment(createCollection1234()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().augment(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns false if no change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().augment(ModifiableOrderedByteCollection.of((byte) 0, (byte) 0, (byte) 0, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection augments the collection correctly.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedByteCollection collection = createCollection1234();
+        collection.augment(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedByteCollection.of((byte) 2, BYTE_FOUR, BYTE_SIX, BYTE_EIGHT)));
     }
 
     /**

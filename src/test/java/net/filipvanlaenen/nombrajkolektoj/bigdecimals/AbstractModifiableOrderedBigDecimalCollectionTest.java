@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,6 +51,10 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
      * The magic number seven.
      */
     private static final BigDecimal BIG_DECIMAL_SEVEN = BigDecimal.valueOf(7L);
+    /**
+     * The magic number eight.
+     */
+    private static final BigDecimal BIG_DECIMAL_EIGHT = BigDecimal.valueOf(8L);
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -162,6 +167,41 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().augment(createCollection1234()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().augment(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns false if no change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection augments the collection correctly.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.augment(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, BIG_DECIMAL_EIGHT)));
     }
 
     /**

@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,6 +49,10 @@ public class AbstractModifiableOrderedLongCollectionTest {
      * The magic number seven.
      */
     private static final long LONG_SEVEN = 7L;
+    /**
+     * The magic number eight.
+     */
+    private static final long LONG_EIGHT = 8L;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -160,6 +165,41 @@ public class AbstractModifiableOrderedLongCollectionTest {
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().augment(createCollection1234()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().augment(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns false if no change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().augment(ModifiableOrderedLongCollection.of(0L, 0L, 0L, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection augments the collection correctly.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedLongCollection collection = createCollection1234();
+        collection.augment(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedLongCollection.of(2L, LONG_FOUR, LONG_SIX, LONG_EIGHT)));
     }
 
     /**

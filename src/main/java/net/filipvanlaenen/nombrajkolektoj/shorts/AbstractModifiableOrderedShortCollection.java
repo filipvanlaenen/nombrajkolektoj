@@ -55,9 +55,8 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
             }
             if (originalValue != null) {
                 results[i] = (short) (originalValue + addend);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -108,9 +107,8 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
             }
             if (originalValue != null) {
                 results[i] = (short) (originalValue * multiplicand);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;
@@ -127,9 +125,8 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
             Short originalValue = results[i];
             if (results[i] != null) {
                 results[i] = (short) (-originalValue);
-                changed |= results[i] != originalValue;
+                changed |= !Objects.equals(originalValue, results[i]);
             }
-            i++;
         }
         if (!changed) {
             return false;

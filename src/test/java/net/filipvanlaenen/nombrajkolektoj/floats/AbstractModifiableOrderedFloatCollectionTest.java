@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,6 +49,10 @@ public class AbstractModifiableOrderedFloatCollectionTest {
      * The magic number seven.
      */
     private static final float FLOAT_SEVEN = 7F;
+    /**
+     * The magic number eight.
+     */
+    private static final float FLOAT_EIGHT = 8F;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
@@ -160,6 +165,41 @@ public class AbstractModifiableOrderedFloatCollectionTest {
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().augment(createCollection1234()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().augment(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that augment with a collection returns false if no change was made.
+     */
+    @Test
+    public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().augment(ModifiableOrderedFloatCollection.of(0F, 0F, 0F, null)));
+    }
+
+    /**
+     * Verifies that augment with a collection augments the collection correctly.
+     */
+    @Test
+    public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        collection.augment(createCollection1234());
+        assertTrue(collection
+                .containsSame(ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, FLOAT_EIGHT)));
     }
 
     /**

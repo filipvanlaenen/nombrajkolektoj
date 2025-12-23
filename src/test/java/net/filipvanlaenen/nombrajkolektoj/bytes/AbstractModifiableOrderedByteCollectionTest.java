@@ -37,6 +37,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     private static final byte BYTE_FIVE = (byte) 5;
     /**
+     * The magic number six.
+     */
+    private static final byte BYTE_SIX = (byte) 6;
+    /**
      * The magic number seven.
      */
     private static final byte BYTE_SEVEN = (byte) 7;
@@ -114,7 +118,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithNull() {
         ModifiableOrderedByteCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.augment(1, null));
-        assertEquals("Cannot add a null value to a number.", exception.getMessage());
+        assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
     /**
@@ -126,7 +130,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
         ModifiableOrderedByteCollection collection = createCollection123Null();
         NullPointerException exception =
                 assertThrows(NullPointerException.class, () -> collection.augment(THREE, BYTE_FIVE));
-        assertEquals("Cannot add a null value to a number.", exception.getMessage());
+        assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
     /**
@@ -151,6 +155,91 @@ public class AbstractModifiableOrderedByteCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.augment(1, (byte) 1));
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with an index returns the original number.
+     */
+    @Test
+    public void multiplyWithIndexShouldReturnOriginal() {
+        assertEquals((byte) 2, createCollection1234().multiply(1, BYTE_FIVE));
+    }
+
+    /**
+     * Verifies that multiply with an index returns <code>null</code> when called with <code>null</code> and an index
+     * holding the value <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldReturnOriginalNullWhenCalledWithNullValue() {
+        assertNull(createCollection123Null().multiply(THREE, null));
+    }
+
+    /**
+     * Verifies that multiply with an index multiplies the number in the collection correctly.
+     */
+    @Test
+    public void multiplyWithIndexShouldAugmentNumberCorrectly() {
+        ModifiableOrderedByteCollection collection = createCollection1234();
+        collection.multiply(1, BYTE_THREE);
+        assertTrue(collection
+                .containsSame(ModifiableOrderedByteCollection.of((byte) 1, BYTE_SIX, BYTE_THREE, BYTE_FOUR)));
+    }
+
+    /**
+     * Verifies that multiply with an index leaves the collection unchanged for matching <code>null</code> values.
+     */
+    @Test
+    public void multiplyWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
+        ModifiableOrderedByteCollection collection = createCollection123Null();
+        collection.multiply(THREE, null);
+        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null)));
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with the value <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithNull() {
+        ModifiableOrderedByteCollection collection = createCollection1234();
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.multiply(1, null));
+        assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedByteCollection collection = createCollection123Null();
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, BYTE_FIVE));
+        assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedByteCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, BYTE_FIVE));
+        assertEquals("Cannot multiply an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedByteCollection collection = createDistinctCollection1234();
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, (byte) 2));
+        assertEquals(
+                "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
     }
 }

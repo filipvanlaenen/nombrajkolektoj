@@ -37,6 +37,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     private static final int INTEGER_FIVE = 5;
     /**
+     * The magic number six.
+     */
+    private static final int INTEGER_SIX = 6;
+    /**
      * The magic number seven.
      */
     private static final int INTEGER_SEVEN = 7;
@@ -114,7 +118,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithNull() {
         ModifiableOrderedIntegerCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.augment(1, null));
-        assertEquals("Cannot add a null value to a number.", exception.getMessage());
+        assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
     /**
@@ -126,7 +130,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
         ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception =
                 assertThrows(NullPointerException.class, () -> collection.augment(THREE, INTEGER_FIVE));
-        assertEquals("Cannot add a null value to a number.", exception.getMessage());
+        assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
     /**
@@ -151,6 +155,91 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
                 assertThrows(IllegalArgumentException.class, () -> collection.augment(1, 1));
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with an index returns the original number.
+     */
+    @Test
+    public void multiplyWithIndexShouldReturnOriginal() {
+        assertEquals(2, createCollection1234().multiply(1, INTEGER_FIVE));
+    }
+
+    /**
+     * Verifies that multiply with an index returns <code>null</code> when called with <code>null</code> and an index
+     * holding the value <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldReturnOriginalNullWhenCalledWithNullValue() {
+        assertNull(createCollection123Null().multiply(THREE, null));
+    }
+
+    /**
+     * Verifies that multiply with an index multiplies the number in the collection correctly.
+     */
+    @Test
+    public void multiplyWithIndexShouldAugmentNumberCorrectly() {
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        collection.multiply(1, INTEGER_THREE);
+        assertTrue(collection
+                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_SIX, INTEGER_THREE, INTEGER_FOUR)));
+    }
+
+    /**
+     * Verifies that multiply with an index leaves the collection unchanged for matching <code>null</code> values.
+     */
+    @Test
+    public void multiplyWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        collection.multiply(THREE, null);
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with the value <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.multiply(1, null));
+        assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, INTEGER_FIVE));
+        assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, INTEGER_FIVE));
+        assertEquals("Cannot multiply an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that multiply with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void multiplyWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2));
+        assertEquals(
+                "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
     }
 }

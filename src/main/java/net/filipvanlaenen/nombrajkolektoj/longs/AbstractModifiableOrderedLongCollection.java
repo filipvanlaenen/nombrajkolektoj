@@ -25,7 +25,7 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
             return null;
         }
         if (originalValue == null || addend == null) {
-            throw new NullPointerException("Cannot add a null value to a number.");
+            throw new NullPointerException("Cannot augment a null value with a number.");
         }
         Long result = originalValue + addend;
         if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)

@@ -53,9 +53,9 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != 0L) {
                 results[i] = originalValue + addend;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -105,9 +105,9 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != 0L && multiplicand != 1L) {
                 results[i] = originalValue * multiplicand;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -123,9 +123,9 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             Long originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != 0L) {
                 results[i] = -originalValue;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

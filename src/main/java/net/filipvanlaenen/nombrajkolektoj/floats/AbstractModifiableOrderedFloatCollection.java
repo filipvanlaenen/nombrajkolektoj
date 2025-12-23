@@ -53,9 +53,9 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != 0F) {
                 results[i] = originalValue + addend;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -105,9 +105,9 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != 0F && multiplicand != 1F) {
                 results[i] = originalValue * multiplicand;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -123,9 +123,9 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             Float originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != 0F) {
                 results[i] = -originalValue;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

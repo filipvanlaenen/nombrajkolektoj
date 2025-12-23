@@ -22,12 +22,12 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     }
 
     @Override
-    public boolean multiply(final Short value) {
+    public boolean multiply(final Short multiplicand) {
         boolean result = false;
         for (Short n : toArray()) {
-            if (n != null && n != (short) 0 && value != (short) 1) {
+            if (n != null && n != (short) 0 && multiplicand != (short) 1) {
                 remove(n);
-                add((short) (n * value));
+                add((short) (n * multiplicand));
                 result = true;
             }
         }

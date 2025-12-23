@@ -18,9 +18,21 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public class AbstractModifiableOrderedLongCollectionTest {
     /**
+     * The magic number minus four.
+     */
+    private static final long MINUS_FOUR = -4L;
+    /**
+     * The magic number minus three.
+     */
+    private static final long MINUS_THREE = -3L;
+    /**
      * The magic number minus two.
      */
     private static final long MINUS_TWO = -2L;
+    /**
+     * The magic number minus one.
+     */
+    private static final long MINUS_ONE = -1L;
     /**
      * The magic number three.
      */
@@ -459,5 +471,40 @@ public class AbstractModifiableOrderedLongCollectionTest {
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate returns true if a change was made.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().negate());
+    }
+
+    /**
+     * Verifies that negate returns true if there's a <code>null</code> value.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().negate());
+    }
+
+    /**
+     * Verifies that negate returns false if no change was made.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(ModifiableOrderedLongCollection.of(0L, 0L, 0L, null).negate());
+    }
+
+    /**
+     * Verifies that negate negates the collection correctly.
+     */
+    @Test
+    public void negateShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedLongCollection collection = createCollection1234();
+        collection.negate();
+        assertTrue(collection
+                .containsSame(ModifiableOrderedLongCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 }

@@ -22,12 +22,12 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     }
 
     @Override
-    public boolean multiply(final Byte value) {
+    public boolean multiply(final Byte multiplicand) {
         boolean result = false;
         for (Byte n : toArray()) {
-            if (n != null && n != (byte) 0 && value != (byte) 1) {
+            if (n != null && n != (byte) 0 && multiplicand != (byte) 1) {
                 remove(n);
-                add((byte) (n * value));
+                add((byte) (n * multiplicand));
                 result = true;
             }
         }

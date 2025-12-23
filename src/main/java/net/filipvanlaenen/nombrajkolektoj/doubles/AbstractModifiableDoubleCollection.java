@@ -22,12 +22,12 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     }
 
     @Override
-    public boolean multiply(final Double value) {
+    public boolean multiply(final Double multiplicand) {
         boolean result = false;
         for (Double n : toArray()) {
-            if (n != null && n != 0D && value != 1D) {
+            if (n != null && n != 0D && multiplicand != 1D) {
                 remove(n);
-                add(n * value);
+                add(n * multiplicand);
                 result = true;
             }
         }

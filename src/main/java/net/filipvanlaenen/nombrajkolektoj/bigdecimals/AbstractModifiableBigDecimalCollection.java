@@ -24,12 +24,12 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     }
 
     @Override
-    public boolean multiply(final BigDecimal value) {
+    public boolean multiply(final BigDecimal multiplicand) {
         boolean result = false;
         for (BigDecimal n : toArray()) {
-            if (n != null && n != BigDecimal.ZERO && value != BigDecimal.ONE) {
+            if (n != null && n != BigDecimal.ZERO && multiplicand != BigDecimal.ONE) {
                 remove(n);
-                add(n.multiply(value));
+                add(n.multiply(multiplicand));
                 result = true;
             }
         }

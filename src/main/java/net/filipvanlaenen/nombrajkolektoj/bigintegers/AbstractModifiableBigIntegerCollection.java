@@ -24,12 +24,12 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     }
 
     @Override
-    public boolean multiply(final BigInteger value) {
+    public boolean multiply(final BigInteger multiplicand) {
         boolean result = false;
         for (BigInteger n : toArray()) {
-            if (n != null && n != BigInteger.ZERO && value != BigInteger.ONE) {
+            if (n != null && n != BigInteger.ZERO && multiplicand != BigInteger.ONE) {
                 remove(n);
-                add(n.multiply(value));
+                add(n.multiply(multiplicand));
                 result = true;
             }
         }

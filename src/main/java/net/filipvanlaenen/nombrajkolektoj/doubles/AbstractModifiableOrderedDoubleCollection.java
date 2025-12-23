@@ -53,9 +53,9 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != 0D) {
                 results[i] = originalValue + addend;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -105,9 +105,9 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != 0D && multiplicand != 1D) {
                 results[i] = originalValue * multiplicand;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -123,9 +123,9 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             Double originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != 0D) {
                 results[i] = -originalValue;
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

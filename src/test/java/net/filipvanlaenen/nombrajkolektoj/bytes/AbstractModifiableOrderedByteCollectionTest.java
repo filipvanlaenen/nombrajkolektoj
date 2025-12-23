@@ -18,9 +18,21 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  */
 public class AbstractModifiableOrderedByteCollectionTest {
     /**
+     * The magic number minus four.
+     */
+    private static final byte MINUS_FOUR = -(byte) 4;
+    /**
+     * The magic number minus three.
+     */
+    private static final byte MINUS_THREE = -(byte) 3;
+    /**
      * The magic number minus two.
      */
     private static final byte MINUS_TWO = -(byte) 2;
+    /**
+     * The magic number minus one.
+     */
+    private static final byte MINUS_ONE = -(byte) 1;
     /**
      * The magic number three.
      */
@@ -459,5 +471,40 @@ public class AbstractModifiableOrderedByteCollectionTest {
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that negate returns true if a change was made.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().negate());
+    }
+
+    /**
+     * Verifies that negate returns true if there's a <code>null</code> value.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().negate());
+    }
+
+    /**
+     * Verifies that negate returns false if no change was made.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(ModifiableOrderedByteCollection.of((byte) 0, (byte) 0, (byte) 0, null).negate());
+    }
+
+    /**
+     * Verifies that negate negates the collection correctly.
+     */
+    @Test
+    public void negateShouldAugmentCollectionCorrectly() {
+        ModifiableOrderedByteCollection collection = createCollection1234();
+        collection.negate();
+        assertTrue(collection
+                .containsSame(ModifiableOrderedByteCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 }

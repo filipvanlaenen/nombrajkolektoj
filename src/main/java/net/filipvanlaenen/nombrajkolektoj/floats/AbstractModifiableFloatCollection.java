@@ -22,12 +22,12 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     }
 
     @Override
-    public boolean multiply(final Float value) {
+    public boolean multiply(final Float multiplicand) {
         boolean result = false;
         for (Float n : toArray()) {
-            if (n != null && n != 0F && value != 1F) {
+            if (n != null && n != 0F && multiplicand != 1F) {
                 remove(n);
-                add(n * value);
+                add(n * multiplicand);
                 result = true;
             }
         }

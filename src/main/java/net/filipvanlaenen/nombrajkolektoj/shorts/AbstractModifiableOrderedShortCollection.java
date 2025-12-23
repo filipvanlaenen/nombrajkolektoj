@@ -53,9 +53,9 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != (short) 0) {
                 results[i] = (short) (originalValue + addend);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -105,9 +105,9 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != (short) 0 && multiplicand != (short) 1) {
                 results[i] = (short) (originalValue * multiplicand);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -123,9 +123,9 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             Short originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != (short) 0) {
                 results[i] = (short) (-originalValue);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

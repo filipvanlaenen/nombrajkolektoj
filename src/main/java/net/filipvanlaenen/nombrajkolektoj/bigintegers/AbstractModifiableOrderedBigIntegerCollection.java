@@ -55,9 +55,9 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != BigInteger.ZERO) {
                 results[i] = originalValue.add(addend);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -107,9 +107,9 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != BigInteger.ZERO && multiplicand != BigInteger.ONE) {
                 results[i] = originalValue.multiply(multiplicand);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -125,9 +125,9 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             BigInteger originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != BigInteger.ZERO) {
                 results[i] = originalValue.negate();
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

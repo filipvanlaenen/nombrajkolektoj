@@ -53,9 +53,9 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && addend != (byte) 0) {
                 results[i] = (byte) (originalValue + addend);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -105,9 +105,9 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null) {
+            if (originalValue != null && originalValue != (byte) 0 && multiplicand != (byte) 1) {
                 results[i] = (byte) (originalValue * multiplicand);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {
@@ -123,9 +123,9 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
         boolean changed = false;
         for (int i = 0; i < size(); i++) {
             Byte originalValue = results[i];
-            if (results[i] != null) {
+            if (originalValue != null && originalValue != (byte) 0) {
                 results[i] = (byte) (-originalValue);
-                changed |= !Objects.equals(originalValue, results[i]);
+                changed = true;
             }
         }
         if (!changed) {

@@ -22,12 +22,12 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     }
 
     @Override
-    public boolean multiply(final Long value) {
+    public boolean multiply(final Long multiplicand) {
         boolean result = false;
         for (Long n : toArray()) {
-            if (n != null && n != 0L && value != 1L) {
+            if (n != null && n != 0L && multiplicand != 1L) {
                 remove(n);
-                add(n * value);
+                add(n * multiplicand);
                 result = true;
             }
         }

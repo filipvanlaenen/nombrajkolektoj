@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,28 @@ public final class ModifiableOrderedByteCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertTrue(collection.addAllAt(1, createByteCollection((byte) 2)));
+        assertFalse(collection.addAllAt(1, createByteCollection((byte) 2)));
+        assertEquals((byte) 2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertTrue(collection.addAt(1, (byte) 2));
+        assertFalse(collection.addAt(1, (byte) 2));
+        assertEquals((byte) 2, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -71,6 +96,16 @@ public final class ModifiableOrderedByteCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertEquals(BYTE_THREE, collection.putAt(1, (byte) 2));
+        assertEquals((byte) 2, collection.getAt(1));
     }
 
     /**

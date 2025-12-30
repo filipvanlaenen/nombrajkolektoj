@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,28 @@ public final class ModifiableOrderedShortCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
+        assertTrue(collection.addAllAt(1, createShortCollection((short) 2)));
+        assertFalse(collection.addAllAt(1, createShortCollection((short) 2)));
+        assertEquals((short) 2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
+        assertTrue(collection.addAt(1, (short) 2));
+        assertFalse(collection.addAt(1, (short) 2));
+        assertEquals((short) 2, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -71,6 +96,16 @@ public final class ModifiableOrderedShortCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
+        assertEquals(SHORT_THREE, collection.putAt(1, (short) 2));
+        assertEquals((short) 2, collection.getAt(1));
     }
 
     /**

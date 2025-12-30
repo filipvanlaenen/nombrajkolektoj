@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,28 @@ public final class ModifiableOrderedFloatCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertTrue(collection.addAllAt(1, createFloatCollection(2F)));
+        assertFalse(collection.addAllAt(1, createFloatCollection(2F)));
+        assertEquals(2F, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertTrue(collection.addAt(1, 2F));
+        assertFalse(collection.addAt(1, 2F));
+        assertEquals(2F, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -71,6 +96,16 @@ public final class ModifiableOrderedFloatCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).lastIndexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertEquals(FLOAT_THREE, collection.putAt(1, 2F));
+        assertEquals(2F, collection.getAt(1));
     }
 
     /**

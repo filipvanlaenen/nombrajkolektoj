@@ -2,8 +2,11 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +47,28 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
+        assertTrue(collection.addAllAt(1, createBigIntegerCollection(BigInteger.TWO)));
+        assertFalse(collection.addAllAt(1, createBigIntegerCollection(BigInteger.TWO)));
+        assertEquals(BigInteger.TWO, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
+        assertTrue(collection.addAt(1, BigInteger.TWO));
+        assertFalse(collection.addAt(1, BigInteger.TWO));
+        assertEquals(BigInteger.TWO, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -73,6 +98,16 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).lastIndexOf(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
+        assertEquals(BIG_INTEGER_THREE, collection.putAt(1, BigInteger.TWO));
+        assertEquals(BigInteger.TWO, collection.getAt(1));
     }
 
     /**

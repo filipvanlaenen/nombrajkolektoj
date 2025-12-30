@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,28 @@ public final class ModifiableOrderedLongCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertTrue(collection.addAllAt(1, createLongCollection(2L)));
+        assertFalse(collection.addAllAt(1, createLongCollection(2L)));
+        assertEquals(2L, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertTrue(collection.addAt(1, 2L));
+        assertFalse(collection.addAt(1, 2L));
+        assertEquals(2L, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -71,6 +96,16 @@ public final class ModifiableOrderedLongCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).lastIndexOf(2L));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertEquals(LONG_THREE, collection.putAt(1, 2L));
+        assertEquals(2L, collection.getAt(1));
     }
 
     /**

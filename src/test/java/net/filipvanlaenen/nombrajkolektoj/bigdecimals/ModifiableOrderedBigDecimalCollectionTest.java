@@ -2,8 +2,11 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +47,28 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertTrue(collection.addAllAt(1, createBigDecimalCollection(BigDecimal.valueOf(2L))));
+        assertFalse(collection.addAllAt(1, createBigDecimalCollection(BigDecimal.valueOf(2L))));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertTrue(collection.addAt(1, BigDecimal.valueOf(2L)));
+        assertFalse(collection.addAt(1, BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -73,6 +98,16 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).lastIndexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertEquals(BIG_DECIMAL_THREE, collection.putAt(1, BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
     }
 
     /**

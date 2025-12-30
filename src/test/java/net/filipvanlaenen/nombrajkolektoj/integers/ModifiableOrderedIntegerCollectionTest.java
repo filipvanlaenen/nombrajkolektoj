@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,28 @@ public final class ModifiableOrderedIntegerCollectionTest
     }
 
     /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertTrue(collection.addAllAt(1, createIntegerCollection(2)));
+        assertFalse(collection.addAllAt(1, createIntegerCollection(2)));
+        assertEquals(2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertTrue(collection.addAt(1, 2));
+        assertFalse(collection.addAt(1, 2));
+        assertEquals(2, collection.getAt(1));
+    }
+
+    /**
      * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -71,6 +96,16 @@ public final class ModifiableOrderedIntegerCollectionTest
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).lastIndexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertEquals(INTEGER_THREE, collection.putAt(1, 2));
+        assertEquals(2, collection.getAt(1));
     }
 
     /**

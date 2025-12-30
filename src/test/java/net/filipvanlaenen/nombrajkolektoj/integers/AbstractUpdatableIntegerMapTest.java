@@ -150,4 +150,43 @@ public class AbstractUpdatableIntegerMapTest {
         map12.negate("one");
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void subtractShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.subtract("zero", 1));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>subtract</code> throws an exception when called with a key having the value
+     * <code>null</code>.
+     */
+    @Test
+    public void subtractShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.subtract("null", 1));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns the old value.
+     */
+    @Test
+    public void subtractShouldReturnTheOldValue() {
+        assertEquals(1, createMap12().subtract("one", 2));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> updates the value for the given key.
+     */
+    @Test
+    public void subtractShouldUpdateTheValueForTheKey() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        map12.subtract("one", 2);
+        assertEquals(MINUS_ONE, map12.get("one"));
+    }
 }

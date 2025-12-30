@@ -18,7 +18,8 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (byte) (oldValue + addend));
+            update(key, oldValue, (byte) (oldValue + addend));
+            return oldValue;
         }
     }
 
@@ -31,7 +32,8 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (byte) (oldValue * multiplicand));
+            update(key, oldValue, (byte) (oldValue * multiplicand));
+            return oldValue;
         }
     }
 
@@ -44,7 +46,22 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (byte) (-oldValue));
+            update(key, oldValue, (byte) (-oldValue));
+            return oldValue;
+        }
+    }
+
+    @Override
+    public Byte subtract(final K key, final Byte subtrahend) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Byte oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, (byte) (oldValue - subtrahend));
+            return oldValue;
         }
     }
 }

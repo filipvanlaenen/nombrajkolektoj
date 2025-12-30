@@ -18,7 +18,8 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (short) (oldValue + addend));
+            update(key, oldValue, (short) (oldValue + addend));
+            return oldValue;
         }
     }
 
@@ -31,7 +32,8 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (short) (oldValue * multiplicand));
+            update(key, oldValue, (short) (oldValue * multiplicand));
+            return oldValue;
         }
     }
 
@@ -44,7 +46,22 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, (short) (-oldValue));
+            update(key, oldValue, (short) (-oldValue));
+            return oldValue;
+        }
+    }
+
+    @Override
+    public Short subtract(final K key, final Short subtrahend) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Short oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, (short) (oldValue - subtrahend));
+            return oldValue;
         }
     }
 }

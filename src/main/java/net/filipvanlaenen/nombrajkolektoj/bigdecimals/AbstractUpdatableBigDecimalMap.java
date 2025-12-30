@@ -20,7 +20,8 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, oldValue.add(addend));
+            update(key, oldValue, oldValue.add(addend));
+            return oldValue;
         }
     }
 
@@ -33,7 +34,8 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, oldValue.multiply(multiplicand));
+            update(key, oldValue, oldValue.multiply(multiplicand));
+            return oldValue;
         }
     }
 
@@ -46,7 +48,22 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, oldValue.negate());
+            update(key, oldValue, oldValue.negate());
+            return oldValue;
+        }
+    }
+
+    @Override
+    public BigDecimal subtract(final K key, final BigDecimal subtrahend) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        BigDecimal oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue.subtract(subtrahend));
+            return oldValue;
         }
     }
 }

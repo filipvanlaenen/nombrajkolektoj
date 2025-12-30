@@ -152,4 +152,43 @@ public class AbstractUpdatableBigIntegerMapTest {
         map12.negate("one");
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void subtractShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.subtract("zero", BigInteger.ONE));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>subtract</code> throws an exception when called with a key having the value
+     * <code>null</code>.
+     */
+    @Test
+    public void subtractShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.subtract("null", BigInteger.ONE));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns the old value.
+     */
+    @Test
+    public void subtractShouldReturnTheOldValue() {
+        assertEquals(BigInteger.ONE, createMap12().subtract("one", BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> updates the value for the given key.
+     */
+    @Test
+    public void subtractShouldUpdateTheValueForTheKey() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        map12.subtract("one", BigInteger.TWO);
+        assertEquals(MINUS_ONE, map12.get("one"));
+    }
 }

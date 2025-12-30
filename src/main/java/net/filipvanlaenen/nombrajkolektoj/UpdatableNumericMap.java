@@ -38,4 +38,15 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
      * @return The value the key was mapped to previously.
      */
     N negate(K key);
+
+    /**
+     * Subtracts the value for the key in the map with the subtrahend and returns the value that was previously mapped
+     * to the key. Throws an exception if the map doesn't contain an entry with the key or its value is
+     * <code>null</code>.
+     *
+     * @param key        The key.
+     * @param subtrahend The number by which the value should be subtracted.
+     * @return The value the key was mapped to previously.
+     */
+    N subtract(K key, N subtrahend);
 }

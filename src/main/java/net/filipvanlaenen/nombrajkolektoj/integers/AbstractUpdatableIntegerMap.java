@@ -18,7 +18,8 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, oldValue + addend);
+            update(key, oldValue, oldValue + addend);
+            return oldValue;
         }
     }
 
@@ -31,7 +32,8 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, oldValue * multiplicand);
+            update(key, oldValue, oldValue * multiplicand);
+            return oldValue;
         }
     }
 
@@ -44,7 +46,22 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
         if (oldValue == null) {
             throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
         } else {
-            return update(key, -oldValue);
+            update(key, oldValue, -oldValue);
+            return oldValue;
+        }
+    }
+
+    @Override
+    public Integer subtract(final K key, final Integer subtrahend) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Integer oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue - subtrahend);
+            return oldValue;
         }
     }
 }

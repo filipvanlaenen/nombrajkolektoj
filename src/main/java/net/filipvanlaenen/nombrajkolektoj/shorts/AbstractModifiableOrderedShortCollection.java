@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
         return originalValue;
     }
 
-    private void putResults(Short[] results) {
+    /**
+     * Puts the content of an array with shorts into the shorts collection.
+     *
+     * @param results An array with shorts that should be put into the shorts collection.
+     */
+    private void putResults(final Short[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

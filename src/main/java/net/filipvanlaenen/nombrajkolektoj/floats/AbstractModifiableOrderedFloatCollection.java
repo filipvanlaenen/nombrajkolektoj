@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         return originalValue;
     }
 
-    private void putResults(Float[] results) {
+    /**
+     * Puts the content of an array with floats into the floats collection.
+     *
+     * @param results An array with floats that should be put into the floats collection.
+     */
+    private void putResults(final Float[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

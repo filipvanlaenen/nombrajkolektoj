@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
         return originalValue;
     }
 
-    private void putResults(Long[] results) {
+    /**
+     * Puts the content of an array with longs into the longs collection.
+     *
+     * @param results An array with longs that should be put into the longs collection.
+     */
+    private void putResults(final Long[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

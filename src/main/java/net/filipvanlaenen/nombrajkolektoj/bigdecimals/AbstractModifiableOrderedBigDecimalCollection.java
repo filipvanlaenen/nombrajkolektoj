@@ -157,7 +157,12 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
         return originalValue;
     }
 
-    private void putResults(BigDecimal[] results) {
+    /**
+     * Puts the content of an array with BigDecimals into the BigDecimals collection.
+     *
+     * @param results An array with BigDecimals that should be put into the BigDecimals collection.
+     */
+    private void putResults(final BigDecimal[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

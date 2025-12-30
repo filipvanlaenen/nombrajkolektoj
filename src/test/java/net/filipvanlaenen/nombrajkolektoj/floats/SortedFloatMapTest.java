@@ -95,7 +95,8 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Float>("three", 3F), createFloatMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Float>("three", FLOAT_THREE),
+                createFloatMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

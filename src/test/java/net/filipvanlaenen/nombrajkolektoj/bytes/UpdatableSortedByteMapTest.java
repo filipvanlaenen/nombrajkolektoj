@@ -114,7 +114,8 @@ public final class UpdatableSortedByteMapTest extends UpdatableByteMapTestBase<U
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Byte>("three", (byte) 3), createByteMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Byte>("three", BYTE_THREE),
+                createByteMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

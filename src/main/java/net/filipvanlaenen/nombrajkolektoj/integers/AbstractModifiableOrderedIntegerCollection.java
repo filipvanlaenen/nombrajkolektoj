@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedIntegerCollection extends AbstractModifi
         return originalValue;
     }
 
-    private void putResults(Integer[] results) {
+    /**
+     * Puts the content of an array with integers into the integers collection.
+     *
+     * @param results An array with integers that should be put into the integers collection.
+     */
+    private void putResults(final Integer[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

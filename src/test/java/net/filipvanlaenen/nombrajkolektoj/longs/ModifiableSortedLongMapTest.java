@@ -168,7 +168,8 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Long>("three", 3L), createLongMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Long>("three", LONG_THREE),
+                createLongMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

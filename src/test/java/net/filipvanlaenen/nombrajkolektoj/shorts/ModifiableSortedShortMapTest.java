@@ -168,7 +168,8 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Short>("three", (short) 3), createShortMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Short>("three", SHORT_THREE),
+                createShortMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

@@ -194,7 +194,7 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
     }
 
     /**
-     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match
+     * Verifies that augment with a collection returns true if a change was made and <code>null</code> values match.
      */
     @Test
     public void augmentWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
@@ -347,7 +347,7 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
     }
 
     /**
-     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match
+     * Verifies that multiply with a collection returns true if a change was made and <code>null</code> values match.
      */
     @Test
     public void multiplyWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {

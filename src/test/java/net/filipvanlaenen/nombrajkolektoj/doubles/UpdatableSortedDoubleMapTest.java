@@ -114,7 +114,8 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Double>("three", 3D), createDoubleMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Double>("three", DOUBLE_THREE),
+                createDoubleMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

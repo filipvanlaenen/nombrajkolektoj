@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedByteCollection extends AbstractModifiabl
         return originalValue;
     }
 
-    private void putResults(Byte[] results) {
+    /**
+     * Puts the content of an array with bytes into the bytes collection.
+     *
+     * @param results An array with bytes that should be put into the bytes collection.
+     */
+    private void putResults(final Byte[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

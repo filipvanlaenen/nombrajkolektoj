@@ -116,7 +116,8 @@ public final class UpdatableSortedBigDecimalMapTest extends UpdatableBigDecimalM
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, BigDecimal>("three", BigDecimal.valueOf(3L)), createBigDecimalMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, BigDecimal>("three", BIG_DECIMAL_THREE),
+                createBigDecimalMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

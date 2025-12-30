@@ -97,7 +97,8 @@ public final class SortedBigIntegerMapTest extends BigIntegerMapTestBase<SortedB
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, BigInteger>("three", BigInteger.valueOf(3L)), createBigIntegerMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, BigInteger>("three", BIG_INTEGER_THREE),
+                createBigIntegerMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

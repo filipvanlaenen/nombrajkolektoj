@@ -95,7 +95,8 @@ public final class SortedShortMapTest extends ShortMapTestBase<SortedShortMap<St
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Short>("three", (short) 3), createShortMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Short>("three", SHORT_THREE),
+                createShortMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

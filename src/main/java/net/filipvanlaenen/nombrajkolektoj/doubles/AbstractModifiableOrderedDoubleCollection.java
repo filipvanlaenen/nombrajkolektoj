@@ -155,7 +155,12 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
         return originalValue;
     }
 
-    private void putResults(Double[] results) {
+    /**
+     * Puts the content of an array with doubles into the doubles collection.
+     *
+     * @param results An array with doubles that should be put into the doubles collection.
+     */
+    private void putResults(final Double[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

@@ -95,7 +95,8 @@ public final class SortedIntegerMapTest extends IntegerMapTestBase<SortedInteger
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalMap() {
-        assertEquals(new Entry<String, Integer>("three", 3), createIntegerMap123().getGreaterThanOrEqualTo("three"));
+        assertEquals(new Entry<String, Integer>("three", INTEGER_THREE),
+                createIntegerMap123().getGreaterThanOrEqualTo("three"));
     }
 
     /**

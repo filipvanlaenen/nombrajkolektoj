@@ -157,7 +157,12 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         return originalValue;
     }
 
-    private void putResults(BigInteger[] results) {
+    /**
+     * Puts the content of an array with BigIntegers into the BigIntegers collection.
+     *
+     * @param results An array with BigIntegers that should be put into the BigIntegers collection.
+     */
+    private void putResults(final BigInteger[] results) {
         int n = size();
         boolean[] updated = new boolean[n];
         boolean allUpdated = false;

@@ -24,6 +24,20 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
     }
 
     @Override
+    public Integer divide(final K key, final Integer divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Integer oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue / divisor);
+            return oldValue;
+        }
+    }
+
+    @Override
     public Integer multiply(final K key, final Integer multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

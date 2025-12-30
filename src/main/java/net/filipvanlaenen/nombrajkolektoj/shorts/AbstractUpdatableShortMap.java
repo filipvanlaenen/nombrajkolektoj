@@ -24,6 +24,20 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
     }
 
     @Override
+    public Short divide(final K key, final Short divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Short oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, (short) (oldValue / divisor));
+            return oldValue;
+        }
+    }
+
+    @Override
     public Short multiply(final K key, final Short multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

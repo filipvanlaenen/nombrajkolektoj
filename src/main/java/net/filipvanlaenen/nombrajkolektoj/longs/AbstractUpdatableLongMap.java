@@ -24,6 +24,20 @@ abstract class AbstractUpdatableLongMap<K> extends AbstractLongMap<K> implements
     }
 
     @Override
+    public Long divide(final K key, final Long divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Long oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue / divisor);
+            return oldValue;
+        }
+    }
+
+    @Override
     public Long multiply(final K key, final Long multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

@@ -24,6 +24,20 @@ abstract class AbstractUpdatableFloatMap<K> extends AbstractFloatMap<K> implemen
     }
 
     @Override
+    public Float divide(final K key, final Float divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Float oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue / divisor);
+            return oldValue;
+        }
+    }
+
+    @Override
     public Float multiply(final K key, final Float multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

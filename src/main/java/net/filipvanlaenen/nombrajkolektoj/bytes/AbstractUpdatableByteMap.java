@@ -24,6 +24,20 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
     }
 
     @Override
+    public Byte divide(final K key, final Byte divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Byte oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, (byte) (oldValue / divisor));
+            return oldValue;
+        }
+    }
+
+    @Override
     public Byte multiply(final K key, final Byte multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

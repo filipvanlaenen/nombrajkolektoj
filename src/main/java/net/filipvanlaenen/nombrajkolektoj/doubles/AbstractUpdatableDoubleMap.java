@@ -24,6 +24,20 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
     }
 
     @Override
+    public Double divide(final K key, final Double divisor) {
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
+        }
+        Double oldValue = get(key);
+        if (oldValue == null) {
+            throw new IllegalArgumentException("The entry in the map with the key " + key + " contains null.");
+        } else {
+            update(key, oldValue, oldValue / divisor);
+            return oldValue;
+        }
+    }
+
+    @Override
     public Double multiply(final K key, final Double multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

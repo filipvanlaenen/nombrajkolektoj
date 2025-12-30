@@ -2,11 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -468,7 +464,6 @@ public class AbstractModifiableOrderedBigIntegerCollectionTest {
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
         ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection
                 .of(ElementCardinality.DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, MINUS_TWO, BIG_INTEGER_THREE);
-        ;
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",

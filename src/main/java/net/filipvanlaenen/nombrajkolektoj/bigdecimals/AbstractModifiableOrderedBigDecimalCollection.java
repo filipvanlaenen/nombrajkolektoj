@@ -174,6 +174,7 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
                         try {
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
+                            allUpdated = false;
                         }
                         counter = counter.add(BigDecimal.ONE);
                     }

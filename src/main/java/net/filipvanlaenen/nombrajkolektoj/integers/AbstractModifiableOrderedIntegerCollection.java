@@ -172,6 +172,7 @@ abstract class AbstractModifiableOrderedIntegerCollection extends AbstractModifi
                         try {
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
+                            allUpdated = false;
                         }
                         // EQMU: Replacing the int addition with subtraction below produces an equivalent mutant.
                         counter += 1;

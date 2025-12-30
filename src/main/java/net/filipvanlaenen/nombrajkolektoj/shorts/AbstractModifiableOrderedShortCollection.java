@@ -172,6 +172,7 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
                         try {
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
+                            allUpdated = false;
                         }
                         // EQMU: Replacing the short addition with subtraction below produces an equivalent mutant.
                         counter = (short) (counter + 1);

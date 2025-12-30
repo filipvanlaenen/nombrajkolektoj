@@ -2,8 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -172,6 +172,7 @@ abstract class AbstractModifiableOrderedLongCollection extends AbstractModifiabl
                         try {
                             putAt(i, counter);
                         } catch (IllegalArgumentException iae2) {
+                            allUpdated = false;
                         }
                         // EQMU: Replacing the long addition with subtraction below produces an equivalent mutant.
                         counter += 1L;

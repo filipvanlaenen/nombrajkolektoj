@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 
 /**
@@ -28,7 +29,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Float> comparator, final Collection<Float> source) {
+        public SortedTreeCollection(final Comparator<? super Float> comparator, final Collection<Float> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.FLOATS));
         }
 
@@ -39,8 +40,8 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The floats of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Float> comparator,
-                final Float... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Float> comparator, final Float... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Float>(elementCardinality,
                     comparator, numbers));
         }
@@ -52,7 +53,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The floats of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Float> comparator, final Float... numbers) {
+        public SortedTreeCollection(final Comparator<? super Float> comparator, final Float... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Float>(comparator,
                     numbers));
         }
@@ -103,7 +104,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted floats collection.
      */
-    static ModifiableSortedFloatCollection empty(final Comparator<Float> comparator) {
+    public static ModifiableSortedFloatCollection empty(final Comparator<Float> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -174,8 +175,42 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted floats collection with the specified floats.
      */
-    static ModifiableSortedFloatCollection of(final Comparator<Float> comparator, final Float... numbers) {
+    public static ModifiableSortedFloatCollection of(final Comparator<? super Float> comparator,
+            final Float... numbers) {
         return new SortedTreeCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted floats collection cloned from the provided floats collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original floats collection.
+     * @return A new sorted modifiable floats collection cloned from the provided floats collection.
+     */
+    public static ModifiableSortedFloatCollection of(final Comparator<? super Float> comparator,
+            final FloatCollection collection) {
+        return new SortedTreeCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted floats collection cloned from a range in the provided ordered floats
+     * collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered floats collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new modifiable sorted floats collection cloned from a range in the provided ordered floats
+     *         collection.
+     */
+    public static ModifiableSortedFloatCollection of(final Comparator<? super Float> comparator,
+            final OrderedFloatCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableSortedFloatCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), comparator);
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.add(collection.getAt(i));
+        }
+        return result;
     }
 
     /**
@@ -186,9 +221,45 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @param numbers            The floats for the new modifiable sorted floats collection.
      * @return A new modifiable sorted floats collection with the specified element cardinality and the floats.
      */
-    static ModifiableSortedFloatCollection of(final ElementCardinality elementCardinality,
-            final Comparator<Float> comparator, final Float... numbers) {
+    public static ModifiableSortedFloatCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Float> comparator, final Float... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted floats collection cloned from the provided sorted floats collection.
+     *
+     * @param collection The original sorted floats collection.
+     * @return A new modifiable sorted floats collection cloned from the provided sorted floats collection.
+     */
+    public static ModifiableSortedFloatCollection of(final SortedFloatCollection collection) {
+        return new SortedTreeCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted floats collection cloned from the provided sorted floats collection.
+     *
+     * @param collection The original sorted floats collection.
+     * @param range      The range.
+     * @return A new modifiable sorted floats collection cloned from the provided sorted floats collection.
+     */
+    public static ModifiableSortedFloatCollection of(final SortedFloatCollection collection,
+            final Range<Float> range) {
+        ModifiableSortedFloatCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());
+        boolean below = true;
+        for (Float element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                result.add(element);
+            }
+        }
+        return result;
     }
 
     @Override

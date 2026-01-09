@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 
 /**
@@ -28,7 +29,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Double> comparator, final Collection<Double> source) {
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
         }
 
@@ -39,8 +40,8 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-                final Double... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Double> comparator, final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Double>(elementCardinality,
                     comparator, numbers));
         }
@@ -52,7 +53,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Double> comparator, final Double... numbers) {
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Double>(comparator,
                     numbers));
         }
@@ -103,7 +104,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted doubles collection.
      */
-    static ModifiableSortedDoubleCollection empty(final Comparator<Double> comparator) {
+    public static ModifiableSortedDoubleCollection empty(final Comparator<Double> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -174,8 +175,42 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted doubles collection with the specified doubles.
      */
-    static ModifiableSortedDoubleCollection of(final Comparator<Double> comparator, final Double... numbers) {
+    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
+            final Double... numbers) {
         return new SortedTreeCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted doubles collection cloned from the provided doubles collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original doubles collection.
+     * @return A new sorted modifiable doubles collection cloned from the provided doubles collection.
+     */
+    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
+            final DoubleCollection collection) {
+        return new SortedTreeCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted doubles collection cloned from a range in the provided ordered doubles
+     * collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered doubles collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new modifiable sorted doubles collection cloned from a range in the provided ordered doubles
+     *         collection.
+     */
+    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
+            final OrderedDoubleCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableSortedDoubleCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), comparator);
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.add(collection.getAt(i));
+        }
+        return result;
     }
 
     /**
@@ -186,9 +221,45 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @param numbers            The doubles for the new modifiable sorted doubles collection.
      * @return A new modifiable sorted doubles collection with the specified element cardinality and the doubles.
      */
-    static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
-            final Comparator<Double> comparator, final Double... numbers) {
+    public static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Double> comparator, final Double... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
+     *
+     * @param collection The original sorted doubles collection.
+     * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
+     */
+    public static ModifiableSortedDoubleCollection of(final SortedDoubleCollection collection) {
+        return new SortedTreeCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
+     *
+     * @param collection The original sorted doubles collection.
+     * @param range      The range.
+     * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
+     */
+    public static ModifiableSortedDoubleCollection of(final SortedDoubleCollection collection,
+            final Range<Double> range) {
+        ModifiableSortedDoubleCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());
+        boolean below = true;
+        for (Double element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                result.add(element);
+            }
+        }
+        return result;
     }
 
     @Override

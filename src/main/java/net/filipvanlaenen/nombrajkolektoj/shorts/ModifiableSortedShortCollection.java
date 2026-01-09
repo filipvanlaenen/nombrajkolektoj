@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 
 /**
@@ -28,7 +29,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Short> comparator, final Collection<Short> source) {
+        public SortedTreeCollection(final Comparator<? super Short> comparator, final Collection<Short> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.SHORTS));
         }
 
@@ -39,8 +40,8 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The shorts of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Short> comparator,
-                final Short... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Short> comparator, final Short... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Short>(elementCardinality,
                     comparator, numbers));
         }
@@ -52,7 +53,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The shorts of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Short> comparator, final Short... numbers) {
+        public SortedTreeCollection(final Comparator<? super Short> comparator, final Short... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Short>(comparator,
                     numbers));
         }
@@ -103,7 +104,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted shorts collection.
      */
-    static ModifiableSortedShortCollection empty(final Comparator<Short> comparator) {
+    public static ModifiableSortedShortCollection empty(final Comparator<Short> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -174,8 +175,42 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted shorts collection with the specified shorts.
      */
-    static ModifiableSortedShortCollection of(final Comparator<Short> comparator, final Short... numbers) {
+    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
+            final Short... numbers) {
         return new SortedTreeCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted shorts collection cloned from the provided shorts collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original shorts collection.
+     * @return A new sorted modifiable shorts collection cloned from the provided shorts collection.
+     */
+    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
+            final ShortCollection collection) {
+        return new SortedTreeCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted shorts collection cloned from a range in the provided ordered shorts
+     * collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered shorts collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new modifiable sorted shorts collection cloned from a range in the provided ordered shorts
+     *         collection.
+     */
+    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
+            final OrderedShortCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableSortedShortCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), comparator);
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.add(collection.getAt(i));
+        }
+        return result;
     }
 
     /**
@@ -186,9 +221,45 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
      * @param numbers            The shorts for the new modifiable sorted shorts collection.
      * @return A new modifiable sorted shorts collection with the specified element cardinality and the shorts.
      */
-    static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
-            final Comparator<Short> comparator, final Short... numbers) {
+    public static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Short> comparator, final Short... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
+     *
+     * @param collection The original sorted shorts collection.
+     * @return A new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
+     */
+    public static ModifiableSortedShortCollection of(final SortedShortCollection collection) {
+        return new SortedTreeCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
+     *
+     * @param collection The original sorted shorts collection.
+     * @param range      The range.
+     * @return A new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
+     */
+    public static ModifiableSortedShortCollection of(final SortedShortCollection collection,
+            final Range<Short> range) {
+        ModifiableSortedShortCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());
+        boolean below = true;
+        for (Short element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                result.add(element);
+            }
+        }
+        return result;
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 
 /**
@@ -28,7 +29,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Byte> comparator, final Collection<Byte> source) {
+        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Collection<Byte> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BYTES));
         }
 
@@ -39,8 +40,8 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The bytes of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-                final Byte... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Byte> comparator, final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Byte>(elementCardinality,
                     comparator, numbers));
         }
@@ -52,7 +53,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The bytes of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Byte> comparator, final Byte... numbers) {
+        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Byte>(comparator,
                     numbers));
         }
@@ -103,7 +104,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted bytes collection.
      */
-    static ModifiableSortedByteCollection empty(final Comparator<Byte> comparator) {
+    public static ModifiableSortedByteCollection empty(final Comparator<Byte> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -174,8 +175,42 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted bytes collection with the specified bytes.
      */
-    static ModifiableSortedByteCollection of(final Comparator<Byte> comparator, final Byte... numbers) {
+    public static ModifiableSortedByteCollection of(final Comparator<? super Byte> comparator,
+            final Byte... numbers) {
         return new SortedTreeCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted bytes collection cloned from the provided bytes collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original bytes collection.
+     * @return A new sorted modifiable bytes collection cloned from the provided bytes collection.
+     */
+    public static ModifiableSortedByteCollection of(final Comparator<? super Byte> comparator,
+            final ByteCollection collection) {
+        return new SortedTreeCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted bytes collection cloned from a range in the provided ordered bytes
+     * collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered bytes collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new modifiable sorted bytes collection cloned from a range in the provided ordered bytes
+     *         collection.
+     */
+    public static ModifiableSortedByteCollection of(final Comparator<? super Byte> comparator,
+            final OrderedByteCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableSortedByteCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), comparator);
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.add(collection.getAt(i));
+        }
+        return result;
     }
 
     /**
@@ -186,9 +221,45 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @param numbers            The bytes for the new modifiable sorted bytes collection.
      * @return A new modifiable sorted bytes collection with the specified element cardinality and the bytes.
      */
-    static ModifiableSortedByteCollection of(final ElementCardinality elementCardinality,
-            final Comparator<Byte> comparator, final Byte... numbers) {
+    public static ModifiableSortedByteCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Byte> comparator, final Byte... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
+     *
+     * @param collection The original sorted bytes collection.
+     * @return A new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
+     */
+    public static ModifiableSortedByteCollection of(final SortedByteCollection collection) {
+        return new SortedTreeCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
+     *
+     * @param collection The original sorted bytes collection.
+     * @param range      The range.
+     * @return A new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
+     */
+    public static ModifiableSortedByteCollection of(final SortedByteCollection collection,
+            final Range<Byte> range) {
+        ModifiableSortedByteCollection result =
+                new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());
+        boolean below = true;
+        for (Byte element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                result.add(element);
+            }
+        }
+        return result;
     }
 
     @Override

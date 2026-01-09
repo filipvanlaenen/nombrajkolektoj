@@ -32,7 +32,7 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, BigInteger> source) {
+        public HashMap(final Map<? extends K, BigInteger> source) {
             super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, BigInteger>(source));
         }
 
@@ -94,11 +94,11 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
     /**
      * Returns a new empty BigIntegers map.
      *
-     * @param <K> The key type.
+     * @param <L> The key type.
      * @return A new empty BigIntegers map.
      */
-    public static <K> UpdatableBigIntegerMap<K> empty() {
-        return new HashMap<K>();
+    public static <L> UpdatableBigIntegerMap<L> empty() {
+        return new HashMap<L>();
     }
 
     @Override
@@ -137,46 +137,57 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
     }
 
     /**
+     * Returns a new updatable BigIntegers map cloned from the provided BigIntegers map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigIntegers map.
+     * @return A new updatable BigIntegers map cloned from the provided BigIntegers map.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new BigIntegers map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final Entry<K, BigInteger>... entries) {
-        return new HashMap<K>(entries);
+    public static <L> UpdatableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new BigIntegers map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new BigIntegers map containing an entry with the key and the value.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final K key, final BigInteger value) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key, value));
+    public static <L> UpdatableBigIntegerMap<L> of(final L key, final BigInteger value) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key, value));
     }
 
     /**
      * Returns a new BigIntegers map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new BigIntegers map containing two entries using the provided keys and values.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2));
+    public static <L> UpdatableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2));
     }
 
     /**
      * Returns a new BigIntegers map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -185,16 +196,16 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      * @param value3 The third value for the entry.
      * @return A new BigIntegers map containing three entries using the provided keys and values.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3));
+    public static <L> UpdatableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3));
     }
 
     /**
      * Returns a new BigIntegers map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -205,16 +216,16 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      * @param value4 The fourth value for the entry.
      * @return A new BigIntegers map containing four entries using the provided keys and values.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3, final K key4, final BigInteger value4) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3), new Entry<K, BigInteger>(key4, value4));
+    public static <L> UpdatableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3, final L key4, final BigInteger value4) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4));
     }
 
     /**
      * Returns a new BigIntegers map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -227,58 +238,58 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      * @param value5 The fifth value for the entry.
      * @return A new BigIntegers map containing five entries using the provided keys and values.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final K key1, final BigInteger value1, final K key2, final BigInteger value2,
-            final K key3, final BigInteger value3, final K key4, final BigInteger value4, final K key5, final BigInteger value5) {
-        return new HashMap<K>(new Entry<K, BigInteger>(key1, value1), new Entry<K, BigInteger>(key2, value2),
-                new Entry<K, BigInteger>(key3, value3), new Entry<K, BigInteger>(key4, value4),
-                new Entry<K, BigInteger>(key5, value5));
+    public static <L> UpdatableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+            final L key3, final BigInteger value3, final L key4, final BigInteger value4, final L key5, final BigInteger value5) {
+        return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
+                new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
+                new Entry<L, BigInteger>(key5, value5));
     }
 
     /**
      * Returns a new updatable BigIntegers map with the specified keys with a default value and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param defaultValue           The default value for the entries.
      * @param keys                   The keys for the new map.
      * @return A new updatable BigIntegers map with the specified entries.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigInteger defaultValue, final K... keys) {
-        ModifiableBigIntegerMap<K> map = ModifiableBigIntegerMap.<K>of(keyAndValueCardinality);
-        for (K key : keys) {
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigInteger defaultValue, final L... keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     /**
      * Returns a new BigIntegers map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, BigInteger>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, BigInteger>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new updatable BigIntegers map with the specified keys with a default value.
      *
-     * @param <K>          The key type.
+     * @param <L>          The key type.
      * @param defaultValue The default value for the entries.
      * @param keys         The keys for the new map.
      * @return A new updatable BigIntegers map with the specified entries.
      */
-    public static <K> UpdatableBigIntegerMap<K> of(final BigInteger defaultValue, final K... keys) {
-        ModifiableBigIntegerMap<K> map = ModifiableBigIntegerMap.<K>empty();
-        for (K key : keys) {
+    public static <L> UpdatableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     @Override

@@ -30,7 +30,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Short> source) {
+        public HashMap(final Map<? extends K, Short> source) {
             super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Short>(source));
         }
 
@@ -92,11 +92,11 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     /**
      * Returns a new empty shorts map.
      *
-     * @param <K> The key type.
+     * @param <L> The key type.
      * @return A new empty shorts map.
      */
-    public static <K> UpdatableShortMap<K> empty() {
-        return new HashMap<K>();
+    public static <L> UpdatableShortMap<L> empty() {
+        return new HashMap<L>();
     }
 
     @Override
@@ -135,46 +135,57 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
     }
 
     /**
+     * Returns a new updatable shorts map cloned from the provided shorts map.
+     *
+     * @param <L> The key type.
+     * @param map The original shorts map.
+     * @return A new updatable shorts map cloned from the provided shorts map.
+     */
+    public static <L> UpdatableShortMap<L> of(final ShortMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new shorts map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    public static <K> UpdatableShortMap<K> of(final Entry<K, Short>... entries) {
-        return new HashMap<K>(entries);
+    public static <L> UpdatableShortMap<L> of(final Entry<L, Short>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new shorts map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new shorts map containing an entry with the key and the value.
      */
-    public static <K> UpdatableShortMap<K> of(final K key, final Short value) {
-        return new HashMap<K>(new Entry<K, Short>(key, value));
+    public static <L> UpdatableShortMap<L> of(final L key, final Short value) {
+        return new HashMap<L>(new Entry<L, Short>(key, value));
     }
 
     /**
      * Returns a new shorts map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new shorts map containing two entries using the provided keys and values.
      */
-    public static <K> UpdatableShortMap<K> of(final K key1, final Short value1, final K key2, final Short value2) {
-        return new HashMap<K>(new Entry<K, Short>(key1, value1), new Entry<K, Short>(key2, value2));
+    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2) {
+        return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2));
     }
 
     /**
      * Returns a new shorts map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -183,16 +194,16 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value3 The third value for the entry.
      * @return A new shorts map containing three entries using the provided keys and values.
      */
-    public static <K> UpdatableShortMap<K> of(final K key1, final Short value1, final K key2, final Short value2,
-            final K key3, final Short value3) {
-        return new HashMap<K>(new Entry<K, Short>(key1, value1), new Entry<K, Short>(key2, value2),
-                new Entry<K, Short>(key3, value3));
+    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+            final L key3, final Short value3) {
+        return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
+                new Entry<L, Short>(key3, value3));
     }
 
     /**
      * Returns a new shorts map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -203,16 +214,16 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value4 The fourth value for the entry.
      * @return A new shorts map containing four entries using the provided keys and values.
      */
-    public static <K> UpdatableShortMap<K> of(final K key1, final Short value1, final K key2, final Short value2,
-            final K key3, final Short value3, final K key4, final Short value4) {
-        return new HashMap<K>(new Entry<K, Short>(key1, value1), new Entry<K, Short>(key2, value2),
-                new Entry<K, Short>(key3, value3), new Entry<K, Short>(key4, value4));
+    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+            final L key3, final Short value3, final L key4, final Short value4) {
+        return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
+                new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4));
     }
 
     /**
      * Returns a new shorts map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -225,58 +236,58 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value5 The fifth value for the entry.
      * @return A new shorts map containing five entries using the provided keys and values.
      */
-    public static <K> UpdatableShortMap<K> of(final K key1, final Short value1, final K key2, final Short value2,
-            final K key3, final Short value3, final K key4, final Short value4, final K key5, final Short value5) {
-        return new HashMap<K>(new Entry<K, Short>(key1, value1), new Entry<K, Short>(key2, value2),
-                new Entry<K, Short>(key3, value3), new Entry<K, Short>(key4, value4),
-                new Entry<K, Short>(key5, value5));
+    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+            final L key3, final Short value3, final L key4, final Short value4, final L key5, final Short value5) {
+        return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
+                new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4),
+                new Entry<L, Short>(key5, value5));
     }
 
     /**
      * Returns a new updatable shorts map with the specified keys with a default value and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param defaultValue           The default value for the entries.
      * @param keys                   The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Short defaultValue, final K... keys) {
-        ModifiableShortMap<K> map = ModifiableShortMap.<K>of(keyAndValueCardinality);
-        for (K key : keys) {
+    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Short defaultValue, final L... keys) {
+        ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     /**
      * Returns a new shorts map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    public static <K> UpdatableShortMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Short>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Short>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new updatable shorts map with the specified keys with a default value.
      *
-     * @param <K>          The key type.
+     * @param <L>          The key type.
      * @param defaultValue The default value for the entries.
      * @param keys         The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <K> UpdatableShortMap<K> of(final Short defaultValue, final K... keys) {
-        ModifiableShortMap<K> map = ModifiableShortMap.<K>empty();
-        for (K key : keys) {
+    public static <L> UpdatableShortMap<L> of(final Short defaultValue, final L... keys) {
+        ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     @Override

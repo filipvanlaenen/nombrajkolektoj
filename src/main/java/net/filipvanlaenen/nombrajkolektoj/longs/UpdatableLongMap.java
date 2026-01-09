@@ -30,7 +30,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Long> source) {
+        public HashMap(final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Long>(source));
         }
 
@@ -92,11 +92,11 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     /**
      * Returns a new empty longs map.
      *
-     * @param <K> The key type.
+     * @param <L> The key type.
      * @return A new empty longs map.
      */
-    public static <K> UpdatableLongMap<K> empty() {
-        return new HashMap<K>();
+    public static <L> UpdatableLongMap<L> empty() {
+        return new HashMap<L>();
     }
 
     @Override
@@ -135,46 +135,57 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     }
 
     /**
+     * Returns a new updatable longs map cloned from the provided longs map.
+     *
+     * @param <L> The key type.
+     * @param map The original longs map.
+     * @return A new updatable longs map cloned from the provided longs map.
+     */
+    public static <L> UpdatableLongMap<L> of(final LongMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new longs map with the specified entries.
      *
-     * @param <K>     The key type.
+     * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    public static <K> UpdatableLongMap<K> of(final Entry<K, Long>... entries) {
-        return new HashMap<K>(entries);
+    public static <L> UpdatableLongMap<L> of(final Entry<L, Long>... entries) {
+        return new HashMap<L>(entries);
     }
 
     /**
      * Returns a new longs map containing an entry with the key and the value.
      *
-     * @param <K>   The key type.
+     * @param <L>   The key type.
      * @param key   The key for the entry.
      * @param value The value for the entry.
      * @return A new longs map containing an entry with the key and the value.
      */
-    public static <K> UpdatableLongMap<K> of(final K key, final Long value) {
-        return new HashMap<K>(new Entry<K, Long>(key, value));
+    public static <L> UpdatableLongMap<L> of(final L key, final Long value) {
+        return new HashMap<L>(new Entry<L, Long>(key, value));
     }
 
     /**
      * Returns a new longs map containing two entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
      * @param value2 The second value for the entry.
      * @return A new longs map containing two entries using the provided keys and values.
      */
-    public static <K> UpdatableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2));
+    public static <L> UpdatableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2));
     }
 
     /**
      * Returns a new longs map containing three entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -183,16 +194,16 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param value3 The third value for the entry.
      * @return A new longs map containing three entries using the provided keys and values.
      */
-    public static <K> UpdatableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3));
+    public static <L> UpdatableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3));
     }
 
     /**
      * Returns a new longs map containing four entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -203,16 +214,16 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param value4 The fourth value for the entry.
      * @return A new longs map containing four entries using the provided keys and values.
      */
-    public static <K> UpdatableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3, final K key4, final Long value4) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4));
+    public static <L> UpdatableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3, final L key4, final Long value4) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4));
     }
 
     /**
      * Returns a new longs map containing five entries using the provided keys and values.
      *
-     * @param <K>    The key type.
+     * @param <L>    The key type.
      * @param key1   The first key for the entry.
      * @param value1 The first value for the entry.
      * @param key2   The second key for the entry.
@@ -225,58 +236,58 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
      * @param value5 The fifth value for the entry.
      * @return A new longs map containing five entries using the provided keys and values.
      */
-    public static <K> UpdatableLongMap<K> of(final K key1, final Long value1, final K key2, final Long value2,
-            final K key3, final Long value3, final K key4, final Long value4, final K key5, final Long value5) {
-        return new HashMap<K>(new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4),
-                new Entry<K, Long>(key5, value5));
+    public static <L> UpdatableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+            final L key3, final Long value3, final L key4, final Long value4, final L key5, final Long value5) {
+        return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
+                new Entry<L, Long>(key5, value5));
     }
 
     /**
      * Returns a new updatable longs map with the specified keys with a default value and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param defaultValue           The default value for the entries.
      * @param keys                   The keys for the new map.
      * @return A new updatable longs map with the specified entries.
      */
-    public static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Long defaultValue, final K... keys) {
-        ModifiableLongMap<K> map = ModifiableLongMap.<K>of(keyAndValueCardinality);
-        for (K key : keys) {
+    public static <L> UpdatableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final L... keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     /**
      * Returns a new longs map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param entries                The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    public static <K> UpdatableLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<K, Long>... entries) {
-        return new HashMap<K>(keyAndValueCardinality, entries);
+    public static <L> UpdatableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Long>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
     /**
      * Returns a new updatable longs map with the specified keys with a default value.
      *
-     * @param <K>          The key type.
+     * @param <L>          The key type.
      * @param defaultValue The default value for the entries.
      * @param keys         The keys for the new map.
      * @return A new updatable longs map with the specified entries.
      */
-    public static <K> UpdatableLongMap<K> of(final Long defaultValue, final K... keys) {
-        ModifiableLongMap<K> map = ModifiableLongMap.<K>empty();
-        for (K key : keys) {
+    public static <L> UpdatableLongMap<L> of(final Long defaultValue, final L... keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
+        for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new HashMap<K>(map);
+        return new HashMap<L>(map);
     }
 
     @Override

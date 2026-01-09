@@ -143,11 +143,11 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
     }
 
     /**
-     * Returns a new empty modifiable BigInteger collection.
+     * Returns a new empty modifiable BigIntegers collection.
      *
-     * @return A new empty modifiable BigInteger collection.
+     * @return A new empty modifiable BigIntegers collection.
      */
-    static ModifiableOrderedBigIntegerCollection empty() {
+    public static ModifiableOrderedBigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -192,7 +192,7 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
      * @param numbers The BigIntegers for the new modifiable ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection with the specified BigIntegers.
      */
-    static ModifiableOrderedBigIntegerCollection of(final BigInteger... numbers) {
+    public static ModifiableOrderedBigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -203,8 +203,38 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
      * @param numbers            The BigIntegers for the new modifiable ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    public static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigIntegers collection cloned from the provided ordered BigIntegers collection.
+     *
+     * @param collection The original ordered BigIntegers collection.
+     * @return A new modifiable ordered BigIntegers collection cloned from the provided ordered BigIntegers collection.
+     */
+    public static ModifiableOrderedBigIntegerCollection of(final OrderedBigIntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers
+     * collection.
+     *
+     * @param collection The original ordered BigIntegers collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered BigIntegers collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered BigIntegers collection.
+     * @return A new modifiable ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers
+     *         collection.
+     */
+    public static ModifiableOrderedBigIntegerCollection of(final OrderedBigIntegerCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedBigIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

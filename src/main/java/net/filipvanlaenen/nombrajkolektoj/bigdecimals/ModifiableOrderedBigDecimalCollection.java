@@ -143,11 +143,11 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
     }
 
     /**
-     * Returns a new empty modifiable BigDecimal collection.
+     * Returns a new empty modifiable BigDecimals collection.
      *
-     * @return A new empty modifiable BigDecimal collection.
+     * @return A new empty modifiable BigDecimals collection.
      */
-    static ModifiableOrderedBigDecimalCollection empty() {
+    public static ModifiableOrderedBigDecimalCollection empty() {
         return new ArrayCollection();
     }
 
@@ -192,7 +192,7 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
      * @param numbers The BigDecimals for the new modifiable ordered BigDecimals collection.
      * @return A new modifiable ordered BigDecimals collection with the specified BigDecimals.
      */
-    static ModifiableOrderedBigDecimalCollection of(final BigDecimal... numbers) {
+    public static ModifiableOrderedBigDecimalCollection of(final BigDecimal... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -203,8 +203,38 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
      * @param numbers            The BigDecimals for the new modifiable ordered BigDecimals collection.
      * @return A new modifiable ordered BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    static ModifiableOrderedBigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+    public static ModifiableOrderedBigDecimalCollection of(final ElementCardinality elementCardinality,
+            final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigDecimals collection cloned from the provided ordered BigDecimals collection.
+     *
+     * @param collection The original ordered BigDecimals collection.
+     * @return A new modifiable ordered BigDecimals collection cloned from the provided ordered BigDecimals collection.
+     */
+    public static ModifiableOrderedBigDecimalCollection of(final OrderedBigDecimalCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigDecimals collection cloned from a range in the provided ordered BigDecimals
+     * collection.
+     *
+     * @param collection The original ordered BigDecimals collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered BigDecimals collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered BigDecimals collection.
+     * @return A new modifiable ordered BigDecimals collection cloned from a range in the provided ordered BigDecimals
+     *         collection.
+     */
+    public static ModifiableOrderedBigDecimalCollection of(final OrderedBigDecimalCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedBigDecimalCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

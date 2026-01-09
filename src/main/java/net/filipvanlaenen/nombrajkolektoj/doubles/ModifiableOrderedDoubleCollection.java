@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
     }
 
     /**
-     * Returns a new empty modifiable double collection.
+     * Returns a new empty modifiable doubles collection.
      *
-     * @return A new empty modifiable double collection.
+     * @return A new empty modifiable doubles collection.
      */
-    static ModifiableOrderedDoubleCollection empty() {
+    public static ModifiableOrderedDoubleCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
      * @param numbers The doubles for the new modifiable ordered doubles collection.
      * @return A new modifiable ordered doubles collection with the specified doubles.
      */
-    static ModifiableOrderedDoubleCollection of(final Double... numbers) {
+    public static ModifiableOrderedDoubleCollection of(final Double... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
      * @param numbers            The doubles for the new modifiable ordered doubles collection.
      * @return A new modifiable ordered doubles collection with the specified element cardinality and the doubles.
      */
-    static ModifiableOrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+    public static ModifiableOrderedDoubleCollection of(final ElementCardinality elementCardinality,
+            final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection cloned from the provided ordered doubles collection.
+     *
+     * @param collection The original ordered doubles collection.
+     * @return A new modifiable ordered doubles collection cloned from the provided ordered doubles collection.
+     */
+    public static ModifiableOrderedDoubleCollection of(final OrderedDoubleCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection cloned from a range in the provided ordered doubles
+     * collection.
+     *
+     * @param collection The original ordered doubles collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered doubles collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered doubles collection.
+     * @return A new modifiable ordered doubles collection cloned from a range in the provided ordered doubles
+     *         collection.
+     */
+    public static ModifiableOrderedDoubleCollection of(final OrderedDoubleCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedDoubleCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
     }
 
     /**
-     * Returns a new empty modifiable long collection.
+     * Returns a new empty modifiable longs collection.
      *
-     * @return A new empty modifiable long collection.
+     * @return A new empty modifiable longs collection.
      */
-    static ModifiableOrderedLongCollection empty() {
+    public static ModifiableOrderedLongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
      * @param numbers The longs for the new modifiable ordered longs collection.
      * @return A new modifiable ordered longs collection with the specified longs.
      */
-    static ModifiableOrderedLongCollection of(final Long... numbers) {
+    public static ModifiableOrderedLongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
      * @param numbers            The longs for the new modifiable ordered longs collection.
      * @return A new modifiable ordered longs collection with the specified element cardinality and the longs.
      */
-    static ModifiableOrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    public static ModifiableOrderedLongCollection of(final ElementCardinality elementCardinality,
+            final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered longs collection cloned from the provided ordered longs collection.
+     *
+     * @param collection The original ordered longs collection.
+     * @return A new modifiable ordered longs collection cloned from the provided ordered longs collection.
+     */
+    public static ModifiableOrderedLongCollection of(final OrderedLongCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered longs collection cloned from a range in the provided ordered longs
+     * collection.
+     *
+     * @param collection The original ordered longs collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered longs collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered longs collection.
+     * @return A new modifiable ordered longs collection cloned from a range in the provided ordered longs
+     *         collection.
+     */
+    public static ModifiableOrderedLongCollection of(final OrderedLongCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedLongCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
     }
 
     /**
-     * Returns a new empty modifiable float collection.
+     * Returns a new empty modifiable floats collection.
      *
-     * @return A new empty modifiable float collection.
+     * @return A new empty modifiable floats collection.
      */
-    static ModifiableOrderedFloatCollection empty() {
+    public static ModifiableOrderedFloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      * @param numbers The floats for the new modifiable ordered floats collection.
      * @return A new modifiable ordered floats collection with the specified floats.
      */
-    static ModifiableOrderedFloatCollection of(final Float... numbers) {
+    public static ModifiableOrderedFloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      * @param numbers            The floats for the new modifiable ordered floats collection.
      * @return A new modifiable ordered floats collection with the specified element cardinality and the floats.
      */
-    static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    public static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
+            final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection cloned from the provided ordered floats collection.
+     *
+     * @param collection The original ordered floats collection.
+     * @return A new modifiable ordered floats collection cloned from the provided ordered floats collection.
+     */
+    public static ModifiableOrderedFloatCollection of(final OrderedFloatCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection cloned from a range in the provided ordered floats
+     * collection.
+     *
+     * @param collection The original ordered floats collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered floats collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered floats collection.
+     * @return A new modifiable ordered floats collection cloned from a range in the provided ordered floats
+     *         collection.
+     */
+    public static ModifiableOrderedFloatCollection of(final OrderedFloatCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedFloatCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

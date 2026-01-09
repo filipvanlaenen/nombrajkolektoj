@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
     }
 
     /**
-     * Returns a new empty modifiable byte collection.
+     * Returns a new empty modifiable bytes collection.
      *
-     * @return A new empty modifiable byte collection.
+     * @return A new empty modifiable bytes collection.
      */
-    static ModifiableOrderedByteCollection empty() {
+    public static ModifiableOrderedByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
      * @param numbers The bytes for the new modifiable ordered bytes collection.
      * @return A new modifiable ordered bytes collection with the specified bytes.
      */
-    static ModifiableOrderedByteCollection of(final Byte... numbers) {
+    public static ModifiableOrderedByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
      * @param numbers            The bytes for the new modifiable ordered bytes collection.
      * @return A new modifiable ordered bytes collection with the specified element cardinality and the bytes.
      */
-    static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    public static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection cloned from the provided ordered bytes collection.
+     *
+     * @param collection The original ordered bytes collection.
+     * @return A new modifiable ordered bytes collection cloned from the provided ordered bytes collection.
+     */
+    public static ModifiableOrderedByteCollection of(final OrderedByteCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection cloned from a range in the provided ordered bytes
+     * collection.
+     *
+     * @param collection The original ordered bytes collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered bytes collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered bytes collection.
+     * @return A new modifiable ordered bytes collection cloned from a range in the provided ordered bytes
+     *         collection.
+     */
+    public static ModifiableOrderedByteCollection of(final OrderedByteCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedByteCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

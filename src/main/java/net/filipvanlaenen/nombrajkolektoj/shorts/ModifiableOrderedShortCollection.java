@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
     }
 
     /**
-     * Returns a new empty modifiable short collection.
+     * Returns a new empty modifiable shorts collection.
      *
-     * @return A new empty modifiable short collection.
+     * @return A new empty modifiable shorts collection.
      */
-    static ModifiableOrderedShortCollection empty() {
+    public static ModifiableOrderedShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      * @param numbers The shorts for the new modifiable ordered shorts collection.
      * @return A new modifiable ordered shorts collection with the specified shorts.
      */
-    static ModifiableOrderedShortCollection of(final Short... numbers) {
+    public static ModifiableOrderedShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      * @param numbers            The shorts for the new modifiable ordered shorts collection.
      * @return A new modifiable ordered shorts collection with the specified element cardinality and the shorts.
      */
-    static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    public static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
+            final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered shorts collection cloned from the provided ordered shorts collection.
+     *
+     * @param collection The original ordered shorts collection.
+     * @return A new modifiable ordered shorts collection cloned from the provided ordered shorts collection.
+     */
+    public static ModifiableOrderedShortCollection of(final OrderedShortCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered shorts collection cloned from a range in the provided ordered shorts
+     * collection.
+     *
+     * @param collection The original ordered shorts collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered shorts collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered shorts collection.
+     * @return A new modifiable ordered shorts collection cloned from a range in the provided ordered shorts
+     *         collection.
+     */
+    public static ModifiableOrderedShortCollection of(final OrderedShortCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedShortCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

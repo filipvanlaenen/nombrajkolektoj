@@ -141,11 +141,11 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
     }
 
     /**
-     * Returns a new empty modifiable int collection.
+     * Returns a new empty modifiable integers collection.
      *
-     * @return A new empty modifiable int collection.
+     * @return A new empty modifiable integers collection.
      */
-    static ModifiableOrderedIntegerCollection empty() {
+    public static ModifiableOrderedIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -190,7 +190,7 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
      * @param numbers The integers for the new modifiable ordered integers collection.
      * @return A new modifiable ordered integers collection with the specified integers.
      */
-    static ModifiableOrderedIntegerCollection of(final Integer... numbers) {
+    public static ModifiableOrderedIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -201,8 +201,38 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
      * @param numbers            The integers for the new modifiable ordered integers collection.
      * @return A new modifiable ordered integers collection with the specified element cardinality and the integers.
      */
-    static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    public static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
+            final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection cloned from the provided ordered integers collection.
+     *
+     * @param collection The original ordered integers collection.
+     * @return A new modifiable ordered integers collection cloned from the provided ordered integers collection.
+     */
+    public static ModifiableOrderedIntegerCollection of(final OrderedIntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection cloned from a range in the provided ordered integers
+     * collection.
+     *
+     * @param collection The original ordered integers collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered integers collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered integers collection.
+     * @return A new modifiable ordered integers collection cloned from a range in the provided ordered integers
+     *         collection.
+     */
+    public static ModifiableOrderedIntegerCollection of(final OrderedIntegerCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            result.addLast(collection.getAt(i));
+        }
+        return result;
     }
 
     @Override

@@ -21,6 +21,10 @@ public class AbstractUpdatableBigDecimalMapTest {
      */
     private static final BigDecimal MINUS_ONE = BigDecimal.valueOf(-1L);
     /**
+     * The magic number minus two.
+     */
+    private static final BigDecimal MINUS_TWO = BigDecimal.valueOf(-2L);
+    /**
      * Map with the BigDecimals 1 and 2.
      */
     private static final UpdatableBigDecimalMap<String> MAP12 = UpdatableBigDecimalMap.of("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L));
@@ -190,5 +194,43 @@ public class AbstractUpdatableBigDecimalMapTest {
         UpdatableBigDecimalMap<String> map12 = createMap12();
         map12.subtract("one", BigDecimal.valueOf(2L));
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", BigDecimal.ONE));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", BigDecimal.ONE));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals(BigDecimal.ONE, createMap12().divide("one", BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

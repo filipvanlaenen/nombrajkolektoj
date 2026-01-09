@@ -19,6 +19,10 @@ public class AbstractUpdatableByteMapTest {
      */
     private static final Byte MINUS_ONE = -(byte) 1;
     /**
+     * The magic number minus two.
+     */
+    private static final Byte MINUS_TWO = -(byte) 2;
+    /**
      * Map with the bytes 1 and 2.
      */
     private static final UpdatableByteMap<String> MAP12 = UpdatableByteMap.of("one", (byte) 1, "two", (byte) 2);
@@ -188,5 +192,43 @@ public class AbstractUpdatableByteMapTest {
         UpdatableByteMap<String> map12 = createMap12();
         map12.subtract("one", (byte) 2);
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", (byte) 1));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", (byte) 1));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals((byte) 1, createMap12().divide("one", (byte) 2));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableByteMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

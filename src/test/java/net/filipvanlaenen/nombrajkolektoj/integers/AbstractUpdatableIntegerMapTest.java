@@ -19,6 +19,10 @@ public class AbstractUpdatableIntegerMapTest {
      */
     private static final Integer MINUS_ONE = -1;
     /**
+     * The magic number minus two.
+     */
+    private static final Integer MINUS_TWO = -2;
+    /**
      * Map with the integers 1 and 2.
      */
     private static final UpdatableIntegerMap<String> MAP12 = UpdatableIntegerMap.of("one", 1, "two", 2);
@@ -188,5 +192,43 @@ public class AbstractUpdatableIntegerMapTest {
         UpdatableIntegerMap<String> map12 = createMap12();
         map12.subtract("one", 2);
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", 1));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", 1));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals(1, createMap12().divide("one", 2));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

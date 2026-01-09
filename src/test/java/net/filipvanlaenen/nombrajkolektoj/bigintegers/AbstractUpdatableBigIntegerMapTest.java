@@ -21,6 +21,10 @@ public class AbstractUpdatableBigIntegerMapTest {
      */
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1L);
     /**
+     * The magic number minus two.
+     */
+    private static final BigInteger MINUS_TWO = BigInteger.valueOf(-2L);
+    /**
      * Map with the BigIntegers 1 and 2.
      */
     private static final UpdatableBigIntegerMap<String> MAP12 = UpdatableBigIntegerMap.of("one", BigInteger.ONE, "two", BigInteger.TWO);
@@ -190,5 +194,43 @@ public class AbstractUpdatableBigIntegerMapTest {
         UpdatableBigIntegerMap<String> map12 = createMap12();
         map12.subtract("one", BigInteger.TWO);
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", BigInteger.ONE));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", BigInteger.ONE));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals(BigInteger.ONE, createMap12().divide("one", BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

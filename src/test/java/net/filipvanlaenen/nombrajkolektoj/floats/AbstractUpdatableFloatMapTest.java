@@ -19,6 +19,10 @@ public class AbstractUpdatableFloatMapTest {
      */
     private static final Float MINUS_ONE = -1F;
     /**
+     * The magic number minus two.
+     */
+    private static final Float MINUS_TWO = -2F;
+    /**
      * Map with the floats 1 and 2.
      */
     private static final UpdatableFloatMap<String> MAP12 = UpdatableFloatMap.of("one", 1F, "two", 2F);
@@ -188,5 +192,43 @@ public class AbstractUpdatableFloatMapTest {
         UpdatableFloatMap<String> map12 = createMap12();
         map12.subtract("one", 2F);
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", 1F));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", 1F));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals(1F, createMap12().divide("one", 2F));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

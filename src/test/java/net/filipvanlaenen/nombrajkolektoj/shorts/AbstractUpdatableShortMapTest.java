@@ -19,6 +19,10 @@ public class AbstractUpdatableShortMapTest {
      */
     private static final Short MINUS_ONE = -(short) 1;
     /**
+     * The magic number minus two.
+     */
+    private static final Short MINUS_TWO = -(short) 2;
+    /**
      * Map with the shorts 1 and 2.
      */
     private static final UpdatableShortMap<String> MAP12 = UpdatableShortMap.of("one", (short) 1, "two", (short) 2);
@@ -188,5 +192,43 @@ public class AbstractUpdatableShortMapTest {
         UpdatableShortMap<String> map12 = createMap12();
         map12.subtract("one", (short) 2);
         assertEquals(MINUS_ONE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", (short) 1));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", (short) 1));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals((short) 1, createMap12().divide("one", (short) 2));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableShortMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

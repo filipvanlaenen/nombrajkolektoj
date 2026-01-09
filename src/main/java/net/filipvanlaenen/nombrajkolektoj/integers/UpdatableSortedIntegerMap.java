@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -34,7 +35,7 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public ArrayMap(final Comparator<? super K> comparator, final Map<K, Integer> source) {
+        public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, Integer> source) {
             super(new net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap<K, Integer>(comparator, source));
         }
 
@@ -77,7 +78,7 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, Integer> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, Integer> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap<K, Integer>(comparator, source));
         }
 
@@ -270,6 +271,21 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     }
 
     /**
+     * Returns a new updatable sorted integers map cloned from the provided int map but sorted according to the
+     * comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original integers map.
+     * @return A new updatable sorted integers map cloned from the provided integers map but sorted according to the
+     *         comparator.
+     */
+    public static <L> UpdatableSortedIntegerMap<L> of(final Comparator<? super L> comparator,
+            final IntegerMap<? extends L> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
      * Returns a new updatable sorted integers map with the specified entries.
      *
      * @param <L>        The key type.
@@ -280,40 +296,6 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
     public static <L> UpdatableSortedIntegerMap<L> of(final Comparator<? super L> comparator,
             final Entry<L, Integer>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
-    }
-
-    /**
-     * Returns a new updatable sorted integers map with the specified keys with a default value and key and value
-     * cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new updatable sorted integers map with the specified entries.
-     */
-    public static <L> UpdatableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Integer defaultValue, final L... keys) {
-        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return new SortedTreeMap<L>(comparator, map);
-    }
-
-    /**
-     * Returns a new updatable sorted integers map with the specified entries and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param entries                The entries for the new map.
-     * @return A new updatable sorted integers map with the specified entries.
-     */
-    static <L> UpdatableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
-        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
     /**
@@ -410,6 +392,77 @@ public abstract class UpdatableSortedIntegerMap<K> extends AbstractUpdatableSort
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
                 new Entry<L, Integer>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable sorted integers map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable sorted integers map with the specified entries.
+     */
+    public static <L> UpdatableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Integer defaultValue, final L... keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new updatable sorted integers map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param entries                The entries for the new map.
+     * @return A new updatable sorted integers map with the specified entries.
+     */
+    public static <L> UpdatableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new updatable sorted integers map cloned from the provided sorted integers map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted integers map.
+     * @return A new updatable sorted integers map cloned from the provided sorted integers map.
+     */
+    public static <L> UpdatableSortedIntegerMap<L> of(final SortedIntegerMap<L> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new updatable sorted integers map cloned from the provided sorted integers map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted integers map.
+     * @param range The range.
+     * @return A new updatable sorted integers map cloned from the provided sorted integers map.
+     */
+    public static <L> UpdatableSortedIntegerMap<L> of(final SortedIntegerMap<L> map, final Range<L> range) {
+        ModifiableSortedIntegerMap<L> slice =
+                ModifiableSortedIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, Integer> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                slice.add(entry.key(), entry.value());
+            }
+        }
+        return new SortedTreeMap<L>(map.getComparator(), slice);
     }
 
     @Override

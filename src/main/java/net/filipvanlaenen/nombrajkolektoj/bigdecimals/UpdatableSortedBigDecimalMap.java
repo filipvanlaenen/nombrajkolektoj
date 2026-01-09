@@ -8,6 +8,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -36,7 +37,7 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public ArrayMap(final Comparator<? super K> comparator, final Map<K, BigDecimal> source) {
+        public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, BigDecimal> source) {
             super(new net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap<K, BigDecimal>(comparator, source));
         }
 
@@ -79,7 +80,7 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, BigDecimal> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, BigDecimal> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap<K, BigDecimal>(comparator, source));
         }
 
@@ -272,6 +273,21 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     }
 
     /**
+     * Returns a new updatable sorted BigDecimals map cloned from the provided BigDecimal map but sorted according to the
+     * comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original BigDecimals map.
+     * @return A new updatable sorted BigDecimals map cloned from the provided BigDecimals map but sorted according to the
+     *         comparator.
+     */
+    public static <L> UpdatableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator,
+            final BigDecimalMap<? extends L> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
      * Returns a new updatable sorted BigDecimals map with the specified entries.
      *
      * @param <L>        The key type.
@@ -282,40 +298,6 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
     public static <L> UpdatableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator,
             final Entry<L, BigDecimal>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
-    }
-
-    /**
-     * Returns a new updatable sorted BigDecimals map with the specified keys with a default value and key and value
-     * cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new updatable sorted BigDecimals map with the specified entries.
-     */
-    public static <L> UpdatableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final BigDecimal defaultValue, final L... keys) {
-        ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return new SortedTreeMap<L>(comparator, map);
-    }
-
-    /**
-     * Returns a new updatable sorted BigDecimals map with the specified entries and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param entries                The entries for the new map.
-     * @return A new updatable sorted BigDecimals map with the specified entries.
-     */
-    static <L> UpdatableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Entry<L, BigDecimal>... entries) {
-        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
     /**
@@ -412,6 +394,77 @@ public abstract class UpdatableSortedBigDecimalMap<K> extends AbstractUpdatableS
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4),
                 new Entry<L, BigDecimal>(key5, value5));
+    }
+
+    /**
+     * Returns a new updatable sorted BigDecimals map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable sorted BigDecimals map with the specified entries.
+     */
+    public static <L> UpdatableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final BigDecimal defaultValue, final L... keys) {
+        ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new updatable sorted BigDecimals map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param entries                The entries for the new map.
+     * @return A new updatable sorted BigDecimals map with the specified entries.
+     */
+    public static <L> UpdatableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, BigDecimal>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new updatable sorted BigDecimals map cloned from the provided sorted BigDecimals map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted BigDecimals map.
+     * @return A new updatable sorted BigDecimals map cloned from the provided sorted BigDecimals map.
+     */
+    public static <L> UpdatableSortedBigDecimalMap<L> of(final SortedBigDecimalMap<L> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new updatable sorted BigDecimals map cloned from the provided sorted BigDecimals map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted BigDecimals map.
+     * @param range The range.
+     * @return A new updatable sorted BigDecimals map cloned from the provided sorted BigDecimals map.
+     */
+    public static <L> UpdatableSortedBigDecimalMap<L> of(final SortedBigDecimalMap<L> map, final Range<L> range) {
+        ModifiableSortedBigDecimalMap<L> slice =
+                ModifiableSortedBigDecimalMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, BigDecimal> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                slice.add(entry.key(), entry.value());
+            }
+        }
+        return new SortedTreeMap<L>(map.getComparator(), slice);
     }
 
     @Override

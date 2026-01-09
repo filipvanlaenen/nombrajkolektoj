@@ -8,13 +8,9 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
-import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
-import net.filipvanlaenen.kolektoj.Map.Entry;
-import net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap;
-import net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;

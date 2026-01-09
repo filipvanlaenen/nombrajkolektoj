@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -35,7 +36,7 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, Long> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Long>(comparator, source));
         }
 
@@ -243,6 +244,21 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     }
 
     /**
+     * Returns a new modifiable sorted longs map cloned from the provided longs map but sorted according to the
+     * comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original longs map.
+     * @return A new modifiable sorted longs map cloned from the provided longs map but sorted according to the
+     *         comparator.
+     */
+    public static <L> ModifiableSortedLongMap<L> of(final Comparator<? super L> comparator,
+            final LongMap<? extends L> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
      * Returns a new modifiable sorted longs map with the specified entries.
      *
      * @param <L>        The key type.
@@ -253,40 +269,6 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     public static <L> ModifiableSortedLongMap<L> of(final Comparator<? super L> comparator,
             final Entry<L, Long>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
-    }
-
-    /**
-     * Returns a new modifiable sorted longs map with the specified keys with a default value and key and value
-     * cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new modifiable sorted longs map with the specified entries.
-     */
-    public static <L> ModifiableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Long defaultValue, final L... keys) {
-        ModifiableSortedLongMap<L> map = ModifiableSortedLongMap.<L>of(keyAndValueCardinality, comparator);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable sorted longs map with the specified entries and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param entries                The entries for the new map.
-     * @return A new modifiable sorted longs map with the specified entries.
-     */
-    public static <L> ModifiableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Entry<L, Long>... entries) {
-        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
     /**
@@ -383,6 +365,77 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
         return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
                 new Entry<L, Long>(key5, value5));
+    }
+
+    /**
+     * Returns a new modifiable sorted longs map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable sorted longs map with the specified entries.
+     */
+    public static <L> ModifiableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Long defaultValue, final L... keys) {
+        ModifiableSortedLongMap<L> map = ModifiableSortedLongMap.<L>of(keyAndValueCardinality, comparator);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable sorted longs map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param entries                The entries for the new map.
+     * @return A new modifiable sorted longs map with the specified entries.
+     */
+    public static <L> ModifiableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Long>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new modifiable sorted longs map cloned from the provided sorted longs map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted longs map.
+     * @return A new modifiable sorted longs map cloned from the provided sorted longs map.
+     */
+    public static <L> ModifiableSortedLongMap<L> of(final SortedLongMap<L> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new modifiable sorted longs map cloned from the provided sorted longs map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted longs map.
+     * @param range The range.
+     * @return A new modifiable sorted longs map cloned from the provided sorted longs map.
+     */
+    public static <L> ModifiableSortedLongMap<L> of(final SortedLongMap<L> map, final Range<L> range) {
+        ModifiableSortedLongMap<L> result =
+                ModifiableSortedLongMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, Long> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                result.add(entry.key(), entry.value());
+            }
+        }
+        return result;
     }
 
     @Override

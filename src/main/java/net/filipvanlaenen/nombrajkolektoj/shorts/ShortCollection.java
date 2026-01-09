@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      *
      * @return A new empty shorts collection.
      */
-    static ShortCollection empty() {
+    public static ShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class ShortCollection extends AbstractShortCollection implements
     }
 
     /**
+     * Returns a new shorts collection cloned from the provided shorts collection.
+     *
+     * @param collection The original shorts collection.
+     * @return A new shorts collection cloned from the provided shorts collection.
+     */
+    public static ShortCollection of(final ShortCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new shorts collection with the specified shorts.
      *
      * @param numbers The shorts for the new shorts collection.
      * @return A new shorts collection with the specified shorts.
      */
-    static ShortCollection of(final Short... numbers) {
+    public static ShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      * @param numbers            The shorts for the new shorts collection.
      * @return A new shorts collection with the specified element cardinality and the shorts.
      */
-    static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    public static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

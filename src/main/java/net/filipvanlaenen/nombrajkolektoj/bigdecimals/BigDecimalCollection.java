@@ -7,6 +7,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -77,7 +78,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
      *
      * @return A new empty BigDecimals collection.
      */
-    static BigDecimalCollection empty() {
+    public static BigDecimalCollection empty() {
         return new ArrayCollection();
     }
 
@@ -97,12 +98,22 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
     }
 
     /**
+     * Returns a new BigDecimals collection cloned from the provided BigDecimals collection.
+     *
+     * @param collection The original BigDecimals collection.
+     * @return A new BigDecimals collection cloned from the provided BigDecimals collection.
+     */
+    public static BigDecimalCollection of(final BigDecimalCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new BigDecimals collection with the specified BigDecimals.
      *
      * @param numbers The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified BigDecimals.
      */
-    static BigDecimalCollection of(final BigDecimal... numbers) {
+    public static BigDecimalCollection of(final BigDecimal... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -113,7 +124,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
      * @param numbers            The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+    public static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

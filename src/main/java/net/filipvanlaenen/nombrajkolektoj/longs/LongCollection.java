@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
      *
      * @return A new empty longs collection.
      */
-    static LongCollection empty() {
+    public static LongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class LongCollection extends AbstractLongCollection implements N
     }
 
     /**
+     * Returns a new longs collection cloned from the provided longs collection.
+     *
+     * @param collection The original longs collection.
+     * @return A new longs collection cloned from the provided longs collection.
+     */
+    public static LongCollection of(final LongCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new longs collection with the specified longs.
      *
      * @param numbers The longs for the new longs collection.
      * @return A new longs collection with the specified longs.
      */
-    static LongCollection of(final Long... numbers) {
+    public static LongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
      * @param numbers            The longs for the new longs collection.
      * @return A new longs collection with the specified element cardinality and the longs.
      */
-    static LongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    public static LongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

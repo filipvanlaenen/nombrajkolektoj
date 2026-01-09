@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
      *
      * @return A new empty floats collection.
      */
-    static FloatCollection empty() {
+    public static FloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
     }
 
     /**
+     * Returns a new floats collection cloned from the provided floats collection.
+     *
+     * @param collection The original floats collection.
+     * @return A new floats collection cloned from the provided floats collection.
+     */
+    public static FloatCollection of(final FloatCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new floats collection with the specified floats.
      *
      * @param numbers The floats for the new floats collection.
      * @return A new floats collection with the specified floats.
      */
-    static FloatCollection of(final Float... numbers) {
+    public static FloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
      * @param numbers            The floats for the new floats collection.
      * @return A new floats collection with the specified element cardinality and the floats.
      */
-    static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    public static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

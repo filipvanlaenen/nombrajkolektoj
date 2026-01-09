@@ -7,6 +7,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -77,7 +78,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
      *
      * @return A new empty BigIntegers collection.
      */
-    static BigIntegerCollection empty() {
+    public static BigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -97,12 +98,22 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
     }
 
     /**
+     * Returns a new BigIntegers collection cloned from the provided BigIntegers collection.
+     *
+     * @param collection The original BigIntegers collection.
+     * @return A new BigIntegers collection cloned from the provided BigIntegers collection.
+     */
+    public static BigIntegerCollection of(final BigIntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new BigIntegers collection with the specified BigIntegers.
      *
      * @param numbers The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified BigIntegers.
      */
-    static BigIntegerCollection of(final BigInteger... numbers) {
+    public static BigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -113,7 +124,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
      * @param numbers            The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    public static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

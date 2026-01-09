@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
      *
      * @return A new empty doubles collection.
      */
-    static DoubleCollection empty() {
+    public static DoubleCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
     }
 
     /**
+     * Returns a new doubles collection cloned from the provided doubles collection.
+     *
+     * @param collection The original doubles collection.
+     * @return A new doubles collection cloned from the provided doubles collection.
+     */
+    public static DoubleCollection of(final DoubleCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new doubles collection with the specified doubles.
      *
      * @param numbers The doubles for the new doubles collection.
      * @return A new doubles collection with the specified doubles.
      */
-    static DoubleCollection of(final Double... numbers) {
+    public static DoubleCollection of(final Double... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
      * @param numbers            The doubles for the new doubles collection.
      * @return A new doubles collection with the specified element cardinality and the doubles.
      */
-    static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+    public static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

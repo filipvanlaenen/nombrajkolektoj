@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      *
      * @return A new empty bytes collection.
      */
-    static ByteCollection empty() {
+    public static ByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
     }
 
     /**
+     * Returns a new bytes collection cloned from the provided bytes collection.
+     *
+     * @param collection The original bytes collection.
+     * @return A new bytes collection cloned from the provided bytes collection.
+     */
+    public static ByteCollection of(final ByteCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new bytes collection with the specified bytes.
      *
      * @param numbers The bytes for the new bytes collection.
      * @return A new bytes collection with the specified bytes.
      */
-    static ByteCollection of(final Byte... numbers) {
+    public static ByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      * @param numbers            The bytes for the new bytes collection.
      * @return A new bytes collection with the specified element cardinality and the bytes.
      */
-    static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    public static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

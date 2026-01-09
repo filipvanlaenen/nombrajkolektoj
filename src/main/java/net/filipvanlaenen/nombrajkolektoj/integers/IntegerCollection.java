@@ -5,6 +5,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.array.ArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -75,7 +76,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
      *
      * @return A new empty integers collection.
      */
-    static IntegerCollection empty() {
+    public static IntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -95,12 +96,22 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
+     * Returns a new integers collection cloned from the provided integers collection.
+     *
+     * @param collection The original integers collection.
+     * @return A new integers collection cloned from the provided integers collection.
+     */
+    public static IntegerCollection of(final IntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new integers collection with the specified integers.
      *
      * @param numbers The integers for the new integers collection.
      * @return A new integers collection with the specified integers.
      */
-    static IntegerCollection of(final Integer... numbers) {
+    public static IntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -111,7 +122,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
      * @param numbers            The integers for the new integers collection.
      * @return A new integers collection with the specified element cardinality and the integers.
      */
-    static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    public static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

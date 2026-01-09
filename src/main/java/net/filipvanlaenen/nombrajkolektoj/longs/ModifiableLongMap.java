@@ -30,7 +30,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Long> source) {
+        public HashMap(final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Long>(source));
         }
 
@@ -110,7 +110,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param <K> The key type.
      * @return A new empty longs map.
      */
-    static <K> ModifiableLongMap<K> empty() {
+    public static <K> ModifiableLongMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -150,13 +150,40 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
     }
 
     /**
+     * Returns a new modifiable longs map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable longs map with the specified entries.
+     */
+    public static <L> ModifiableLongMap<L> of(final Long defaultValue, final L... keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable longs map cloned from the provided longs map.
+     *
+     * @param <L> The key type.
+     * @param map The original longs map.
+     * @return A new modifiable longs map cloned from the provided longs map.
+     */
+    public static <L> ModifiableLongMap<L> of(final LongMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new longs map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <L> ModifiableLongMap<L> of(final Entry<L, Long>... entries) {
+    public static <L> ModifiableLongMap<L> of(final Entry<L, Long>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -255,7 +282,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param entries                The entries for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Long>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -269,25 +296,9 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param keys                   The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
-            final L... keys) {
+    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final L... keys) {
         ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable longs map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable longs map with the specified entries.
-     */
-    static <L> ModifiableLongMap<L> of(final Long defaultValue, final L... keys) {
-        ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

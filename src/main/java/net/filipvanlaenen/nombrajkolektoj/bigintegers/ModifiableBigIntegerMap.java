@@ -32,7 +32,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, BigInteger> source) {
+        public HashMap(final Map<? extends K, BigInteger> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigInteger>(source));
         }
 
@@ -112,7 +112,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param <K> The key type.
      * @return A new empty BigIntegers map.
      */
-    static <K> ModifiableBigIntegerMap<K> empty() {
+    public static <K> ModifiableBigIntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -152,13 +152,40 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
     }
 
     /**
+     * Returns a new modifiable BigIntegers map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable BigIntegers map with the specified entries.
+     */
+    public static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable BigIntegers map cloned from the provided BigIntegers map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigIntegers map.
+     * @return A new modifiable BigIntegers map cloned from the provided BigIntegers map.
+     */
+    public static <L> ModifiableBigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new BigIntegers map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    static <L> ModifiableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
+    public static <L> ModifiableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -257,7 +284,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param entries                The entries for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -271,25 +298,9 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param keys                   The keys for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigInteger defaultValue,
-            final L... keys) {
+    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigInteger defaultValue, final L... keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable BigIntegers map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable BigIntegers map with the specified entries.
-     */
-    static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
-        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

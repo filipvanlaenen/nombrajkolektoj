@@ -30,7 +30,7 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Integer> source) {
+        public HashMap(final Map<? extends K, Integer> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Integer>(source));
         }
 
@@ -110,7 +110,7 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      * @param <K> The key type.
      * @return A new empty integers map.
      */
-    static <K> ModifiableIntegerMap<K> empty() {
+    public static <K> ModifiableIntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -150,13 +150,40 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
     }
 
     /**
+     * Returns a new modifiable integers map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable integers map with the specified entries.
+     */
+    public static <L> ModifiableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable integers map cloned from the provided integers map.
+     *
+     * @param <L> The key type.
+     * @param map The original integers map.
+     * @return A new modifiable integers map cloned from the provided integers map.
+     */
+    public static <L> ModifiableIntegerMap<L> of(final IntegerMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new integers map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <L> ModifiableIntegerMap<L> of(final Entry<L, Integer>... entries) {
+    public static <L> ModifiableIntegerMap<L> of(final Entry<L, Integer>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -255,7 +282,7 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      * @param entries                The entries for the new map.
      * @return A new modifiable integers map with the specified entries.
      */
-    static <L> ModifiableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Integer>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -269,25 +296,9 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      * @param keys                   The keys for the new map.
      * @return A new modifiable integers map with the specified entries.
      */
-    static <L> ModifiableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
-            final L... keys) {
+    public static <L> ModifiableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final L... keys) {
         ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable integers map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable integers map with the specified entries.
-     */
-    static <L> ModifiableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
-        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

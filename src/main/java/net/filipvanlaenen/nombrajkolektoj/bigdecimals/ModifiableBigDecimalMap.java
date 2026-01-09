@@ -32,7 +32,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, BigDecimal> source) {
+        public HashMap(final Map<? extends K, BigDecimal> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigDecimal>(source));
         }
 
@@ -112,7 +112,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
      * @param <K> The key type.
      * @return A new empty BigDecimals map.
      */
-    static <K> ModifiableBigDecimalMap<K> empty() {
+    public static <K> ModifiableBigDecimalMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -152,13 +152,40 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
     }
 
     /**
+     * Returns a new modifiable BigDecimals map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable BigDecimals map with the specified entries.
+     */
+    public static <L> ModifiableBigDecimalMap<L> of(final BigDecimal defaultValue, final L... keys) {
+        ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals map cloned from the provided BigDecimals map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigDecimals map.
+     * @return A new modifiable BigDecimals map cloned from the provided BigDecimals map.
+     */
+    public static <L> ModifiableBigDecimalMap<L> of(final BigDecimalMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new BigDecimals map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigDecimals map with the specified entries.
      */
-    static <L> ModifiableBigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
+    public static <L> ModifiableBigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -257,7 +284,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
      * @param entries                The entries for the new map.
      * @return A new modifiable BigDecimals map with the specified entries.
      */
-    static <L> ModifiableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -271,25 +298,9 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
      * @param keys                   The keys for the new map.
      * @return A new modifiable BigDecimals map with the specified entries.
      */
-    static <L> ModifiableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigDecimal defaultValue,
-            final L... keys) {
+    public static <L> ModifiableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigDecimal defaultValue, final L... keys) {
         ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable BigDecimals map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable BigDecimals map with the specified entries.
-     */
-    static <L> ModifiableBigDecimalMap<L> of(final BigDecimal defaultValue, final L... keys) {
-        ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

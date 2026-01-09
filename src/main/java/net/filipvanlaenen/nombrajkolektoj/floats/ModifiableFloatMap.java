@@ -30,7 +30,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Float> source) {
+        public HashMap(final Map<? extends K, Float> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Float>(source));
         }
 
@@ -110,7 +110,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param <K> The key type.
      * @return A new empty floats map.
      */
-    static <K> ModifiableFloatMap<K> empty() {
+    public static <K> ModifiableFloatMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -150,13 +150,40 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     /**
+     * Returns a new modifiable floats map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable floats map with the specified entries.
+     */
+    public static <L> ModifiableFloatMap<L> of(final Float defaultValue, final L... keys) {
+        ModifiableFloatMap<L> map = ModifiableFloatMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable floats map cloned from the provided floats map.
+     *
+     * @param <L> The key type.
+     * @param map The original floats map.
+     * @return A new modifiable floats map cloned from the provided floats map.
+     */
+    public static <L> ModifiableFloatMap<L> of(final FloatMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new floats map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    static <L> ModifiableFloatMap<L> of(final Entry<L, Float>... entries) {
+    public static <L> ModifiableFloatMap<L> of(final Entry<L, Float>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -255,7 +282,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param entries                The entries for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Float>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -269,25 +296,9 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
-            final L... keys) {
+    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Float defaultValue, final L... keys) {
         ModifiableFloatMap<L> map = ModifiableFloatMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable floats map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable floats map with the specified entries.
-     */
-    static <L> ModifiableFloatMap<L> of(final Float defaultValue, final L... keys) {
-        ModifiableFloatMap<L> map = ModifiableFloatMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

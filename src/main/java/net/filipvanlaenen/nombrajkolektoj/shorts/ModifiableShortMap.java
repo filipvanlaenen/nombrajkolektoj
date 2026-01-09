@@ -30,7 +30,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Short> source) {
+        public HashMap(final Map<? extends K, Short> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Short>(source));
         }
 
@@ -110,7 +110,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param <K> The key type.
      * @return A new empty shorts map.
      */
-    static <K> ModifiableShortMap<K> empty() {
+    public static <K> ModifiableShortMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -150,13 +150,40 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
     }
 
     /**
+     * Returns a new modifiable shorts map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable shorts map with the specified entries.
+     */
+    public static <L> ModifiableShortMap<L> of(final Short defaultValue, final L... keys) {
+        ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable shorts map cloned from the provided shorts map.
+     *
+     * @param <L> The key type.
+     * @param map The original shorts map.
+     * @return A new modifiable shorts map cloned from the provided shorts map.
+     */
+    public static <L> ModifiableShortMap<L> of(final ShortMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new shorts map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    static <L> ModifiableShortMap<L> of(final Entry<L, Short>... entries) {
+    public static <L> ModifiableShortMap<L> of(final Entry<L, Short>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -255,7 +282,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param entries                The entries for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Short>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -269,25 +296,9 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
-            final L... keys) {
+    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Short defaultValue, final L... keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable shorts map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable shorts map with the specified entries.
-     */
-    static <L> ModifiableShortMap<L> of(final Short defaultValue, final L... keys) {
-        ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

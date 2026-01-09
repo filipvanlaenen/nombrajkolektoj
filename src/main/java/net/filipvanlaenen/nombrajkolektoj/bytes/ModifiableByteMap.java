@@ -30,7 +30,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Byte> source) {
+        public HashMap(final Map<? extends K, Byte> source) {
             super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(source));
         }
 
@@ -110,7 +110,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param <K> The key type.
      * @return A new empty bytes map.
      */
-    static <K> ModifiableByteMap<K> empty() {
+    public static <K> ModifiableByteMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -150,13 +150,40 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     }
 
     /**
+     * Returns a new modifiable bytes map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable bytes map with the specified entries.
+     */
+    public static <L> ModifiableByteMap<L> of(final Byte defaultValue, final L... keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable bytes map cloned from the provided bytes map.
+     *
+     * @param <L> The key type.
+     * @param map The original bytes map.
+     * @return A new modifiable bytes map cloned from the provided bytes map.
+     */
+    public static <L> ModifiableByteMap<L> of(final ByteMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new bytes map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <L> ModifiableByteMap<L> of(final Entry<L, Byte>... entries) {
+    public static <L> ModifiableByteMap<L> of(final Entry<L, Byte>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -255,7 +282,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param entries                The entries for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Byte>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -269,25 +296,9 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param keys                   The keys for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
-            final L... keys) {
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final L... keys) {
         ModifiableByteMap<L> map = ModifiableByteMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
-    }
-
-    /**
-     * Returns a new modifiable bytes map with the specified keys with a default value.
-     *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new modifiable bytes map with the specified entries.
-     */
-    static <L> ModifiableByteMap<L> of(final Byte defaultValue, final L... keys) {
-        ModifiableByteMap<L> map = ModifiableByteMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
         }

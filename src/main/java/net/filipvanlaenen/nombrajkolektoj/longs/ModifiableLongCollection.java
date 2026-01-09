@@ -127,11 +127,11 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     }
 
     /**
-     * Returns a new empty modifiable long collection.
+     * Returns a new empty modifiable longs collection.
      *
-     * @return A new empty modifiable long collection.
+     * @return A new empty modifiable longs collection.
      */
-    static ModifiableLongCollection empty() {
+    public static ModifiableLongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     }
 
     /**
+     * Returns a new longs modifiable collection cloned from the provided longs collection.
+     *
+     * @param collection The original longs collection.
+     * @return A new modifiable longs collection cloned from the provided longs collection.
+     */
+    public static ModifiableLongCollection of(final LongCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable longs collection with the specified longs.
      *
      * @param numbers The longs for the new modifiable longs collection.
      * @return A new modifiable longs collection with the specified longs.
      */
-    static ModifiableLongCollection of(final Long... numbers) {
+    public static ModifiableLongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      * @param numbers            The longs for the new modifiable longs collection.
      * @return A new modifiable longs collection with the specified element cardinality and the longs.
      */
-    static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    public static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

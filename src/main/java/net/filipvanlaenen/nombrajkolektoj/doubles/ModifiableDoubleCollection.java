@@ -127,11 +127,11 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     }
 
     /**
-     * Returns a new empty modifiable double collection.
+     * Returns a new empty modifiable doubles collection.
      *
-     * @return A new empty modifiable double collection.
+     * @return A new empty modifiable doubles collection.
      */
-    static ModifiableDoubleCollection empty() {
+    public static ModifiableDoubleCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     }
 
     /**
+     * Returns a new doubles modifiable collection cloned from the provided doubles collection.
+     *
+     * @param collection The original doubles collection.
+     * @return A new modifiable doubles collection cloned from the provided doubles collection.
+     */
+    public static ModifiableDoubleCollection of(final DoubleCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable doubles collection with the specified doubles.
      *
      * @param numbers The doubles for the new modifiable doubles collection.
      * @return A new modifiable doubles collection with the specified doubles.
      */
-    static ModifiableDoubleCollection of(final Double... numbers) {
+    public static ModifiableDoubleCollection of(final Double... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
      * @param numbers            The doubles for the new modifiable doubles collection.
      * @return A new modifiable doubles collection with the specified element cardinality and the doubles.
      */
-    static ModifiableDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+    public static ModifiableDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

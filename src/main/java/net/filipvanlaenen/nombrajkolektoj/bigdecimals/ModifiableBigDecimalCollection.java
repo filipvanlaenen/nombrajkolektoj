@@ -129,11 +129,11 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
     }
 
     /**
-     * Returns a new empty modifiable BigDecimal collection.
+     * Returns a new empty modifiable BigDecimals collection.
      *
-     * @return A new empty modifiable BigDecimal collection.
+     * @return A new empty modifiable BigDecimals collection.
      */
-    static ModifiableBigDecimalCollection empty() {
+    public static ModifiableBigDecimalCollection empty() {
         return new ArrayCollection();
     }
 
@@ -153,12 +153,22 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
     }
 
     /**
+     * Returns a new BigDecimals modifiable collection cloned from the provided BigDecimals collection.
+     *
+     * @param collection The original BigDecimals collection.
+     * @return A new modifiable BigDecimals collection cloned from the provided BigDecimals collection.
+     */
+    public static ModifiableBigDecimalCollection of(final BigDecimalCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable BigDecimals collection with the specified BigDecimals.
      *
      * @param numbers The BigDecimals for the new modifiable BigDecimals collection.
      * @return A new modifiable BigDecimals collection with the specified BigDecimals.
      */
-    static ModifiableBigDecimalCollection of(final BigDecimal... numbers) {
+    public static ModifiableBigDecimalCollection of(final BigDecimal... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -169,7 +179,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      * @param numbers            The BigDecimals for the new modifiable BigDecimals collection.
      * @return A new modifiable BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    static ModifiableBigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+    public static ModifiableBigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

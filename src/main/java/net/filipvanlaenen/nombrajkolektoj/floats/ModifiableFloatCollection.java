@@ -127,11 +127,11 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
     }
 
     /**
-     * Returns a new empty modifiable float collection.
+     * Returns a new empty modifiable floats collection.
      *
-     * @return A new empty modifiable float collection.
+     * @return A new empty modifiable floats collection.
      */
-    static ModifiableFloatCollection empty() {
+    public static ModifiableFloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
     }
 
     /**
+     * Returns a new floats modifiable collection cloned from the provided floats collection.
+     *
+     * @param collection The original floats collection.
+     * @return A new modifiable floats collection cloned from the provided floats collection.
+     */
+    public static ModifiableFloatCollection of(final FloatCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable floats collection with the specified floats.
      *
      * @param numbers The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified floats.
      */
-    static ModifiableFloatCollection of(final Float... numbers) {
+    public static ModifiableFloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
      * @param numbers            The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified element cardinality and the floats.
      */
-    static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    public static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

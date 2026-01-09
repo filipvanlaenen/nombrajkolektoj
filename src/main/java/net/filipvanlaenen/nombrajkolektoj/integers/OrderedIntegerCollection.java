@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -75,11 +77,103 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     /**
+     * Returns an ordered integers collection holding a sequence of integers, starting with the provided first int, and
+     * with the next integers generated recursively from the first int.
+     *
+     * @param firstElement     The first element of the sequence.
+     * @param generator        A function generating a next element when given an element.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered integers collection holding a sequence of integers.
+     */
+    public static OrderedIntegerCollection createSequence(final Integer firstElement,
+            final Function<? super Integer, Integer> generator, final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.of(firstElement);
+        Integer element = firstElement;
+        for (int i = 1; i < numberOfElements; i++) {
+            element = generator.apply(element);
+            collection.add(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered integers collection holding a sequence of integers, starting with the provided first int, and
+     * with the next integers generated recursively from the first int until a condition evaluates to false.
+     *
+     * @param firstElement   The first element of the sequence.
+     * @param generator      A function generating a next element when given an element.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered integers collection holding a sequence of integers.
+     */
+    public static OrderedIntegerCollection createSequence(final Integer firstElement,
+            final Function<? super Integer, Integer> generator, final Predicate<? super Integer> whileCondition) {
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.of(firstElement);
+        Integer element = generator.apply(firstElement);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered integers collection holding a sequence of integers generated from a function taking an index as
+     * its parameter.
+     *
+     * @param generator        A function generating an element from an index.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered integers collection holding a sequence of integers.
+     */
+    public static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
+            final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.of(generator.apply(0));
+        for (int i = 1; i < numberOfElements; i++) {
+            collection.add(generator.apply(i));
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered integers collection holding a sequence of integers generated from a function taking an index as
+     * its parameter until a condition evaluates to false.
+     *
+     * @param generator      A function generating an element from an index.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered integers collection holding a sequence of integers.
+     */
+    public static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
+            final Predicate<? super Integer> whileCondition) {
+        Integer firstElement = generator.apply(0);
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.of(firstElement);
+        int index = 1;
+        Integer element = generator.apply(index);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(++index);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new empty ordered integers collection.
      *
      * @return A new empty ordered integers collection.
      */
-    static OrderedIntegerCollection empty() {
+    public static OrderedIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -119,12 +213,12 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     /**
-     * Returns a new ordered integers collection with the specified integers.
+     * Returns a new ordered integers collection with the specified integers collection.
      *
      * @param numbers The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified integers.
      */
-    static OrderedIntegerCollection of(final Integer... numbers) {
+    public static OrderedIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -135,8 +229,36 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      * @param numbers            The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified element cardinality and the integers.
      */
-    static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    public static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered integers collection cloned from the provided ordered integers collection.
+     *
+     * @param collection The original ordered integers collection.
+     * @return A new ordered integers collection cloned from the provided ordered integers collection.
+     */
+    public static OrderedIntegerCollection of(final OrderedIntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered integers collection cloned from a range in the provided ordered integers collection.
+     *
+     * @param collection The original ordered integers collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered integers collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered integers collection.
+     * @return A new ordered integers collection cloned from a range in the provided ordered integers collection.
+     */
+    public static OrderedIntegerCollection of(final OrderedIntegerCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedIntegerCollection slice =
+                ModifiableOrderedIntegerCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.addLast(collection.getAt(i));
+        }
+        return new ArrayCollection(slice);
     }
 
     @Override

@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -75,11 +77,103 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     /**
+     * Returns an ordered longs collection holding a sequence of longs, starting with the provided first long, and
+     * with the next longs generated recursively from the first long.
+     *
+     * @param firstElement     The first element of the sequence.
+     * @param generator        A function generating a next element when given an element.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered longs collection holding a sequence of longs.
+     */
+    public static OrderedLongCollection createSequence(final Long firstElement,
+            final Function<? super Long, Long> generator, final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.of(firstElement);
+        Long element = firstElement;
+        for (int i = 1; i < numberOfElements; i++) {
+            element = generator.apply(element);
+            collection.add(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered longs collection holding a sequence of longs, starting with the provided first long, and
+     * with the next longs generated recursively from the first long until a condition evaluates to false.
+     *
+     * @param firstElement   The first element of the sequence.
+     * @param generator      A function generating a next element when given an element.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered longs collection holding a sequence of longs.
+     */
+    public static OrderedLongCollection createSequence(final Long firstElement,
+            final Function<? super Long, Long> generator, final Predicate<? super Long> whileCondition) {
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.of(firstElement);
+        Long element = generator.apply(firstElement);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered longs collection holding a sequence of longs generated from a function taking an index as
+     * its parameter.
+     *
+     * @param generator        A function generating an element from an index.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered longs collection holding a sequence of longs.
+     */
+    public static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
+            final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.of(generator.apply(0));
+        for (int i = 1; i < numberOfElements; i++) {
+            collection.add(generator.apply(i));
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered longs collection holding a sequence of longs generated from a function taking an index as
+     * its parameter until a condition evaluates to false.
+     *
+     * @param generator      A function generating an element from an index.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered longs collection holding a sequence of longs.
+     */
+    public static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
+            final Predicate<? super Long> whileCondition) {
+        Long firstElement = generator.apply(0);
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.of(firstElement);
+        int index = 1;
+        Long element = generator.apply(index);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(++index);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new empty ordered longs collection.
      *
      * @return A new empty ordered longs collection.
      */
-    static OrderedLongCollection empty() {
+    public static OrderedLongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -119,12 +213,12 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     /**
-     * Returns a new ordered longs collection with the specified longs.
+     * Returns a new ordered longs collection with the specified longs collection.
      *
      * @param numbers The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified longs.
      */
-    static OrderedLongCollection of(final Long... numbers) {
+    public static OrderedLongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -135,8 +229,36 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @param numbers            The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified element cardinality and the longs.
      */
-    static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    public static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered longs collection cloned from the provided ordered longs collection.
+     *
+     * @param collection The original ordered longs collection.
+     * @return A new ordered longs collection cloned from the provided ordered longs collection.
+     */
+    public static OrderedLongCollection of(final OrderedLongCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered longs collection cloned from a range in the provided ordered longs collection.
+     *
+     * @param collection The original ordered longs collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered longs collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered longs collection.
+     * @return A new ordered longs collection cloned from a range in the provided ordered longs collection.
+     */
+    public static OrderedLongCollection of(final OrderedLongCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedLongCollection slice =
+                ModifiableOrderedLongCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.addLast(collection.getAt(i));
+        }
+        return new ArrayCollection(slice);
     }
 
     @Override

@@ -127,11 +127,11 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     }
 
     /**
-     * Returns a new empty modifiable short collection.
+     * Returns a new empty modifiable shorts collection.
      *
-     * @return A new empty modifiable short collection.
+     * @return A new empty modifiable shorts collection.
      */
-    static ModifiableShortCollection empty() {
+    public static ModifiableShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     }
 
     /**
+     * Returns a new shorts modifiable collection cloned from the provided shorts collection.
+     *
+     * @param collection The original shorts collection.
+     * @return A new modifiable shorts collection cloned from the provided shorts collection.
+     */
+    public static ModifiableShortCollection of(final ShortCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable shorts collection with the specified shorts.
      *
      * @param numbers The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified shorts.
      */
-    static ModifiableShortCollection of(final Short... numbers) {
+    public static ModifiableShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      * @param numbers            The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
      */
-    static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    public static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

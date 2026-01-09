@@ -127,11 +127,11 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     }
 
     /**
-     * Returns a new empty modifiable byte collection.
+     * Returns a new empty modifiable bytes collection.
      *
-     * @return A new empty modifiable byte collection.
+     * @return A new empty modifiable bytes collection.
      */
-    static ModifiableByteCollection empty() {
+    public static ModifiableByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     }
 
     /**
+     * Returns a new bytes modifiable collection cloned from the provided bytes collection.
+     *
+     * @param collection The original bytes collection.
+     * @return A new modifiable bytes collection cloned from the provided bytes collection.
+     */
+    public static ModifiableByteCollection of(final ByteCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable bytes collection with the specified bytes.
      *
      * @param numbers The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified bytes.
      */
-    static ModifiableByteCollection of(final Byte... numbers) {
+    public static ModifiableByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      * @param numbers            The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified element cardinality and the bytes.
      */
-    static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    public static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

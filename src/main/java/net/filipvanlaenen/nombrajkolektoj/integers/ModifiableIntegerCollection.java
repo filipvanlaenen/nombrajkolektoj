@@ -127,11 +127,11 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
-     * Returns a new empty modifiable int collection.
+     * Returns a new empty modifiable integers collection.
      *
-     * @return A new empty modifiable int collection.
+     * @return A new empty modifiable integers collection.
      */
-    static ModifiableIntegerCollection empty() {
+    public static ModifiableIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -151,12 +151,22 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
+     * Returns a new integers modifiable collection cloned from the provided integers collection.
+     *
+     * @param collection The original integers collection.
+     * @return A new modifiable integers collection cloned from the provided integers collection.
+     */
+    public static ModifiableIntegerCollection of(final IntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable integers collection with the specified integers.
      *
      * @param numbers The integers for the new modifiable integers collection.
      * @return A new modifiable integers collection with the specified integers.
      */
-    static ModifiableIntegerCollection of(final Integer... numbers) {
+    public static ModifiableIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -167,7 +177,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      * @param numbers            The integers for the new modifiable integers collection.
      * @return A new modifiable integers collection with the specified element cardinality and the integers.
      */
-    static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    public static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

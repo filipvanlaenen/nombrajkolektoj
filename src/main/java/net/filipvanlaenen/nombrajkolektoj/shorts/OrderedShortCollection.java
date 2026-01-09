@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -75,11 +77,103 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
     }
 
     /**
+     * Returns an ordered shorts collection holding a sequence of shorts, starting with the provided first short, and
+     * with the next shorts generated recursively from the first short.
+     *
+     * @param firstElement     The first element of the sequence.
+     * @param generator        A function generating a next element when given an element.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered shorts collection holding a sequence of shorts.
+     */
+    public static OrderedShortCollection createSequence(final Short firstElement,
+            final Function<? super Short, Short> generator, final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.of(firstElement);
+        Short element = firstElement;
+        for (int i = 1; i < numberOfElements; i++) {
+            element = generator.apply(element);
+            collection.add(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered shorts collection holding a sequence of shorts, starting with the provided first short, and
+     * with the next shorts generated recursively from the first short until a condition evaluates to false.
+     *
+     * @param firstElement   The first element of the sequence.
+     * @param generator      A function generating a next element when given an element.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered shorts collection holding a sequence of shorts.
+     */
+    public static OrderedShortCollection createSequence(final Short firstElement,
+            final Function<? super Short, Short> generator, final Predicate<? super Short> whileCondition) {
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.of(firstElement);
+        Short element = generator.apply(firstElement);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(element);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered shorts collection holding a sequence of shorts generated from a function taking an index as
+     * its parameter.
+     *
+     * @param generator        A function generating an element from an index.
+     * @param numberOfElements The requested number of elements.
+     * @return An ordered shorts collection holding a sequence of shorts.
+     */
+    public static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
+            final int numberOfElements) {
+        if (numberOfElements < 1) {
+            return empty();
+        }
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.of(generator.apply(0));
+        for (int i = 1; i < numberOfElements; i++) {
+            collection.add(generator.apply(i));
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns an ordered shorts collection holding a sequence of shorts generated from a function taking an index as
+     * its parameter until a condition evaluates to false.
+     *
+     * @param generator      A function generating an element from an index.
+     * @param whileCondition A predicate defining a condition to be met by the generated elements to be part of the
+     *                       sequence.
+     * @return An ordered shorts collection holding a sequence of shorts.
+     */
+    public static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
+            final Predicate<? super Short> whileCondition) {
+        Short firstElement = generator.apply(0);
+        if (!whileCondition.test(firstElement)) {
+            return empty();
+        }
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.of(firstElement);
+        int index = 1;
+        Short element = generator.apply(index);
+        while (whileCondition.test(element)) {
+            collection.add(element);
+            element = generator.apply(++index);
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new empty ordered shorts collection.
      *
      * @return A new empty ordered shorts collection.
      */
-    static OrderedShortCollection empty() {
+    public static OrderedShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -119,12 +213,12 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
     }
 
     /**
-     * Returns a new ordered shorts collection with the specified shorts.
+     * Returns a new ordered shorts collection with the specified shorts collection.
      *
      * @param numbers The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified shorts.
      */
-    static OrderedShortCollection of(final Short... numbers) {
+    public static OrderedShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -135,8 +229,36 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @param numbers            The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified element cardinality and the shorts.
      */
-    static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    public static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered shorts collection cloned from the provided ordered shorts collection.
+     *
+     * @param collection The original ordered shorts collection.
+     * @return A new ordered shorts collection cloned from the provided ordered shorts collection.
+     */
+    public static OrderedShortCollection of(final OrderedShortCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered shorts collection cloned from a range in the provided ordered shorts collection.
+     *
+     * @param collection The original ordered shorts collection.
+     * @param fromIndex  The index of the first element to be included in the new ordered shorts collection.
+     * @param toIndex    The index of the first element not to be included in the new ordered shorts collection.
+     * @return A new ordered shorts collection cloned from a range in the provided ordered shorts collection.
+     */
+    public static OrderedShortCollection of(final OrderedShortCollection collection, final int fromIndex,
+            final int toIndex) {
+        ModifiableOrderedShortCollection slice =
+                ModifiableOrderedShortCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.addLast(collection.getAt(i));
+        }
+        return new ArrayCollection(slice);
     }
 
     @Override

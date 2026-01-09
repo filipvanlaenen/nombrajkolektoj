@@ -129,11 +129,11 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
     }
 
     /**
-     * Returns a new empty modifiable BigInteger collection.
+     * Returns a new empty modifiable BigIntegers collection.
      *
-     * @return A new empty modifiable BigInteger collection.
+     * @return A new empty modifiable BigIntegers collection.
      */
-    static ModifiableBigIntegerCollection empty() {
+    public static ModifiableBigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -153,12 +153,22 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
     }
 
     /**
+     * Returns a new BigIntegers modifiable collection cloned from the provided BigIntegers collection.
+     *
+     * @param collection The original BigIntegers collection.
+     * @return A new modifiable BigIntegers collection cloned from the provided BigIntegers collection.
+     */
+    public static ModifiableBigIntegerCollection of(final BigIntegerCollection collection) {
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new modifiable BigIntegers collection with the specified BigIntegers.
      *
      * @param numbers The BigIntegers for the new modifiable BigIntegers collection.
      * @return A new modifiable BigIntegers collection with the specified BigIntegers.
      */
-    static ModifiableBigIntegerCollection of(final BigInteger... numbers) {
+    public static ModifiableBigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -169,7 +179,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
      * @param numbers            The BigIntegers for the new modifiable BigIntegers collection.
      * @return A new modifiable BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    public static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 

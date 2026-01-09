@@ -26,7 +26,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Integer> source) {
+        public HashMap(final Map<? extends K, Integer> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Integer>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param <K> The key type.
      * @return A new empty integers map.
      */
-    static <K> IntegerMap<K> empty() {
+    public static <K> IntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
     }
 
     /**
+     * Returns a new integers map cloned from the provided integers map.
+     *
+     * @param <L> The key type.
+     * @param map The original integers map.
+     * @return A new integers map cloned from the provided integers map.
+     */
+    public static <L> IntegerMap<L> of(final IntegerMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new integers map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <L> IntegerMap<L> of(final Entry<L, Integer>... entries) {
+    public static <L> IntegerMap<L> of(final Entry<L, Integer>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param entries                The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    static <L> IntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Integer>... entries) {
+    public static <L> IntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Integer>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

@@ -26,7 +26,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Long> source) {
+        public HashMap(final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param <K> The key type.
      * @return A new empty longs map.
      */
-    static <K> LongMap<K> empty() {
+    public static <K> LongMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
     }
 
     /**
+     * Returns a new longs map cloned from the provided longs map.
+     *
+     * @param <L> The key type.
+     * @param map The original longs map.
+     * @return A new longs map cloned from the provided longs map.
+     */
+    public static <L> LongMap<L> of(final LongMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new longs map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <L> LongMap<L> of(final Entry<L, Long>... entries) {
+    public static <L> LongMap<L> of(final Entry<L, Long>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param entries                The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Long>... entries) {
+    public static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Long>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

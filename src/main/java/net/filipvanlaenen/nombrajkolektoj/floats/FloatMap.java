@@ -26,7 +26,7 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Float> source) {
+        public HashMap(final Map<? extends K, Float> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
      * @param <K> The key type.
      * @return A new empty floats map.
      */
-    static <K> FloatMap<K> empty() {
+    public static <K> FloatMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
     }
 
     /**
+     * Returns a new floats map cloned from the provided floats map.
+     *
+     * @param <L> The key type.
+     * @param map The original floats map.
+     * @return A new floats map cloned from the provided floats map.
+     */
+    public static <L> FloatMap<L> of(final FloatMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new floats map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    static <L> FloatMap<L> of(final Entry<L, Float>... entries) {
+    public static <L> FloatMap<L> of(final Entry<L, Float>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
      * @param entries                The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    static <L> FloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Float>... entries) {
+    public static <L> FloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Float>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

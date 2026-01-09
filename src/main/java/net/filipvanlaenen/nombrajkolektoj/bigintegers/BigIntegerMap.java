@@ -28,7 +28,7 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, BigInteger> source) {
+        public HashMap(final Map<? extends K, BigInteger> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(source));
         }
 
@@ -93,7 +93,7 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param <K> The key type.
      * @return A new empty BigIntegers map.
      */
-    static <K> BigIntegerMap<K> empty() {
+    public static <K> BigIntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -133,13 +133,24 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
     }
 
     /**
+     * Returns a new BigIntegers map cloned from the provided BigIntegers map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigIntegers map.
+     * @return A new BigIntegers map cloned from the provided BigIntegers map.
+     */
+    public static <L> BigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new BigIntegers map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    static <L> BigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
+    public static <L> BigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -151,7 +162,8 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param entries                The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    static <L> BigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, BigInteger>... entries) {
+    public static <L> BigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

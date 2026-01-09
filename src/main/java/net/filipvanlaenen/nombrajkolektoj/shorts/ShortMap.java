@@ -26,7 +26,7 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Short> source) {
+        public HashMap(final Map<? extends K, Short> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Short>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
      * @param <K> The key type.
      * @return A new empty shorts map.
      */
-    static <K> ShortMap<K> empty() {
+    public static <K> ShortMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
     }
 
     /**
+     * Returns a new shorts map cloned from the provided shorts map.
+     *
+     * @param <L> The key type.
+     * @param map The original shorts map.
+     * @return A new shorts map cloned from the provided shorts map.
+     */
+    public static <L> ShortMap<L> of(final ShortMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new shorts map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    static <L> ShortMap<L> of(final Entry<L, Short>... entries) {
+    public static <L> ShortMap<L> of(final Entry<L, Short>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
      * @param entries                The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    static <L> ShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Short>... entries) {
+    public static <L> ShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Short>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

@@ -28,7 +28,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, BigDecimal> source) {
+        public HashMap(final Map<? extends K, BigDecimal> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(source));
         }
 
@@ -93,7 +93,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
      * @param <K> The key type.
      * @return A new empty BigDecimals map.
      */
-    static <K> BigDecimalMap<K> empty() {
+    public static <K> BigDecimalMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -133,13 +133,24 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
     }
 
     /**
+     * Returns a new BigDecimals map cloned from the provided BigDecimals map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigDecimals map.
+     * @return A new BigDecimals map cloned from the provided BigDecimals map.
+     */
+    public static <L> BigDecimalMap<L> of(final BigDecimalMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new BigDecimals map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new BigDecimals map with the specified entries.
      */
-    static <L> BigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
+    public static <L> BigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -151,7 +162,8 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
      * @param entries                The entries for the new map.
      * @return A new BigDecimals map with the specified entries.
      */
-    static <L> BigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, BigDecimal>... entries) {
+    public static <L> BigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

@@ -26,7 +26,7 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Double> source) {
+        public HashMap(final Map<? extends K, Double> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Double>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
      * @param <K> The key type.
      * @return A new empty doubles map.
      */
-    static <K> DoubleMap<K> empty() {
+    public static <K> DoubleMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
     }
 
     /**
+     * Returns a new doubles map cloned from the provided doubles map.
+     *
+     * @param <L> The key type.
+     * @param map The original doubles map.
+     * @return A new doubles map cloned from the provided doubles map.
+     */
+    public static <L> DoubleMap<L> of(final DoubleMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new doubles map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <L> DoubleMap<L> of(final Entry<L, Double>... entries) {
+    public static <L> DoubleMap<L> of(final Entry<L, Double>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
      * @param entries                The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    static <L> DoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Double>... entries) {
+    public static <L> DoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Double>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

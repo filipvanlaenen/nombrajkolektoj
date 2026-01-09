@@ -26,7 +26,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
          *
          * @param source The map to create a new map from.
          */
-        public HashMap(final Map<K, Byte> source) {
+        public HashMap(final Map<? extends K, Byte> source) {
             super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(source));
         }
 
@@ -91,7 +91,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param <K> The key type.
      * @return A new empty bytes map.
      */
-    static <K> ByteMap<K> empty() {
+    public static <K> ByteMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -131,13 +131,24 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
     }
 
     /**
+     * Returns a new bytes map cloned from the provided bytes map.
+     *
+     * @param <L> The key type.
+     * @param map The original bytes map.
+     * @return A new bytes map cloned from the provided bytes map.
+     */
+    public static <L> ByteMap<L> of(final ByteMap<? extends L> map) {
+        return new HashMap<L>(map);
+    }
+
+    /**
      * Returns a new bytes map with the specified entries.
      *
      * @param <L>     The key type.
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <L> ByteMap<L> of(final Entry<L, Byte>... entries) {
+    public static <L> ByteMap<L> of(final Entry<L, Byte>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -149,7 +160,8 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param entries                The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Byte>... entries) {
+    public static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Byte>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 

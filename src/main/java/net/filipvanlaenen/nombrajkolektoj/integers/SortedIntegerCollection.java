@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
@@ -26,7 +27,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public ArrayCollection(final Comparator<Integer> comparator, final Collection<Integer> source) {
+        public ArrayCollection(final Comparator<? super Integer> comparator, final Collection<Integer> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.INTEGERS));
         }
 
@@ -37,7 +38,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The integers of the sorted collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Integer> comparator,
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Integer> comparator,
                 final Integer... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Integer>(elementCardinality, comparator,
                     numbers));
@@ -50,7 +51,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The integers of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Integer> comparator, final Integer... numbers) {
+        public ArrayCollection(final Comparator<? super Integer> comparator, final Integer... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Integer>(comparator, numbers));
         }
     }
@@ -66,7 +67,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Integer> comparator, final Collection<Integer> source) {
+        public SortedTreeCollection(final Comparator<? super Integer> comparator, final Collection<Integer> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.INTEGERS));
         }
 
@@ -77,8 +78,8 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The integers of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Integer> comparator,
-                final Integer... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Integer> comparator, final Integer... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Integer>(elementCardinality,
                     comparator, numbers));
         }
@@ -90,7 +91,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The integers of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Integer> comparator, final Integer... numbers) {
+        public SortedTreeCollection(final Comparator<? super Integer> comparator, final Integer... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Integer>(comparator, numbers));
         }
     }
@@ -125,7 +126,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted integers collection.
      */
-    static SortedIntegerCollection empty(final Comparator<Integer> comparator) {
+    public static SortedIntegerCollection empty(final Comparator<? super Integer> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -191,8 +192,38 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted integers collection with the specified integers.
      */
-    static SortedIntegerCollection of(final Comparator<Integer> comparator, final Integer... numbers) {
+    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new ArrayCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted integers collection cloned from the provided integers collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original integers collection.
+     * @return A new sorted integers collection cloned from the provided integers collection.
+     */
+    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
+            final IntegerCollection collection) {
+        return new ArrayCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new sorted integers collection cloned from a range in the provided ordered integers collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered integers collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new sorted integers collection cloned from a range in the provided ordered collection.
+     */
+    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
+            final OrderedIntegerCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.add(collection.getAt(i));
+        }
+        return new ArrayCollection(comparator, slice);
     }
 
     /**
@@ -203,9 +234,43 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @param numbers            The integers for the new sorted integers collection.
      * @return A new sorted integers collection with the specified element cardinality and the integers.
      */
-    static SortedIntegerCollection of(final ElementCardinality elementCardinality, final Comparator<Integer> comparator,
-            final Integer... numbers) {
+    public static SortedIntegerCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted integers collection cloned from the provided sorted integers collection.
+     *
+     * @param collection The original sorted integers collection.
+     * @return A new sorted integers collection cloned from the provided sorted integers collection.
+     */
+    public static SortedIntegerCollection of(final SortedIntegerCollection collection) {
+        return new ArrayCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new sorted integers collection cloned from the provided sorted integers collection.
+     *
+     * @param collection The original sorted integers collection.
+     * @param range      The range.
+     * @return A new sorted integers collection cloned from the provided sorted integers collection.
+     */
+    public static SortedIntegerCollection of(final SortedIntegerCollection collection, final Range<Integer> range) {
+        ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
+        boolean below = true;
+        for (Integer element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                slice.add(element);
+            }
+        }
+        return new ArrayCollection(collection.getComparator(), slice);
     }
 
     @Override

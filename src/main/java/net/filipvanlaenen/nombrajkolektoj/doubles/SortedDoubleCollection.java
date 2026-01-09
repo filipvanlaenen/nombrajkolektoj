@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
@@ -26,7 +27,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public ArrayCollection(final Comparator<Double> comparator, final Collection<Double> source) {
+        public ArrayCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
         }
 
@@ -37,7 +38,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The doubles of the sorted collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
                 final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(elementCardinality, comparator,
                     numbers));
@@ -50,7 +51,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The doubles of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Double> comparator, final Double... numbers) {
+        public ArrayCollection(final Comparator<? super Double> comparator, final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(comparator, numbers));
         }
     }
@@ -66,7 +67,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Double> comparator, final Collection<Double> source) {
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
         }
 
@@ -77,8 +78,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-                final Double... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Double> comparator, final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(elementCardinality,
                     comparator, numbers));
         }
@@ -90,7 +91,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Double> comparator, final Double... numbers) {
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers));
         }
     }
@@ -125,7 +126,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted doubles collection.
      */
-    static SortedDoubleCollection empty(final Comparator<Double> comparator) {
+    public static SortedDoubleCollection empty(final Comparator<? super Double> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -191,8 +192,38 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted doubles collection with the specified doubles.
      */
-    static SortedDoubleCollection of(final Comparator<Double> comparator, final Double... numbers) {
+    public static SortedDoubleCollection of(final Comparator<? super Double> comparator, final Double... numbers) {
         return new ArrayCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted doubles collection cloned from the provided doubles collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original doubles collection.
+     * @return A new sorted doubles collection cloned from the provided doubles collection.
+     */
+    public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
+            final DoubleCollection collection) {
+        return new ArrayCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new sorted doubles collection cloned from a range in the provided ordered doubles collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered doubles collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new sorted doubles collection cloned from a range in the provided ordered collection.
+     */
+    public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
+            final OrderedDoubleCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.add(collection.getAt(i));
+        }
+        return new ArrayCollection(comparator, slice);
     }
 
     /**
@@ -203,9 +234,43 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @param numbers            The doubles for the new sorted doubles collection.
      * @return A new sorted doubles collection with the specified element cardinality and the doubles.
      */
-    static SortedDoubleCollection of(final ElementCardinality elementCardinality, final Comparator<Double> comparator,
-            final Double... numbers) {
+    public static SortedDoubleCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Double> comparator, final Double... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted doubles collection cloned from the provided sorted doubles collection.
+     *
+     * @param collection The original sorted doubles collection.
+     * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
+     */
+    public static SortedDoubleCollection of(final SortedDoubleCollection collection) {
+        return new ArrayCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new sorted doubles collection cloned from the provided sorted doubles collection.
+     *
+     * @param collection The original sorted doubles collection.
+     * @param range      The range.
+     * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
+     */
+    public static SortedDoubleCollection of(final SortedDoubleCollection collection, final Range<Double> range) {
+        ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
+        boolean below = true;
+        for (Double element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                slice.add(element);
+            }
+        }
+        return new ArrayCollection(collection.getComparator(), slice);
     }
 
     @Override

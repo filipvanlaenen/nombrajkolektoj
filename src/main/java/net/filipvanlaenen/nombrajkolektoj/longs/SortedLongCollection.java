@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
@@ -26,7 +27,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public ArrayCollection(final Comparator<Long> comparator, final Collection<Long> source) {
+        public ArrayCollection(final Comparator<? super Long> comparator, final Collection<Long> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.LONGS));
         }
 
@@ -37,7 +38,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The longs of the sorted collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Long> comparator,
                 final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Long>(elementCardinality, comparator,
                     numbers));
@@ -50,7 +51,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The longs of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Long> comparator, final Long... numbers) {
+        public ArrayCollection(final Comparator<? super Long> comparator, final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Long>(comparator, numbers));
         }
     }
@@ -66,7 +67,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Long> comparator, final Collection<Long> source) {
+        public SortedTreeCollection(final Comparator<? super Long> comparator, final Collection<Long> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.LONGS));
         }
 
@@ -77,8 +78,8 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The longs of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
-                final Long... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Long> comparator, final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(elementCardinality,
                     comparator, numbers));
         }
@@ -90,7 +91,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The longs of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Long> comparator, final Long... numbers) {
+        public SortedTreeCollection(final Comparator<? super Long> comparator, final Long... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(comparator, numbers));
         }
     }
@@ -125,7 +126,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted longs collection.
      */
-    static SortedLongCollection empty(final Comparator<Long> comparator) {
+    public static SortedLongCollection empty(final Comparator<? super Long> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -191,8 +192,38 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted longs collection with the specified longs.
      */
-    static SortedLongCollection of(final Comparator<Long> comparator, final Long... numbers) {
+    public static SortedLongCollection of(final Comparator<? super Long> comparator, final Long... numbers) {
         return new ArrayCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted longs collection cloned from the provided longs collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original longs collection.
+     * @return A new sorted longs collection cloned from the provided longs collection.
+     */
+    public static SortedLongCollection of(final Comparator<? super Long> comparator,
+            final LongCollection collection) {
+        return new ArrayCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new sorted longs collection cloned from a range in the provided ordered longs collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered longs collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new sorted longs collection cloned from a range in the provided ordered collection.
+     */
+    public static SortedLongCollection of(final Comparator<? super Long> comparator,
+            final OrderedLongCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableLongCollection slice = ModifiableLongCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.add(collection.getAt(i));
+        }
+        return new ArrayCollection(comparator, slice);
     }
 
     /**
@@ -203,9 +234,43 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
      * @param numbers            The longs for the new sorted longs collection.
      * @return A new sorted longs collection with the specified element cardinality and the longs.
      */
-    static SortedLongCollection of(final ElementCardinality elementCardinality, final Comparator<Long> comparator,
-            final Long... numbers) {
+    public static SortedLongCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Long> comparator, final Long... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted longs collection cloned from the provided sorted longs collection.
+     *
+     * @param collection The original sorted longs collection.
+     * @return A new sorted longs collection cloned from the provided sorted longs collection.
+     */
+    public static SortedLongCollection of(final SortedLongCollection collection) {
+        return new ArrayCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new sorted longs collection cloned from the provided sorted longs collection.
+     *
+     * @param collection The original sorted longs collection.
+     * @param range      The range.
+     * @return A new sorted longs collection cloned from the provided sorted longs collection.
+     */
+    public static SortedLongCollection of(final SortedLongCollection collection, final Range<Long> range) {
+        ModifiableLongCollection slice = ModifiableLongCollection.of(collection.getElementCardinality());
+        boolean below = true;
+        for (Long element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                slice.add(element);
+            }
+        }
+        return new ArrayCollection(collection.getComparator(), slice);
     }
 
     @Override

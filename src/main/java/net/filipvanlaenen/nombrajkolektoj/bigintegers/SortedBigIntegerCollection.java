@@ -8,6 +8,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
@@ -28,7 +29,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public ArrayCollection(final Comparator<BigInteger> comparator, final Collection<BigInteger> source) {
+        public ArrayCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
         }
 
@@ -39,7 +40,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The BigIntegers of the sorted collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<BigInteger> comparator,
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigInteger> comparator,
                 final BigInteger... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigInteger>(elementCardinality, comparator,
                     numbers));
@@ -52,7 +53,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The BigIntegers of the sorted collection.
          */
-        public ArrayCollection(final Comparator<BigInteger> comparator, final BigInteger... numbers) {
+        public ArrayCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigInteger>(comparator, numbers));
         }
     }
@@ -68,7 +69,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<BigInteger> comparator, final Collection<BigInteger> source) {
+        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
         }
 
@@ -79,8 +80,8 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The BigIntegers of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<BigInteger> comparator,
-                final BigInteger... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(elementCardinality,
                     comparator, numbers));
         }
@@ -92,7 +93,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The BigIntegers of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<BigInteger> comparator, final BigInteger... numbers) {
+        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(comparator, numbers));
         }
     }
@@ -127,7 +128,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted BigIntegers collection.
      */
-    static SortedBigIntegerCollection empty(final Comparator<BigInteger> comparator) {
+    public static SortedBigIntegerCollection empty(final Comparator<? super BigInteger> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -193,8 +194,38 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted BigIntegers collection with the specified BigIntegers.
      */
-    static SortedBigIntegerCollection of(final Comparator<BigInteger> comparator, final BigInteger... numbers) {
+    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
         return new ArrayCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted BigIntegers collection cloned from the provided BigIntegers collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original BigIntegers collection.
+     * @return A new sorted BigIntegers collection cloned from the provided BigIntegers collection.
+     */
+    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
+            final BigIntegerCollection collection) {
+        return new ArrayCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new sorted BigIntegers collection cloned from a range in the provided ordered BigIntegers collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered BigIntegers collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new sorted BigIntegers collection cloned from a range in the provided ordered collection.
+     */
+    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
+            final OrderedBigIntegerCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.add(collection.getAt(i));
+        }
+        return new ArrayCollection(comparator, slice);
     }
 
     /**
@@ -205,9 +236,43 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @param numbers            The BigIntegers for the new sorted BigIntegers collection.
      * @return A new sorted BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    static SortedBigIntegerCollection of(final ElementCardinality elementCardinality, final Comparator<BigInteger> comparator,
-            final BigInteger... numbers) {
+    public static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
+     *
+     * @param collection The original sorted BigIntegers collection.
+     * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
+     */
+    public static SortedBigIntegerCollection of(final SortedBigIntegerCollection collection) {
+        return new ArrayCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
+     *
+     * @param collection The original sorted BigIntegers collection.
+     * @param range      The range.
+     * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
+     */
+    public static SortedBigIntegerCollection of(final SortedBigIntegerCollection collection, final Range<BigInteger> range) {
+        ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
+        boolean below = true;
+        for (BigInteger element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                slice.add(element);
+            }
+        }
+        return new ArrayCollection(collection.getComparator(), slice);
     }
 
     @Override

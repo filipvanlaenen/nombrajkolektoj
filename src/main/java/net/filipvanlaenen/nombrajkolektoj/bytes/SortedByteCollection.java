@@ -6,6 +6,7 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
@@ -26,7 +27,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public ArrayCollection(final Comparator<Byte> comparator, final Collection<Byte> source) {
+        public ArrayCollection(final Comparator<? super Byte> comparator, final Collection<Byte> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BYTES));
         }
 
@@ -37,7 +38,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The bytes of the sorted collection.
          */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Byte> comparator,
                 final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Byte>(elementCardinality, comparator,
                     numbers));
@@ -50,7 +51,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The bytes of the sorted collection.
          */
-        public ArrayCollection(final Comparator<Byte> comparator, final Byte... numbers) {
+        public ArrayCollection(final Comparator<? super Byte> comparator, final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Byte>(comparator, numbers));
         }
     }
@@ -66,7 +67,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<Byte> comparator, final Collection<Byte> source) {
+        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Collection<Byte> source) {
             this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BYTES));
         }
 
@@ -77,8 +78,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator         The comparator by which to sort the elements.
          * @param numbers            The bytes of the sorted collection.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-                final Byte... numbers) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Byte> comparator, final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(elementCardinality,
                     comparator, numbers));
         }
@@ -90,7 +91,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param comparator The comparator by which to sort the elements.
          * @param numbers    The bytes of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<Byte> comparator, final Byte... numbers) {
+        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(comparator, numbers));
         }
     }
@@ -125,7 +126,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted bytes collection.
      */
-    static SortedByteCollection empty(final Comparator<Byte> comparator) {
+    public static SortedByteCollection empty(final Comparator<? super Byte> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -191,8 +192,38 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted bytes collection with the specified bytes.
      */
-    static SortedByteCollection of(final Comparator<Byte> comparator, final Byte... numbers) {
+    public static SortedByteCollection of(final Comparator<? super Byte> comparator, final Byte... numbers) {
         return new ArrayCollection(comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted bytes collection cloned from the provided bytes collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original bytes collection.
+     * @return A new sorted bytes collection cloned from the provided bytes collection.
+     */
+    public static SortedByteCollection of(final Comparator<? super Byte> comparator,
+            final ByteCollection collection) {
+        return new ArrayCollection(comparator, collection);
+    }
+
+    /**
+     * Returns a new sorted bytes collection cloned from a range in the provided ordered bytes collection.
+     *
+     * @param comparator The comparator by which to sort the elements.
+     * @param collection The original ordered bytes collection.
+     * @param fromIndex  The index of the first element to be included in the new sorted collection.
+     * @param toIndex    The index of the first element not to be included in the new sorted collection.
+     * @return A new sorted bytes collection cloned from a range in the provided ordered collection.
+     */
+    public static SortedByteCollection of(final Comparator<? super Byte> comparator,
+            final OrderedByteCollection collection, final int fromIndex, final int toIndex) {
+        ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
+        for (int i = fromIndex; i < toIndex; i++) {
+            slice.add(collection.getAt(i));
+        }
+        return new ArrayCollection(comparator, slice);
     }
 
     /**
@@ -203,9 +234,43 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @param numbers            The bytes for the new sorted bytes collection.
      * @return A new sorted bytes collection with the specified element cardinality and the bytes.
      */
-    static SortedByteCollection of(final ElementCardinality elementCardinality, final Comparator<Byte> comparator,
-            final Byte... numbers) {
+    public static SortedByteCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Byte> comparator, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
+    }
+
+    /**
+     * Returns a new sorted bytes collection cloned from the provided sorted bytes collection.
+     *
+     * @param collection The original sorted bytes collection.
+     * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
+     */
+    public static SortedByteCollection of(final SortedByteCollection collection) {
+        return new ArrayCollection(collection.getComparator(), collection);
+    }
+
+    /**
+     * Returns a new sorted bytes collection cloned from the provided sorted bytes collection.
+     *
+     * @param collection The original sorted bytes collection.
+     * @param range      The range.
+     * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
+     */
+    public static SortedByteCollection of(final SortedByteCollection collection, final Range<Byte> range) {
+        ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
+        boolean below = true;
+        for (Byte element : collection) {
+            if (below && !range.isBelow(collection.getComparator(), element)) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(collection.getComparator(), element)) {
+                    break;
+                }
+                slice.add(element);
+            }
+        }
+        return new ArrayCollection(collection.getComparator(), slice);
     }
 
     @Override

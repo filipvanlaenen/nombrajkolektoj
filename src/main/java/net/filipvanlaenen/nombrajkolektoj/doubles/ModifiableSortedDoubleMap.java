@@ -35,7 +35,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, Double> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, Double> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Double>(comparator, source));
         }
 
@@ -46,8 +46,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, Double>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Double>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -59,7 +59,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, Double>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Double>(comparator, entries));
         }
     }
@@ -120,7 +120,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty doubles map.
      */
-    static <L> ModifiableSortedDoubleMap<L> empty(final Comparator<L> comparator) {
+    public static <L> ModifiableSortedDoubleMap<L> empty(final Comparator<? super L> comparator) {
         return new SortedTreeMap<L>(comparator);
     }
 
@@ -233,7 +233,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param keys         The keys for the new map.
      * @return A new modifiable sorted doubles map with the specified entries.
      */
-    static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final Double defaultValue,
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final Double defaultValue,
             final L... keys) {
         ModifiableSortedDoubleMap<L> map = ModifiableSortedDoubleMap.<L>empty(comparator);
         for (L key : keys) {
@@ -250,7 +250,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param entries    The entries for the new map.
      * @return A new modifiable sorted doubles map with the specified entries.
      */
-    static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final Entry<L, Double>... entries) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator,
+            final Entry<L, Double>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
 
@@ -265,8 +266,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param keys                   The keys for the new map.
      * @return A new modifiable sorted doubles map with the specified entries.
      */
-    static <L> ModifiableSortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Double defaultValue, final L... keys) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Double defaultValue, final L... keys) {
         ModifiableSortedDoubleMap<L> map = ModifiableSortedDoubleMap.<L>of(keyAndValueCardinality, comparator);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -283,8 +284,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param entries                The entries for the new map.
      * @return A new modifiable sorted doubles map with the specified entries.
      */
-    static <L> ModifiableSortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Entry<L, Double>... entries) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Double>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
@@ -297,7 +298,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param value      The value for the entry.
      * @return A new modifiable sorted doubles map containing an entry with the key and the value.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final L key, final Double value) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key,
+            final Double value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key, value));
     }
 
@@ -312,8 +314,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param value2     The second value for the entry.
      * @return A new modifiable sorted doubles map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Double value1, final L key2, final Double value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2));
     }
 
@@ -330,8 +332,8 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param value3     The third value for the entry.
      * @return A new modifiable sorted doubles map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Double value1, final L key2, final Double value2, final L key3, final Double value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3));
     }
@@ -351,8 +353,9 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param value4     The fourth value for the entry.
      * @return A new modifiable sorted doubles map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Double value1, final L key2, final Double value2, final L key3, final Double value3, final L key4,
+            final Double value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4));
     }
@@ -374,9 +377,9 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param value5     The fifth value for the entry.
      * @return A new modifiable sorted doubles map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4,
-            final L key5, final Double value5) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Double value1, final L key2, final Double value2, final L key3, final Double value3, final L key4,
+            final Double value4, final L key5, final Double value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4),
                 new Entry<L, Double>(key5, value5));

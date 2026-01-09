@@ -35,7 +35,7 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, Integer> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, Integer> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(comparator, source));
         }
 
@@ -46,8 +46,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, Integer>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -59,7 +59,7 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, Integer>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(comparator, entries));
         }
     }
@@ -120,7 +120,7 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty integers map.
      */
-    static <L> ModifiableSortedIntegerMap<L> empty(final Comparator<L> comparator) {
+    public static <L> ModifiableSortedIntegerMap<L> empty(final Comparator<? super L> comparator) {
         return new SortedTreeMap<L>(comparator);
     }
 
@@ -233,7 +233,7 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param keys         The keys for the new map.
      * @return A new modifiable sorted integers map with the specified entries.
      */
-    static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final Integer defaultValue,
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final Integer defaultValue,
             final L... keys) {
         ModifiableSortedIntegerMap<L> map = ModifiableSortedIntegerMap.<L>empty(comparator);
         for (L key : keys) {
@@ -250,7 +250,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param entries    The entries for the new map.
      * @return A new modifiable sorted integers map with the specified entries.
      */
-    static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final Entry<L, Integer>... entries) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator,
+            final Entry<L, Integer>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
 
@@ -265,8 +266,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param keys                   The keys for the new map.
      * @return A new modifiable sorted integers map with the specified entries.
      */
-    static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Integer defaultValue, final L... keys) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Integer defaultValue, final L... keys) {
         ModifiableSortedIntegerMap<L> map = ModifiableSortedIntegerMap.<L>of(keyAndValueCardinality, comparator);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -283,8 +284,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param entries                The entries for the new map.
      * @return A new modifiable sorted integers map with the specified entries.
      */
-    static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Entry<L, Integer>... entries) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
@@ -297,7 +298,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param value      The value for the entry.
      * @return A new modifiable sorted integers map containing an entry with the key and the value.
      */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final L key, final Integer value) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key,
+            final Integer value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key, value));
     }
 
@@ -312,8 +314,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param value2     The second value for the entry.
      * @return A new modifiable sorted integers map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Integer value1, final L key2, final Integer value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2));
     }
 
@@ -330,8 +332,8 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param value3     The third value for the entry.
      * @return A new modifiable sorted integers map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Integer value1, final L key2, final Integer value2, final L key3, final Integer value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3));
     }
@@ -351,8 +353,9 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param value4     The fourth value for the entry.
      * @return A new modifiable sorted integers map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Integer value1, final L key2, final Integer value2, final L key3, final Integer value3, final L key4,
+            final Integer value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4));
     }
@@ -374,9 +377,9 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      * @param value5     The fifth value for the entry.
      * @return A new modifiable sorted integers map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4,
-            final L key5, final Integer value5) {
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Integer value1, final L key2, final Integer value2, final L key3, final Integer value3, final L key4,
+            final Integer value4, final L key5, final Integer value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
                 new Entry<L, Integer>(key5, value5));

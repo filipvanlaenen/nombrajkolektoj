@@ -35,7 +35,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, Byte> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, Byte> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Byte>(comparator, source));
         }
 
@@ -46,8 +46,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, Byte>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, Byte>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Byte>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -59,7 +59,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, Byte>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Byte>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Byte>(comparator, entries));
         }
     }
@@ -120,7 +120,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty bytes map.
      */
-    static <L> ModifiableSortedByteMap<L> empty(final Comparator<L> comparator) {
+    public static <L> ModifiableSortedByteMap<L> empty(final Comparator<? super L> comparator) {
         return new SortedTreeMap<L>(comparator);
     }
 
@@ -233,7 +233,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param keys         The keys for the new map.
      * @return A new modifiable sorted bytes map with the specified entries.
      */
-    static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final Byte defaultValue,
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final Byte defaultValue,
             final L... keys) {
         ModifiableSortedByteMap<L> map = ModifiableSortedByteMap.<L>empty(comparator);
         for (L key : keys) {
@@ -250,7 +250,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param entries    The entries for the new map.
      * @return A new modifiable sorted bytes map with the specified entries.
      */
-    static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final Entry<L, Byte>... entries) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator,
+            final Entry<L, Byte>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
 
@@ -265,8 +266,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param keys                   The keys for the new map.
      * @return A new modifiable sorted bytes map with the specified entries.
      */
-    static <L> ModifiableSortedByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Byte defaultValue, final L... keys) {
+    public static <L> ModifiableSortedByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Byte defaultValue, final L... keys) {
         ModifiableSortedByteMap<L> map = ModifiableSortedByteMap.<L>of(keyAndValueCardinality, comparator);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -283,8 +284,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param entries                The entries for the new map.
      * @return A new modifiable sorted bytes map with the specified entries.
      */
-    static <L> ModifiableSortedByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Entry<L, Byte>... entries) {
+    public static <L> ModifiableSortedByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Byte>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
@@ -297,7 +298,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param value      The value for the entry.
      * @return A new modifiable sorted bytes map containing an entry with the key and the value.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final L key, final Byte value) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final L key,
+            final Byte value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Byte>(key, value));
     }
 
@@ -312,8 +314,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param value2     The second value for the entry.
      * @return A new modifiable sorted bytes map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final L key1, final Byte value1,
-            final L key2, final Byte value2) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Byte value1, final L key2, final Byte value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2));
     }
 
@@ -330,8 +332,8 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param value3     The third value for the entry.
      * @return A new modifiable sorted bytes map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final L key1, final Byte value1,
-            final L key2, final Byte value2, final L key3, final Byte value3) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Byte value1, final L key2, final Byte value2, final L key3, final Byte value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3));
     }
@@ -351,8 +353,9 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param value4     The fourth value for the entry.
      * @return A new modifiable sorted bytes map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final L key1, final Byte value1,
-            final L key2, final Byte value2, final L key3, final Byte value3, final L key4, final Byte value4) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Byte value1, final L key2, final Byte value2, final L key3, final Byte value3, final L key4,
+            final Byte value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4));
     }
@@ -374,9 +377,9 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param value5     The fifth value for the entry.
      * @return A new modifiable sorted bytes map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final Comparator<L> comparator, final L key1, final Byte value1,
-            final L key2, final Byte value2, final L key3, final Byte value3, final L key4, final Byte value4,
-            final L key5, final Byte value5) {
+    public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final Byte value1, final L key2, final Byte value2, final L key3, final Byte value3, final L key4,
+            final Byte value4, final L key5, final Byte value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4),
                 new Entry<L, Byte>(key5, value5));

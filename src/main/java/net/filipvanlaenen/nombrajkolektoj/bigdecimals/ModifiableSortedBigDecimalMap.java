@@ -37,7 +37,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, BigDecimal> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, BigDecimal> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigDecimal>(comparator, source));
         }
 
@@ -48,8 +48,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, BigDecimal>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, BigDecimal>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigDecimal>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -61,7 +61,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, BigDecimal>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, BigDecimal>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigDecimal>(comparator, entries));
         }
     }
@@ -122,7 +122,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty BigDecimals map.
      */
-    static <L> ModifiableSortedBigDecimalMap<L> empty(final Comparator<L> comparator) {
+    public static <L> ModifiableSortedBigDecimalMap<L> empty(final Comparator<? super L> comparator) {
         return new SortedTreeMap<L>(comparator);
     }
 
@@ -235,7 +235,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param keys         The keys for the new map.
      * @return A new modifiable sorted BigDecimals map with the specified entries.
      */
-    static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final BigDecimal defaultValue,
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final BigDecimal defaultValue,
             final L... keys) {
         ModifiableSortedBigDecimalMap<L> map = ModifiableSortedBigDecimalMap.<L>empty(comparator);
         for (L key : keys) {
@@ -252,7 +252,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param entries    The entries for the new map.
      * @return A new modifiable sorted BigDecimals map with the specified entries.
      */
-    static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final Entry<L, BigDecimal>... entries) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator,
+            final Entry<L, BigDecimal>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
 
@@ -267,8 +268,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param keys                   The keys for the new map.
      * @return A new modifiable sorted BigDecimals map with the specified entries.
      */
-    static <L> ModifiableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final BigDecimal defaultValue, final L... keys) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final BigDecimal defaultValue, final L... keys) {
         ModifiableSortedBigDecimalMap<L> map = ModifiableSortedBigDecimalMap.<L>of(keyAndValueCardinality, comparator);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -285,8 +286,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param entries                The entries for the new map.
      * @return A new modifiable sorted BigDecimals map with the specified entries.
      */
-    static <L> ModifiableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Entry<L, BigDecimal>... entries) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, BigDecimal>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
@@ -299,7 +300,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param value      The value for the entry.
      * @return A new modifiable sorted BigDecimals map containing an entry with the key and the value.
      */
-    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final L key, final BigDecimal value) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final L key,
+            final BigDecimal value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key, value));
     }
 
@@ -314,8 +316,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param value2     The second value for the entry.
      * @return A new modifiable sorted BigDecimals map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final L key1, final BigDecimal value1,
-            final L key2, final BigDecimal value2) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigDecimal value1, final L key2, final BigDecimal value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2));
     }
 
@@ -332,8 +334,8 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param value3     The third value for the entry.
      * @return A new modifiable sorted BigDecimals map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final L key1, final BigDecimal value1,
-            final L key2, final BigDecimal value2, final L key3, final BigDecimal value3) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigDecimal value1, final L key2, final BigDecimal value2, final L key3, final BigDecimal value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3));
     }
@@ -353,8 +355,9 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param value4     The fourth value for the entry.
      * @return A new modifiable sorted BigDecimals map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final L key1, final BigDecimal value1,
-            final L key2, final BigDecimal value2, final L key3, final BigDecimal value3, final L key4, final BigDecimal value4) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigDecimal value1, final L key2, final BigDecimal value2, final L key3, final BigDecimal value3, final L key4,
+            final BigDecimal value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4));
     }
@@ -376,9 +379,9 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
      * @param value5     The fifth value for the entry.
      * @return A new modifiable sorted BigDecimals map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<L> comparator, final L key1, final BigDecimal value1,
-            final L key2, final BigDecimal value2, final L key3, final BigDecimal value3, final L key4, final BigDecimal value4,
-            final L key5, final BigDecimal value5) {
+    public static <L> ModifiableSortedBigDecimalMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigDecimal value1, final L key2, final BigDecimal value2, final L key3, final BigDecimal value3, final L key4,
+            final BigDecimal value4, final L key5, final BigDecimal value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4),
                 new Entry<L, BigDecimal>(key5, value5));

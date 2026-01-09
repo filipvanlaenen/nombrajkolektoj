@@ -6,8 +6,13 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
+import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
+import net.filipvanlaenen.kolektoj.Map.Entry;
+import net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap;
+import net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
@@ -32,7 +37,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public ArrayMap(final Comparator<K> comparator, final Map<K, Long> source) {
+        public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Long>(comparator, source));
         }
 
@@ -43,7 +48,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
+        public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Entry<K, Long>... entries) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Long>(keyAndValueCardinality, comparator,
                     entries));
@@ -56,7 +61,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public ArrayMap(final Comparator<K> comparator, final Entry<K, Long>... entries) {
+        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
             super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Long>(comparator, entries));
         }
     }
@@ -75,7 +80,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, Long> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Long>(comparator, source));
         }
 
@@ -86,8 +91,8 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, Long>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Long>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -99,7 +104,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, Long>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Long>(comparator, entries));
         }
     }
@@ -141,12 +146,12 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
     /**
      * Returns a new empty longs map.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty longs map.
      */
-    static <K> SortedLongMap<K> empty(final Comparator<K> comparator) {
-        return new ArrayMap<K>(comparator);
+    public static <L> SortedLongMap<L> empty(final Comparator<? super L> comparator) {
+        return new ArrayMap<L>(comparator);
     }
 
     @Override
@@ -250,48 +255,97 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
     }
 
     /**
+     * Returns a new sorted longs map cloned from the provided longs map but sorted according to the comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original longs map.
+     * @return A new sorted longs map cloned from the provided longs map but sorted according to the comparator.
+     */
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final LongMap<? extends L> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
      * Returns a new sorted longs map with the specified entries.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param entries    The entries for the new map.
      * @return A new sorted longs map with the specified entries.
      */
-    static <K> SortedLongMap<K> of(final Comparator<K> comparator, final Entry<K, Long>... entries) {
-        return new SortedTreeMap<K>(comparator, entries);
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final Entry<L, Long>... entries) {
+        return new SortedTreeMap<L>(comparator, entries);
     }
 
     /**
      * Returns a new sorted longs map with the specified entries and key and value cardinality.
      *
-     * @param <K>                    The key type.
+     * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param comparator             The comparator by which to sort the keys.
      * @param entries                The entries for the new map.
      * @return A new sorted longs map with the specified entries.
      */
-    static <K> SortedLongMap<K> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<K> comparator, final Entry<K, Long>... entries) {
-        return new SortedTreeMap<K>(keyAndValueCardinality, comparator, entries);
+    public static <L> SortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Long>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new sorted longs map cloned from the provided sorted longs map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted longs map.
+     * @return A new sorted longs map cloned from the provided sorted longs map.
+     */
+    public static <L> SortedLongMap<L> of(final SortedLongMap<L> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new sorted longs map cloned from the provided sorted longs map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted longs map.
+     * @param range The range.
+     * @return A new sorted longs map cloned from the provided sorted longs map.
+     */
+    public static <L> SortedLongMap<L> of(final SortedLongMap<L> map, final Range<L> range) {
+        ModifiableSortedLongMap<L> slice =
+                ModifiableSortedLongMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, Long> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                slice.add(entry.key(), entry.value());
+            }
+        }
+        return new SortedTreeMap<L>(map.getComparator(), slice);
     }
 
     /**
      * Returns a new sorted longs map containing an entry with the key and the value.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param key        The key for the entry.
      * @param value      The value for the entry.
      * @return A new sorted longs map containing an entry with the key and the value.
      */
-    public static <K> SortedLongMap<K> of(final Comparator<K> comparator, final K key, final Long value) {
-        return new SortedTreeMap<K>(comparator, new Entry<K, Long>(key, value));
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final L key, final Long value) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key, value));
     }
 
     /**
      * Returns a new sorted longs map containing two entries using the provided keys and values.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param key1       The first key for the entry.
      * @param value1     The first value for the entry.
@@ -299,15 +353,15 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param value2     The second value for the entry.
      * @return A new sorted longs map containing two entries using the provided keys and values.
      */
-    public static <K> SortedLongMap<K> of(final Comparator<K> comparator, final K key1, final Long value1,
-            final K key2, final Long value2) {
-        return new SortedTreeMap<K>(comparator, new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2));
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final L key1, final Long value1,
+            final L key2, final Long value2) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2));
     }
 
     /**
      * Returns a new sorted longs map containing three entries using the provided keys and values.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param key1       The first key for the entry.
      * @param value1     The first value for the entry.
@@ -317,16 +371,16 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param value3     The third value for the entry.
      * @return A new sorted longs map containing three entries using the provided keys and values.
      */
-    public static <K> SortedLongMap<K> of(final Comparator<K> comparator, final K key1, final Long value1,
-            final K key2, final Long value2, final K key3, final Long value3) {
-        return new SortedTreeMap<K>(comparator, new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3));
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final L key1, final Long value1,
+            final L key2, final Long value2, final L key3, final Long value3) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3));
     }
 
     /**
      * Returns a new sorted longs map containing four entries using the provided keys and values.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param key1       The first key for the entry.
      * @param value1     The first value for the entry.
@@ -338,16 +392,16 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param value4     The fourth value for the entry.
      * @return A new sorted longs map containing four entries using the provided keys and values.
      */
-    public static <K> SortedLongMap<K> of(final Comparator<K> comparator, final K key1, final Long value1,
-            final K key2, final Long value2, final K key3, final Long value3, final K key4, final Long value4) {
-        return new SortedTreeMap<K>(comparator, new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4));
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final L key1, final Long value1,
+            final L key2, final Long value2, final L key3, final Long value3, final L key4, final Long value4) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4));
     }
 
     /**
      * Returns a new sorted longs map containing five entries using the provided keys and values.
      *
-     * @param <K>        The key type.
+     * @param <L>        The key type.
      * @param comparator The comparator by which to sort the keys.
      * @param key1       The first key for the entry.
      * @param value1     The first value for the entry.
@@ -361,12 +415,12 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param value5     The fifth value for the entry.
      * @return A new sorted longs map containing five entries using the provided keys and values.
      */
-    public static <K> SortedLongMap<K> of(final Comparator<K> comparator, final K key1, final Long value1,
-            final K key2, final Long value2, final K key3, final Long value3, final K key4, final Long value4,
-            final K key5, final Long value5) {
-        return new SortedTreeMap<K>(comparator, new Entry<K, Long>(key1, value1), new Entry<K, Long>(key2, value2),
-                new Entry<K, Long>(key3, value3), new Entry<K, Long>(key4, value4),
-                new Entry<K, Long>(key5, value5));
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final L key1, final Long value1,
+            final L key2, final Long value2, final L key3, final Long value3, final L key4, final Long value4,
+            final L key5, final Long value5) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
+                new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
+                new Entry<L, Long>(key5, value5));
     }
 
     @Override

@@ -37,7 +37,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
          * @param comparator The comparator by which to sort the keys.
          * @param source     The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Map<K, BigInteger> source) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Map<K, BigInteger> source) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigInteger>(comparator, source));
         }
 
@@ -48,8 +48,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
          * @param comparator             The comparator by which to sort the keys.
          * @param entries                The entries of the map.
          */
-        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<K> comparator,
-                final Entry<K, BigInteger>... entries) {
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Entry<K, BigInteger>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigInteger>(keyAndValueCardinality,
                     comparator, entries));
         }
@@ -61,7 +61,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
          * @param comparator The comparator by which to sort the keys.
          * @param entries    The entries of the map.
          */
-        public SortedTreeMap(final Comparator<K> comparator, final Entry<K, BigInteger>... entries) {
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, BigInteger>... entries) {
             super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, BigInteger>(comparator, entries));
         }
     }
@@ -122,7 +122,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty BigIntegers map.
      */
-    static <L> ModifiableSortedBigIntegerMap<L> empty(final Comparator<L> comparator) {
+    public static <L> ModifiableSortedBigIntegerMap<L> empty(final Comparator<? super L> comparator) {
         return new SortedTreeMap<L>(comparator);
     }
 
@@ -235,7 +235,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param keys         The keys for the new map.
      * @return A new modifiable sorted BigIntegers map with the specified entries.
      */
-    static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final BigInteger defaultValue,
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigInteger defaultValue,
             final L... keys) {
         ModifiableSortedBigIntegerMap<L> map = ModifiableSortedBigIntegerMap.<L>empty(comparator);
         for (L key : keys) {
@@ -252,7 +252,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param entries    The entries for the new map.
      * @return A new modifiable sorted BigIntegers map with the specified entries.
      */
-    static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final Entry<L, BigInteger>... entries) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
+            final Entry<L, BigInteger>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
 
@@ -267,8 +268,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param keys                   The keys for the new map.
      * @return A new modifiable sorted BigIntegers map with the specified entries.
      */
-    static <L> ModifiableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final BigInteger defaultValue, final L... keys) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final BigInteger defaultValue, final L... keys) {
         ModifiableSortedBigIntegerMap<L> map = ModifiableSortedBigIntegerMap.<L>of(keyAndValueCardinality, comparator);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -285,8 +286,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param entries                The entries for the new map.
      * @return A new modifiable sorted BigIntegers map with the specified entries.
      */
-    static <L> ModifiableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<L> comparator, final Entry<L, BigInteger>... entries) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, BigInteger>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
 
@@ -299,7 +300,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param value      The value for the entry.
      * @return A new modifiable sorted BigIntegers map containing an entry with the key and the value.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final L key, final BigInteger value) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key,
+            final BigInteger value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key, value));
     }
 
@@ -314,8 +316,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param value2     The second value for the entry.
      * @return A new modifiable sorted BigIntegers map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final L key1, final BigInteger value1,
-            final L key2, final BigInteger value2) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigInteger value1, final L key2, final BigInteger value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2));
     }
 
@@ -332,8 +334,8 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param value3     The third value for the entry.
      * @return A new modifiable sorted BigIntegers map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final L key1, final BigInteger value1,
-            final L key2, final BigInteger value2, final L key3, final BigInteger value3) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3));
     }
@@ -353,8 +355,9 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param value4     The fourth value for the entry.
      * @return A new modifiable sorted BigIntegers map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final L key1, final BigInteger value1,
-            final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4, final BigInteger value4) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4,
+            final BigInteger value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4));
     }
@@ -376,9 +379,9 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param value5     The fifth value for the entry.
      * @return A new modifiable sorted BigIntegers map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<L> comparator, final L key1, final BigInteger value1,
-            final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4, final BigInteger value4,
-            final L key5, final BigInteger value5) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
+            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4,
+            final BigInteger value4, final L key5, final BigInteger value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
                 new Entry<L, BigInteger>(key5, value5));

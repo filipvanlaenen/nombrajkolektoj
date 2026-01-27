@@ -78,6 +78,24 @@ public class AbstractModifiableBigIntegerCollectionTest {
     }
 
     /**
+     * Creates a collection with the numbers 2, 4, 6 and 8.
+     *
+     * @return A collection with the numbers 2, 4, 6 and 8.
+     */
+    private ModifiableBigIntegerCollection createCollection2468() {
+        return ModifiableBigIntegerCollection.of(BigInteger.TWO, FOUR, SIX, EIGHT);
+    }
+
+    /**
+     * Creates a collection with the numbers 2, 4 and 6 and <code>null</code>.
+     *
+     * @return A collection with the numbers 2, 4 and 6 and <code>null</code>.
+     */
+    private ModifiableBigIntegerCollection createCollection246Null() {
+        return ModifiableBigIntegerCollection.of(BigInteger.TWO, FOUR, SIX, null);
+    }
+
+    /**
      * Creates a collection with the number 0.
      *
      * @return A collection with the number 0.
@@ -158,6 +176,75 @@ public class AbstractModifiableBigIntegerCollectionTest {
     }
 
     /**
+     * Verifies that divide returns true when a number was changed in the collection.
+     */
+    @Test
+    public void divideShouldReturnTrueWhenACollectionOfNumbersIsDividedByTwo() {
+        assertTrue(createCollection1234().divide(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that divide returns true when a number was changed in the collection, even when <code>null</code> is
+     * present in the collection.
+     */
+    @Test
+    public void divideShouldReturnTrueWhenACollectionOfNumbersWithNullIsDividedByTwo() {
+        assertTrue(createCollection123Null().divide(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that divide returns false on an empty collection.
+     */
+    @Test
+    public void divideShouldReturnFalseWhenCollectionIsEmpty() {
+        assertFalse(createEmptyCollection().divide(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that divide returns false when no number was changed in the collection.
+     */
+    @Test
+    public void divideShouldReturnFalseWhenACollectionOfNumbersIsDividedByOne() {
+        assertFalse(createCollection1234().divide(BigInteger.ONE));
+    }
+
+    /**
+     * Verifies that divide returns false when the collection contains zero only.
+     */
+    @Test
+    public void divideShouldReturnFalseWhenCollectionContainsZeroOnly() {
+        assertFalse(createCollection0().divide(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that divide returns false when the collection contains <code>null</code> only.
+     */
+    @Test
+    public void divideShouldReturnFalseWhenCollectionContainsNullOnly() {
+        assertFalse(createCollectionNull().divide(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that divide divides all the numbers in the collection correctly.
+     */
+    @Test
+    public void divideShouldDivideAllNumbersCorrectly() {
+        ModifiableBigIntegerCollection collection = createCollection2468();
+        collection.divide(BigInteger.TWO);
+        assertTrue(collection.containsSame(createCollection1234()));
+    }
+
+    /**
+     * Verifies that divide divides all the numbers in the collection correctly, also when <code>null</code> is present.
+     */
+    @Test
+    public void divideShouldDivideAllNumbersCorrectlyWhenNullIsPresent() {
+        ModifiableBigIntegerCollection collection = createCollection246Null();
+        collection.divide(BigInteger.TWO);
+        assertTrue(collection.containsSame(createCollection123Null()));
+    }
+
+    /**
      * Verifies that multiply returns true when a number was changed in the collection.
      */
     @Test
@@ -213,7 +300,7 @@ public class AbstractModifiableBigIntegerCollectionTest {
     public void multiplyShouldMultiplyAllNumbersCorrectly() {
         ModifiableBigIntegerCollection collection = createCollection1234();
         collection.multiply(BigInteger.TWO);
-        assertTrue(collection.containsSame(ModifiableBigIntegerCollection.of(BigInteger.TWO, FOUR, SIX, EIGHT)));
+        assertTrue(collection.containsSame(createCollection2468()));
     }
 
     /**
@@ -224,7 +311,7 @@ public class AbstractModifiableBigIntegerCollectionTest {
     public void multiplyShouldMultiplyAllNumbersCorrectlyWhenNullIsPresent() {
         ModifiableBigIntegerCollection collection = createCollection123Null();
         collection.multiply(BigInteger.TWO);
-        assertTrue(collection.containsSame(ModifiableBigIntegerCollection.of(BigInteger.TWO, FOUR, SIX, null)));
+        assertTrue(collection.containsSame(createCollection246Null()));
     }
 
     /**

@@ -136,4 +136,56 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         putAt(index, result);
         return originalValue;
     }
+
+    @Override
+    public Float subtract(final int index, final Float subtrahend)
+            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
+        if (index >= size()) {
+            throw new IndexOutOfBoundsException(
+                    "Cannot subtract an element at a position beyond the size of the collection.");
+        }
+        Float originalValue = getAt(index);
+        if (originalValue == null && subtrahend == null) {
+            return null;
+        }
+        if (originalValue == null || subtrahend == null) {
+            throw new NullPointerException("Cannot subtract a null value from a number.");
+        }
+        Float result = originalValue - subtrahend;
+        if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
+                && !Objects.equals(originalValue, result)) {
+            throw new IllegalArgumentException(
+                    "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.");
+        }
+        putAt(index, result);
+        return originalValue;
+    }
+
+    @Override
+    public boolean subtract(final OrderedNumericCollection<Float> subtrahends)
+            throws IllegalArgumentException, NullPointerException {
+        int n = size();
+        if (n != subtrahends.size()) {
+            throw new IllegalArgumentException("Cannot subtract a collection from a collection of a different size.");
+        }
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            Float subtrahend = subtrahends.getAt(i);
+            if (originalValue == null ^ subtrahend == null) {
+                throw new NullPointerException(
+                        "Cannot subtract a collection from a collection when null values don't match.");
+            }
+            if (originalValue != null && subtrahend != 0F) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahends due to the cardinality constraint.");
+        return true;
+    }
 }

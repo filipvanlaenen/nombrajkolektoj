@@ -138,4 +138,56 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
         putAt(index, result);
         return originalValue;
     }
+
+    @Override
+    public BigDecimal subtract(final int index, final BigDecimal subtrahend)
+            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
+        if (index >= size()) {
+            throw new IndexOutOfBoundsException(
+                    "Cannot subtract an element at a position beyond the size of the collection.");
+        }
+        BigDecimal originalValue = getAt(index);
+        if (originalValue == null && subtrahend == null) {
+            return null;
+        }
+        if (originalValue == null || subtrahend == null) {
+            throw new NullPointerException("Cannot subtract a null value from a number.");
+        }
+        BigDecimal result = originalValue.subtract(subtrahend);
+        if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
+                && !Objects.equals(originalValue, result)) {
+            throw new IllegalArgumentException(
+                    "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.");
+        }
+        putAt(index, result);
+        return originalValue;
+    }
+
+    @Override
+    public boolean subtract(final OrderedNumericCollection<BigDecimal> subtrahends)
+            throws IllegalArgumentException, NullPointerException {
+        int n = size();
+        if (n != subtrahends.size()) {
+            throw new IllegalArgumentException("Cannot subtract a collection from a collection of a different size.");
+        }
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            BigDecimal subtrahend = subtrahends.getAt(i);
+            if (originalValue == null ^ subtrahend == null) {
+                throw new NullPointerException(
+                        "Cannot subtract a collection from a collection when null values don't match.");
+            }
+            if (originalValue != null && subtrahend != BigDecimal.ZERO) {
+                results[i] = originalValue.subtract(subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahends due to the cardinality constraint.");
+        return true;
+    }
 }

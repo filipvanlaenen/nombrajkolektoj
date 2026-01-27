@@ -90,12 +90,30 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
     }
 
     /**
+     * Creates a collection with the numbers 2, 4, 6 and 8.
+     *
+     * @return A collection with the numbers 2, 4, 6 and 8.
+     */
+    private ModifiableOrderedIntegerCollection createCollection2468() {
+        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, INTEGER_EIGHT);
+    }
+
+    /**
      * Creates a collection with the numbers 1, 2, 3 and <code>null</code>.
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
     private ModifiableOrderedIntegerCollection createCollection123Null() {
         return ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null);
+    }
+
+    /**
+     * Creates a collection with the numbers 2, 4, 6 and <code>null</code>.
+     *
+     * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
+     */
+    private ModifiableOrderedIntegerCollection createCollection246Null() {
+        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, null);
     }
 
     /**
@@ -214,8 +232,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
         ModifiableOrderedIntegerCollection collection = createCollection1234();
         collection.augment(createCollection1234());
-        assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, INTEGER_EIGHT)));
+        assertTrue(collection.containsSame(createCollection2468()));
     }
 
     /**
@@ -225,7 +242,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
         ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, null)));
+        assertTrue(collection.containsSame(createCollection246Null()));
     }
 
     /**
@@ -501,5 +518,157 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index returns the original number.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginal() {
+        assertEquals(2, createCollection1234().subtract(1, INTEGER_FIVE));
+    }
+
+    /**
+     * Verifies that subtract with an index returns <code>null</code> when called with <code>null</code> and an index
+     * holding the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginalNullWhenCalledWithNullValue() {
+        assertNull(createCollection123Null().subtract(THREE, null));
+    }
+
+    /**
+     * Verifies that subtract with an index subtracts the number in the collection correctly.
+     */
+    @Test
+    public void subtractWithIndexShouldSubtractNumberCorrectly() {
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        collection.subtract(1, 2);
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 0, INTEGER_THREE, INTEGER_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index leaves the collection unchanged for matching <code>null</code> values.
+     */
+    @Test
+    public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        collection.subtract(THREE, null);
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, INTEGER_FIVE));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, INTEGER_FIVE));
+        assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, 1));
+        assertEquals(
+                "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().subtract(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made and <code>null</code> values match.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().subtract(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns false if no change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedIntegerCollection.of(0, 0, 0, null)));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
+        ModifiableOrderedIntegerCollection collection = createCollection2468();
+        collection.subtract(createCollection1234());
+        assertTrue(collection.containsSame(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedIntegerCollection collection = createCollection246Null();
+        collection.subtract(createCollection123Null());
+        assertTrue(collection.containsSame(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, 2)));
+        assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
+        assertEquals("Cannot subtract a collection from a collection when null values don't match.",
+                exception.getMessage());
     }
 }

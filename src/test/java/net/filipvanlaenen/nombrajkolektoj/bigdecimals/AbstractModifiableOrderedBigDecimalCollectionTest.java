@@ -92,12 +92,30 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
     }
 
     /**
+     * Creates a collection with the numbers 2, 4, 6 and 8.
+     *
+     * @return A collection with the numbers 2, 4, 6 and 8.
+     */
+    private ModifiableOrderedBigDecimalCollection createCollection2468() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, BIG_DECIMAL_EIGHT);
+    }
+
+    /**
      * Creates a collection with the numbers 1, 2, 3 and <code>null</code>.
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
     private ModifiableOrderedBigDecimalCollection createCollection123Null() {
         return ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null);
+    }
+
+    /**
+     * Creates a collection with the numbers 2, 4, 6 and <code>null</code>.
+     *
+     * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
+     */
+    private ModifiableOrderedBigDecimalCollection createCollection246Null() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, null);
     }
 
     /**
@@ -216,8 +234,7 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
         ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         collection.augment(createCollection1234());
-        assertTrue(collection
-                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, BIG_DECIMAL_EIGHT)));
+        assertTrue(collection.containsSame(createCollection2468()));
     }
 
     /**
@@ -227,7 +244,7 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
         ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, null)));
+        assertTrue(collection.containsSame(createCollection246Null()));
     }
 
     /**
@@ -503,5 +520,157 @@ public class AbstractModifiableOrderedBigDecimalCollectionTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedBigDecimalCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index returns the original number.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginal() {
+        assertEquals(BigDecimal.valueOf(2L), createCollection1234().subtract(1, BIG_DECIMAL_FIVE));
+    }
+
+    /**
+     * Verifies that subtract with an index returns <code>null</code> when called with <code>null</code> and an index
+     * holding the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginalNullWhenCalledWithNullValue() {
+        assertNull(createCollection123Null().subtract(THREE, null));
+    }
+
+    /**
+     * Verifies that subtract with an index subtracts the number in the collection correctly.
+     */
+    @Test
+    public void subtractWithIndexShouldSubtractNumberCorrectly() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.subtract(1, BigDecimal.valueOf(2L));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.ZERO, BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index leaves the collection unchanged for matching <code>null</code> values.
+     */
+    @Test
+    public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        collection.subtract(THREE, null);
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null)));
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, BIG_DECIMAL_FIVE));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, BIG_DECIMAL_FIVE));
+        assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedBigDecimalCollection collection = createDistinctCollection1234();
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, BigDecimal.ONE));
+        assertEquals(
+                "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().subtract(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made and <code>null</code> values match.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().subtract(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns false if no change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null)));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection2468();
+        collection.subtract(createCollection1234());
+        assertTrue(collection.containsSame(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection246Null();
+        collection.subtract(createCollection123Null());
+        assertTrue(collection.containsSame(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
+        assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
+        assertEquals("Cannot subtract a collection from a collection when null values don't match.",
+                exception.getMessage());
     }
 }

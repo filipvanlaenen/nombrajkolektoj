@@ -90,12 +90,30 @@ public class AbstractModifiableOrderedFloatCollectionTest {
     }
 
     /**
+     * Creates a collection with the numbers 2, 4, 6 and 8.
+     *
+     * @return A collection with the numbers 2, 4, 6 and 8.
+     */
+    private ModifiableOrderedFloatCollection createCollection2468() {
+        return ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, FLOAT_EIGHT);
+    }
+
+    /**
      * Creates a collection with the numbers 1, 2, 3 and <code>null</code>.
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
     private ModifiableOrderedFloatCollection createCollection123Null() {
         return ModifiableOrderedFloatCollection.of(1F, 2F, FLOAT_THREE, null);
+    }
+
+    /**
+     * Creates a collection with the numbers 2, 4, 6 and <code>null</code>.
+     *
+     * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
+     */
+    private ModifiableOrderedFloatCollection createCollection246Null() {
+        return ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, null);
     }
 
     /**
@@ -214,8 +232,7 @@ public class AbstractModifiableOrderedFloatCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
         ModifiableOrderedFloatCollection collection = createCollection1234();
         collection.augment(createCollection1234());
-        assertTrue(collection
-                .containsSame(ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, FLOAT_EIGHT)));
+        assertTrue(collection.containsSame(createCollection2468()));
     }
 
     /**
@@ -225,7 +242,7 @@ public class AbstractModifiableOrderedFloatCollectionTest {
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
         ModifiableOrderedFloatCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, null)));
+        assertTrue(collection.containsSame(createCollection246Null()));
     }
 
     /**
@@ -501,5 +518,157 @@ public class AbstractModifiableOrderedFloatCollectionTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedFloatCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index returns the original number.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginal() {
+        assertEquals(2F, createCollection1234().subtract(1, FLOAT_FIVE));
+    }
+
+    /**
+     * Verifies that subtract with an index returns <code>null</code> when called with <code>null</code> and an index
+     * holding the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldReturnOriginalNullWhenCalledWithNullValue() {
+        assertNull(createCollection123Null().subtract(THREE, null));
+    }
+
+    /**
+     * Verifies that subtract with an index subtracts the number in the collection correctly.
+     */
+    @Test
+    public void subtractWithIndexShouldSubtractNumberCorrectly() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        collection.subtract(1, 2F);
+        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(1F, 0F, FLOAT_THREE, FLOAT_FOUR)));
+    }
+
+    /**
+     * Verifies that subtract with an index leaves the collection unchanged for matching <code>null</code> values.
+     */
+    @Test
+    public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        collection.subtract(THREE, null);
+        assertTrue(collection.containsSame(ModifiableOrderedFloatCollection.of(1F, 2F, FLOAT_THREE, null)));
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with the value <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index holding the value
+     * <code>null</code>.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, FLOAT_FIVE));
+        assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception when called with an index that's too large.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        IndexOutOfBoundsException exception =
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, FLOAT_FIVE));
+        assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with index throws an exception if it would result in a duplicate.
+     */
+    @Test
+    public void subtractWithIndexShouldThrowExceptionForDuplicate() {
+        ModifiableOrderedFloatCollection collection = createDistinctCollection1234();
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, 1F));
+        assertEquals(
+                "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetected() {
+        assertTrue(createCollection1234().subtract(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns true if a change was made and <code>null</code> values match.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnTrueWhenChangeDetectedAndMatchingNulls() {
+        assertTrue(createCollection123Null().subtract(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection returns false if no change was made.
+     */
+    @Test
+    public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedFloatCollection.of(0F, 0F, 0F, null)));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
+        ModifiableOrderedFloatCollection collection = createCollection2468();
+        collection.subtract(createCollection1234());
+        assertTrue(collection.containsSame(createCollection1234()));
+    }
+
+    /**
+     * Verifies that subtract with a collection subtracts the collection correctly with matching <code>null</code>
+     * values.
+     */
+    @Test
+    public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
+        ModifiableOrderedFloatCollection collection = createCollection246Null();
+        collection.subtract(createCollection123Null());
+        assertTrue(collection.containsSame(createCollection123Null()));
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the collections don't have the same size.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
+        ModifiableOrderedFloatCollection collection = createCollection1234();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> collection.subtract(ModifiableOrderedFloatCollection.of(1F, 2F)));
+        assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that subtract with a collection throws an exception when the <code>null</code> values don't match.
+     */
+    @Test
+    public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
+        ModifiableOrderedFloatCollection collection = createCollection123Null();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> collection.subtract(ModifiableOrderedFloatCollection.of(1F, null, 2F, FLOAT_THREE)));
+        assertEquals("Cannot subtract a collection from a collection when null values don't match.",
+                exception.getMessage());
     }
 }

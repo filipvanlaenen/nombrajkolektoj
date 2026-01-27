@@ -74,4 +74,32 @@ public interface ModifiableOrderedNumericCollection<N extends Number>
      * @throws IndexOutOfBoundsException Thrown if the index is out of bounds.
      */
     N negate(int index) throws IllegalArgumentException, IndexOutOfBoundsException;
+
+    /**
+     * Subtracts the number at a given position in this collection and returns the original value.
+     *
+     * @param index      The position to subtract from.
+     * @param subtrahend The number by which the number at the given position should be subtracted.
+     * @return The original value that has been overwritten.
+     * @throws IllegalArgumentException  Thrown if the resulting number at the given position would result into
+     *                                   duplicates when they're not allowed.
+     * @throws IndexOutOfBoundsException Thrown if the index is out of bounds.
+     * @throws NullPointerException      Thrown either if the original value at the given position is <code>null</code>
+     *                                   or the subtrahend is <code>null</code>.
+     */
+    N subtract(int index, N subtrahend)
+            throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException;
+
+    /**
+     * Subtracts from the numbers in this collection each of the numbers in the other collection and returns whether any
+     * of the numbers were changed.
+     *
+     * @param subtrahends The numbers by which the numbers in this collection should be subtracted.
+     * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the collections are not of the same size, or if the resulting numbers
+     *                                  would result into duplicates when they're not allowed.
+     * @throws NullPointerException     Thrown a <code>null</code> value in one collection isn't matched by a
+     *                                  <code>null</code> value in the other collection.
+     */
+    boolean subtract(OrderedNumericCollection<N> subtrahends) throws IllegalArgumentException, NullPointerException;
 }

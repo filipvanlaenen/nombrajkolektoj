@@ -8,6 +8,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -204,7 +206,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @return A new sorted doubles collection cloned from the provided doubles collection.
      */
     public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
-            final DoubleCollection collection) {
+            final NumericCollection<Double> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -218,7 +220,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @return A new sorted doubles collection cloned from a range in the provided ordered collection.
      */
     public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
-            final OrderedDoubleCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Double> collection, final int fromIndex, final int toIndex) {
         ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -245,7 +247,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @param collection The original sorted doubles collection.
      * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static SortedDoubleCollection of(final SortedDoubleCollection collection) {
+    public static SortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -256,7 +258,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * @param range      The range.
      * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static SortedDoubleCollection of(final SortedDoubleCollection collection, final Range<Double> range) {
+    public static SortedDoubleCollection of(final SortedNumericCollection<Double> collection,
+            final Range<Double> range) {
         ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Double element : collection) {

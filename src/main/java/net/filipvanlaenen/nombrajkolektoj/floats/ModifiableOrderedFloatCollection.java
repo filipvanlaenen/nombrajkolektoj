@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      * @return A new modifiable ordered floats collection cloned from a range in the provided ordered floats
      *         collection.
      */
-    public static ModifiableOrderedFloatCollection of(final OrderedFloatCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedFloatCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

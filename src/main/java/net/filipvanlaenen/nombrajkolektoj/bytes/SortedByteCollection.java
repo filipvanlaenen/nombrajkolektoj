@@ -8,6 +8,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -204,7 +206,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @return A new sorted bytes collection cloned from the provided bytes collection.
      */
     public static SortedByteCollection of(final Comparator<? super Byte> comparator,
-            final ByteCollection collection) {
+            final NumericCollection<Byte> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -218,7 +220,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @return A new sorted bytes collection cloned from a range in the provided ordered collection.
      */
     public static SortedByteCollection of(final Comparator<? super Byte> comparator,
-            final OrderedByteCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Byte> collection, final int fromIndex, final int toIndex) {
         ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -245,7 +247,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @param collection The original sorted bytes collection.
      * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static SortedByteCollection of(final SortedByteCollection collection) {
+    public static SortedByteCollection of(final SortedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -256,7 +258,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * @param range      The range.
      * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static SortedByteCollection of(final SortedByteCollection collection, final Range<Byte> range) {
+    public static SortedByteCollection of(final SortedNumericCollection<Byte> collection,
+            final Range<Byte> range) {
         ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Byte element : collection) {

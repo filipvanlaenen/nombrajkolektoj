@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
      * @return A new modifiable ordered integers collection cloned from a range in the provided ordered integers
      *         collection.
      */
-    public static ModifiableOrderedIntegerCollection of(final OrderedIntegerCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

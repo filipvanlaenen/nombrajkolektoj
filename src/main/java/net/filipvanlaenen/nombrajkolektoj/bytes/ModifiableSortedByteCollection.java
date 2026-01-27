@@ -10,6 +10,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -188,7 +191,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @return A new sorted modifiable bytes collection cloned from the provided bytes collection.
      */
     public static ModifiableSortedByteCollection of(final Comparator<? super Byte> comparator,
-            final ByteCollection collection) {
+            final NumericCollection<Byte> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -204,7 +207,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      *         collection.
      */
     public static ModifiableSortedByteCollection of(final Comparator<? super Byte> comparator,
-            final OrderedByteCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Byte> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedByteCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -232,7 +235,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @param collection The original sorted bytes collection.
      * @return A new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static ModifiableSortedByteCollection of(final SortedByteCollection collection) {
+    public static ModifiableSortedByteCollection of(final SortedNumericCollection<Byte> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -243,7 +246,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      * @param range      The range.
      * @return A new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static ModifiableSortedByteCollection of(final SortedByteCollection collection,
+    public static ModifiableSortedByteCollection of(final SortedNumericCollection<Byte> collection,
             final Range<Byte> range) {
         ModifiableSortedByteCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

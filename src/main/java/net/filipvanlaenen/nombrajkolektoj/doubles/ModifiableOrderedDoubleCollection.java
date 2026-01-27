@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
      * @return A new modifiable ordered doubles collection cloned from a range in the provided ordered doubles
      *         collection.
      */
-    public static ModifiableOrderedDoubleCollection of(final OrderedDoubleCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedDoubleCollection of(final OrderedNumericCollection<Double> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedDoubleCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

@@ -239,7 +239,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * @param collection The original ordered doubles collection.
      * @return A new ordered doubles collection cloned from the provided ordered doubles collection.
      */
-    public static OrderedDoubleCollection of(final OrderedDoubleCollection collection) {
+    public static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      * @param toIndex    The index of the first element not to be included in the new ordered doubles collection.
      * @return A new ordered doubles collection cloned from a range in the provided ordered doubles collection.
      */
-    public static OrderedDoubleCollection of(final OrderedDoubleCollection collection, final int fromIndex,
+    public static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedDoubleCollection slice =
                 ModifiableOrderedDoubleCollection.of(collection.getElementCardinality());

@@ -241,7 +241,7 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
      * @param collection The original ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection cloned from the provided ordered BigIntegers collection.
      */
-    public static OrderedBigIntegerCollection of(final OrderedBigIntegerCollection collection) {
+    public static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -253,7 +253,7 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
      * @param toIndex    The index of the first element not to be included in the new ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers collection.
      */
-    public static OrderedBigIntegerCollection of(final OrderedBigIntegerCollection collection, final int fromIndex,
+    public static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedBigIntegerCollection slice =
                 ModifiableOrderedBigIntegerCollection.of(collection.getElementCardinality());

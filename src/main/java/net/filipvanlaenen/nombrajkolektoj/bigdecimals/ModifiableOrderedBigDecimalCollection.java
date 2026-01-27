@@ -229,8 +229,8 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
      * @return A new modifiable ordered BigDecimals collection cloned from a range in the provided ordered BigDecimals
      *         collection.
      */
-    public static ModifiableOrderedBigDecimalCollection of(final OrderedBigDecimalCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedBigDecimalCollection of(final OrderedNumericCollection<BigDecimal> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedBigDecimalCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

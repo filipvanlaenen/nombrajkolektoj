@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
      * @return A new modifiable ordered bytes collection cloned from a range in the provided ordered bytes
      *         collection.
      */
-    public static ModifiableOrderedByteCollection of(final OrderedByteCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedByteCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

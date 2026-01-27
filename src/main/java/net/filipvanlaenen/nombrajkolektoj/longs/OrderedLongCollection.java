@@ -239,7 +239,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @param collection The original ordered longs collection.
      * @return A new ordered longs collection cloned from the provided ordered longs collection.
      */
-    public static OrderedLongCollection of(final OrderedLongCollection collection) {
+    public static OrderedLongCollection of(final OrderedNumericCollection<Long> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      * @param toIndex    The index of the first element not to be included in the new ordered longs collection.
      * @return A new ordered longs collection cloned from a range in the provided ordered longs collection.
      */
-    public static OrderedLongCollection of(final OrderedLongCollection collection, final int fromIndex,
+    public static OrderedLongCollection of(final OrderedNumericCollection<Long> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedLongCollection slice =
                 ModifiableOrderedLongCollection.of(collection.getElementCardinality());

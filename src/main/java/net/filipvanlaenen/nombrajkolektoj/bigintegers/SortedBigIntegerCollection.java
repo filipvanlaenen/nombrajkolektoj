@@ -10,6 +10,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -206,7 +208,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @return A new sorted BigIntegers collection cloned from the provided BigIntegers collection.
      */
     public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
-            final BigIntegerCollection collection) {
+            final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -220,7 +222,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @return A new sorted BigIntegers collection cloned from a range in the provided ordered collection.
      */
     public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
-            final OrderedBigIntegerCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<BigInteger> collection, final int fromIndex, final int toIndex) {
         ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -247,7 +249,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @param collection The original sorted BigIntegers collection.
      * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static SortedBigIntegerCollection of(final SortedBigIntegerCollection collection) {
+    public static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -258,7 +260,8 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      * @param range      The range.
      * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static SortedBigIntegerCollection of(final SortedBigIntegerCollection collection, final Range<BigInteger> range) {
+    public static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection,
+            final Range<BigInteger> range) {
         ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (BigInteger element : collection) {

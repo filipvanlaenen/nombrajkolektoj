@@ -12,6 +12,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -190,7 +193,7 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
      * @return A new sorted modifiable BigIntegers collection cloned from the provided BigIntegers collection.
      */
     public static ModifiableSortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
-            final BigIntegerCollection collection) {
+            final NumericCollection<BigInteger> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -206,7 +209,7 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
      *         collection.
      */
     public static ModifiableSortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
-            final OrderedBigIntegerCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<BigInteger> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedBigIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -234,7 +237,7 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
      * @param collection The original sorted BigIntegers collection.
      * @return A new modifiable sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static ModifiableSortedBigIntegerCollection of(final SortedBigIntegerCollection collection) {
+    public static ModifiableSortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -245,7 +248,7 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
      * @param range      The range.
      * @return A new modifiable sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static ModifiableSortedBigIntegerCollection of(final SortedBigIntegerCollection collection,
+    public static ModifiableSortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection,
             final Range<BigInteger> range) {
         ModifiableSortedBigIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

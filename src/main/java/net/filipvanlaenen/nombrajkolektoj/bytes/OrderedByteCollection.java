@@ -239,7 +239,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * @param collection The original ordered bytes collection.
      * @return A new ordered bytes collection cloned from the provided ordered bytes collection.
      */
-    public static OrderedByteCollection of(final OrderedByteCollection collection) {
+    public static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      * @param toIndex    The index of the first element not to be included in the new ordered bytes collection.
      * @return A new ordered bytes collection cloned from a range in the provided ordered bytes collection.
      */
-    public static OrderedByteCollection of(final OrderedByteCollection collection, final int fromIndex,
+    public static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedByteCollection slice =
                 ModifiableOrderedByteCollection.of(collection.getElementCardinality());

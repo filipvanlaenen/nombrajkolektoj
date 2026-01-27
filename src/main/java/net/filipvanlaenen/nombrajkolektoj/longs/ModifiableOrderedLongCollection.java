@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
      * @return A new modifiable ordered longs collection cloned from a range in the provided ordered longs
      *         collection.
      */
-    public static ModifiableOrderedLongCollection of(final OrderedLongCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedLongCollection of(final OrderedNumericCollection<Long> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedLongCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

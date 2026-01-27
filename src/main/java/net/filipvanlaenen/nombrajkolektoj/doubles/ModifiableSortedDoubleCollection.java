@@ -10,6 +10,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -188,7 +191,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @return A new sorted modifiable doubles collection cloned from the provided doubles collection.
      */
     public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
-            final DoubleCollection collection) {
+            final NumericCollection<Double> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -204,7 +207,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      *         collection.
      */
     public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
-            final OrderedDoubleCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Double> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedDoubleCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -232,7 +235,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @param collection The original sorted doubles collection.
      * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final SortedDoubleCollection collection) {
+    public static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -243,7 +246,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      * @param range      The range.
      * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final SortedDoubleCollection collection,
+    public static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection,
             final Range<Double> range) {
         ModifiableSortedDoubleCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

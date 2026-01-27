@@ -10,6 +10,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -188,7 +191,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
      * @return A new sorted modifiable integers collection cloned from the provided integers collection.
      */
     public static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
-            final IntegerCollection collection) {
+            final NumericCollection<Integer> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -204,7 +207,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
      *         collection.
      */
     public static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
-            final OrderedIntegerCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Integer> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -232,7 +235,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
      * @param collection The original sorted integers collection.
      * @return A new modifiable sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final SortedIntegerCollection collection) {
+    public static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -243,7 +246,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
      * @param range      The range.
      * @return A new modifiable sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final SortedIntegerCollection collection,
+    public static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection,
             final Range<Integer> range) {
         ModifiableSortedIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

@@ -239,7 +239,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @param collection The original ordered shorts collection.
      * @return A new ordered shorts collection cloned from the provided ordered shorts collection.
      */
-    public static OrderedShortCollection of(final OrderedShortCollection collection) {
+    public static OrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      * @param toIndex    The index of the first element not to be included in the new ordered shorts collection.
      * @return A new ordered shorts collection cloned from a range in the provided ordered shorts collection.
      */
-    public static OrderedShortCollection of(final OrderedShortCollection collection, final int fromIndex,
+    public static OrderedShortCollection of(final OrderedNumericCollection<Short> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedShortCollection slice =
                 ModifiableOrderedShortCollection.of(collection.getElementCardinality());

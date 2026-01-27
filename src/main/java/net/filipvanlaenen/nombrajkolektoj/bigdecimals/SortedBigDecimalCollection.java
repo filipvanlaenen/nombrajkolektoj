@@ -10,6 +10,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -206,7 +208,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
      * @return A new sorted BigDecimals collection cloned from the provided BigDecimals collection.
      */
     public static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
-            final BigDecimalCollection collection) {
+            final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -220,7 +222,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
      * @return A new sorted BigDecimals collection cloned from a range in the provided ordered collection.
      */
     public static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
-            final OrderedBigDecimalCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<BigDecimal> collection, final int fromIndex, final int toIndex) {
         ModifiableBigDecimalCollection slice = ModifiableBigDecimalCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -247,7 +249,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
      * @param collection The original sorted BigDecimals collection.
      * @return A new sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static SortedBigDecimalCollection of(final SortedBigDecimalCollection collection) {
+    public static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -258,7 +260,8 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
      * @param range      The range.
      * @return A new sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static SortedBigDecimalCollection of(final SortedBigDecimalCollection collection, final Range<BigDecimal> range) {
+    public static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection,
+            final Range<BigDecimal> range) {
         ModifiableBigDecimalCollection slice = ModifiableBigDecimalCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (BigDecimal element : collection) {

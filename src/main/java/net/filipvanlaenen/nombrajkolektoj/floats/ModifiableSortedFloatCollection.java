@@ -10,6 +10,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -188,7 +191,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @return A new sorted modifiable floats collection cloned from the provided floats collection.
      */
     public static ModifiableSortedFloatCollection of(final Comparator<? super Float> comparator,
-            final FloatCollection collection) {
+            final NumericCollection<Float> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -204,7 +207,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      *         collection.
      */
     public static ModifiableSortedFloatCollection of(final Comparator<? super Float> comparator,
-            final OrderedFloatCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Float> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedFloatCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -232,7 +235,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @param collection The original sorted floats collection.
      * @return A new modifiable sorted floats collection cloned from the provided sorted floats collection.
      */
-    public static ModifiableSortedFloatCollection of(final SortedFloatCollection collection) {
+    public static ModifiableSortedFloatCollection of(final SortedNumericCollection<Float> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -243,7 +246,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      * @param range      The range.
      * @return A new modifiable sorted floats collection cloned from the provided sorted floats collection.
      */
-    public static ModifiableSortedFloatCollection of(final SortedFloatCollection collection,
+    public static ModifiableSortedFloatCollection of(final SortedNumericCollection<Float> collection,
             final Range<Float> range) {
         ModifiableSortedFloatCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

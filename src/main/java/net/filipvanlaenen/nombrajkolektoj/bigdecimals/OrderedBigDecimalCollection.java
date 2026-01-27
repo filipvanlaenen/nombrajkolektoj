@@ -241,7 +241,7 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
      * @param collection The original ordered BigDecimals collection.
      * @return A new ordered BigDecimals collection cloned from the provided ordered BigDecimals collection.
      */
-    public static OrderedBigDecimalCollection of(final OrderedBigDecimalCollection collection) {
+    public static OrderedBigDecimalCollection of(final OrderedNumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -253,7 +253,7 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
      * @param toIndex    The index of the first element not to be included in the new ordered BigDecimals collection.
      * @return A new ordered BigDecimals collection cloned from a range in the provided ordered BigDecimals collection.
      */
-    public static OrderedBigDecimalCollection of(final OrderedBigDecimalCollection collection, final int fromIndex,
+    public static OrderedBigDecimalCollection of(final OrderedNumericCollection<BigDecimal> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedBigDecimalCollection slice =
                 ModifiableOrderedBigDecimalCollection.of(collection.getElementCardinality());

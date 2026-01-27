@@ -239,7 +239,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * @param collection The original ordered floats collection.
      * @return A new ordered floats collection cloned from the provided ordered floats collection.
      */
-    public static OrderedFloatCollection of(final OrderedFloatCollection collection) {
+    public static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      * @param toIndex    The index of the first element not to be included in the new ordered floats collection.
      * @return A new ordered floats collection cloned from a range in the provided ordered floats collection.
      */
-    public static OrderedFloatCollection of(final OrderedFloatCollection collection, final int fromIndex,
+    public static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedFloatCollection slice =
                 ModifiableOrderedFloatCollection.of(collection.getElementCardinality());

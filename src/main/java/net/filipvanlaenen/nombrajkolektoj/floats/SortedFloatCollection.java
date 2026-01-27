@@ -8,6 +8,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -204,7 +206,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      * @return A new sorted floats collection cloned from the provided floats collection.
      */
     public static SortedFloatCollection of(final Comparator<? super Float> comparator,
-            final FloatCollection collection) {
+            final NumericCollection<Float> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -218,7 +220,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      * @return A new sorted floats collection cloned from a range in the provided ordered collection.
      */
     public static SortedFloatCollection of(final Comparator<? super Float> comparator,
-            final OrderedFloatCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Float> collection, final int fromIndex, final int toIndex) {
         ModifiableFloatCollection slice = ModifiableFloatCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -245,7 +247,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      * @param collection The original sorted floats collection.
      * @return A new sorted floats collection cloned from the provided sorted floats collection.
      */
-    public static SortedFloatCollection of(final SortedFloatCollection collection) {
+    public static SortedFloatCollection of(final SortedNumericCollection<Float> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -256,7 +258,8 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      * @param range      The range.
      * @return A new sorted floats collection cloned from the provided sorted floats collection.
      */
-    public static SortedFloatCollection of(final SortedFloatCollection collection, final Range<Float> range) {
+    public static SortedFloatCollection of(final SortedNumericCollection<Float> collection,
+            final Range<Float> range) {
         ModifiableFloatCollection slice = ModifiableFloatCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Float element : collection) {

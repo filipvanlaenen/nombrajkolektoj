@@ -8,6 +8,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -204,7 +206,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @return A new sorted integers collection cloned from the provided integers collection.
      */
     public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
-            final IntegerCollection collection) {
+            final NumericCollection<Integer> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -218,7 +220,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @return A new sorted integers collection cloned from a range in the provided ordered collection.
      */
     public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
-            final OrderedIntegerCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Integer> collection, final int fromIndex, final int toIndex) {
         ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -245,7 +247,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @param collection The original sorted integers collection.
      * @return A new sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static SortedIntegerCollection of(final SortedIntegerCollection collection) {
+    public static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -256,7 +258,8 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
      * @param range      The range.
      * @return A new sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static SortedIntegerCollection of(final SortedIntegerCollection collection, final Range<Integer> range) {
+    public static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection,
+            final Range<Integer> range) {
         ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Integer element : collection) {

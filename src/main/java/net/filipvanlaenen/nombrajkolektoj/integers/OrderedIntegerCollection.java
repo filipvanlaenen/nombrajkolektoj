@@ -239,7 +239,7 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      * @param collection The original ordered integers collection.
      * @return A new ordered integers collection cloned from the provided ordered integers collection.
      */
-    public static OrderedIntegerCollection of(final OrderedIntegerCollection collection) {
+    public static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -251,7 +251,7 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      * @param toIndex    The index of the first element not to be included in the new ordered integers collection.
      * @return A new ordered integers collection cloned from a range in the provided ordered integers collection.
      */
-    public static OrderedIntegerCollection of(final OrderedIntegerCollection collection, final int fromIndex,
+    public static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedIntegerCollection slice =
                 ModifiableOrderedIntegerCollection.of(collection.getElementCardinality());

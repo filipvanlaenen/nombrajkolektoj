@@ -227,8 +227,8 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      * @return A new modifiable ordered shorts collection cloned from a range in the provided ordered shorts
      *         collection.
      */
-    public static ModifiableOrderedShortCollection of(final OrderedShortCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedShortCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

@@ -8,6 +8,8 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
@@ -204,7 +206,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
      * @return A new sorted shorts collection cloned from the provided shorts collection.
      */
     public static SortedShortCollection of(final Comparator<? super Short> comparator,
-            final ShortCollection collection) {
+            final NumericCollection<Short> collection) {
         return new ArrayCollection(comparator, collection);
     }
 
@@ -218,7 +220,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
      * @return A new sorted shorts collection cloned from a range in the provided ordered collection.
      */
     public static SortedShortCollection of(final Comparator<? super Short> comparator,
-            final OrderedShortCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Short> collection, final int fromIndex, final int toIndex) {
         ModifiableShortCollection slice = ModifiableShortCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             slice.add(collection.getAt(i));
@@ -245,7 +247,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
      * @param collection The original sorted shorts collection.
      * @return A new sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static SortedShortCollection of(final SortedShortCollection collection) {
+    public static SortedShortCollection of(final SortedNumericCollection<Short> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -256,7 +258,8 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
      * @param range      The range.
      * @return A new sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static SortedShortCollection of(final SortedShortCollection collection, final Range<Short> range) {
+    public static SortedShortCollection of(final SortedNumericCollection<Short> collection,
+            final Range<Short> range) {
         ModifiableShortCollection slice = ModifiableShortCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Short element : collection) {

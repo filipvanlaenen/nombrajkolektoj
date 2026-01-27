@@ -229,8 +229,8 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
      * @return A new modifiable ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers
      *         collection.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final OrderedBigIntegerCollection collection, final int fromIndex,
-            final int toIndex) {
+    public static ModifiableOrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection,
+            final int fromIndex, final int toIndex) {
         ModifiableOrderedBigIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));

@@ -10,6 +10,9 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
@@ -188,7 +191,7 @@ public abstract class ModifiableSortedLongCollection extends AbstractModifiableS
      * @return A new sorted modifiable longs collection cloned from the provided longs collection.
      */
     public static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
-            final LongCollection collection) {
+            final NumericCollection<Long> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
 
@@ -204,7 +207,7 @@ public abstract class ModifiableSortedLongCollection extends AbstractModifiableS
      *         collection.
      */
     public static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
-            final OrderedLongCollection collection, final int fromIndex, final int toIndex) {
+            final OrderedNumericCollection<Long> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedLongCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
         for (int i = fromIndex; i < toIndex; i++) {
@@ -232,7 +235,7 @@ public abstract class ModifiableSortedLongCollection extends AbstractModifiableS
      * @param collection The original sorted longs collection.
      * @return A new modifiable sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static ModifiableSortedLongCollection of(final SortedLongCollection collection) {
+    public static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -243,7 +246,7 @@ public abstract class ModifiableSortedLongCollection extends AbstractModifiableS
      * @param range      The range.
      * @return A new modifiable sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static ModifiableSortedLongCollection of(final SortedLongCollection collection,
+    public static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection,
             final Range<Long> range) {
         ModifiableSortedLongCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

@@ -10,53 +10,91 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
         implements ModifiableNumericCollection<Long> {
     @Override
     public boolean augment(final Long addend) {
-        boolean result = false;
-        for (Long n : toArray()) {
-            if (n != null && addend != 0L) {
-                remove(n);
-                add(n + addend);
-                result = true;
+        int n = size();
+        Long[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Long originalValue = results[i];
+            if (originalValue != null && addend != 0L) {
+                results[i] = originalValue + addend;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final Long divisor) {
-        boolean result = false;
-        for (Long n : toArray()) {
-            if (n != null && n != 0L && divisor != 1L) {
-                remove(n);
-                add(n / divisor);
-                result = true;
+        int n = size();
+        Long[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Long originalValue = results[i];
+            if (originalValue != null && originalValue != 0L && divisor != 1L) {
+                results[i] = originalValue / divisor;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final Long multiplicand) {
-        boolean result = false;
-        for (Long n : toArray()) {
-            if (n != null && n != 0L && multiplicand != 1L) {
-                remove(n);
-                add(n * multiplicand);
-                result = true;
+        int n = size();
+        Long[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Long originalValue = results[i];
+            if (originalValue != null && originalValue != 0L && multiplicand != 1L) {
+                results[i] = originalValue * multiplicand;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (Long n : toArray()) {
-            if (n != null && n != 0L) {
-                remove(n);
-                add(-n);
-                result = true;
+        int n = size();
+        Long[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Long originalValue = results[i];
+            if (originalValue != null && originalValue != 0L) {
+                results[i] = -originalValue;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with longs into the longs collection.
+     *
+     * @param results An array with longs that should be put into the longs collection.
+     */
+    private void putResults(final Long[] results, final String errorMessage) {
+        clear();
+        for (Long n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

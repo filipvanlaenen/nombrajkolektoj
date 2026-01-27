@@ -10,53 +10,91 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
         implements ModifiableNumericCollection<Float> {
     @Override
     public boolean augment(final Float addend) {
-        boolean result = false;
-        for (Float n : toArray()) {
-            if (n != null && addend != 0F) {
-                remove(n);
-                add(n + addend);
-                result = true;
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && addend != 0F) {
+                results[i] = originalValue + addend;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final Float divisor) {
-        boolean result = false;
-        for (Float n : toArray()) {
-            if (n != null && n != 0F && divisor != 1F) {
-                remove(n);
-                add(n / divisor);
-                result = true;
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && originalValue != 0F && divisor != 1F) {
+                results[i] = originalValue / divisor;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final Float multiplicand) {
-        boolean result = false;
-        for (Float n : toArray()) {
-            if (n != null && n != 0F && multiplicand != 1F) {
-                remove(n);
-                add(n * multiplicand);
-                result = true;
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && originalValue != 0F && multiplicand != 1F) {
+                results[i] = originalValue * multiplicand;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (Float n : toArray()) {
-            if (n != null && n != 0F) {
-                remove(n);
-                add(-n);
-                result = true;
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && originalValue != 0F) {
+                results[i] = -originalValue;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with floats into the floats collection.
+     *
+     * @param results An array with floats that should be put into the floats collection.
+     */
+    private void putResults(final Float[] results, final String errorMessage) {
+        clear();
+        for (Float n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

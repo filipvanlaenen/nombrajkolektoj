@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.AbstractModifiableBigIntegerCollection}
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection}
@@ -312,6 +314,17 @@ public class AbstractModifiableBigIntegerCollectionTest {
         ModifiableBigIntegerCollection collection = createCollection123Null();
         collection.multiply(BigInteger.TWO);
         assertTrue(collection.containsSame(createCollection246Null()));
+    }
+
+    /**
+     * Verifies that multiply multiplies all the numbers in the collection correctly.
+     */
+    @Test
+    public void foo() {
+        ModifiableBigIntegerCollection collection =
+                ModifiableBigIntegerCollection.of(ElementCardinality.DISTINCT_ELEMENTS, BigInteger.ONE, MINUS_ONE);
+        collection.multiply(MINUS_ONE);
+        assertTrue(collection.containsSame(ModifiableBigIntegerCollection.of(BigInteger.ONE, MINUS_ONE)));
     }
 
     /**

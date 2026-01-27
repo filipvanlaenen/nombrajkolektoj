@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.AbstractModifiableFloatCollection}
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection}
@@ -310,6 +312,17 @@ public class AbstractModifiableFloatCollectionTest {
         ModifiableFloatCollection collection = createCollection123Null();
         collection.multiply(2F);
         assertTrue(collection.containsSame(createCollection246Null()));
+    }
+
+    /**
+     * Verifies that multiply multiplies all the numbers in the collection correctly.
+     */
+    @Test
+    public void foo() {
+        ModifiableFloatCollection collection =
+                ModifiableFloatCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1F, MINUS_ONE);
+        collection.multiply(MINUS_ONE);
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(1F, MINUS_ONE)));
     }
 
     /**

@@ -12,53 +12,91 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
         implements ModifiableNumericCollection<BigInteger> {
     @Override
     public boolean augment(final BigInteger addend) {
-        boolean result = false;
-        for (BigInteger n : toArray()) {
-            if (n != null && addend != BigInteger.ZERO) {
-                remove(n);
-                add(n.add(addend));
-                result = true;
+        int n = size();
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            if (originalValue != null && addend != BigInteger.ZERO) {
+                results[i] = originalValue.add(addend);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final BigInteger divisor) {
-        boolean result = false;
-        for (BigInteger n : toArray()) {
-            if (n != null && n != BigInteger.ZERO && divisor != BigInteger.ONE) {
-                remove(n);
-                add(n.divide(divisor));
-                result = true;
+        int n = size();
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            if (originalValue != null && originalValue != BigInteger.ZERO && divisor != BigInteger.ONE) {
+                results[i] = originalValue.divide(divisor);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final BigInteger multiplicand) {
-        boolean result = false;
-        for (BigInteger n : toArray()) {
-            if (n != null && n != BigInteger.ZERO && multiplicand != BigInteger.ONE) {
-                remove(n);
-                add(n.multiply(multiplicand));
-                result = true;
+        int n = size();
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            if (originalValue != null && originalValue != BigInteger.ZERO && multiplicand != BigInteger.ONE) {
+                results[i] = originalValue.multiply(multiplicand);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (BigInteger n : toArray()) {
-            if (n != null && n != BigInteger.ZERO) {
-                remove(n);
-                add(n.negate());
-                result = true;
+        int n = size();
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            if (originalValue != null && originalValue != BigInteger.ZERO) {
+                results[i] = originalValue.negate();
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with BigIntegers into the BigIntegers collection.
+     *
+     * @param results An array with BigIntegers that should be put into the BigIntegers collection.
+     */
+    private void putResults(final BigInteger[] results, final String errorMessage) {
+        clear();
+        for (BigInteger n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

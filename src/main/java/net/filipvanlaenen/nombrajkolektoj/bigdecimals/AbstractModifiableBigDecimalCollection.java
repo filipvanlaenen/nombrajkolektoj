@@ -12,53 +12,91 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
         implements ModifiableNumericCollection<BigDecimal> {
     @Override
     public boolean augment(final BigDecimal addend) {
-        boolean result = false;
-        for (BigDecimal n : toArray()) {
-            if (n != null && addend != BigDecimal.ZERO) {
-                remove(n);
-                add(n.add(addend));
-                result = true;
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && addend != BigDecimal.ZERO) {
+                results[i] = originalValue.add(addend);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final BigDecimal divisor) {
-        boolean result = false;
-        for (BigDecimal n : toArray()) {
-            if (n != null && n != BigDecimal.ZERO && divisor != BigDecimal.ONE) {
-                remove(n);
-                add(n.divide(divisor));
-                result = true;
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && originalValue != BigDecimal.ZERO && divisor != BigDecimal.ONE) {
+                results[i] = originalValue.divide(divisor);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final BigDecimal multiplicand) {
-        boolean result = false;
-        for (BigDecimal n : toArray()) {
-            if (n != null && n != BigDecimal.ZERO && multiplicand != BigDecimal.ONE) {
-                remove(n);
-                add(n.multiply(multiplicand));
-                result = true;
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && originalValue != BigDecimal.ZERO && multiplicand != BigDecimal.ONE) {
+                results[i] = originalValue.multiply(multiplicand);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (BigDecimal n : toArray()) {
-            if (n != null && n != BigDecimal.ZERO) {
-                remove(n);
-                add(n.negate());
-                result = true;
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && originalValue != BigDecimal.ZERO) {
+                results[i] = originalValue.negate();
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with BigDecimals into the BigDecimals collection.
+     *
+     * @param results An array with BigDecimals that should be put into the BigDecimals collection.
+     */
+    private void putResults(final BigDecimal[] results, final String errorMessage) {
+        clear();
+        for (BigDecimal n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

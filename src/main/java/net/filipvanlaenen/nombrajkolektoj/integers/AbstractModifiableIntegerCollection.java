@@ -10,53 +10,91 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
         implements ModifiableNumericCollection<Integer> {
     @Override
     public boolean augment(final Integer addend) {
-        boolean result = false;
-        for (Integer n : toArray()) {
-            if (n != null && addend != 0) {
-                remove(n);
-                add(n + addend);
-                result = true;
+        int n = size();
+        Integer[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Integer originalValue = results[i];
+            if (originalValue != null && addend != 0) {
+                results[i] = originalValue + addend;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final Integer divisor) {
-        boolean result = false;
-        for (Integer n : toArray()) {
-            if (n != null && n != 0 && divisor != 1) {
-                remove(n);
-                add(n / divisor);
-                result = true;
+        int n = size();
+        Integer[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Integer originalValue = results[i];
+            if (originalValue != null && originalValue != 0 && divisor != 1) {
+                results[i] = originalValue / divisor;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final Integer multiplicand) {
-        boolean result = false;
-        for (Integer n : toArray()) {
-            if (n != null && n != 0 && multiplicand != 1) {
-                remove(n);
-                add(n * multiplicand);
-                result = true;
+        int n = size();
+        Integer[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Integer originalValue = results[i];
+            if (originalValue != null && originalValue != 0 && multiplicand != 1) {
+                results[i] = originalValue * multiplicand;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (Integer n : toArray()) {
-            if (n != null && n != 0) {
-                remove(n);
-                add(-n);
-                result = true;
+        int n = size();
+        Integer[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Integer originalValue = results[i];
+            if (originalValue != null && originalValue != 0) {
+                results[i] = -originalValue;
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with integers into the integers collection.
+     *
+     * @param results An array with integers that should be put into the integers collection.
+     */
+    private void putResults(final Integer[] results, final String errorMessage) {
+        clear();
+        for (Integer n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

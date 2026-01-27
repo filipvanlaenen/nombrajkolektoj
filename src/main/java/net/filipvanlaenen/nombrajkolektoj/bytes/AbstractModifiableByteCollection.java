@@ -10,53 +10,91 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
         implements ModifiableNumericCollection<Byte> {
     @Override
     public boolean augment(final Byte addend) {
-        boolean result = false;
-        for (Byte n : toArray()) {
-            if (n != null && addend != (byte) 0) {
-                remove(n);
-                add((byte) (n + addend));
-                result = true;
+        int n = size();
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            if (originalValue != null && addend != (byte) 0) {
+                results[i] = (byte) (originalValue + addend);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final Byte divisor) {
-        boolean result = false;
-        for (Byte n : toArray()) {
-            if (n != null && n != (byte) 0 && divisor != (byte) 1) {
-                remove(n);
-                add((byte) (n / divisor));
-                result = true;
+        int n = size();
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            if (originalValue != null && originalValue != (byte) 0 && divisor != (byte) 1) {
+                results[i] = (byte) (originalValue / divisor);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final Byte multiplicand) {
-        boolean result = false;
-        for (Byte n : toArray()) {
-            if (n != null && n != (byte) 0 && multiplicand != (byte) 1) {
-                remove(n);
-                add((byte) (n * multiplicand));
-                result = true;
+        int n = size();
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            if (originalValue != null && originalValue != (byte) 0 && multiplicand != (byte) 1) {
+                results[i] = (byte) (originalValue * multiplicand);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (Byte n : toArray()) {
-            if (n != null && n != (byte) 0) {
-                remove(n);
-                add((byte) (-n));
-                result = true;
+        int n = size();
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            if (originalValue != null && originalValue != (byte) 0) {
+                results[i] = (byte) (-originalValue);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with bytes into the bytes collection.
+     *
+     * @param results An array with bytes that should be put into the bytes collection.
+     */
+    private void putResults(final Byte[] results, final String errorMessage) {
+        clear();
+        for (Byte n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

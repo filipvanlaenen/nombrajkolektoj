@@ -10,53 +10,91 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
         implements ModifiableNumericCollection<Short> {
     @Override
     public boolean augment(final Short addend) {
-        boolean result = false;
-        for (Short n : toArray()) {
-            if (n != null && addend != (short) 0) {
-                remove(n);
-                add((short) (n + addend));
-                result = true;
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && addend != (short) 0) {
+                results[i] = (short) (originalValue + addend);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot augment with the addend due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean divide(final Short divisor) {
-        boolean result = false;
-        for (Short n : toArray()) {
-            if (n != null && n != (short) 0 && divisor != (short) 1) {
-                remove(n);
-                add((short) (n / divisor));
-                result = true;
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && originalValue != (short) 0 && divisor != (short) 1) {
+                results[i] = (short) (originalValue / divisor);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean multiply(final Short multiplicand) {
-        boolean result = false;
-        for (Short n : toArray()) {
-            if (n != null && n != (short) 0 && multiplicand != (short) 1) {
-                remove(n);
-                add((short) (n * multiplicand));
-                result = true;
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && originalValue != (short) 0 && multiplicand != (short) 1) {
+                results[i] = (short) (originalValue * multiplicand);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot multiply with the multiplicand due to the cardinality constraint.");
+        return true;
     }
 
     @Override
     public boolean negate() {
-        boolean result = false;
-        for (Short n : toArray()) {
-            if (n != null && n != (short) 0) {
-                remove(n);
-                add((short) (-n));
-                result = true;
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && originalValue != (short) 0) {
+                results[i] = (short) (-originalValue);
+                changed = true;
             }
         }
-        return result;
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot negate due to the cardinality constraint.");
+        return true;
+    }
+
+    /**
+     * Puts the content of an array with shorts into the shorts collection.
+     *
+     * @param results An array with shorts that should be put into the shorts collection.
+     */
+    private void putResults(final Short[] results, final String errorMessage) {
+        clear();
+        for (Short n : results) {
+            if (!add(n)) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+        }
     }
 }

@@ -100,4 +100,23 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
             }
         }
     }
+
+    @Override
+    public boolean subtract(final BigInteger subtrahend) throws IllegalArgumentException {
+        int n = size();
+        BigInteger[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigInteger originalValue = results[i];
+            if (originalValue != null && subtrahend != BigInteger.ZERO) {
+                results[i] = originalValue.subtract(subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

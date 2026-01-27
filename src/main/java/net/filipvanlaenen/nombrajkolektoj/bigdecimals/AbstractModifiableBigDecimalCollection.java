@@ -100,4 +100,23 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
             }
         }
     }
+
+    @Override
+    public boolean subtract(final BigDecimal subtrahend) throws IllegalArgumentException {
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && subtrahend != BigDecimal.ZERO) {
+                results[i] = originalValue.subtract(subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

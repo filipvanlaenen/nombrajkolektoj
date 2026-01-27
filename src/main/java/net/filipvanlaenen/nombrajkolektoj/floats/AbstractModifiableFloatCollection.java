@@ -98,4 +98,23 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
             }
         }
     }
+
+    @Override
+    public boolean subtract(final Float subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && subtrahend != 0F) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

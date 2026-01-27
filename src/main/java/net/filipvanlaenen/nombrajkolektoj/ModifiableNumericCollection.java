@@ -14,7 +14,7 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param addend The number by which all numbers in the collection should be augmented.
      * @return True if any of the numbers in the collection was changed.
-     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
+     * @throws IllegalArgumentException Thrown if the collection would contain duplicates when they're not allowed.
      */
     boolean augment(N addend) throws IllegalArgumentException;
 
@@ -24,7 +24,7 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param divisor The number by which all numbers in the collection should be divided.
      * @return True if any of the numbers in the collection was changed.
-     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
+     * @throws IllegalArgumentException Thrown if the collection would contain duplicates when they're not allowed.
      */
     boolean divide(N divisor) throws IllegalArgumentException;
 
@@ -34,7 +34,7 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param multiplicand The number by which all numbers in the collection should be multiplied.
      * @return True if any of the numbers in the collection was changed.
-     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
+     * @throws IllegalArgumentException Thrown if the collection would contain duplicates when they're not allowed.
      */
     boolean multiply(N multiplicand) throws IllegalArgumentException;
 
@@ -43,7 +43,17 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      * <code>null</code> elements.
      *
      * @return True if any of the numbers in the collection was changed.
-     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
+     * @throws IllegalArgumentException Thrown if the collection would contain duplicates when they're not allowed.
      */
     boolean negate() throws IllegalArgumentException;
+
+    /**
+     * Subtracts all the numbers in the collection with the subtrahend and returns whether any of the numbers were
+     * changed. Ignores <code>null</code> elements.
+     *
+     * @param subtrahend The number that should be subtracted from all numbers in the collection.
+     * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the collection would contain duplicates when they're not allowed.
+     */
+    boolean subtract(N subtrahend) throws IllegalArgumentException;
 }

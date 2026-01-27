@@ -98,4 +98,23 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
             }
         }
     }
+
+    @Override
+    public boolean subtract(final Double subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Double[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Double originalValue = results[i];
+            if (originalValue != null && subtrahend != 0D) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

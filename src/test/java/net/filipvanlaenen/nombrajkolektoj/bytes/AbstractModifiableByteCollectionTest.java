@@ -245,6 +245,17 @@ public class AbstractModifiableByteCollectionTest {
     }
 
     /**
+     * Verifies that divide can handle intermediate duplicates.
+     */
+    @Test
+    public void divideShouldHandleIntermediateDuplicates() {
+        ModifiableByteCollection collection =
+                ModifiableByteCollection.of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, MINUS_ONE);
+        collection.divide(MINUS_ONE);
+        assertTrue(collection.containsSame(ModifiableByteCollection.of((byte) 1, MINUS_ONE)));
+    }
+
+    /**
      * Verifies that multiply returns true when a number was changed in the collection.
      */
     @Test
@@ -315,10 +326,10 @@ public class AbstractModifiableByteCollectionTest {
     }
 
     /**
-     * Verifies that multiply multiplies all the numbers in the collection correctly.
+     * Verifies that multiply can handle intermediate duplicates.
      */
     @Test
-    public void foo() {
+    public void multiplyShouldHandleIntermediateDuplicates() {
         ModifiableByteCollection collection =
                 ModifiableByteCollection.of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, MINUS_ONE);
         collection.multiply(MINUS_ONE);
@@ -386,4 +397,67 @@ public class AbstractModifiableByteCollectionTest {
         collection.negate();
         assertTrue(collection.containsSame(ModifiableByteCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
     }
+
+    /**
+     * Verifies that subtract returns true when a number was changed in the collection.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenOneIsAddedToACollectionOfNumbers() {
+        assertTrue(createCollection1234().subtract((byte) 1));
+    }
+
+    /**
+     * Verifies that subtract returns true when a number was changed in the collection, even when <code>null</code> is
+     * present in the collection.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenOneIsSubtractedFromACollectionOfNumbersWithNull() {
+        assertTrue(createCollection123Null().subtract((byte) 1));
+    }
+
+    /**
+     * Verifies that subtract returns false on an empty collection.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
+        assertFalse(createEmptyCollection().subtract((byte) 1));
+    }
+
+    /**
+     * Verifies that subtract returns false when no number was changed in the collection.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenZeroIsSubractedFromACollectionOfNumbers() {
+        assertFalse(createCollection1234().subtract((byte) 0));
+    }
+
+    /**
+     * Verifies that subtract returns false when the collection contains <code>null</code> only.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenCollectionContainsNullOnly() {
+        assertFalse(createCollectionNull().subtract((byte) 1));
+    }
+
+    /**
+     * Verifies that subtract subtracts all the numbers in the collection correctly.
+     */
+    @Test
+    public void subtractShouldSubractAllNumbersCorrectly() {
+        ModifiableByteCollection collection = createCollection1234();
+        collection.subtract((byte) 1);
+        assertTrue(collection.containsSame(ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2, THREE)));
+    }
+
+    /**
+     * Verifies that subtract subtracts all the numbers in the collection correctly, also when <code>null</code> is
+     * present.
+     */
+    @Test
+    public void subtractShouldSubtractAllNumbersCorrectlyWhenNullIsPresent() {
+        ModifiableByteCollection collection = createCollection123Null();
+        collection.subtract((byte) 1);
+        assertTrue(collection.containsSame(ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2, null)));
+    }
+
 }

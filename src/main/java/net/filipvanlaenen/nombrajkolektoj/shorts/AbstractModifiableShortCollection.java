@@ -98,4 +98,23 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
             }
         }
     }
+
+    @Override
+    public boolean subtract(final Short subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && subtrahend != (short) 0) {
+                results[i] = (short) (originalValue - subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

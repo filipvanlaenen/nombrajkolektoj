@@ -98,4 +98,23 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
             }
         }
     }
+
+    @Override
+    public boolean subtract(final Long subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Long[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Long originalValue = results[i];
+            if (originalValue != null && subtrahend != 0L) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
+    }
 }

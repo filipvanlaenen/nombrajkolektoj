@@ -22,6 +22,19 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     }
 
     @Override
+    public boolean divide(final Short divisor) {
+        boolean result = false;
+        for (Short n : toArray()) {
+            if (n != null && n != (short) 0 && divisor != (short) 1) {
+                remove(n);
+                add((short) (n / divisor));
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Short multiplicand) {
         boolean result = false;
         for (Short n : toArray()) {

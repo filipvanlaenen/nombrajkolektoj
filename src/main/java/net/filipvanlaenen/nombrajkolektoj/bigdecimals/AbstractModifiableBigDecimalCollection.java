@@ -24,6 +24,19 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     }
 
     @Override
+    public boolean divide(final BigDecimal divisor) {
+        boolean result = false;
+        for (BigDecimal n : toArray()) {
+            if (n != null && n != BigDecimal.ZERO && divisor != BigDecimal.ONE) {
+                remove(n);
+                add(n.divide(divisor));
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final BigDecimal multiplicand) {
         boolean result = false;
         for (BigDecimal n : toArray()) {

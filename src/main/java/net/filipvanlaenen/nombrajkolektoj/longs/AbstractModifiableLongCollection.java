@@ -22,6 +22,19 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     }
 
     @Override
+    public boolean divide(final Long divisor) {
+        boolean result = false;
+        for (Long n : toArray()) {
+            if (n != null && n != 0L && divisor != 1L) {
+                remove(n);
+                add(n / divisor);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Long multiplicand) {
         boolean result = false;
         for (Long n : toArray()) {

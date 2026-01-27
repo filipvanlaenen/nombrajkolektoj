@@ -22,6 +22,19 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     }
 
     @Override
+    public boolean divide(final Integer divisor) {
+        boolean result = false;
+        for (Integer n : toArray()) {
+            if (n != null && n != 0 && divisor != 1) {
+                remove(n);
+                add(n / divisor);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Integer multiplicand) {
         boolean result = false;
         for (Integer n : toArray()) {

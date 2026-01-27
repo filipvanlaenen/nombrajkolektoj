@@ -22,6 +22,19 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     }
 
     @Override
+    public boolean divide(final Float divisor) {
+        boolean result = false;
+        for (Float n : toArray()) {
+            if (n != null && n != 0F && divisor != 1F) {
+                remove(n);
+                add(n / divisor);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Float multiplicand) {
         boolean result = false;
         for (Float n : toArray()) {

@@ -22,6 +22,19 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     }
 
     @Override
+    public boolean divide(final Byte divisor) {
+        boolean result = false;
+        for (Byte n : toArray()) {
+            if (n != null && n != (byte) 0 && divisor != (byte) 1) {
+                remove(n);
+                add((byte) (n / divisor));
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Byte multiplicand) {
         boolean result = false;
         for (Byte n : toArray()) {

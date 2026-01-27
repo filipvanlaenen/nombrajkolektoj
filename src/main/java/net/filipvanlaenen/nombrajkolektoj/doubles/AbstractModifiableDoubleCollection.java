@@ -22,6 +22,19 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     }
 
     @Override
+    public boolean divide(final Double divisor) {
+        boolean result = false;
+        for (Double n : toArray()) {
+            if (n != null && n != 0D && divisor != 1D) {
+                remove(n);
+                add(n / divisor);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final Double multiplicand) {
         boolean result = false;
         for (Double n : toArray()) {

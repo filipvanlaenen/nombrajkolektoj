@@ -18,6 +18,15 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
     boolean augment(N addend);
 
     /**
+     * Divides all the numbers in the collection with the divisor and returns whether any of the numbers were changed.
+     * Ignores <code>null</code> elements.
+     *
+     * @param divisor The number by which all numbers in the collection should be divided.
+     * @return True if any of the numbers in the collection was changed.
+     */
+    boolean divide(N divisor);
+
+    /**
      * Multiplies all the numbers in the collection with the multiplicand and returns whether any of the numbers were
      * changed. Ignores <code>null</code> elements.
      *

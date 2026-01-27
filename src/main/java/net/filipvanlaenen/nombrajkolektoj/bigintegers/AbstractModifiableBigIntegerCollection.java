@@ -24,6 +24,19 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     }
 
     @Override
+    public boolean divide(final BigInteger divisor) {
+        boolean result = false;
+        for (BigInteger n : toArray()) {
+            if (n != null && n != BigInteger.ZERO && divisor != BigInteger.ONE) {
+                remove(n);
+                add(n.divide(divisor));
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean multiply(final BigInteger multiplicand) {
         boolean result = false;
         for (BigInteger n : toArray()) {

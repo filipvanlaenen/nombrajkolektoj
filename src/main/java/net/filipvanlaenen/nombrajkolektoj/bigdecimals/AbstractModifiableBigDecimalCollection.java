@@ -11,7 +11,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimalCollection
         implements ModifiableNumericCollection<BigDecimal> {
     @Override
-    public boolean augment(final BigDecimal addend) {
+    public boolean augment(final BigDecimal addend) throws IllegalArgumentException {
         int n = size();
         BigDecimal[] results = this.toArray();
         boolean changed = false;
@@ -30,7 +30,7 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     }
 
     @Override
-    public boolean divide(final BigDecimal divisor) {
+    public boolean divide(final BigDecimal divisor) throws IllegalArgumentException {
         int n = size();
         BigDecimal[] results = this.toArray();
         boolean changed = false;
@@ -49,7 +49,7 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     }
 
     @Override
-    public boolean multiply(final BigDecimal multiplicand) {
+    public boolean multiply(final BigDecimal multiplicand) throws IllegalArgumentException {
         int n = size();
         BigDecimal[] results = this.toArray();
         boolean changed = false;
@@ -68,11 +68,10 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         BigDecimal[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             BigDecimal originalValue = results[i];
             if (originalValue != null && originalValue != BigDecimal.ZERO) {
                 results[i] = originalValue.negate();
@@ -89,9 +88,11 @@ abstract class AbstractModifiableBigDecimalCollection extends AbstractBigDecimal
     /**
      * Puts the content of an array with BigDecimals into the BigDecimals collection.
      *
-     * @param results An array with BigDecimals that should be put into the BigDecimals collection.
+     * @param results      An array with BigDecimals that should be put into the BigDecimals collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final BigDecimal[] results, final String errorMessage) {
+    protected void putResults(final BigDecimal[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (BigDecimal n : results) {
             if (!add(n)) {

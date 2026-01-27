@@ -63,7 +63,7 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
         if (!changed) {
             return false;
         }
-        putResults(results);
+        putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
     }
 
@@ -115,25 +115,7 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
         if (!changed) {
             return false;
         }
-        putResults(results);
-        return true;
-    }
-
-    @Override
-    public boolean negate() {
-        BigDecimal[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < size(); i++) {
-            BigDecimal originalValue = results[i];
-            if (originalValue != null && originalValue != BigDecimal.ZERO) {
-                results[i] = originalValue.negate();
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results);
+        putResults(results, "Cannot multiply with the multiplicands due to the cardinality constraint.");
         return true;
     }
 
@@ -155,36 +137,5 @@ abstract class AbstractModifiableOrderedBigDecimalCollection extends AbstractMod
         }
         putAt(index, result);
         return originalValue;
-    }
-
-    /**
-     * Puts the content of an array with BigDecimals into the BigDecimals collection.
-     *
-     * @param results An array with BigDecimals that should be put into the BigDecimals collection.
-     */
-    private void putResults(final BigDecimal[] results) {
-        int n = size();
-        boolean[] updated = new boolean[n];
-        boolean allUpdated = false;
-        BigDecimal counter = BigDecimal.ZERO;
-        while (!allUpdated) {
-            allUpdated = true;
-            for (int i = 0; i < n; i++) {
-                if (!updated[i]) {
-                    try {
-                        putAt(i, results[i]);
-                        updated[i] = true;
-                    } catch (IllegalArgumentException iae) {
-                        allUpdated = false;
-                        try {
-                            putAt(i, counter);
-                        } catch (IllegalArgumentException iae2) {
-                            allUpdated = false;
-                        }
-                        counter = counter.add(BigDecimal.ONE);
-                    }
-                }
-            }
-        }
     }
 }

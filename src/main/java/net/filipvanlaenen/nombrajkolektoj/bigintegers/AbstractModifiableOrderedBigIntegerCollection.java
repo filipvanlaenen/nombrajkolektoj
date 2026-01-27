@@ -63,7 +63,7 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         if (!changed) {
             return false;
         }
-        putResults(results);
+        putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
     }
 
@@ -115,25 +115,7 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         if (!changed) {
             return false;
         }
-        putResults(results);
-        return true;
-    }
-
-    @Override
-    public boolean negate() {
-        BigInteger[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < size(); i++) {
-            BigInteger originalValue = results[i];
-            if (originalValue != null && originalValue != BigInteger.ZERO) {
-                results[i] = originalValue.negate();
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results);
+        putResults(results, "Cannot multiply with the multiplicands due to the cardinality constraint.");
         return true;
     }
 
@@ -155,36 +137,5 @@ abstract class AbstractModifiableOrderedBigIntegerCollection extends AbstractMod
         }
         putAt(index, result);
         return originalValue;
-    }
-
-    /**
-     * Puts the content of an array with BigIntegers into the BigIntegers collection.
-     *
-     * @param results An array with BigIntegers that should be put into the BigIntegers collection.
-     */
-    private void putResults(final BigInteger[] results) {
-        int n = size();
-        boolean[] updated = new boolean[n];
-        boolean allUpdated = false;
-        BigInteger counter = BigInteger.ZERO;
-        while (!allUpdated) {
-            allUpdated = true;
-            for (int i = 0; i < n; i++) {
-                if (!updated[i]) {
-                    try {
-                        putAt(i, results[i]);
-                        updated[i] = true;
-                    } catch (IllegalArgumentException iae) {
-                        allUpdated = false;
-                        try {
-                            putAt(i, counter);
-                        } catch (IllegalArgumentException iae2) {
-                            allUpdated = false;
-                        }
-                        counter = counter.add(BigInteger.ONE);
-                    }
-                }
-            }
-        }
     }
 }

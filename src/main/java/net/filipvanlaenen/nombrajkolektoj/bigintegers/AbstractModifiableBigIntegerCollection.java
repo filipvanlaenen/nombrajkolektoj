@@ -11,7 +11,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableBigIntegerCollection extends AbstractBigIntegerCollection
         implements ModifiableNumericCollection<BigInteger> {
     @Override
-    public boolean augment(final BigInteger addend) {
+    public boolean augment(final BigInteger addend) throws IllegalArgumentException {
         int n = size();
         BigInteger[] results = this.toArray();
         boolean changed = false;
@@ -30,7 +30,7 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     }
 
     @Override
-    public boolean divide(final BigInteger divisor) {
+    public boolean divide(final BigInteger divisor) throws IllegalArgumentException {
         int n = size();
         BigInteger[] results = this.toArray();
         boolean changed = false;
@@ -49,7 +49,7 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     }
 
     @Override
-    public boolean multiply(final BigInteger multiplicand) {
+    public boolean multiply(final BigInteger multiplicand) throws IllegalArgumentException {
         int n = size();
         BigInteger[] results = this.toArray();
         boolean changed = false;
@@ -68,11 +68,10 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         BigInteger[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             BigInteger originalValue = results[i];
             if (originalValue != null && originalValue != BigInteger.ZERO) {
                 results[i] = originalValue.negate();
@@ -89,9 +88,11 @@ abstract class AbstractModifiableBigIntegerCollection extends AbstractBigInteger
     /**
      * Puts the content of an array with BigIntegers into the BigIntegers collection.
      *
-     * @param results An array with BigIntegers that should be put into the BigIntegers collection.
+     * @param results      An array with BigIntegers that should be put into the BigIntegers collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final BigInteger[] results, final String errorMessage) {
+    protected void putResults(final BigInteger[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (BigInteger n : results) {
             if (!add(n)) {

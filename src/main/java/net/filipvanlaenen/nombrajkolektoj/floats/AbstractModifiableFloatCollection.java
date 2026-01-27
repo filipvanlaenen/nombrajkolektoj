@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
         implements ModifiableNumericCollection<Float> {
     @Override
-    public boolean augment(final Float addend) {
+    public boolean augment(final Float addend) throws IllegalArgumentException {
         int n = size();
         Float[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     }
 
     @Override
-    public boolean divide(final Float divisor) {
+    public boolean divide(final Float divisor) throws IllegalArgumentException {
         int n = size();
         Float[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     }
 
     @Override
-    public boolean multiply(final Float multiplicand) {
+    public boolean multiply(final Float multiplicand) throws IllegalArgumentException {
         int n = size();
         Float[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Float[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Float originalValue = results[i];
             if (originalValue != null && originalValue != 0F) {
                 results[i] = -originalValue;
@@ -87,9 +86,11 @@ abstract class AbstractModifiableFloatCollection extends AbstractFloatCollection
     /**
      * Puts the content of an array with floats into the floats collection.
      *
-     * @param results An array with floats that should be put into the floats collection.
+     * @param results      An array with floats that should be put into the floats collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Float[] results, final String errorMessage) {
+    protected void putResults(final Float[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Float n : results) {
             if (!add(n)) {

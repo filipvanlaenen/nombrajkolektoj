@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableShortCollection extends AbstractShortCollection
         implements ModifiableNumericCollection<Short> {
     @Override
-    public boolean augment(final Short addend) {
+    public boolean augment(final Short addend) throws IllegalArgumentException {
         int n = size();
         Short[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     }
 
     @Override
-    public boolean divide(final Short divisor) {
+    public boolean divide(final Short divisor) throws IllegalArgumentException {
         int n = size();
         Short[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     }
 
     @Override
-    public boolean multiply(final Short multiplicand) {
+    public boolean multiply(final Short multiplicand) throws IllegalArgumentException {
         int n = size();
         Short[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Short[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Short originalValue = results[i];
             if (originalValue != null && originalValue != (short) 0) {
                 results[i] = (short) (-originalValue);
@@ -87,9 +86,11 @@ abstract class AbstractModifiableShortCollection extends AbstractShortCollection
     /**
      * Puts the content of an array with shorts into the shorts collection.
      *
-     * @param results An array with shorts that should be put into the shorts collection.
+     * @param results      An array with shorts that should be put into the shorts collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Short[] results, final String errorMessage) {
+    protected void putResults(final Short[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Short n : results) {
             if (!add(n)) {

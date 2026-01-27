@@ -14,8 +14,9 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param addend The number by which all numbers in the collection should be augmented.
      * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
      */
-    boolean augment(N addend);
+    boolean augment(N addend) throws IllegalArgumentException;
 
     /**
      * Divides all the numbers in the collection with the divisor and returns whether any of the numbers were changed.
@@ -23,8 +24,9 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param divisor The number by which all numbers in the collection should be divided.
      * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
      */
-    boolean divide(N divisor);
+    boolean divide(N divisor) throws IllegalArgumentException;
 
     /**
      * Multiplies all the numbers in the collection with the multiplicand and returns whether any of the numbers were
@@ -32,14 +34,16 @@ public interface ModifiableNumericCollection<N extends Number> extends NumericCo
      *
      * @param multiplicand The number by which all numbers in the collection should be multiplied.
      * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
      */
-    boolean multiply(N multiplicand);
+    boolean multiply(N multiplicand) throws IllegalArgumentException;
 
     /**
      * Negates all the numbers in the collection and returns whether any of the numbers were changed. Ignores
      * <code>null</code> elements.
      *
      * @return True if any of the numbers in the collection was changed.
+     * @throws IllegalArgumentException Thrown if the would contain duplicates when they're not allowed.
      */
-    boolean negate();
+    boolean negate() throws IllegalArgumentException;
 }

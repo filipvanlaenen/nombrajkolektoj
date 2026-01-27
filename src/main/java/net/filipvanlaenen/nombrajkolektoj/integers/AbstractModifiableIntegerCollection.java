@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollection
         implements ModifiableNumericCollection<Integer> {
     @Override
-    public boolean augment(final Integer addend) {
+    public boolean augment(final Integer addend) throws IllegalArgumentException {
         int n = size();
         Integer[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     }
 
     @Override
-    public boolean divide(final Integer divisor) {
+    public boolean divide(final Integer divisor) throws IllegalArgumentException {
         int n = size();
         Integer[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     }
 
     @Override
-    public boolean multiply(final Integer multiplicand) {
+    public boolean multiply(final Integer multiplicand) throws IllegalArgumentException {
         int n = size();
         Integer[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Integer[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Integer originalValue = results[i];
             if (originalValue != null && originalValue != 0) {
                 results[i] = -originalValue;
@@ -87,9 +86,11 @@ abstract class AbstractModifiableIntegerCollection extends AbstractIntegerCollec
     /**
      * Puts the content of an array with integers into the integers collection.
      *
-     * @param results An array with integers that should be put into the integers collection.
+     * @param results      An array with integers that should be put into the integers collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Integer[] results, final String errorMessage) {
+    protected void putResults(final Integer[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Integer n : results) {
             if (!add(n)) {

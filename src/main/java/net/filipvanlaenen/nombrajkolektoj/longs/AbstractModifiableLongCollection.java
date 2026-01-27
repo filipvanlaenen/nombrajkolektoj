@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableLongCollection extends AbstractLongCollection
         implements ModifiableNumericCollection<Long> {
     @Override
-    public boolean augment(final Long addend) {
+    public boolean augment(final Long addend) throws IllegalArgumentException {
         int n = size();
         Long[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     }
 
     @Override
-    public boolean divide(final Long divisor) {
+    public boolean divide(final Long divisor) throws IllegalArgumentException {
         int n = size();
         Long[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     }
 
     @Override
-    public boolean multiply(final Long multiplicand) {
+    public boolean multiply(final Long multiplicand) throws IllegalArgumentException {
         int n = size();
         Long[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Long[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Long originalValue = results[i];
             if (originalValue != null && originalValue != 0L) {
                 results[i] = -originalValue;
@@ -87,9 +86,11 @@ abstract class AbstractModifiableLongCollection extends AbstractLongCollection
     /**
      * Puts the content of an array with longs into the longs collection.
      *
-     * @param results An array with longs that should be put into the longs collection.
+     * @param results      An array with longs that should be put into the longs collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Long[] results, final String errorMessage) {
+    protected void putResults(final Long[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Long n : results) {
             if (!add(n)) {

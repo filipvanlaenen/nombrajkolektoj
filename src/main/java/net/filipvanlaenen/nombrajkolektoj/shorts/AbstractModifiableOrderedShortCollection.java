@@ -61,7 +61,7 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
         if (!changed) {
             return false;
         }
-        putResults(results);
+        putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
     }
 
@@ -113,25 +113,7 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
         if (!changed) {
             return false;
         }
-        putResults(results);
-        return true;
-    }
-
-    @Override
-    public boolean negate() {
-        Short[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < size(); i++) {
-            Short originalValue = results[i];
-            if (originalValue != null && originalValue != (short) 0) {
-                results[i] = (short) (-originalValue);
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results);
+        putResults(results, "Cannot multiply with the multiplicands due to the cardinality constraint.");
         return true;
     }
 
@@ -153,37 +135,5 @@ abstract class AbstractModifiableOrderedShortCollection extends AbstractModifiab
         }
         putAt(index, result);
         return originalValue;
-    }
-
-    /**
-     * Puts the content of an array with shorts into the shorts collection.
-     *
-     * @param results An array with shorts that should be put into the shorts collection.
-     */
-    private void putResults(final Short[] results) {
-        int n = size();
-        boolean[] updated = new boolean[n];
-        boolean allUpdated = false;
-        Short counter = (short) 0;
-        while (!allUpdated) {
-            allUpdated = true;
-            for (int i = 0; i < n; i++) {
-                if (!updated[i]) {
-                    try {
-                        putAt(i, results[i]);
-                        updated[i] = true;
-                    } catch (IllegalArgumentException iae) {
-                        allUpdated = false;
-                        try {
-                            putAt(i, counter);
-                        } catch (IllegalArgumentException iae2) {
-                            allUpdated = false;
-                        }
-                        // EQMU: Replacing the short addition with subtraction below produces an equivalent mutant.
-                        counter = (short) (counter + 1);
-                    }
-                }
-            }
-        }
     }
 }

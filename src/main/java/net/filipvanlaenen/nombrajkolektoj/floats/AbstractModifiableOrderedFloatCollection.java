@@ -61,7 +61,7 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         if (!changed) {
             return false;
         }
-        putResults(results);
+        putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
     }
 
@@ -113,25 +113,7 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         if (!changed) {
             return false;
         }
-        putResults(results);
-        return true;
-    }
-
-    @Override
-    public boolean negate() {
-        Float[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < size(); i++) {
-            Float originalValue = results[i];
-            if (originalValue != null && originalValue != 0F) {
-                results[i] = -originalValue;
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results);
+        putResults(results, "Cannot multiply with the multiplicands due to the cardinality constraint.");
         return true;
     }
 
@@ -153,37 +135,5 @@ abstract class AbstractModifiableOrderedFloatCollection extends AbstractModifiab
         }
         putAt(index, result);
         return originalValue;
-    }
-
-    /**
-     * Puts the content of an array with floats into the floats collection.
-     *
-     * @param results An array with floats that should be put into the floats collection.
-     */
-    private void putResults(final Float[] results) {
-        int n = size();
-        boolean[] updated = new boolean[n];
-        boolean allUpdated = false;
-        Float counter = 0F;
-        while (!allUpdated) {
-            allUpdated = true;
-            for (int i = 0; i < n; i++) {
-                if (!updated[i]) {
-                    try {
-                        putAt(i, results[i]);
-                        updated[i] = true;
-                    } catch (IllegalArgumentException iae) {
-                        allUpdated = false;
-                        try {
-                            putAt(i, counter);
-                        } catch (IllegalArgumentException iae2) {
-                            allUpdated = false;
-                        }
-                        // EQMU: Replacing the float addition with subtraction below produces an equivalent mutant.
-                        counter += 1F;
-                    }
-                }
-            }
-        }
     }
 }

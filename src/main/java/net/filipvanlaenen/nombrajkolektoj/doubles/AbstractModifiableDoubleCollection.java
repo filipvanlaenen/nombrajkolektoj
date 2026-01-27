@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollection
         implements ModifiableNumericCollection<Double> {
     @Override
-    public boolean augment(final Double addend) {
+    public boolean augment(final Double addend) throws IllegalArgumentException {
         int n = size();
         Double[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     }
 
     @Override
-    public boolean divide(final Double divisor) {
+    public boolean divide(final Double divisor) throws IllegalArgumentException {
         int n = size();
         Double[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     }
 
     @Override
-    public boolean multiply(final Double multiplicand) {
+    public boolean multiply(final Double multiplicand) throws IllegalArgumentException {
         int n = size();
         Double[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Double[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Double originalValue = results[i];
             if (originalValue != null && originalValue != 0D) {
                 results[i] = -originalValue;
@@ -87,9 +86,11 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
     /**
      * Puts the content of an array with doubles into the doubles collection.
      *
-     * @param results An array with doubles that should be put into the doubles collection.
+     * @param results      An array with doubles that should be put into the doubles collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Double[] results, final String errorMessage) {
+    protected void putResults(final Double[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Double n : results) {
             if (!add(n)) {

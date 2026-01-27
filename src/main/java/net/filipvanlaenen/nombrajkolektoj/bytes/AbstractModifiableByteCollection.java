@@ -9,7 +9,7 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 abstract class AbstractModifiableByteCollection extends AbstractByteCollection
         implements ModifiableNumericCollection<Byte> {
     @Override
-    public boolean augment(final Byte addend) {
+    public boolean augment(final Byte addend) throws IllegalArgumentException {
         int n = size();
         Byte[] results = this.toArray();
         boolean changed = false;
@@ -28,7 +28,7 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     }
 
     @Override
-    public boolean divide(final Byte divisor) {
+    public boolean divide(final Byte divisor) throws IllegalArgumentException {
         int n = size();
         Byte[] results = this.toArray();
         boolean changed = false;
@@ -47,7 +47,7 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     }
 
     @Override
-    public boolean multiply(final Byte multiplicand) {
+    public boolean multiply(final Byte multiplicand) throws IllegalArgumentException {
         int n = size();
         Byte[] results = this.toArray();
         boolean changed = false;
@@ -66,11 +66,10 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     }
 
     @Override
-    public boolean negate() {
-        int n = size();
+    public boolean negate() throws IllegalArgumentException {
         Byte[] results = this.toArray();
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < size(); i++) {
             Byte originalValue = results[i];
             if (originalValue != null && originalValue != (byte) 0) {
                 results[i] = (byte) (-originalValue);
@@ -87,9 +86,11 @@ abstract class AbstractModifiableByteCollection extends AbstractByteCollection
     /**
      * Puts the content of an array with bytes into the bytes collection.
      *
-     * @param results An array with bytes that should be put into the bytes collection.
+     * @param results      An array with bytes that should be put into the bytes collection.
+     * @param errorMessage The message to be used as the message for the {@link IllegalArgumentException}
+     * @throws IllegalArgumentException If the results can't be put into the collection.
      */
-    private void putResults(final Byte[] results, final String errorMessage) {
+    protected void putResults(final Byte[] results, final String errorMessage) throws IllegalArgumentException {
         clear();
         for (Byte n : results) {
             if (!add(n)) {

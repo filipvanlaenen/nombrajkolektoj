@@ -41,7 +41,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      * @param source The collection of BigIntegers.
      * @return A BigIntegers collection containing the provided BigIntegers.
      */
-    protected abstract T createBigIntegerCollection(Collection<BigInteger> source);
+    protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
 
     /**
      * Creates a BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
@@ -81,7 +81,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionShouldReturnABigIntegerCollectionWithTheSameElementCardinalityAndBigIntegers() {
-        Collection<BigInteger> source = Collection.of(DISTINCT_ELEMENTS, BigInteger.ONE);
+        BigIntegerCollection source = BigIntegerCollection.of(DISTINCT_ELEMENTS, BigInteger.ONE);
         T actual = createBigIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

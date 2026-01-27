@@ -2,10 +2,10 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} class.
@@ -17,7 +17,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     @Override
-    protected OrderedBigDecimalCollection createBigDecimalCollection(final Collection<BigDecimal> source) {
+    protected OrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
         return new OrderedBigDecimalCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }

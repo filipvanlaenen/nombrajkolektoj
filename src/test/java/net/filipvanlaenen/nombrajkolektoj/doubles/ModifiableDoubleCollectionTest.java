@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection} class.
@@ -14,7 +14,7 @@ public final class ModifiableDoubleCollectionTest
     }
 
     @Override
-    protected ModifiableDoubleCollection createDoubleCollection(final Collection<Double> source) {
+    protected ModifiableDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
         return new ModifiableDoubleCollection.ArrayCollection(source);
     }
 

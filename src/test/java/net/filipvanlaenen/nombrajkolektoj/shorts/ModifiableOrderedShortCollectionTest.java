@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableOrderedShortCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedShortCollectionTest
     private static final Short SHORT_THREE = (short) 3;
 
     @Override
-    protected ModifiableOrderedShortCollection createShortCollection(final Collection<Short> source) {
+    protected ModifiableOrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
         return new ModifiableOrderedShortCollection.ArrayCollection(
                 OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }

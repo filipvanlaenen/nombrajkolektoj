@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} class.
@@ -14,7 +14,7 @@ public final class ModifiableShortCollectionTest
     }
 
     @Override
-    protected ModifiableShortCollection createShortCollection(final Collection<Short> source) {
+    protected ModifiableShortCollection createShortCollection(final NumericCollection<Short> source) {
         return new ModifiableShortCollection.ArrayCollection(source);
     }
 

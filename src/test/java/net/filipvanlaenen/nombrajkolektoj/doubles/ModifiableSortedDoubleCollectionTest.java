@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableSortedDoubleCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedDoubleCollectionTest
     private static final Double DOUBLE_THREE = 3D;
 
     @Override
-    protected ModifiableSortedDoubleCollection createDoubleCollection(final Collection<Double> source) {
+    protected ModifiableSortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
         return new ModifiableSortedDoubleCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 DoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }

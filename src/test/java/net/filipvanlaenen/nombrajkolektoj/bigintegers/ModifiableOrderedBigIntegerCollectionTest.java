@@ -2,16 +2,17 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableOrderedBigIntegerCollection} class.
@@ -24,7 +25,7 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
 
     @Override
-    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final Collection<BigInteger> source) {
+    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
         return new ModifiableOrderedBigIntegerCollection.ArrayCollection(
                 OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
     }

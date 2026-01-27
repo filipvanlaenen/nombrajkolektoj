@@ -39,7 +39,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      * @param source The collection of bytes.
      * @return A bytes collection containing the provided bytes.
      */
-    protected abstract T createByteCollection(Collection<Byte> source);
+    protected abstract T createByteCollection(NumericCollection<Byte> source);
 
     /**
      * Creates a bytes collection with the provided element cardinality containing the provided bytes.
@@ -79,7 +79,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      */
     @Test
     public void ofWithCollectionShouldReturnAByteCollectionWithTheSameElementCardinalityAndBytes() {
-        Collection<Byte> source = Collection.of(DISTINCT_ELEMENTS, (byte) 1);
+        ByteCollection source = ByteCollection.of(DISTINCT_ELEMENTS, (byte) 1);
         T actual = createByteCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

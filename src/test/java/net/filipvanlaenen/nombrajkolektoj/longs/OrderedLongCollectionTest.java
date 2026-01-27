@@ -1,9 +1,9 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
@@ -15,7 +15,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createLongCollection(final Collection<Long> source) {
+    protected OrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
         return new OrderedLongCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }

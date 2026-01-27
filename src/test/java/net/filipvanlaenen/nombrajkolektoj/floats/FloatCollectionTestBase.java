@@ -39,7 +39,7 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
      * @param source The collection of floats.
      * @return A floats collection containing the provided floats.
      */
-    protected abstract T createFloatCollection(Collection<Float> source);
+    protected abstract T createFloatCollection(NumericCollection<Float> source);
 
     /**
      * Creates a floats collection with the provided element cardinality containing the provided floats.
@@ -79,7 +79,7 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
      */
     @Test
     public void ofWithCollectionShouldReturnAFloatCollectionWithTheSameElementCardinalityAndFloats() {
-        Collection<Float> source = Collection.of(DISTINCT_ELEMENTS, 1F);
+        FloatCollection source = FloatCollection.of(DISTINCT_ELEMENTS, 1F);
         T actual = createFloatCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

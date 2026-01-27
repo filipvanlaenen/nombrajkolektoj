@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} class.
@@ -13,8 +13,8 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     }
 
     @Override
-    protected FloatCollection createFloatCollection(final Collection<Float> source) {
-        return new FloatCollection.ArrayCollection(source);
+    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return FloatCollection.of(source);
     }
 
     @Override

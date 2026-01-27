@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableSortedIntegerCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedIntegerCollectionTest
     private static final Integer INTEGER_THREE = 3;
 
     @Override
-    protected ModifiableSortedIntegerCollection createIntegerCollection(final Collection<Integer> source) {
+    protected ModifiableSortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
         return new ModifiableSortedIntegerCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 IntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }

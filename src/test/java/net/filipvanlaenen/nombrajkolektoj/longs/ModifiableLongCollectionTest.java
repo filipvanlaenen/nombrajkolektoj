@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection} class.
@@ -14,7 +14,7 @@ public final class ModifiableLongCollectionTest
     }
 
     @Override
-    protected ModifiableLongCollection createLongCollection(final Collection<Long> source) {
+    protected ModifiableLongCollection createLongCollection(final NumericCollection<Long> source) {
         return new ModifiableLongCollection.ArrayCollection(source);
     }
 

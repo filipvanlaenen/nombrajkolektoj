@@ -2,16 +2,17 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableOrderedBigDecimalCollection} class.
@@ -24,7 +25,7 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
 
     @Override
-    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final Collection<BigDecimal> source) {
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
         return new ModifiableOrderedBigDecimalCollection.ArrayCollection(
                 OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }

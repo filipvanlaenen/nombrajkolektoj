@@ -1,9 +1,9 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} class.
@@ -15,7 +15,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createIntegerCollection(final Collection<Integer> source) {
+    protected OrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
         return new OrderedIntegerCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }

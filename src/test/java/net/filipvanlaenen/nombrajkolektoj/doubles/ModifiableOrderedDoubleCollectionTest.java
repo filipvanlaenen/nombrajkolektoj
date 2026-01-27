@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedDoubleCollectionTest
     private static final Double DOUBLE_THREE = 3D;
 
     @Override
-    protected ModifiableOrderedDoubleCollection createDoubleCollection(final Collection<Double> source) {
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
         return new ModifiableOrderedDoubleCollection.ArrayCollection(
                 OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }

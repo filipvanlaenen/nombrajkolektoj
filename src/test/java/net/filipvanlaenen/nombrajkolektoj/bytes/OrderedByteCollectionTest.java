@@ -1,9 +1,9 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
@@ -15,7 +15,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createByteCollection(final Collection<Byte> source) {
+    protected OrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
         return new OrderedByteCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }

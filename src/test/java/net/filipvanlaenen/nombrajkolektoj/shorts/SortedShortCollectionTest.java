@@ -2,9 +2,9 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import java.util.Comparator;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.SortedShortCollection} class.
@@ -16,7 +16,7 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createShortCollection(final Collection<Short> source) {
+    protected SortedShortCollection createShortCollection(final NumericCollection<Short> source) {
         return new SortedShortCollection.ArrayCollection(Comparator.naturalOrder(),
                 ShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }

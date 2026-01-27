@@ -2,9 +2,9 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import java.util.Comparator;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.SortedDoubleCollection} class.
@@ -16,7 +16,7 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     }
 
     @Override
-    protected SortedDoubleCollection createDoubleCollection(final Collection<Double> source) {
+    protected SortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
         return new SortedDoubleCollection.ArrayCollection(Comparator.naturalOrder(),
                 DoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }

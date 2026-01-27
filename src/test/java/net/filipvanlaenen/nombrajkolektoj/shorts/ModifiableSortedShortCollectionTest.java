@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableSortedShortCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedShortCollectionTest
     private static final Short SHORT_THREE = (short) 3;
 
     @Override
-    protected ModifiableSortedShortCollection createShortCollection(final Collection<Short> source) {
+    protected ModifiableSortedShortCollection createShortCollection(final NumericCollection<Short> source) {
         return new ModifiableSortedShortCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 ShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }

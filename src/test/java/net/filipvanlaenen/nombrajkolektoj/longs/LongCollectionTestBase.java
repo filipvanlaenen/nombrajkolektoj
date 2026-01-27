@@ -39,7 +39,7 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
      * @param source The collection of longs.
      * @return A longs collection containing the provided longs.
      */
-    protected abstract T createLongCollection(Collection<Long> source);
+    protected abstract T createLongCollection(NumericCollection<Long> source);
 
     /**
      * Creates a longs collection with the provided element cardinality containing the provided longs.
@@ -79,7 +79,7 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
      */
     @Test
     public void ofWithCollectionShouldReturnALongCollectionWithTheSameElementCardinalityAndLongs() {
-        Collection<Long> source = Collection.of(DISTINCT_ELEMENTS, 1L);
+        LongCollection source = LongCollection.of(DISTINCT_ELEMENTS, 1L);
         T actual = createLongCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

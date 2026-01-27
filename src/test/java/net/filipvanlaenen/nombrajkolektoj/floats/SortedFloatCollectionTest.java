@@ -2,9 +2,9 @@ package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import java.util.Comparator;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.SortedFloatCollection} class.
@@ -16,7 +16,7 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     }
 
     @Override
-    protected SortedFloatCollection createFloatCollection(final Collection<Float> source) {
+    protected SortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
         return new SortedFloatCollection.ArrayCollection(Comparator.naturalOrder(),
                 FloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }

@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableSortedLongCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedLongCollectionTest
     private static final Long LONG_THREE = 3L;
 
     @Override
-    protected ModifiableSortedLongCollection createLongCollection(final Collection<Long> source) {
+    protected ModifiableSortedLongCollection createLongCollection(final NumericCollection<Long> source) {
         return new ModifiableSortedLongCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 LongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }

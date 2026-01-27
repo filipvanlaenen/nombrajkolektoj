@@ -39,7 +39,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      * @param source The collection of integers.
      * @return A integers collection containing the provided integers.
      */
-    protected abstract T createIntegerCollection(Collection<Integer> source);
+    protected abstract T createIntegerCollection(NumericCollection<Integer> source);
 
     /**
      * Creates a integers collection with the provided element cardinality containing the provided integers.
@@ -79,7 +79,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      */
     @Test
     public void ofWithCollectionShouldReturnAIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
-        Collection<Integer> source = Collection.of(DISTINCT_ELEMENTS, 1);
+        IntegerCollection source = IntegerCollection.of(DISTINCT_ELEMENTS, 1);
         T actual = createIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

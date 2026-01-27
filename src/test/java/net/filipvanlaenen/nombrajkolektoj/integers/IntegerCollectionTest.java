@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} class.
@@ -13,8 +13,8 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(final Collection<Integer> source) {
-        return new IntegerCollection.ArrayCollection(source);
+    protected IntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return IntegerCollection.of(source);
     }
 
     @Override

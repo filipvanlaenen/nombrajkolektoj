@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableOrderedByteCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedByteCollectionTest
     private static final Byte BYTE_THREE = (byte) 3;
 
     @Override
-    protected ModifiableOrderedByteCollection createByteCollection(final Collection<Byte> source) {
+    protected ModifiableOrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
         return new ModifiableOrderedByteCollection.ArrayCollection(
                 OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }

@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableOrderedLongCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedLongCollectionTest
     private static final Long LONG_THREE = 3L;
 
     @Override
-    protected ModifiableOrderedLongCollection createLongCollection(final Collection<Long> source) {
+    protected ModifiableOrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
         return new ModifiableOrderedLongCollection.ArrayCollection(
                 OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }

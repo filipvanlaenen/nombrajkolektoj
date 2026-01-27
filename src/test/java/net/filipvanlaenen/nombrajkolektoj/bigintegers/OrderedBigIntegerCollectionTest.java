@@ -2,10 +2,10 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} class.
@@ -17,7 +17,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final Collection<BigInteger> source) {
+    protected OrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
         return new OrderedBigIntegerCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
     }

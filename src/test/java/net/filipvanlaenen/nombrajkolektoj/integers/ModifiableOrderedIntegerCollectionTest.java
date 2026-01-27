@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedIntegerCollectionTest
     private static final Integer INTEGER_THREE = 3;
 
     @Override
-    protected ModifiableOrderedIntegerCollection createIntegerCollection(final Collection<Integer> source) {
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
         return new ModifiableOrderedIntegerCollection.ArrayCollection(
                 OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }

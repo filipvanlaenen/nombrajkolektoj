@@ -2,8 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} class.
@@ -15,8 +15,8 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     }
 
     @Override
-    protected BigIntegerCollection createBigIntegerCollection(final Collection<BigInteger> source) {
-        return new BigIntegerCollection.ArrayCollection(source);
+    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+        return BigIntegerCollection.of(source);
     }
 
     @Override

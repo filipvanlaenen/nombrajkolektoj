@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import java.util.Comparator;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.SortedBigDecimalCollection} class.
@@ -18,7 +18,7 @@ public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollec
     }
 
     @Override
-    protected SortedBigDecimalCollection createBigDecimalCollection(final Collection<BigDecimal> source) {
+    protected SortedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
         return new SortedBigDecimalCollection.ArrayCollection(Comparator.naturalOrder(),
                 BigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }

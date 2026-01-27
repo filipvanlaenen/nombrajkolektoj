@@ -39,7 +39,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      * @param source The collection of doubles.
      * @return A doubles collection containing the provided doubles.
      */
-    protected abstract T createDoubleCollection(Collection<Double> source);
+    protected abstract T createDoubleCollection(NumericCollection<Double> source);
 
     /**
      * Creates a doubles collection with the provided element cardinality containing the provided doubles.
@@ -79,7 +79,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      */
     @Test
     public void ofWithCollectionShouldReturnADoubleCollectionWithTheSameElementCardinalityAndDoubles() {
-        Collection<Double> source = Collection.of(DISTINCT_ELEMENTS, 1D);
+        DoubleCollection source = DoubleCollection.of(DISTINCT_ELEMENTS, 1D);
         T actual = createDoubleCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} class.
@@ -13,8 +13,8 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     }
 
     @Override
-    protected DoubleCollection createDoubleCollection(final Collection<Double> source) {
-        return new DoubleCollection.ArrayCollection(source);
+    protected DoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return DoubleCollection.of(source);
     }
 
     @Override

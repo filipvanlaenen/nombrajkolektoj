@@ -1,15 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.*;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableOrderedFloatCollection} class.
@@ -22,7 +23,7 @@ public final class ModifiableOrderedFloatCollectionTest
     private static final Float FLOAT_THREE = 3F;
 
     @Override
-    protected ModifiableOrderedFloatCollection createFloatCollection(final Collection<Float> source) {
+    protected ModifiableOrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
         return new ModifiableOrderedFloatCollection.ArrayCollection(
                 OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }

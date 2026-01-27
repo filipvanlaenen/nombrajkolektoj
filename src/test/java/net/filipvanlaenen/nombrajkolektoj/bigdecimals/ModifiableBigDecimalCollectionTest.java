@@ -2,8 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection} class.
@@ -16,7 +16,7 @@ public final class ModifiableBigDecimalCollectionTest
     }
 
     @Override
-    protected ModifiableBigDecimalCollection createBigDecimalCollection(final Collection<BigDecimal> source) {
+    protected ModifiableBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
         return new ModifiableBigDecimalCollection.ArrayCollection(source);
     }
 

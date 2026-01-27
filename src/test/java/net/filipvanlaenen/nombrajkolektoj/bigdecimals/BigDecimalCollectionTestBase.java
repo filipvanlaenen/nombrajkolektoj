@@ -41,7 +41,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      * @param source The collection of BigDecimals.
      * @return A BigDecimals collection containing the provided BigDecimals.
      */
-    protected abstract T createBigDecimalCollection(Collection<BigDecimal> source);
+    protected abstract T createBigDecimalCollection(NumericCollection<BigDecimal> source);
 
     /**
      * Creates a BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
@@ -81,7 +81,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionShouldReturnABigDecimalCollectionWithTheSameElementCardinalityAndBigDecimals() {
-        Collection<BigDecimal> source = Collection.of(DISTINCT_ELEMENTS, BigDecimal.ONE);
+        BigDecimalCollection source = BigDecimalCollection.of(DISTINCT_ELEMENTS, BigDecimal.ONE);
         T actual = createBigDecimalCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

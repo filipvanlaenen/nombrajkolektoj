@@ -9,9 +9,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableSortedBigDecimalCollection} class.
@@ -24,7 +24,7 @@ public final class ModifiableSortedBigDecimalCollectionTest
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
 
     @Override
-    protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final Collection<BigDecimal> source) {
+    protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
         return new ModifiableSortedBigDecimalCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 BigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }

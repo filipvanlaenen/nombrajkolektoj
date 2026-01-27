@@ -1,9 +1,9 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
@@ -15,7 +15,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final Collection<Double> source) {
+    protected OrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
         return new OrderedDoubleCollection.ArrayCollection(
                 OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }

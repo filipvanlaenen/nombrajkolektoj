@@ -39,7 +39,7 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
      * @param source The collection of shorts.
      * @return A shorts collection containing the provided shorts.
      */
-    protected abstract T createShortCollection(Collection<Short> source);
+    protected abstract T createShortCollection(NumericCollection<Short> source);
 
     /**
      * Creates a shorts collection with the provided element cardinality containing the provided shorts.
@@ -79,7 +79,7 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
      */
     @Test
     public void ofWithCollectionShouldReturnAShortCollectionWithTheSameElementCardinalityAndShorts() {
-        Collection<Short> source = Collection.of(DISTINCT_ELEMENTS, (short) 1);
+        ShortCollection source = ShortCollection.of(DISTINCT_ELEMENTS, (short) 1);
         T actual = createShortCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());

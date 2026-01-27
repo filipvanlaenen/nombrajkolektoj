@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableSortedFloatCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedFloatCollectionTest
     private static final Float FLOAT_THREE = 3F;
 
     @Override
-    protected ModifiableSortedFloatCollection createFloatCollection(final Collection<Float> source) {
+    protected ModifiableSortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
         return new ModifiableSortedFloatCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 FloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }

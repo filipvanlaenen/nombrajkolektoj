@@ -7,9 +7,9 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableSortedByteCollection} class.
@@ -22,7 +22,7 @@ public final class ModifiableSortedByteCollectionTest
     private static final Byte BYTE_THREE = (byte) 3;
 
     @Override
-    protected ModifiableSortedByteCollection createByteCollection(final Collection<Byte> source) {
+    protected ModifiableSortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
         return new ModifiableSortedByteCollection.SortedTreeCollection(Comparator.naturalOrder(),
                 ByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }

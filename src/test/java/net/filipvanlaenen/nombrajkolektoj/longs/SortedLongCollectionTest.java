@@ -2,9 +2,9 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import java.util.Comparator;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.SortedLongCollection} class.
@@ -16,7 +16,7 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
-    protected SortedLongCollection createLongCollection(final Collection<Long> source) {
+    protected SortedLongCollection createLongCollection(final NumericCollection<Long> source) {
         return new SortedLongCollection.ArrayCollection(Comparator.naturalOrder(),
                 LongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }

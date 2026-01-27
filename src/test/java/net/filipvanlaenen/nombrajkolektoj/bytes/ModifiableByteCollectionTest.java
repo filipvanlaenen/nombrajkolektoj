@@ -1,7 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} class.
@@ -14,7 +14,7 @@ public final class ModifiableByteCollectionTest
     }
 
     @Override
-    protected ModifiableByteCollection createByteCollection(final Collection<Byte> source) {
+    protected ModifiableByteCollection createByteCollection(final NumericCollection<Byte> source) {
         return new ModifiableByteCollection.ArrayCollection(source);
     }
 

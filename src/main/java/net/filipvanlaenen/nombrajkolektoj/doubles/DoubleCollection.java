@@ -100,7 +100,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
      * @param collection The original doubles collection.
      * @return A new doubles collection cloned from the provided doubles collection.
      */
-    public static DoubleCollection of(final DoubleCollection collection) {
+    public static DoubleCollection of(final NumericCollection<Double> collection) {
         return new ArrayCollection(collection);
     }
 

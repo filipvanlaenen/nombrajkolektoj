@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
@@ -156,7 +157,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      * @param collection The original integers collection.
      * @return A new modifiable integers collection cloned from the provided integers collection.
      */
-    public static ModifiableIntegerCollection of(final IntegerCollection collection) {
+    public static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 

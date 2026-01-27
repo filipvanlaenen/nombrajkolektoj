@@ -102,7 +102,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
      * @param collection The original BigDecimals collection.
      * @return A new BigDecimals collection cloned from the provided BigDecimals collection.
      */
-    public static BigDecimalCollection of(final BigDecimalCollection collection) {
+    public static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
     }
 

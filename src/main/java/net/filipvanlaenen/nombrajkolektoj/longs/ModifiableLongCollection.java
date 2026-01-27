@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
@@ -156,7 +157,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      * @param collection The original longs collection.
      * @return A new modifiable longs collection cloned from the provided longs collection.
      */
-    public static ModifiableLongCollection of(final LongCollection collection) {
+    public static ModifiableLongCollection of(final NumericCollection<Long> collection) {
         return new ArrayCollection(collection);
     }
 

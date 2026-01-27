@@ -100,7 +100,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
      * @param collection The original longs collection.
      * @return A new longs collection cloned from the provided longs collection.
      */
-    public static LongCollection of(final LongCollection collection) {
+    public static LongCollection of(final NumericCollection<Long> collection) {
         return new ArrayCollection(collection);
     }
 

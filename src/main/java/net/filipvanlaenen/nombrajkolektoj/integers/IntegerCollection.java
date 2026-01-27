@@ -100,7 +100,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
      * @param collection The original integers collection.
      * @return A new integers collection cloned from the provided integers collection.
      */
-    public static IntegerCollection of(final IntegerCollection collection) {
+    public static IntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 

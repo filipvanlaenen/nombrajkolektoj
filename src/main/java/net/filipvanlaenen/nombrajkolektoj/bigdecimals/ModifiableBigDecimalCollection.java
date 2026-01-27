@@ -12,6 +12,7 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
@@ -158,7 +159,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      * @param collection The original BigDecimals collection.
      * @return A new modifiable BigDecimals collection cloned from the provided BigDecimals collection.
      */
-    public static ModifiableBigDecimalCollection of(final BigDecimalCollection collection) {
+    public static ModifiableBigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
     }
 

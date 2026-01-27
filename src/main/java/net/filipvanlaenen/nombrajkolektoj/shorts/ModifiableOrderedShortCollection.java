@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
@@ -212,7 +213,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      * @param collection The original ordered shorts collection.
      * @return A new modifiable ordered shorts collection cloned from the provided ordered shorts collection.
      */
-    public static ModifiableOrderedShortCollection of(final OrderedShortCollection collection) {
+    public static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 

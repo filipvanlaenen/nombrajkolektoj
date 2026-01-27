@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
@@ -212,7 +213,7 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
      * @param collection The original ordered bytes collection.
      * @return A new modifiable ordered bytes collection cloned from the provided ordered bytes collection.
      */
-    public static ModifiableOrderedByteCollection of(final OrderedByteCollection collection) {
+    public static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 

@@ -100,7 +100,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
      * @param collection The original floats collection.
      * @return A new floats collection cloned from the provided floats collection.
      */
-    public static FloatCollection of(final FloatCollection collection) {
+    public static FloatCollection of(final NumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 

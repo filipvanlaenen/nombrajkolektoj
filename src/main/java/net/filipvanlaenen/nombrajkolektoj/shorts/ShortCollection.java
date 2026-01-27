@@ -100,7 +100,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      * @param collection The original shorts collection.
      * @return A new shorts collection cloned from the provided shorts collection.
      */
-    public static ShortCollection of(final ShortCollection collection) {
+    public static ShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 

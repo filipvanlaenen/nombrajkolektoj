@@ -102,7 +102,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
      * @param collection The original BigIntegers collection.
      * @return A new BigIntegers collection cloned from the provided BigIntegers collection.
      */
-    public static BigIntegerCollection of(final BigIntegerCollection collection) {
+    public static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 

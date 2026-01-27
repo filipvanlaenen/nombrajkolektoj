@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
@@ -212,7 +213,7 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
      * @param collection The original ordered integers collection.
      * @return A new modifiable ordered integers collection cloned from the provided ordered integers collection.
      */
-    public static ModifiableOrderedIntegerCollection of(final OrderedIntegerCollection collection) {
+    public static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 

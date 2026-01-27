@@ -100,7 +100,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      * @param collection The original bytes collection.
      * @return A new bytes collection cloned from the provided bytes collection.
      */
-    public static ByteCollection of(final ByteCollection collection) {
+    public static ByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 

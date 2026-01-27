@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
@@ -156,7 +157,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      * @param collection The original shorts collection.
      * @return A new modifiable shorts collection cloned from the provided shorts collection.
      */
-    public static ModifiableShortCollection of(final ShortCollection collection) {
+    public static ModifiableShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 

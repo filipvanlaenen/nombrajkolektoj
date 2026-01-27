@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
@@ -212,7 +213,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      * @param collection The original ordered floats collection.
      * @return A new modifiable ordered floats collection cloned from the provided ordered floats collection.
      */
-    public static ModifiableOrderedFloatCollection of(final OrderedFloatCollection collection) {
+    public static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 

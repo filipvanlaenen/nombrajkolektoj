@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
@@ -156,7 +157,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      * @param collection The original bytes collection.
      * @return A new modifiable bytes collection cloned from the provided bytes collection.
      */
-    public static ModifiableByteCollection of(final ByteCollection collection) {
+    public static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 

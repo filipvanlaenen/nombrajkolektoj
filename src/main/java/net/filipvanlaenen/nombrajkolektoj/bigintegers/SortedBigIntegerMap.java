@@ -12,6 +12,7 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -260,7 +261,8 @@ public abstract class SortedBigIntegerMap<K> extends AbstractSortedBigIntegerMap
      * @param map        The original BigIntegers map.
      * @return A new sorted BigIntegers map cloned from the provided BigIntegers map but sorted according to the comparator.
      */
-    public static <L> SortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigIntegerMap<? extends L> map) {
+    public static <L> SortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, BigInteger> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -297,7 +299,7 @@ public abstract class SortedBigIntegerMap<K> extends AbstractSortedBigIntegerMap
      * @param map The original sorted BigIntegers map.
      * @return A new sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> SortedBigIntegerMap<L> of(final SortedBigIntegerMap<L> map) {
+    public static <L> SortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -309,7 +311,7 @@ public abstract class SortedBigIntegerMap<K> extends AbstractSortedBigIntegerMap
      * @param range The range.
      * @return A new sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> SortedBigIntegerMap<L> of(final SortedBigIntegerMap<L> map, final Range<L> range) {
+    public static <L> SortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map, final Range<L> range) {
         ModifiableSortedBigIntegerMap<L> slice =
                 ModifiableSortedBigIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

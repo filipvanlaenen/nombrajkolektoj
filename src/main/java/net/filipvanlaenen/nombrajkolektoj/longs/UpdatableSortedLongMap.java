@@ -10,7 +10,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
 /**
@@ -281,7 +283,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
      *         comparator.
      */
     public static <L> UpdatableSortedLongMap<L> of(final Comparator<? super L> comparator,
-            final LongMap<? extends L> map) {
+            final NumericMap<? extends L, Long> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -435,7 +437,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
      * @param map The original sorted longs map.
      * @return A new updatable sorted longs map cloned from the provided sorted longs map.
      */
-    public static <L> UpdatableSortedLongMap<L> of(final SortedLongMap<L> map) {
+    public static <L> UpdatableSortedLongMap<L> of(final SortedNumericMap<L, Long> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -447,7 +449,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
      * @param range The range.
      * @return A new updatable sorted longs map cloned from the provided sorted longs map.
      */
-    public static <L> UpdatableSortedLongMap<L> of(final SortedLongMap<L> map, final Range<L> range) {
+    public static <L> UpdatableSortedLongMap<L> of(final SortedNumericMap<L, Long> map, final Range<L> range) {
         ModifiableSortedLongMap<L> slice =
                 ModifiableSortedLongMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

@@ -12,7 +12,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap} interface
@@ -254,7 +256,7 @@ public abstract class ModifiableSortedFloatMap<K> extends AbstractModifiableSort
      *         comparator.
      */
     public static <L> ModifiableSortedFloatMap<L> of(final Comparator<? super L> comparator,
-            final FloatMap<? extends L> map) {
+            final NumericMap<? extends L, Float> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -408,7 +410,7 @@ public abstract class ModifiableSortedFloatMap<K> extends AbstractModifiableSort
      * @param map The original sorted floats map.
      * @return A new modifiable sorted floats map cloned from the provided sorted floats map.
      */
-    public static <L> ModifiableSortedFloatMap<L> of(final SortedFloatMap<L> map) {
+    public static <L> ModifiableSortedFloatMap<L> of(final SortedNumericMap<L, Float> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -420,7 +422,7 @@ public abstract class ModifiableSortedFloatMap<K> extends AbstractModifiableSort
      * @param range The range.
      * @return A new modifiable sorted floats map cloned from the provided sorted floats map.
      */
-    public static <L> ModifiableSortedFloatMap<L> of(final SortedFloatMap<L> map, final Range<L> range) {
+    public static <L> ModifiableSortedFloatMap<L> of(final SortedNumericMap<L, Float> map, final Range<L> range) {
         ModifiableSortedFloatMap<L> result =
                 ModifiableSortedFloatMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

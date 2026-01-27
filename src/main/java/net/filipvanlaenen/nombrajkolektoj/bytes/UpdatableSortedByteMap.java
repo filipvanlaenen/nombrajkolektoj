@@ -10,7 +10,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
 /**
@@ -281,7 +283,7 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
      *         comparator.
      */
     public static <L> UpdatableSortedByteMap<L> of(final Comparator<? super L> comparator,
-            final ByteMap<? extends L> map) {
+            final NumericMap<? extends L, Byte> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -435,7 +437,7 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
      * @param map The original sorted bytes map.
      * @return A new updatable sorted bytes map cloned from the provided sorted bytes map.
      */
-    public static <L> UpdatableSortedByteMap<L> of(final SortedByteMap<L> map) {
+    public static <L> UpdatableSortedByteMap<L> of(final SortedNumericMap<L, Byte> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -447,7 +449,7 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
      * @param range The range.
      * @return A new updatable sorted bytes map cloned from the provided sorted bytes map.
      */
-    public static <L> UpdatableSortedByteMap<L> of(final SortedByteMap<L> map, final Range<L> range) {
+    public static <L> UpdatableSortedByteMap<L> of(final SortedNumericMap<L, Byte> map, final Range<L> range) {
         ModifiableSortedByteMap<L> slice =
                 ModifiableSortedByteMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

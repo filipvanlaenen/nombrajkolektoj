@@ -137,7 +137,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param map The original longs map.
      * @return A new longs map cloned from the provided longs map.
      */
-    public static <L> LongMap<L> of(final LongMap<? extends L> map) {
+    public static <L> LongMap<L> of(final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(map);
     }
 

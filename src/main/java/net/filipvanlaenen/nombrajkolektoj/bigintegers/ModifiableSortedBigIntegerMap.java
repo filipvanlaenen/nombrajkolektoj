@@ -14,7 +14,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap} interface
@@ -256,7 +258,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      *         comparator.
      */
     public static <L> ModifiableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
-            final BigIntegerMap<? extends L> map) {
+            final NumericMap<? extends L, BigInteger> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -410,7 +412,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param map The original sorted BigIntegers map.
      * @return A new modifiable sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final SortedBigIntegerMap<L> map) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -422,7 +424,7 @@ public abstract class ModifiableSortedBigIntegerMap<K> extends AbstractModifiabl
      * @param range The range.
      * @return A new modifiable sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> ModifiableSortedBigIntegerMap<L> of(final SortedBigIntegerMap<L> map, final Range<L> range) {
+    public static <L> ModifiableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map, final Range<L> range) {
         ModifiableSortedBigIntegerMap<L> result =
                 ModifiableSortedBigIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

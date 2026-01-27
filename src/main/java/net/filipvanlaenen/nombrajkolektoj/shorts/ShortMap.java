@@ -137,7 +137,7 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
      * @param map The original shorts map.
      * @return A new shorts map cloned from the provided shorts map.
      */
-    public static <L> ShortMap<L> of(final ShortMap<? extends L> map) {
+    public static <L> ShortMap<L> of(final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(map);
     }
 

@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -143,7 +144,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param map The original BigDecimals map.
      * @return A new updatable BigDecimals map cloned from the provided BigDecimals map.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final BigDecimalMap<? extends L> map) {
+    public static <L> UpdatableBigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
         return new HashMap<L>(map);
     }
 

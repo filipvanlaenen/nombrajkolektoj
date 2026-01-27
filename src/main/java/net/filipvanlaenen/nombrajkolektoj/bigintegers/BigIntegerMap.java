@@ -139,7 +139,7 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      * @param map The original BigIntegers map.
      * @return A new BigIntegers map cloned from the provided BigIntegers map.
      */
-    public static <L> BigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+    public static <L> BigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(map);
     }
 

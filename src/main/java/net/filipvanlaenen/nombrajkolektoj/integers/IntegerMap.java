@@ -137,7 +137,7 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      * @param map The original integers map.
      * @return A new integers map cloned from the provided integers map.
      */
-    public static <L> IntegerMap<L> of(final IntegerMap<? extends L> map) {
+    public static <L> IntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
     }
 

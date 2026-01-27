@@ -12,7 +12,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap} interface
@@ -254,7 +256,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      *         comparator.
      */
     public static <L> ModifiableSortedByteMap<L> of(final Comparator<? super L> comparator,
-            final ByteMap<? extends L> map) {
+            final NumericMap<? extends L, Byte> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -408,7 +410,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param map The original sorted bytes map.
      * @return A new modifiable sorted bytes map cloned from the provided sorted bytes map.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final SortedByteMap<L> map) {
+    public static <L> ModifiableSortedByteMap<L> of(final SortedNumericMap<L, Byte> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -420,7 +422,7 @@ public abstract class ModifiableSortedByteMap<K> extends AbstractModifiableSorte
      * @param range The range.
      * @return A new modifiable sorted bytes map cloned from the provided sorted bytes map.
      */
-    public static <L> ModifiableSortedByteMap<L> of(final SortedByteMap<L> map, final Range<L> range) {
+    public static <L> ModifiableSortedByteMap<L> of(final SortedNumericMap<L, Byte> map, final Range<L> range) {
         ModifiableSortedByteMap<L> result =
                 ModifiableSortedByteMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

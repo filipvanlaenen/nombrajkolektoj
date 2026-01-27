@@ -137,7 +137,7 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
      * @param map The original doubles map.
      * @return A new doubles map cloned from the provided doubles map.
      */
-    public static <L> DoubleMap<L> of(final DoubleMap<? extends L> map) {
+    public static <L> DoubleMap<L> of(final NumericMap<? extends L, Double> map) {
         return new HashMap<L>(map);
     }
 

@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -258,7 +259,8 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param map        The original longs map.
      * @return A new sorted longs map cloned from the provided longs map but sorted according to the comparator.
      */
-    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator, final LongMap<? extends L> map) {
+    public static <L> SortedLongMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Long> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -295,7 +297,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param map The original sorted longs map.
      * @return A new sorted longs map cloned from the provided sorted longs map.
      */
-    public static <L> SortedLongMap<L> of(final SortedLongMap<L> map) {
+    public static <L> SortedLongMap<L> of(final SortedNumericMap<L, Long> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -307,7 +309,7 @@ public abstract class SortedLongMap<K> extends AbstractSortedLongMap<K> implemen
      * @param range The range.
      * @return A new sorted longs map cloned from the provided sorted longs map.
      */
-    public static <L> SortedLongMap<L> of(final SortedLongMap<L> map, final Range<L> range) {
+    public static <L> SortedLongMap<L> of(final SortedNumericMap<L, Long> map, final Range<L> range) {
         ModifiableSortedLongMap<L> slice =
                 ModifiableSortedLongMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

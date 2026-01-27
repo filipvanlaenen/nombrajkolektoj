@@ -7,6 +7,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -141,7 +142,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param map The original integers map.
      * @return A new updatable integers map cloned from the provided integers map.
      */
-    public static <L> UpdatableIntegerMap<L> of(final IntegerMap<? extends L> map) {
+    public static <L> UpdatableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
     }
 

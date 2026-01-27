@@ -7,6 +7,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -141,7 +142,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param map The original shorts map.
      * @return A new updatable shorts map cloned from the provided shorts map.
      */
-    public static <L> UpdatableShortMap<L> of(final ShortMap<? extends L> map) {
+    public static <L> UpdatableShortMap<L> of(final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(map);
     }
 

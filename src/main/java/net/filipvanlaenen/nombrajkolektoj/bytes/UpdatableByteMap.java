@@ -7,6 +7,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -141,7 +142,7 @@ public abstract class UpdatableByteMap<K> extends AbstractUpdatableByteMap<K>
      * @param map The original bytes map.
      * @return A new updatable bytes map cloned from the provided bytes map.
      */
-    public static <L> UpdatableByteMap<L> of(final ByteMap<? extends L> map) {
+    public static <L> UpdatableByteMap<L> of(final NumericMap<? extends L, Byte> map) {
         return new HashMap<L>(map);
     }
 

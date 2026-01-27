@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -143,7 +144,7 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      * @param map The original BigIntegers map.
      * @return A new updatable BigIntegers map cloned from the provided BigIntegers map.
      */
-    public static <L> UpdatableBigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+    public static <L> UpdatableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(map);
     }
 

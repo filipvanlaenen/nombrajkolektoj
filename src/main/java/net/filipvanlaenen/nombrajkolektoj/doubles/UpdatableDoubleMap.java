@@ -7,6 +7,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -141,7 +142,7 @@ public abstract class UpdatableDoubleMap<K> extends AbstractUpdatableDoubleMap<K
      * @param map The original doubles map.
      * @return A new updatable doubles map cloned from the provided doubles map.
      */
-    public static <L> UpdatableDoubleMap<L> of(final DoubleMap<? extends L> map) {
+    public static <L> UpdatableDoubleMap<L> of(final NumericMap<? extends L, Double> map) {
         return new HashMap<L>(map);
     }
 

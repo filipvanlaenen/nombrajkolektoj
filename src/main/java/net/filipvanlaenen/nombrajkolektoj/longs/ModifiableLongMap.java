@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
@@ -172,7 +173,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param map The original longs map.
      * @return A new modifiable longs map cloned from the provided longs map.
      */
-    public static <L> ModifiableLongMap<L> of(final LongMap<? extends L> map) {
+    public static <L> ModifiableLongMap<L> of(final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(map);
     }
 

@@ -11,6 +11,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
@@ -174,7 +175,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param map The original BigIntegers map.
      * @return A new modifiable BigIntegers map cloned from the provided BigIntegers map.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final BigIntegerMap<? extends L> map) {
+    public static <L> ModifiableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(map);
     }
 

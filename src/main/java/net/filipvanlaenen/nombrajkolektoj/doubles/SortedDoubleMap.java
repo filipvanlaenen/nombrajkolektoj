@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -258,7 +259,8 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
      * @param map        The original doubles map.
      * @return A new sorted doubles map cloned from the provided doubles map but sorted according to the comparator.
      */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final DoubleMap<? extends L> map) {
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Double> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -295,7 +297,7 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
      * @param map The original sorted doubles map.
      * @return A new sorted doubles map cloned from the provided sorted doubles map.
      */
-    public static <L> SortedDoubleMap<L> of(final SortedDoubleMap<L> map) {
+    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -307,7 +309,7 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
      * @param range The range.
      * @return A new sorted doubles map cloned from the provided sorted doubles map.
      */
-    public static <L> SortedDoubleMap<L> of(final SortedDoubleMap<L> map, final Range<L> range) {
+    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map, final Range<L> range) {
         ModifiableSortedDoubleMap<L> slice =
                 ModifiableSortedDoubleMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

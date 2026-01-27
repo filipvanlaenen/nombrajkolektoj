@@ -12,7 +12,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap} interface
@@ -254,7 +256,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      *         comparator.
      */
     public static <L> ModifiableSortedDoubleMap<L> of(final Comparator<? super L> comparator,
-            final DoubleMap<? extends L> map) {
+            final NumericMap<? extends L, Double> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -408,7 +410,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param map The original sorted doubles map.
      * @return A new modifiable sorted doubles map cloned from the provided sorted doubles map.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final SortedDoubleMap<L> map) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final SortedNumericMap<L, Double> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -420,7 +422,7 @@ public abstract class ModifiableSortedDoubleMap<K> extends AbstractModifiableSor
      * @param range The range.
      * @return A new modifiable sorted doubles map cloned from the provided sorted doubles map.
      */
-    public static <L> ModifiableSortedDoubleMap<L> of(final SortedDoubleMap<L> map, final Range<L> range) {
+    public static <L> ModifiableSortedDoubleMap<L> of(final SortedNumericMap<L, Double> map, final Range<L> range) {
         ModifiableSortedDoubleMap<L> result =
                 ModifiableSortedDoubleMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

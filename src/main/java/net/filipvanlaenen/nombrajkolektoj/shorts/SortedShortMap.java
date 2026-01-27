@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -258,7 +259,8 @@ public abstract class SortedShortMap<K> extends AbstractSortedShortMap<K> implem
      * @param map        The original shorts map.
      * @return A new sorted shorts map cloned from the provided shorts map but sorted according to the comparator.
      */
-    public static <L> SortedShortMap<L> of(final Comparator<? super L> comparator, final ShortMap<? extends L> map) {
+    public static <L> SortedShortMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Short> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -295,7 +297,7 @@ public abstract class SortedShortMap<K> extends AbstractSortedShortMap<K> implem
      * @param map The original sorted shorts map.
      * @return A new sorted shorts map cloned from the provided sorted shorts map.
      */
-    public static <L> SortedShortMap<L> of(final SortedShortMap<L> map) {
+    public static <L> SortedShortMap<L> of(final SortedNumericMap<L, Short> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -307,7 +309,7 @@ public abstract class SortedShortMap<K> extends AbstractSortedShortMap<K> implem
      * @param range The range.
      * @return A new sorted shorts map cloned from the provided sorted shorts map.
      */
-    public static <L> SortedShortMap<L> of(final SortedShortMap<L> map, final Range<L> range) {
+    public static <L> SortedShortMap<L> of(final SortedNumericMap<L, Short> map, final Range<L> range) {
         ModifiableSortedShortMap<L> slice =
                 ModifiableSortedShortMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

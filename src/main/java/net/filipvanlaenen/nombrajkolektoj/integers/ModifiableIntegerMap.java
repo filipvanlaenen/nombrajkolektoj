@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
@@ -172,7 +173,7 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      * @param map The original integers map.
      * @return A new modifiable integers map cloned from the provided integers map.
      */
-    public static <L> ModifiableIntegerMap<L> of(final IntegerMap<? extends L> map) {
+    public static <L> ModifiableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
     }
 

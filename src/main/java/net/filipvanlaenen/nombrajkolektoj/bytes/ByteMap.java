@@ -137,7 +137,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param map The original bytes map.
      * @return A new bytes map cloned from the provided bytes map.
      */
-    public static <L> ByteMap<L> of(final ByteMap<? extends L> map) {
+    public static <L> ByteMap<L> of(final NumericMap<? extends L, Byte> map) {
         return new HashMap<L>(map);
     }
 

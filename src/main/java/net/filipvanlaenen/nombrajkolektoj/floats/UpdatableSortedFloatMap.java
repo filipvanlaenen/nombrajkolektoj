@@ -10,7 +10,9 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
 /**
@@ -281,7 +283,7 @@ public abstract class UpdatableSortedFloatMap<K> extends AbstractUpdatableSorted
      *         comparator.
      */
     public static <L> UpdatableSortedFloatMap<L> of(final Comparator<? super L> comparator,
-            final FloatMap<? extends L> map) {
+            final NumericMap<? extends L, Float> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -435,7 +437,7 @@ public abstract class UpdatableSortedFloatMap<K> extends AbstractUpdatableSorted
      * @param map The original sorted floats map.
      * @return A new updatable sorted floats map cloned from the provided sorted floats map.
      */
-    public static <L> UpdatableSortedFloatMap<L> of(final SortedFloatMap<L> map) {
+    public static <L> UpdatableSortedFloatMap<L> of(final SortedNumericMap<L, Float> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -447,7 +449,7 @@ public abstract class UpdatableSortedFloatMap<K> extends AbstractUpdatableSorted
      * @param range The range.
      * @return A new updatable sorted floats map cloned from the provided sorted floats map.
      */
-    public static <L> UpdatableSortedFloatMap<L> of(final SortedFloatMap<L> map, final Range<L> range) {
+    public static <L> UpdatableSortedFloatMap<L> of(final SortedNumericMap<L, Float> map, final Range<L> range) {
         ModifiableSortedFloatMap<L> slice =
                 ModifiableSortedFloatMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -258,7 +259,8 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
      * @param map        The original integers map.
      * @return A new sorted integers map cloned from the provided integers map but sorted according to the comparator.
      */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final IntegerMap<? extends L> map) {
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Integer> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -295,7 +297,7 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
      * @param map The original sorted integers map.
      * @return A new sorted integers map cloned from the provided sorted integers map.
      */
-    public static <L> SortedIntegerMap<L> of(final SortedIntegerMap<L> map) {
+    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -307,7 +309,7 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
      * @param range The range.
      * @return A new sorted integers map cloned from the provided sorted integers map.
      */
-    public static <L> SortedIntegerMap<L> of(final SortedIntegerMap<L> map, final Range<L> range) {
+    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map, final Range<L> range) {
         ModifiableSortedIntegerMap<L> slice =
                 ModifiableSortedIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;

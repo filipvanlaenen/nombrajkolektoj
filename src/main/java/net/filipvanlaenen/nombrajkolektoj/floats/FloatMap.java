@@ -137,7 +137,7 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
      * @param map The original floats map.
      * @return A new floats map cloned from the provided floats map.
      */
-    public static <L> FloatMap<L> of(final FloatMap<? extends L> map) {
+    public static <L> FloatMap<L> of(final NumericMap<? extends L, Float> map) {
         return new HashMap<L>(map);
     }
 

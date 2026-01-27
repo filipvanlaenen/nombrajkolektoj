@@ -139,7 +139,7 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
      * @param map The original BigDecimals map.
      * @return A new BigDecimals map cloned from the provided BigDecimals map.
      */
-    public static <L> BigDecimalMap<L> of(final BigDecimalMap<? extends L> map) {
+    public static <L> BigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
         return new HashMap<L>(map);
     }
 

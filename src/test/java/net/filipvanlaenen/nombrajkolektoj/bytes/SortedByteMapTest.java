@@ -24,6 +24,11 @@ public final class SortedByteMapTest extends ByteMapTestBase<SortedByteMap<Strin
     }
 
     @Override
+    protected SortedByteMap<String> createByteMap(SortedByteMap<String> map) {
+        return SortedByteMap.of(map);
+    }
+
+    @Override
     protected SortedByteMap<String> createByteMap(final Entry<String, Byte>... entries) {
         return SortedByteMap.of(Comparator.naturalOrder(), entries);
     }

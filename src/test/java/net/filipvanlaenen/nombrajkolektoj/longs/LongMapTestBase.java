@@ -60,7 +60,7 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
     /**
      * Map with the longs 1, 2 and 3.
      */
-    private final NumericMap<String, Long> map123 = createLongMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createLongMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty longs map.
@@ -76,6 +76,14 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
      * @return A longs map containing the provided entries.
      */
     protected abstract T createLongMap(Entry<String, Long>... entries);
+
+    /**
+     * Creates a longs map containing the provided entries.
+     *
+     * @param entries The entries to be included in the longs map.
+     * @return A longs map containing the provided entries.
+     */
+    protected abstract T createLongMap(T map);
 
     /**
      * Creates a longs map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
         assertEquals(FIVE,
                 createLongMap("one", 1L, "two", 2L, "three", LONG_THREE, "four", LONG_FOUR, "five", LONG_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithLongMapShouldCloneTheMap() {
+        T actual = createLongMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

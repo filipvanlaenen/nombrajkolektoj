@@ -24,6 +24,11 @@ public final class SortedShortMapTest extends ShortMapTestBase<SortedShortMap<St
     }
 
     @Override
+    protected SortedShortMap<String> createShortMap(SortedShortMap<String> map) {
+        return SortedShortMap.of(map);
+    }
+
+    @Override
     protected SortedShortMap<String> createShortMap(final Entry<String, Short>... entries) {
         return SortedShortMap.of(Comparator.naturalOrder(), entries);
     }

@@ -91,6 +91,11 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
     }
 
     @Override
+    protected ModifiableSortedByteMap<String> createByteMap(ModifiableSortedByteMap<String> map) {
+        return ModifiableSortedByteMap.of(map);
+    }
+
+    @Override
     protected ModifiableSortedByteMap<String> createUpdatableByteMap(final Byte defaultValue,
             final String... keys) {
         return ModifiableSortedByteMap.of(Comparator.naturalOrder(), defaultValue, keys);

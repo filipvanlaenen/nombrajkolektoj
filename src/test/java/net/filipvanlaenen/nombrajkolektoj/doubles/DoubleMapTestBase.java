@@ -60,7 +60,7 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     /**
      * Map with the doubles 1, 2 and 3.
      */
-    private final NumericMap<String, Double> map123 = createDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createDoubleMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty doubles map.
@@ -76,6 +76,14 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
      * @return A doubles map containing the provided entries.
      */
     protected abstract T createDoubleMap(Entry<String, Double>... entries);
+
+    /**
+     * Creates a doubles map containing the provided entries.
+     *
+     * @param entries The entries to be included in the doubles map.
+     * @return A doubles map containing the provided entries.
+     */
+    protected abstract T createDoubleMap(T map);
 
     /**
      * Creates a doubles map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
         assertEquals(FIVE,
                 createDoubleMap("one", 1D, "two", 2D, "three", DOUBLE_THREE, "four", DOUBLE_FOUR, "five", DOUBLE_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithDoubleMapShouldCloneTheMap() {
+        T actual = createDoubleMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

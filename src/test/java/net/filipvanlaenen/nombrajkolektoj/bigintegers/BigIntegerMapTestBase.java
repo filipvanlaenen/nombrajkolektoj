@@ -62,7 +62,7 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     /**
      * Map with the BigIntegers 1, 2 and 3.
      */
-    private final NumericMap<String, BigInteger> map123 = createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty BigIntegers map.
@@ -78,6 +78,14 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
      * @return A BigIntegers map containing the provided entries.
      */
     protected abstract T createBigIntegerMap(Entry<String, BigInteger>... entries);
+
+    /**
+     * Creates a BigIntegers map containing the provided entries.
+     *
+     * @param entries The entries to be included in the BigIntegers map.
+     * @return A BigIntegers map containing the provided entries.
+     */
+    protected abstract T createBigIntegerMap(T map);
 
     /**
      * Creates a BigIntegers map containing the provided key and value cardinality and entries.
@@ -178,6 +186,18 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
         assertEquals(FIVE,
                 createBigIntegerMap("one", BigInteger.ONE, "two", BigInteger.TWO, "three", BIG_INTEGER_THREE, "four", BIG_INTEGER_FOUR, "five", BIG_INTEGER_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithBigIntegerMapShouldCloneTheMap() {
+        T actual = createBigIntegerMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

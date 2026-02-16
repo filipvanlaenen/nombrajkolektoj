@@ -24,6 +24,11 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     }
 
     @Override
+    protected SortedFloatMap<String> createFloatMap(SortedFloatMap<String> map) {
+        return SortedFloatMap.of(map);
+    }
+
+    @Override
     protected SortedFloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
         return SortedFloatMap.of(Comparator.naturalOrder(), entries);
     }

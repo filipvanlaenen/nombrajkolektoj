@@ -60,7 +60,7 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
     /**
      * Map with the shorts 1, 2 and 3.
      */
-    private final NumericMap<String, Short> map123 = createShortMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createShortMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty shorts map.
@@ -76,6 +76,14 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
      * @return A shorts map containing the provided entries.
      */
     protected abstract T createShortMap(Entry<String, Short>... entries);
+
+    /**
+     * Creates a shorts map containing the provided entries.
+     *
+     * @param entries The entries to be included in the shorts map.
+     * @return A shorts map containing the provided entries.
+     */
+    protected abstract T createShortMap(T map);
 
     /**
      * Creates a shorts map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
         assertEquals(FIVE,
                 createShortMap("one", (short) 1, "two", (short) 2, "three", SHORT_THREE, "four", SHORT_FOUR, "five", SHORT_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithShortMapShouldCloneTheMap() {
+        T actual = createShortMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

@@ -91,6 +91,11 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
     }
 
     @Override
+    protected ModifiableSortedShortMap<String> createShortMap(ModifiableSortedShortMap<String> map) {
+        return ModifiableSortedShortMap.of(map);
+    }
+
+    @Override
     protected ModifiableSortedShortMap<String> createUpdatableShortMap(final Short defaultValue,
             final String... keys) {
         return ModifiableSortedShortMap.of(Comparator.naturalOrder(), defaultValue, keys);

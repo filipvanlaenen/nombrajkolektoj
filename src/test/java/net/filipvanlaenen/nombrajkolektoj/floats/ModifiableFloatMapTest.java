@@ -49,6 +49,11 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     }
 
     @Override
+    protected ModifiableFloatMap<String> createFloatMap(ModifiableFloatMap<String> map) {
+        return ModifiableFloatMap.of(map);
+    }
+
+    @Override
     protected ModifiableFloatMap<String> createFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<String, Float>... entries) {
         return ModifiableFloatMap.of(keyAndValueCardinality, entries);

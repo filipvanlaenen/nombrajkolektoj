@@ -54,4 +54,9 @@ public final class BigIntegerMapTest extends BigIntegerMapTestBase<BigIntegerMap
             final String key5, final BigInteger value5) {
         return BigIntegerMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected BigIntegerMap<String> createBigIntegerMap(BigIntegerMap<String> map) {
+        return BigIntegerMap.of(map);
+    }
 }

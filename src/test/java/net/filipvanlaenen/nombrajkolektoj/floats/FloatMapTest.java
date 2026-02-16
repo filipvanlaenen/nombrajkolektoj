@@ -52,4 +52,9 @@ public final class FloatMapTest extends FloatMapTestBase<FloatMap<String>> {
             final String key5, final Float value5) {
         return FloatMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected FloatMap<String> createFloatMap(FloatMap<String> map) {
+        return FloatMap.of(map);
+    }
 }

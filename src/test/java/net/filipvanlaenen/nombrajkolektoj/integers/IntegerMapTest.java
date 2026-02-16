@@ -52,4 +52,9 @@ public final class IntegerMapTest extends IntegerMapTestBase<IntegerMap<String>>
             final String key5, final Integer value5) {
         return IntegerMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected IntegerMap<String> createIntegerMap(IntegerMap<String> map) {
+        return IntegerMap.of(map);
+    }
 }

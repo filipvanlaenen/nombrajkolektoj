@@ -52,4 +52,9 @@ public final class DoubleMapTest extends DoubleMapTestBase<DoubleMap<String>> {
             final String key5, final Double value5) {
         return DoubleMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected DoubleMap<String> createDoubleMap(DoubleMap<String> map) {
+        return DoubleMap.of(map);
+    }
 }

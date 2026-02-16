@@ -24,6 +24,11 @@ public final class SortedLongMapTest extends LongMapTestBase<SortedLongMap<Strin
     }
 
     @Override
+    protected SortedLongMap<String> createLongMap(SortedLongMap<String> map) {
+        return SortedLongMap.of(map);
+    }
+
+    @Override
     protected SortedLongMap<String> createLongMap(final Entry<String, Long>... entries) {
         return SortedLongMap.of(Comparator.naturalOrder(), entries);
     }

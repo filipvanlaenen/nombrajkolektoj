@@ -15,6 +15,11 @@ public final class UpdatableBigDecimalMapTest extends UpdatableBigDecimalMapTest
     }
 
     @Override
+    protected UpdatableBigDecimalMap<String> createBigDecimalMap(UpdatableBigDecimalMap<String> map) {
+        return UpdatableBigDecimalMap.of(map);
+    }
+
+    @Override
     protected UpdatableBigDecimalMap<String> createBigDecimalMap(final Entry<String, BigDecimal>... entries) {
         return UpdatableBigDecimalMap.of(entries);
     }

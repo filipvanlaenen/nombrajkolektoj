@@ -24,6 +24,11 @@ public final class UpdatableSortedFloatMapTest extends UpdatableFloatMapTestBase
     }
 
     @Override
+    protected UpdatableSortedFloatMap<String> createFloatMap(UpdatableSortedFloatMap<String> map) {
+        return UpdatableSortedFloatMap.of(map);
+    }
+
+    @Override
     protected UpdatableSortedFloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
         return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), entries);
     }

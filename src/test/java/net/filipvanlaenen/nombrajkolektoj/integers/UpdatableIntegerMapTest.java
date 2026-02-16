@@ -13,6 +13,11 @@ public final class UpdatableIntegerMapTest extends UpdatableIntegerMapTestBase<U
     }
 
     @Override
+    protected UpdatableIntegerMap<String> createIntegerMap(UpdatableIntegerMap<String> map) {
+        return UpdatableIntegerMap.of(map);
+    }
+
+    @Override
     protected UpdatableIntegerMap<String> createIntegerMap(final Entry<String, Integer>... entries) {
         return UpdatableIntegerMap.of(entries);
     }

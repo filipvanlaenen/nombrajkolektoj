@@ -52,4 +52,9 @@ public final class ByteMapTest extends ByteMapTestBase<ByteMap<String>> {
             final String key5, final Byte value5) {
         return ByteMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected ByteMap<String> createByteMap(ByteMap<String> map) {
+        return ByteMap.of(map);
+    }
 }

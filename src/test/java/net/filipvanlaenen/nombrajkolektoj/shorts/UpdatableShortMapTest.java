@@ -13,6 +13,11 @@ public final class UpdatableShortMapTest extends UpdatableShortMapTestBase<Updat
     }
 
     @Override
+    protected UpdatableShortMap<String> createShortMap(UpdatableShortMap<String> map) {
+        return UpdatableShortMap.of(map);
+    }
+
+    @Override
     protected UpdatableShortMap<String> createShortMap(final Entry<String, Short>... entries) {
         return UpdatableShortMap.of(entries);
     }

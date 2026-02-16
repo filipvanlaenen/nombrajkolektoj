@@ -62,7 +62,7 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     /**
      * Map with the BigDecimals 1, 2 and 3.
      */
-    private final NumericMap<String, BigDecimal> map123 = createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty BigDecimals map.
@@ -78,6 +78,14 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
      * @return A BigDecimals map containing the provided entries.
      */
     protected abstract T createBigDecimalMap(Entry<String, BigDecimal>... entries);
+
+    /**
+     * Creates a BigDecimals map containing the provided entries.
+     *
+     * @param entries The entries to be included in the BigDecimals map.
+     * @return A BigDecimals map containing the provided entries.
+     */
+    protected abstract T createBigDecimalMap(T map);
 
     /**
      * Creates a BigDecimals map containing the provided key and value cardinality and entries.
@@ -178,6 +186,18 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
         assertEquals(FIVE,
                 createBigDecimalMap("one", BigDecimal.ONE, "two", BigDecimal.valueOf(2L), "three", BIG_DECIMAL_THREE, "four", BIG_DECIMAL_FOUR, "five", BIG_DECIMAL_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithBigDecimalMapShouldCloneTheMap() {
+        T actual = createBigDecimalMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

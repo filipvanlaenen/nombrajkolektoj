@@ -49,6 +49,11 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
     }
 
     @Override
+    protected ModifiableByteMap<String> createByteMap(ModifiableByteMap<String> map) {
+        return ModifiableByteMap.of(map);
+    }
+
+    @Override
     protected ModifiableByteMap<String> createByteMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<String, Byte>... entries) {
         return ModifiableByteMap.of(keyAndValueCardinality, entries);

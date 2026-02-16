@@ -60,7 +60,7 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
     /**
      * Map with the floats 1, 2 and 3.
      */
-    private final NumericMap<String, Float> map123 = createFloatMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createFloatMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty floats map.
@@ -76,6 +76,14 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
      * @return A floats map containing the provided entries.
      */
     protected abstract T createFloatMap(Entry<String, Float>... entries);
+
+    /**
+     * Creates a floats map containing the provided entries.
+     *
+     * @param entries The entries to be included in the floats map.
+     * @return A floats map containing the provided entries.
+     */
+    protected abstract T createFloatMap(T map);
 
     /**
      * Creates a floats map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
         assertEquals(FIVE,
                 createFloatMap("one", 1F, "two", 2F, "three", FLOAT_THREE, "four", FLOAT_FOUR, "five", FLOAT_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithFloatMapShouldCloneTheMap() {
+        T actual = createFloatMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

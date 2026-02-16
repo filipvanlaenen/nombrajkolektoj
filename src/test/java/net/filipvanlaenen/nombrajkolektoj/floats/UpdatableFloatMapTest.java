@@ -13,6 +13,11 @@ public final class UpdatableFloatMapTest extends UpdatableFloatMapTestBase<Updat
     }
 
     @Override
+    protected UpdatableFloatMap<String> createFloatMap(UpdatableFloatMap<String> map) {
+        return UpdatableFloatMap.of(map);
+    }
+
+    @Override
     protected UpdatableFloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
         return UpdatableFloatMap.of(entries);
     }

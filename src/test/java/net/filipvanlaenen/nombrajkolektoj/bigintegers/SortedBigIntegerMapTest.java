@@ -26,6 +26,11 @@ public final class SortedBigIntegerMapTest extends BigIntegerMapTestBase<SortedB
     }
 
     @Override
+    protected SortedBigIntegerMap<String> createBigIntegerMap(SortedBigIntegerMap<String> map) {
+        return SortedBigIntegerMap.of(map);
+    }
+
+    @Override
     protected SortedBigIntegerMap<String> createBigIntegerMap(final Entry<String, BigInteger>... entries) {
         return SortedBigIntegerMap.of(Comparator.naturalOrder(), entries);
     }

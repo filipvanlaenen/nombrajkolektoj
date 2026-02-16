@@ -60,7 +60,7 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
     /**
      * Map with the bytes 1, 2 and 3.
      */
-    private final NumericMap<String, Byte> map123 = createByteMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createByteMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty bytes map.
@@ -76,6 +76,14 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
      * @return A bytes map containing the provided entries.
      */
     protected abstract T createByteMap(Entry<String, Byte>... entries);
+
+    /**
+     * Creates a bytes map containing the provided entries.
+     *
+     * @param entries The entries to be included in the bytes map.
+     * @return A bytes map containing the provided entries.
+     */
+    protected abstract T createByteMap(T map);
 
     /**
      * Creates a bytes map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
         assertEquals(FIVE,
                 createByteMap("one", (byte) 1, "two", (byte) 2, "three", BYTE_THREE, "four", BYTE_FOUR, "five", BYTE_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithByteMapShouldCloneTheMap() {
+        T actual = createByteMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

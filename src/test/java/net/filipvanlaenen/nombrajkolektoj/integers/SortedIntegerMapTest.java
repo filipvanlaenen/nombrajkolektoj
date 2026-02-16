@@ -24,6 +24,11 @@ public final class SortedIntegerMapTest extends IntegerMapTestBase<SortedInteger
     }
 
     @Override
+    protected SortedIntegerMap<String> createIntegerMap(SortedIntegerMap<String> map) {
+        return SortedIntegerMap.of(map);
+    }
+
+    @Override
     protected SortedIntegerMap<String> createIntegerMap(final Entry<String, Integer>... entries) {
         return SortedIntegerMap.of(Comparator.naturalOrder(), entries);
     }

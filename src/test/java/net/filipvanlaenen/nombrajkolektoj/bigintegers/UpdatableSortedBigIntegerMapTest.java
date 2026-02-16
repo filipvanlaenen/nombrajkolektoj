@@ -26,6 +26,11 @@ public final class UpdatableSortedBigIntegerMapTest extends UpdatableBigIntegerM
     }
 
     @Override
+    protected UpdatableSortedBigIntegerMap<String> createBigIntegerMap(UpdatableSortedBigIntegerMap<String> map) {
+        return UpdatableSortedBigIntegerMap.of(map);
+    }
+
+    @Override
     protected UpdatableSortedBigIntegerMap<String> createBigIntegerMap(final Entry<String, BigInteger>... entries) {
         return UpdatableSortedBigIntegerMap.of(Comparator.naturalOrder(), entries);
     }

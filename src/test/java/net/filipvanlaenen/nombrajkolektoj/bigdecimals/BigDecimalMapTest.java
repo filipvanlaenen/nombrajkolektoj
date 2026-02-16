@@ -54,4 +54,9 @@ public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap
             final String key5, final BigDecimal value5) {
         return BigDecimalMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
+
+    @Override
+    protected BigDecimalMap<String> createBigDecimalMap(BigDecimalMap<String> map) {
+        return BigDecimalMap.of(map);
+    }
 }

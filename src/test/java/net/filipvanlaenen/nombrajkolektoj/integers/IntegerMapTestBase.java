@@ -60,7 +60,7 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     /**
      * Map with the integers 1, 2 and 3.
      */
-    private final NumericMap<String, Integer> map123 = createIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+    private final T map123 = createIntegerMap(ENTRY1, ENTRY2, ENTRY3);
 
     /**
      * Creates an empty integers map.
@@ -76,6 +76,14 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
      * @return A integers map containing the provided entries.
      */
     protected abstract T createIntegerMap(Entry<String, Integer>... entries);
+
+    /**
+     * Creates a integers map containing the provided entries.
+     *
+     * @param entries The entries to be included in the integers map.
+     * @return A integers map containing the provided entries.
+     */
+    protected abstract T createIntegerMap(T map);
 
     /**
      * Creates a integers map containing the provided key and value cardinality and entries.
@@ -176,6 +184,18 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
         assertEquals(FIVE,
                 createIntegerMap("one", 1, "two", 2, "three", INTEGER_THREE, "four", INTEGER_FOUR, "five", INTEGER_FIVE)
                         .size());
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with a prototype clones a map.
+     */
+    @Test
+    public void ofWithIntegerMapShouldCloneTheMap() {
+        T actual = createIntegerMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
     }
 
     /**

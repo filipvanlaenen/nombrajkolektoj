@@ -261,6 +261,31 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
         return new ArrayCollection(slice);
     }
 
+    /**
+     * Returns a new ordered floats collection as the matrix direct product of two ordered floats collections.
+     *
+     * @param collectionA The first ordered floats collection.
+     * @param collectionB The second ordered floats collection.
+     * @return The matrix direct product of the two provided ordered floats collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedFloatCollection ofMatrixDirectProduct(final OrderedNumericCollection<Float> collectionA,
+            final OrderedNumericCollection<Float> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedFloatCollection collection = ModifiableOrderedFloatCollection.empty();
+        for (Float a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException("One of the collections contains null.");
+            }
+            for (Float b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException("One of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
     @Override
     public int size() {
         return collection.size();

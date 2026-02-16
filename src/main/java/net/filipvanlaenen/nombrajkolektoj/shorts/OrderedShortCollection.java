@@ -261,6 +261,31 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
         return new ArrayCollection(slice);
     }
 
+    /**
+     * Returns a new ordered shorts collection as the matrix direct product of two ordered shorts collections.
+     *
+     * @param collectionA The first ordered shorts collection.
+     * @param collectionB The second ordered shorts collection.
+     * @return The matrix direct product of the two provided ordered shorts collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedShortCollection ofMatrixDirectProduct(final OrderedNumericCollection<Short> collectionA,
+            final OrderedNumericCollection<Short> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.empty();
+        for (Short a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException("One of the collections contains null.");
+            }
+            for (Short b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException("One of the collections contains null.");
+                }
+                collection.add((short) (a * b));
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
     @Override
     public int size() {
         return collection.size();

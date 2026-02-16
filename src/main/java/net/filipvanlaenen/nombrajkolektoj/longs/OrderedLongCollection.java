@@ -261,6 +261,31 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
         return new ArrayCollection(slice);
     }
 
+    /**
+     * Returns a new ordered longs collection as the matrix direct product of two ordered longs collections.
+     *
+     * @param collectionA The first ordered longs collection.
+     * @param collectionB The second ordered longs collection.
+     * @return The matrix direct product of the two provided ordered longs collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedLongCollection ofMatrixDirectProduct(final OrderedNumericCollection<Long> collectionA,
+            final OrderedNumericCollection<Long> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.empty();
+        for (Long a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException("One of the collections contains null.");
+            }
+            for (Long b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException("One of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
     @Override
     public int size() {
         return collection.size();

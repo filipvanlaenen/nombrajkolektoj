@@ -15,7 +15,7 @@ public final class ModifiableByteCollectionTest
 
     @Override
     protected ModifiableByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return new ModifiableByteCollection.ArrayCollection(source);
+        return ModifiableByteCollection.of(source);
     }
 
     @Override

@@ -15,7 +15,7 @@ public final class ModifiableDoubleCollectionTest
 
     @Override
     protected ModifiableDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return new ModifiableDoubleCollection.ArrayCollection(source);
+        return ModifiableDoubleCollection.of(source);
     }
 
     @Override

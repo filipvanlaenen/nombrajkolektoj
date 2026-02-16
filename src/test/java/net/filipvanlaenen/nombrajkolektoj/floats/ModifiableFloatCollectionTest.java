@@ -15,7 +15,7 @@ public final class ModifiableFloatCollectionTest
 
     @Override
     protected ModifiableFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return new ModifiableFloatCollection.ArrayCollection(source);
+        return ModifiableFloatCollection.of(source);
     }
 
     @Override

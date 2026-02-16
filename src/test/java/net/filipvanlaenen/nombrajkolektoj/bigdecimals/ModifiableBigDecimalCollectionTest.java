@@ -17,7 +17,7 @@ public final class ModifiableBigDecimalCollectionTest
 
     @Override
     protected ModifiableBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
-        return new ModifiableBigDecimalCollection.ArrayCollection(source);
+        return ModifiableBigDecimalCollection.of(source);
     }
 
     @Override

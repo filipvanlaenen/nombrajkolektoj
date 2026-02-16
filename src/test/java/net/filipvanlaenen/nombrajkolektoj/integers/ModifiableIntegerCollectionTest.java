@@ -15,7 +15,7 @@ public final class ModifiableIntegerCollectionTest
 
     @Override
     protected ModifiableIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return new ModifiableIntegerCollection.ArrayCollection(source);
+        return ModifiableIntegerCollection.of(source);
     }
 
     @Override

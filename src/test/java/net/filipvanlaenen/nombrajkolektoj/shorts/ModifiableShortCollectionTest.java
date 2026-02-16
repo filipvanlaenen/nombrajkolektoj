@@ -15,7 +15,7 @@ public final class ModifiableShortCollectionTest
 
     @Override
     protected ModifiableShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return new ModifiableShortCollection.ArrayCollection(source);
+        return ModifiableShortCollection.of(source);
     }
 
     @Override

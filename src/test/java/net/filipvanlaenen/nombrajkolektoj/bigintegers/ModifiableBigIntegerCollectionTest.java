@@ -17,7 +17,7 @@ public final class ModifiableBigIntegerCollectionTest
 
     @Override
     protected ModifiableBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return new ModifiableBigIntegerCollection.ArrayCollection(source);
+        return ModifiableBigIntegerCollection.of(source);
     }
 
     @Override

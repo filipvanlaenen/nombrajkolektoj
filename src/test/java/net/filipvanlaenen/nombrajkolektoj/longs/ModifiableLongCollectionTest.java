@@ -15,7 +15,7 @@ public final class ModifiableLongCollectionTest
 
     @Override
     protected ModifiableLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return new ModifiableLongCollection.ArrayCollection(source);
+        return ModifiableLongCollection.of(source);
     }
 
     @Override

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -96,8 +98,8 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates an empty collection when the
-     * number of elements is less than one.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates an empty
+     * collection when the number of elements is less than one.
      */
     @Test
     public void createSequenceShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
@@ -106,7 +108,8 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates a collection with one element.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates a
+     * collection with one element.
      */
     @Test
     public void createSequenceShouldProduceACollectionWithOneElement() {
@@ -115,12 +118,44 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates a collection with two
-     * elements.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates a
+     * collection with two elements.
      */
     @Test
     public void createSequenceShouldProduceACollectionWithTwoElements() {
         OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, 2);
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition creates an empty
+     * collection when the predicate is always false.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition creates a collection
+     * with one element.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence((byte) 0, n -> (byte) (n + 1), n -> !Objects.equals(n, (byte) 1));
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition ccreates a collection
+     * with two elements.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence((byte) 0, n -> (byte) (n + 1), n -> !Objects.equals(n, (byte) 2));
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 }

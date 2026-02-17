@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -96,8 +98,8 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates an empty collection when the
-     * number of elements is less than one.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates an empty
+     * collection when the number of elements is less than one.
      */
     @Test
     public void createSequenceShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
@@ -106,7 +108,8 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates a collection with one element.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates a
+     * collection with one element.
      */
     @Test
     public void createSequenceShouldProduceACollectionWithOneElement() {
@@ -115,12 +118,44 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     /**
-     * Verifies that <code>createSequence</code> with first element and generator creates a collection with two
-     * elements.
+     * Verifies that <code>createSequence</code> with first element, generator and number of elements creates a
+     * collection with two elements.
      */
     @Test
     public void createSequenceShouldProduceACollectionWithTwoElements() {
         OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(0D, n -> n, 2);
         assertArrayEquals(new Double[] {0D, 0D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition creates an empty
+     * collection when the predicate is always false.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(0D, n -> n, n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition creates a collection
+     * with one element.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedDoubleCollection actual =
+                OrderedDoubleCollection.createSequence(0D, n -> n + 1D, n -> !Objects.equals(n, 1D));
+        assertArrayEquals(new Double[] {0D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element, generator and while condition ccreates a collection
+     * with two elements.
+     */
+    @Test
+    public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedDoubleCollection actual =
+                OrderedDoubleCollection.createSequence(0D, n -> n + 1D, n -> !Objects.equals(n, 2D));
+        assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
     }
 }

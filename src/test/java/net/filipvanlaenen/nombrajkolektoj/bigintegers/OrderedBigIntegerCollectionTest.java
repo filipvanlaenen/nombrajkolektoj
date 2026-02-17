@@ -32,6 +32,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      * The BigInteger sixe.
      */
     private static final BigInteger BIG_INTEGER_SIX = BigInteger.valueOf(6L);
+    private static final BigInteger[] BIG_INTEGERS = new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO};
 
     @Override
     protected OrderedBigIntegerCollection createEmptyBigIntegerCollection() {
@@ -158,6 +159,36 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedBigIntegerCollection actual =
                 OrderedBigIntegerCollection.createSequence(BigInteger.ZERO, n -> n.add(BigInteger.ONE), n -> !Objects.equals(n, BigInteger.TWO));
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 1);
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 2);
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
     }
 }

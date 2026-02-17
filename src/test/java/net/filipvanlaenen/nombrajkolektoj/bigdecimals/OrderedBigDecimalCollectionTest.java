@@ -32,6 +32,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      * The BigDecimal sixe.
      */
     private static final BigDecimal BIG_DECIMAL_SIX = BigDecimal.valueOf(6L);
+    private static final BigDecimal[] BIG_DECIMALS = new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L)};
 
     @Override
     protected OrderedBigDecimalCollection createEmptyBigDecimalCollection() {
@@ -158,6 +159,36 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedBigDecimalCollection actual =
                 OrderedBigDecimalCollection.createSequence(BigDecimal.ZERO, n -> n.add(BigDecimal.ONE), n -> !Objects.equals(n, BigDecimal.valueOf(2L)));
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 1);
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 2);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
     }
 }

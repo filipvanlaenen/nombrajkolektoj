@@ -30,6 +30,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      * The int sixe.
      */
     private static final Integer INTEGER_SIX = 6;
+    private static final Integer[] INTEGERS = new Integer[] {0, 1, 2};
 
     @Override
     protected OrderedIntegerCollection createEmptyIntegerCollection() {
@@ -156,6 +157,36 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedIntegerCollection actual =
                 OrderedIntegerCollection.createSequence(0, n -> n + 1, n -> !Objects.equals(n, 2));
+        assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 1);
+        assertArrayEquals(new Integer[] {0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 2);
         assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
     }
 }

@@ -30,6 +30,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      * The long sixe.
      */
     private static final Long LONG_SIX = 6L;
+    private static final Long[] LONGS = new Long[] {0L, 1L, 2L};
 
     @Override
     protected OrderedLongCollection createEmptyLongCollection() {
@@ -156,6 +157,36 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedLongCollection actual =
                 OrderedLongCollection.createSequence(0L, n -> n + 1L, n -> !Objects.equals(n, 2L));
+        assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 1);
+        assertArrayEquals(new Long[] {0L}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 2);
         assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
     }
 }

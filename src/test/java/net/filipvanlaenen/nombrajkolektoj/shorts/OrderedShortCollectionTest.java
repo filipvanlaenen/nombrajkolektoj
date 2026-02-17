@@ -30,6 +30,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      * The short sixe.
      */
     private static final Short SHORT_SIX = (short) 6;
+    private static final Short[] SHORTS = new Short[] {(short) 0, (short) 1, (short) 2};
 
     @Override
     protected OrderedShortCollection createEmptyShortCollection() {
@@ -156,6 +157,36 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedShortCollection actual =
                 OrderedShortCollection.createSequence((short) 0, n -> (short) (n + 1), n -> !Objects.equals(n, (short) 2));
+        assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 1);
+        assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 2);
         assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 }

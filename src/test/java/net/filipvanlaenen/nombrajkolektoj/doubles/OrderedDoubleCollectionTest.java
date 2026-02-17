@@ -30,6 +30,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      * The double sixe.
      */
     private static final Double DOUBLE_SIX = 6D;
+    private static final Double[] DOUBLES = new Double[] {0D, 1D, 2D};
 
     @Override
     protected OrderedDoubleCollection createEmptyDoubleCollection() {
@@ -156,6 +157,36 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedDoubleCollection actual =
                 OrderedDoubleCollection.createSequence(0D, n -> n + 1D, n -> !Objects.equals(n, 2D));
+        assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 1);
+        assertArrayEquals(new Double[] {0D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 2);
         assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
     }
 }

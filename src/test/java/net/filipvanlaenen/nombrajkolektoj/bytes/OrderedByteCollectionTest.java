@@ -30,6 +30,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      * The byte sixe.
      */
     private static final Byte BYTE_SIX = (byte) 6;
+    private static final Byte[] BYTES = new Byte[] {(byte) 0, (byte) 1, (byte) 2};
 
     @Override
     protected OrderedByteCollection createEmptyByteCollection() {
@@ -156,6 +157,36 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedByteCollection actual =
                 OrderedByteCollection.createSequence((byte) 0, n -> (byte) (n + 1), n -> !Objects.equals(n, (byte) 2));
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 1);
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 2);
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 }

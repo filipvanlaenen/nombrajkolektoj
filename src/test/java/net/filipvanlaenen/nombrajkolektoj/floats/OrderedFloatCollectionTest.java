@@ -30,6 +30,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      * The float sixe.
      */
     private static final Float FLOAT_SIX = 6F;
+    private static final Float[] FLOATS = new Float[] {0F, 1F, 2F};
 
     @Override
     protected OrderedFloatCollection createEmptyFloatCollection() {
@@ -156,6 +157,36 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedFloatCollection actual =
                 OrderedFloatCollection.createSequence(0F, n -> n + 1F, n -> !Objects.equals(n, 2F));
+        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates an empty collection when
+     * the number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 1);
+        assertArrayEquals(new Float[] {0F}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and number of elements creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 2);
         assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
     }
 }

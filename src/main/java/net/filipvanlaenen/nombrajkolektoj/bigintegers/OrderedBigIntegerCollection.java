@@ -276,11 +276,13 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
         ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection.empty();
         for (BigInteger a : collectionA) {
             if (a == null) {
-                throw new IllegalArgumentException("One of the collections contains null.");
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
             }
             for (BigInteger b : collectionB) {
                 if (b == null) {
-                    throw new IllegalArgumentException("One of the collections contains null.");
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
                 }
                 collection.add(a.multiply(b));
             }

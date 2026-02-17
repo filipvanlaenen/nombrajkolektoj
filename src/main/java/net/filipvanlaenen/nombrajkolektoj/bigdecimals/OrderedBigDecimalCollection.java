@@ -276,11 +276,13 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
         ModifiableOrderedBigDecimalCollection collection = ModifiableOrderedBigDecimalCollection.empty();
         for (BigDecimal a : collectionA) {
             if (a == null) {
-                throw new IllegalArgumentException("One of the collections contains null.");
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
             }
             for (BigDecimal b : collectionB) {
                 if (b == null) {
-                    throw new IllegalArgumentException("One of the collections contains null.");
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
                 }
                 collection.add(a.multiply(b));
             }

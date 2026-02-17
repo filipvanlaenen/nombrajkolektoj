@@ -274,11 +274,13 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
         ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection.empty();
         for (Byte a : collectionA) {
             if (a == null) {
-                throw new IllegalArgumentException("One of the collections contains null.");
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
             }
             for (Byte b : collectionB) {
                 if (b == null) {
-                    throw new IllegalArgumentException("One of the collections contains null.");
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
                 }
                 collection.add((byte) (a * b));
             }

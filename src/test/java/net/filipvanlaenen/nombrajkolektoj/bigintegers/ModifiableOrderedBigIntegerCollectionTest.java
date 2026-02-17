@@ -26,7 +26,7 @@ public final class ModifiableOrderedBigIntegerCollectionTest
 
     @Override
     protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return new ModifiableOrderedBigIntegerCollection.ArrayCollection(
+        return  ModifiableOrderedBigIntegerCollection.of(
                 OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
     }
 

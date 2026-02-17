@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.SortedDoubleCollection} class.
@@ -17,8 +17,7 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
 
     @Override
     protected SortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return new SortedDoubleCollection.ArrayCollection(Comparator.naturalOrder(),
-                DoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
@@ -47,5 +46,10 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     protected SortedDoubleCollection createSortedDoubleCollection(final Comparator<Double> comparator,
             final Double... numbers) {
         return SortedDoubleCollection.of(comparator, numbers);
+    }
+
+    @Override
+    protected SortedDoubleCollection createOrderedDoubleCollection(OrderedNumericCollection<Double> source) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 }

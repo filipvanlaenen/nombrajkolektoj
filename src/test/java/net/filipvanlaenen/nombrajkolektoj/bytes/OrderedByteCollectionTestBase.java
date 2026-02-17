@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
      * @return An ordered bytes collection containing the provided bytes.
      */
     protected abstract T createOrderedByteCollection(Byte... numbers);
+
+    /**
+     * Creates an ordered bytes collection containing the provided bytes.
+     *
+     * @param numbers The bytes to be included in the ordered bytes collection.
+     * @return An ordered bytes collection containing the provided bytes.
+     */
+    protected abstract T createOrderedByteCollection(OrderedNumericCollection<Byte> source);
 
     /**
      * Creates an ordered bytes collection containing the provided bytes.
@@ -66,5 +77,17 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
+    }
+
+    /**
+     * Verifies that an ordered bytes collection created from another ordered collection has the same element
+     * cardinality and bytes in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnAByteCollectionWithTheSameElementCardinalityAndBytes() {
+        T source = createOrderedByteCollection(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE);
+        T actual = createOrderedByteCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Byte[] {(byte) 1, (byte) 2, BYTE_THREE}, actual.toArray());
     }
 }

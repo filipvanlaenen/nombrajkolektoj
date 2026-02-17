@@ -1,14 +1,34 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} class.
  */
 public final class OrderedIntegerCollectionTest extends OrderedIntegerCollectionTestBase<OrderedIntegerCollection> {
+    /**
+     * The int three.
+     */
+    private static final Integer INTEGER_THREE = 3;
+    /**
+     * The int four.
+     */
+    private static final Integer INTEGER_FOUR = 4;
+    /**
+     * The int sixe.
+     */
+    private static final Integer INTEGER_SIX = 6;
+
     @Override
     protected OrderedIntegerCollection createEmptyIntegerCollection() {
         return OrderedIntegerCollection.empty();
@@ -16,8 +36,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
 
     @Override
     protected OrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return new OrderedIntegerCollection.ArrayCollection(
-                OrderedCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
+        return OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
     }
 
     @Override
@@ -40,5 +59,68 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     protected OrderedIntegerCollection createOrderedIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return OrderedIntegerCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected OrderedIntegerCollection createOrderedIntegerCollection(OrderedNumericCollection<Integer> source) {
+        return OrderedIntegerCollection.of(source);
+    }
+
+    /**
+     * Verifies that the matrix direct product factory method produces a correct ordered integers collection.
+     */
+    @Test
+    public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
+        OrderedIntegerCollection collectionA = createOrderedIntegerCollection(1, 2);
+        OrderedIntegerCollection collectionB = createOrderedIntegerCollection(1, 2, INTEGER_THREE);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.ofMatrixDirectProduct(collectionA, collectionB);
+        assertArrayEquals(new Integer[] {1, 2, INTEGER_THREE, 2, INTEGER_FOUR, INTEGER_SIX}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>ofMatrixDirectProduct</code> throws an exception when called with a collection containing
+     * <code>null</code>.
+     */
+    @Test
+    public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
+        OrderedIntegerCollection collectionA = createOrderedIntegerCollection(1, 2);
+        OrderedIntegerCollection collectionB = createOrderedIntegerCollection(1, null, INTEGER_THREE);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> OrderedIntegerCollection.ofMatrixDirectProduct(collectionA, collectionB));
+        assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
+                exception.getMessage());
+        exception = assertThrows(IllegalArgumentException.class,
+                () -> OrderedIntegerCollection.ofMatrixDirectProduct(collectionB, collectionA));
+        assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
+                exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element and generator creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(0, n -> n, 0);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element and generator creates a collection with one element.
+     */
+    @Test
+    public void createSequenceShouldProduceACollectionWithOneElement() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(0, n -> n, 1);
+        assertArrayEquals(new Integer[] {0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with first element and generator creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceShouldProduceACollectionWithTwoElements() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(0, n -> n, 2);
+        assertArrayEquals(new Integer[] {0, 0}, actual.toArray());
     }
 }

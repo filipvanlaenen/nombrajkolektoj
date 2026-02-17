@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.SortedShortCollection} class.
@@ -17,8 +17,7 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
 
     @Override
     protected SortedShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return new SortedShortCollection.ArrayCollection(Comparator.naturalOrder(),
-                ShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
+        return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
@@ -47,5 +46,10 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     protected SortedShortCollection createSortedShortCollection(final Comparator<Short> comparator,
             final Short... numbers) {
         return SortedShortCollection.of(comparator, numbers);
+    }
+
+    @Override
+    protected SortedShortCollection createOrderedShortCollection(OrderedNumericCollection<Short> source) {
+        return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 }

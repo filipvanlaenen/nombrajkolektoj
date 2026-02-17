@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
      * @return An ordered integers collection containing the provided integers.
      */
     protected abstract T createOrderedIntegerCollection(Integer... numbers);
+
+    /**
+     * Creates an ordered integers collection containing the provided integers.
+     *
+     * @param numbers The integers to be included in the ordered integers collection.
+     * @return An ordered integers collection containing the provided integers.
+     */
+    protected abstract T createOrderedIntegerCollection(OrderedNumericCollection<Integer> source);
 
     /**
      * Creates an ordered integers collection containing the provided integers.
@@ -66,5 +77,17 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).lastIndexOf(2));
+    }
+
+    /**
+     * Verifies that an ordered integers collection created from another ordered collection has the same element
+     * cardinality and integers in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnAIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
+        T source = createOrderedIntegerCollection(DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE);
+        T actual = createOrderedIntegerCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Integer[] {1, 2, INTEGER_THREE}, actual.toArray());
     }
 }

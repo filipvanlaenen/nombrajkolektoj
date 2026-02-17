@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.SortedByteCollection} class.
@@ -17,8 +17,7 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
 
     @Override
     protected SortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return new SortedByteCollection.ArrayCollection(Comparator.naturalOrder(),
-                ByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
+        return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
@@ -47,5 +46,10 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     protected SortedByteCollection createSortedByteCollection(final Comparator<Byte> comparator,
             final Byte... numbers) {
         return SortedByteCollection.of(comparator, numbers);
+    }
+
+    @Override
+    protected SortedByteCollection createOrderedByteCollection(OrderedNumericCollection<Byte> source) {
+        return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 }

@@ -274,11 +274,13 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
         ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.empty();
         for (Long a : collectionA) {
             if (a == null) {
-                throw new IllegalArgumentException("One of the collections contains null.");
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
             }
             for (Long b : collectionB) {
                 if (b == null) {
-                    throw new IllegalArgumentException("One of the collections contains null.");
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
                 }
                 collection.add(a * b);
             }

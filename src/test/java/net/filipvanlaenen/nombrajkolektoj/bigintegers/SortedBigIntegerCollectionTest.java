@@ -5,8 +5,8 @@ import java.math.BigInteger;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.SortedBigIntegerCollection} class.
@@ -19,8 +19,7 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
 
     @Override
     protected SortedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return new SortedBigIntegerCollection.ArrayCollection(Comparator.naturalOrder(),
-                BigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
+        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
@@ -49,5 +48,10 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     protected SortedBigIntegerCollection createSortedBigIntegerCollection(final Comparator<BigInteger> comparator,
             final BigInteger... numbers) {
         return SortedBigIntegerCollection.of(comparator, numbers);
+    }
+
+    @Override
+    protected SortedBigIntegerCollection createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source) {
+        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 }

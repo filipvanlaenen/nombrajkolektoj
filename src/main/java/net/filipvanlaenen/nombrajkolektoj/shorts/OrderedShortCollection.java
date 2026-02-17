@@ -274,11 +274,13 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
         ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.empty();
         for (Short a : collectionA) {
             if (a == null) {
-                throw new IllegalArgumentException("One of the collections contains null.");
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
             }
             for (Short b : collectionB) {
                 if (b == null) {
-                    throw new IllegalArgumentException("One of the collections contains null.");
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
                 }
                 collection.add((short) (a * b));
             }

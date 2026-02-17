@@ -24,7 +24,7 @@ public final class ModifiableOrderedLongCollectionTest
 
     @Override
     protected ModifiableOrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return new ModifiableOrderedLongCollection.ArrayCollection(
+        return  ModifiableOrderedLongCollection.of(
                 OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }
 

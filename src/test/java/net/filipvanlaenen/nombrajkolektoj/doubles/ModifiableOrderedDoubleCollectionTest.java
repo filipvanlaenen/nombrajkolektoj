@@ -24,7 +24,7 @@ public final class ModifiableOrderedDoubleCollectionTest
 
     @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return new ModifiableOrderedDoubleCollection.ArrayCollection(
+        return  ModifiableOrderedDoubleCollection.of(
                 OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }
 

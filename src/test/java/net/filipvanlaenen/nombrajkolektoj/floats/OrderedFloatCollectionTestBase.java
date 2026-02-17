@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * @return An ordered floats collection containing the provided floats.
      */
     protected abstract T createOrderedFloatCollection(Float... numbers);
+
+    /**
+     * Creates an ordered floats collection containing the provided floats.
+     *
+     * @param numbers The floats to be included in the ordered floats collection.
+     * @return An ordered floats collection containing the provided floats.
+     */
+    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source);
 
     /**
      * Creates an ordered floats collection containing the provided floats.
@@ -66,5 +77,17 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).lastIndexOf(2F));
+    }
+
+    /**
+     * Verifies that an ordered floats collection created from another ordered collection has the same element
+     * cardinality and floats in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnAFloatCollectionWithTheSameElementCardinalityAndFloats() {
+        T source = createOrderedFloatCollection(DISTINCT_ELEMENTS, 1F, 2F, FLOAT_THREE);
+        T actual = createOrderedFloatCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE}, actual.toArray());
     }
 }

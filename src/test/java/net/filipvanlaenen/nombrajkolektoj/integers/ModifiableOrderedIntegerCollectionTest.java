@@ -24,7 +24,7 @@ public final class ModifiableOrderedIntegerCollectionTest
 
     @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return new ModifiableOrderedIntegerCollection.ArrayCollection(
+        return  ModifiableOrderedIntegerCollection.of(
                 OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }
 

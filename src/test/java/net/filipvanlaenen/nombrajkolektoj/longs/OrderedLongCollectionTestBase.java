@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * @return An ordered longs collection containing the provided longs.
      */
     protected abstract T createOrderedLongCollection(Long... numbers);
+
+    /**
+     * Creates an ordered longs collection containing the provided longs.
+     *
+     * @param numbers The longs to be included in the ordered longs collection.
+     * @return An ordered longs collection containing the provided longs.
+     */
+    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source);
 
     /**
      * Creates an ordered longs collection containing the provided longs.
@@ -66,5 +77,17 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).lastIndexOf(2L));
+    }
+
+    /**
+     * Verifies that an ordered longs collection created from another ordered collection has the same element
+     * cardinality and longs in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnALongCollectionWithTheSameElementCardinalityAndLongs() {
+        T source = createOrderedLongCollection(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE);
+        T actual = createOrderedLongCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Long[] {1L, 2L, LONG_THREE}, actual.toArray());
     }
 }

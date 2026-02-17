@@ -24,7 +24,7 @@ public final class ModifiableOrderedFloatCollectionTest
 
     @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return new ModifiableOrderedFloatCollection.ArrayCollection(
+        return  ModifiableOrderedFloatCollection.of(
                 OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }
 

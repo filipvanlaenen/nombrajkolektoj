@@ -24,7 +24,7 @@ public final class ModifiableOrderedByteCollectionTest
 
     @Override
     protected ModifiableOrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return new ModifiableOrderedByteCollection.ArrayCollection(
+        return  ModifiableOrderedByteCollection.of(
                 OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }
 

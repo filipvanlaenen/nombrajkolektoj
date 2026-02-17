@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * @return An ordered shorts collection containing the provided shorts.
      */
     protected abstract T createOrderedShortCollection(Short... numbers);
+
+    /**
+     * Creates an ordered shorts collection containing the provided shorts.
+     *
+     * @param numbers The shorts to be included in the ordered shorts collection.
+     * @return An ordered shorts collection containing the provided shorts.
+     */
+    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source);
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.
@@ -66,5 +77,17 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
+    }
+
+    /**
+     * Verifies that an ordered shorts collection created from another ordered collection has the same element
+     * cardinality and shorts in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnAShortCollectionWithTheSameElementCardinalityAndShorts() {
+        T source = createOrderedShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE);
+        T actual = createOrderedShortCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Short[] {(short) 1, (short) 2, SHORT_THREE}, actual.toArray());
     }
 }

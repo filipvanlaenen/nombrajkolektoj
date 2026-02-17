@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -26,6 +29,14 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * @return An ordered doubles collection containing the provided doubles.
      */
     protected abstract T createOrderedDoubleCollection(Double... numbers);
+
+    /**
+     * Creates an ordered doubles collection containing the provided doubles.
+     *
+     * @param numbers The doubles to be included in the ordered doubles collection.
+     * @return An ordered doubles collection containing the provided doubles.
+     */
+    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source);
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.
@@ -66,5 +77,17 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).lastIndexOf(2D));
+    }
+
+    /**
+     * Verifies that an ordered doubles collection created from another ordered collection has the same element
+     * cardinality and doubles in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnADoubleCollectionWithTheSameElementCardinalityAndDoubles() {
+        T source = createOrderedDoubleCollection(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE);
+        T actual = createOrderedDoubleCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Double[] {1D, 2D, DOUBLE_THREE}, actual.toArray());
     }
 }

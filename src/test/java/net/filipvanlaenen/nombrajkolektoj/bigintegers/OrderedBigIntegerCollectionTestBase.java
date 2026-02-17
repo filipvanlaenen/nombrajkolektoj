@@ -2,8 +2,11 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
@@ -28,6 +31,14 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * @return An ordered BigIntegers collection containing the provided BigIntegers.
      */
     protected abstract T createOrderedBigIntegerCollection(BigInteger... numbers);
+
+    /**
+     * Creates an ordered BigIntegers collection containing the provided BigIntegers.
+     *
+     * @param numbers The BigIntegers to be included in the ordered BigIntegers collection.
+     * @return An ordered BigIntegers collection containing the provided BigIntegers.
+     */
+    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
@@ -68,5 +79,17 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
     @Test
     public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createOrderedBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).lastIndexOf(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that an ordered BigIntegers collection created from another ordered collection has the same element
+     * cardinality and BigIntegers in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnABigIntegerCollectionWithTheSameElementCardinalityAndBigIntegers() {
+        T source = createOrderedBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        T actual = createOrderedBigIntegerCollection(source);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
     }
 }

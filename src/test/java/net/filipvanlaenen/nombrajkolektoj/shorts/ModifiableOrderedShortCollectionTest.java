@@ -24,7 +24,7 @@ public final class ModifiableOrderedShortCollectionTest
 
     @Override
     protected ModifiableOrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return new ModifiableOrderedShortCollection.ArrayCollection(
+        return  ModifiableOrderedShortCollection.of(
                 OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }
 

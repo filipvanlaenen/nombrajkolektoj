@@ -26,7 +26,7 @@ public final class ModifiableOrderedBigDecimalCollectionTest
 
     @Override
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
-        return new ModifiableOrderedBigDecimalCollection.ArrayCollection(
+        return  ModifiableOrderedBigDecimalCollection.of(
                 OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 

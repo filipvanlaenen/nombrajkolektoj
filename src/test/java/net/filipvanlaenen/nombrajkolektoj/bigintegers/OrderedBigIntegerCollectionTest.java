@@ -191,4 +191,36 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
         OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 2);
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedBigIntegerCollection actual =
+                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> !Objects.equals(n, BigInteger.ONE));
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedBigIntegerCollection actual =
+                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> !Objects.equals(n, BigInteger.TWO));
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
+    }
 }

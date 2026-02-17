@@ -189,4 +189,36 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
         OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 2);
         assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedDoubleCollection actual =
+                OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> !Objects.equals(n, 1D));
+        assertArrayEquals(new Double[] {0D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedDoubleCollection actual =
+                OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> !Objects.equals(n, 2D));
+        assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
+    }
 }

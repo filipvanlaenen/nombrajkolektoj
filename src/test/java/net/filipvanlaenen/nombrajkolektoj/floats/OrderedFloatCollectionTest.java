@@ -189,4 +189,36 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
         OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 2);
         assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedFloatCollection actual =
+                OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> !Objects.equals(n, 1F));
+        assertArrayEquals(new Float[] {0F}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedFloatCollection actual =
+                OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> !Objects.equals(n, 2F));
+        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+    }
 }

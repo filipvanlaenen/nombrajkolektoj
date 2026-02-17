@@ -189,4 +189,36 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
         OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 2);
         assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedIntegerCollection actual =
+                OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> !Objects.equals(n, 1));
+        assertArrayEquals(new Integer[] {0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedIntegerCollection actual =
+                OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> !Objects.equals(n, 2));
+        assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
+    }
 }

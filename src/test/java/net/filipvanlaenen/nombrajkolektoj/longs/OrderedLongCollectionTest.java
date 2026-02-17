@@ -189,4 +189,36 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
         OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 2);
         assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedLongCollection actual =
+                OrderedLongCollection.createSequence(i -> LONGS[i], n -> !Objects.equals(n, 1L));
+        assertArrayEquals(new Long[] {0L}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedLongCollection actual =
+                OrderedLongCollection.createSequence(i -> LONGS[i], n -> !Objects.equals(n, 2L));
+        assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
+    }
 }

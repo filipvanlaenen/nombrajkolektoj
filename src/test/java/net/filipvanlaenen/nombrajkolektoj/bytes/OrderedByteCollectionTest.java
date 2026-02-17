@@ -189,4 +189,36 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
         OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 2);
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence(i -> BYTES[i], n -> !Objects.equals(n, (byte) 1));
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence(i -> BYTES[i], n -> !Objects.equals(n, (byte) 2));
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
+    }
 }

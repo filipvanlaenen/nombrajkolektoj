@@ -191,4 +191,36 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
         OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 2);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
     }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates an empty collection when the
+     * number of elements is less than one.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> false);
+        assertTrue(actual.isEmpty());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with one
+     * element.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
+        OrderedBigDecimalCollection actual =
+                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> !Objects.equals(n, BigDecimal.ONE));
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO}, actual.toArray());
+    }
+
+    /**
+     * Verifies that <code>createSequence</code> with generator and while condition creates a collection with two
+     * elements.
+     */
+    @Test
+    public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
+        OrderedBigDecimalCollection actual =
+                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> !Objects.equals(n, BigDecimal.valueOf(2L)));
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
+    }
 }

@@ -52,4 +52,10 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     protected SortedFloatCollection createOrderedFloatCollection(OrderedNumericCollection<Float> source) {
         return SortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source,
+            int fromIndex, int toIndex) {
+        return SortedFloatCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

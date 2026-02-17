@@ -21,6 +21,10 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * The short three.
      */
     private static final Short SHORT_THREE = (short) 3;
+    /**
+     * The short four.
+     */
+    private static final Short SHORT_FOUR = (short) 4;
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.
@@ -33,10 +37,21 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
     /**
      * Creates an ordered shorts collection containing the provided shorts.
      *
-     * @param numbers The shorts to be included in the ordered shorts collection.
+     * @param source The shorts to be included in the ordered shorts collection.
      * @return An ordered shorts collection containing the provided shorts.
      */
     protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source);
+
+    /**
+     * Creates an ordered shorts collection containing the provided range of shorts.
+     *
+     * @param source    The shorts to be included in the ordered shorts collection.
+     * @param fromIndex The index of the first element to be included in the new ordered shorts collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered shorts collection.
+     * @return An ordered shorts collection containing the provided range of shorts.
+     */
+    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.
@@ -89,5 +104,17 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
         T actual = createOrderedShortCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Short[] {(short) 1, (short) 2, SHORT_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered shorts collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct shorts in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE, SHORT_FOUR);
+        T actual = createOrderedShortCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Short[] {(short) 2, SHORT_THREE}, actual.toArray());
     }
 }

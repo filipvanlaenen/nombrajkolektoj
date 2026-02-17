@@ -71,6 +71,12 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
         return OrderedBigIntegerCollection.of(source);
     }
 
+    @Override
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source,
+            int fromIndex, int toIndex) {
+        return OrderedBigIntegerCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigIntegers collection.
      */

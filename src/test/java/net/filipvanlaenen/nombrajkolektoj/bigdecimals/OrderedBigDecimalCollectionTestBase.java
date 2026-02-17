@@ -23,6 +23,10 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
      * The BigDecimal three.
      */
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
+    /**
+     * The BigDecimal four.
+     */
+    private static final BigDecimal BIG_DECIMAL_FOUR = BigDecimal.valueOf(4L);
 
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.
@@ -35,10 +39,21 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.
      *
-     * @param numbers The BigDecimals to be included in the ordered BigDecimals collection.
+     * @param source The BigDecimals to be included in the ordered BigDecimals collection.
      * @return An ordered BigDecimals collection containing the provided BigDecimals.
      */
     protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source);
+
+    /**
+     * Creates an ordered BigDecimals collection containing the provided range of BigDecimals.
+     *
+     * @param source    The BigDecimals to be included in the ordered BigDecimals collection.
+     * @param fromIndex The index of the first element to be included in the new ordered BigDecimals collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered BigDecimals collection.
+     * @return An ordered BigDecimals collection containing the provided range of BigDecimals.
+     */
+    protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.
@@ -91,5 +106,17 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
         T actual = createOrderedBigDecimalCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new BigDecimal[] {BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered BigDecimals collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct BigDecimals in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR);
+        T actual = createOrderedBigDecimalCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new BigDecimal[] {BigDecimal.valueOf(2L), BIG_DECIMAL_THREE}, actual.toArray());
     }
 }

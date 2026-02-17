@@ -54,4 +54,10 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     protected SortedBigIntegerCollection createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source) {
         return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source,
+            int fromIndex, int toIndex) {
+        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

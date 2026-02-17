@@ -54,4 +54,10 @@ public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollec
     protected SortedBigDecimalCollection createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source) {
         return SortedBigDecimalCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source,
+            int fromIndex, int toIndex) {
+        return SortedBigDecimalCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

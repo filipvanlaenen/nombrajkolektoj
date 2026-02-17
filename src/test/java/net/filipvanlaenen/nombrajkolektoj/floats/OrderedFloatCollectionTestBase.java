@@ -21,6 +21,10 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * The float three.
      */
     private static final Float FLOAT_THREE = 3F;
+    /**
+     * The float four.
+     */
+    private static final Float FLOAT_FOUR = 4F;
 
     /**
      * Creates an ordered floats collection containing the provided floats.
@@ -33,10 +37,21 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
     /**
      * Creates an ordered floats collection containing the provided floats.
      *
-     * @param numbers The floats to be included in the ordered floats collection.
+     * @param source The floats to be included in the ordered floats collection.
      * @return An ordered floats collection containing the provided floats.
      */
     protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source);
+
+    /**
+     * Creates an ordered floats collection containing the provided range of floats.
+     *
+     * @param source    The floats to be included in the ordered floats collection.
+     * @param fromIndex The index of the first element to be included in the new ordered floats collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered floats collection.
+     * @return An ordered floats collection containing the provided range of floats.
+     */
+    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered floats collection containing the provided floats.
@@ -89,5 +104,17 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
         T actual = createOrderedFloatCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered floats collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct floats in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedFloatCollection(DISTINCT_ELEMENTS, 1F, 2F, FLOAT_THREE, FLOAT_FOUR);
+        T actual = createOrderedFloatCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Float[] {2F, FLOAT_THREE}, actual.toArray());
     }
 }

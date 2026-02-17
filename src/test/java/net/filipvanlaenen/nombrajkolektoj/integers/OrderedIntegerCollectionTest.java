@@ -69,6 +69,12 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
         return OrderedIntegerCollection.of(source);
     }
 
+    @Override
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source,
+            int fromIndex, int toIndex) {
+        return OrderedIntegerCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered integers collection.
      */

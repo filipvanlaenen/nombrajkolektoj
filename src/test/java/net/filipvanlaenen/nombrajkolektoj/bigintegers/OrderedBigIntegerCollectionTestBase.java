@@ -23,6 +23,10 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * The BigInteger three.
      */
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
+    /**
+     * The BigInteger four.
+     */
+    private static final BigInteger BIG_INTEGER_FOUR = BigInteger.valueOf(4L);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
@@ -35,10 +39,21 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
      *
-     * @param numbers The BigIntegers to be included in the ordered BigIntegers collection.
+     * @param source The BigIntegers to be included in the ordered BigIntegers collection.
      * @return An ordered BigIntegers collection containing the provided BigIntegers.
      */
     protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source);
+
+    /**
+     * Creates an ordered BigIntegers collection containing the provided range of BigIntegers.
+     *
+     * @param source    The BigIntegers to be included in the ordered BigIntegers collection.
+     * @param fromIndex The index of the first element to be included in the new ordered BigIntegers collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered BigIntegers collection.
+     * @return An ordered BigIntegers collection containing the provided range of BigIntegers.
+     */
+    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
@@ -91,5 +106,17 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
         T actual = createOrderedBigIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered BigIntegers collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct BigIntegers in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BIG_INTEGER_FOUR);
+        T actual = createOrderedBigIntegerCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new BigInteger[] {BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
     }
 }

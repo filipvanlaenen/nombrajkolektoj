@@ -52,4 +52,10 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
     protected SortedIntegerCollection createOrderedIntegerCollection(OrderedNumericCollection<Integer> source) {
         return SortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source,
+            int fromIndex, int toIndex) {
+        return SortedIntegerCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

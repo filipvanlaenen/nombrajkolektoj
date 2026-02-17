@@ -69,6 +69,12 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
         return OrderedByteCollection.of(source);
     }
 
+    @Override
+    protected OrderedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source,
+            int fromIndex, int toIndex) {
+        return OrderedByteCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered bytes collection.
      */

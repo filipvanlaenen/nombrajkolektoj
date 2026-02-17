@@ -69,6 +69,12 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
         return OrderedLongCollection.of(source);
     }
 
+    @Override
+    protected OrderedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source,
+            int fromIndex, int toIndex) {
+        return OrderedLongCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered longs collection.
      */

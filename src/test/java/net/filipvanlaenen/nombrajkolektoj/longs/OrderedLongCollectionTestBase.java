@@ -21,6 +21,10 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * The long three.
      */
     private static final Long LONG_THREE = 3L;
+    /**
+     * The long four.
+     */
+    private static final Long LONG_FOUR = 4L;
 
     /**
      * Creates an ordered longs collection containing the provided longs.
@@ -33,10 +37,21 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
     /**
      * Creates an ordered longs collection containing the provided longs.
      *
-     * @param numbers The longs to be included in the ordered longs collection.
+     * @param source The longs to be included in the ordered longs collection.
      * @return An ordered longs collection containing the provided longs.
      */
     protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source);
+
+    /**
+     * Creates an ordered longs collection containing the provided range of longs.
+     *
+     * @param source    The longs to be included in the ordered longs collection.
+     * @param fromIndex The index of the first element to be included in the new ordered longs collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered longs collection.
+     * @return An ordered longs collection containing the provided range of longs.
+     */
+    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered longs collection containing the provided longs.
@@ -89,5 +104,17 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
         T actual = createOrderedLongCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Long[] {1L, 2L, LONG_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered longs collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct longs in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedLongCollection(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE, LONG_FOUR);
+        T actual = createOrderedLongCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Long[] {2L, LONG_THREE}, actual.toArray());
     }
 }

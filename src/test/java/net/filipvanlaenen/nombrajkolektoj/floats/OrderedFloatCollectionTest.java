@@ -69,6 +69,12 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
         return OrderedFloatCollection.of(source);
     }
 
+    @Override
+    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source,
+            int fromIndex, int toIndex) {
+        return OrderedFloatCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered floats collection.
      */

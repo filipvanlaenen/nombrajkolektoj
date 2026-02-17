@@ -21,6 +21,10 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * The double three.
      */
     private static final Double DOUBLE_THREE = 3D;
+    /**
+     * The double four.
+     */
+    private static final Double DOUBLE_FOUR = 4D;
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.
@@ -33,10 +37,21 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
     /**
      * Creates an ordered doubles collection containing the provided doubles.
      *
-     * @param numbers The doubles to be included in the ordered doubles collection.
+     * @param source The doubles to be included in the ordered doubles collection.
      * @return An ordered doubles collection containing the provided doubles.
      */
     protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source);
+
+    /**
+     * Creates an ordered doubles collection containing the provided range of doubles.
+     *
+     * @param source    The doubles to be included in the ordered doubles collection.
+     * @param fromIndex The index of the first element to be included in the new ordered doubles collection.
+     * @param toIndex   The index of the first element not to be included in the new ordered doubles collection.
+     * @return An ordered doubles collection containing the provided range of doubles.
+     */
+    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source, final int fromIndex,
+            final int toIndex);
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.
@@ -89,5 +104,17 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
         T actual = createOrderedDoubleCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Double[] {1D, 2D, DOUBLE_THREE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that an ordered doubles collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct doubles in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        T source = createOrderedDoubleCollection(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE, DOUBLE_FOUR);
+        T actual = createOrderedDoubleCollection(source, 1, 3);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Double[] {2D, DOUBLE_THREE}, actual.toArray());
     }
 }

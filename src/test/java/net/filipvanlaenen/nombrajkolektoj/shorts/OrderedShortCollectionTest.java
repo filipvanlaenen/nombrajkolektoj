@@ -69,6 +69,12 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
         return OrderedShortCollection.of(source);
     }
 
+    @Override
+    protected OrderedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source,
+            int fromIndex, int toIndex) {
+        return OrderedShortCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered shorts collection.
      */

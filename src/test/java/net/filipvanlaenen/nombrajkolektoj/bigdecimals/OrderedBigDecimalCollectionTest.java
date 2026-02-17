@@ -71,6 +71,12 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
         return OrderedBigDecimalCollection.of(source);
     }
 
+    @Override
+    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source,
+            int fromIndex, int toIndex) {
+        return OrderedBigDecimalCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigDecimals collection.
      */

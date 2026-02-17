@@ -69,6 +69,12 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
         return OrderedDoubleCollection.of(source);
     }
 
+    @Override
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source,
+            int fromIndex, int toIndex) {
+        return OrderedDoubleCollection.of(source, fromIndex, toIndex);
+    }
+
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered doubles collection.
      */

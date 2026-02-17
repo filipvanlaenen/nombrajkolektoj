@@ -52,4 +52,10 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     protected SortedByteCollection createOrderedByteCollection(OrderedNumericCollection<Byte> source) {
         return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source,
+            int fromIndex, int toIndex) {
+        return SortedByteCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

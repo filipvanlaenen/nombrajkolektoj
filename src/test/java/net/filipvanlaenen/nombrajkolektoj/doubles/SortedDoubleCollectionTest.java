@@ -52,4 +52,10 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     protected SortedDoubleCollection createOrderedDoubleCollection(OrderedNumericCollection<Double> source) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
+
+    @Override
+    protected SortedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source,
+            int fromIndex, int toIndex) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
+    }
 }

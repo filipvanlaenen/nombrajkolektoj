@@ -29,17 +29,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
-        }
-
-        /**
-         * Constructs a collection with the given bytes and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The bytes of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new ModifiableArrayCollection<Byte>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Byte>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          */
         public ArrayCollection(final Byte... numbers) {
             super(new ModifiableArrayCollection<Byte>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            super(new ModifiableArrayCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new ModifiableArrayCollection<Byte>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
-        }
-
-        /**
-         * Constructs a collection with the given bytes and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The bytes of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Byte>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          */
         public LinkedListCollection(final Byte... numbers) {
             super(new ModifiableLinkedListCollection<Byte>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     }
 
     /**
-     * Returns a new bytes modifiable collection cloned from the provided bytes collection.
-     *
-     * @param collection The original bytes collection.
-     * @return A new modifiable bytes collection cloned from the provided bytes collection.
-     */
-    public static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable bytes collection with the specified bytes.
      *
      * @param numbers The bytes for the new modifiable bytes collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      */
     public static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable bytes collection with the specified element cardinality and the bytes.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original bytes collection.
+     * @return A new modifiable bytes collection with the specified element cardinality and the bytes.
+     */
+    public static ModifiableByteCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new bytes modifiable collection cloned from the provided bytes collection.
+     *
+     * @param collection The original bytes collection.
+     * @return A new modifiable bytes collection cloned from the provided bytes collection.
+     */
+    public static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

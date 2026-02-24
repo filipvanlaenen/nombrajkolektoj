@@ -29,17 +29,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given integers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The integers of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new ModifiableArrayCollection<Integer>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Integer>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          */
         public ArrayCollection(final Integer... numbers) {
             super(new ModifiableArrayCollection<Integer>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            super(new ModifiableArrayCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new ModifiableArrayCollection<Integer>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given integers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The integers of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Integer>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          */
         public LinkedListCollection(final Integer... numbers) {
             super(new ModifiableLinkedListCollection<Integer>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
-     * Returns a new integers modifiable collection cloned from the provided integers collection.
-     *
-     * @param collection The original integers collection.
-     * @return A new modifiable integers collection cloned from the provided integers collection.
-     */
-    public static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable integers collection with the specified integers.
      *
      * @param numbers The integers for the new modifiable integers collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      */
     public static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable integers collection with the specified element cardinality and the integers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original integers collection.
+     * @return A new modifiable integers collection with the specified element cardinality and the integers.
+     */
+    public static ModifiableIntegerCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new integers modifiable collection cloned from the provided integers collection.
+     *
+     * @param collection The original integers collection.
+     * @return A new modifiable integers collection cloned from the provided integers collection.
+     */
+    public static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

@@ -29,17 +29,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Long> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
-        }
-
-        /**
-         * Constructs a collection with the given longs and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The longs of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableArrayCollection<Long>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Long>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          */
         public ArrayCollection(final Long... numbers) {
             super(new ModifiableArrayCollection<Long>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
+            super(new ModifiableArrayCollection<Long>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The longs of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new ModifiableArrayCollection<Long>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Long> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
-        }
-
-        /**
-         * Constructs a collection with the given longs and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The longs of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableLinkedListCollection<Long>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Long>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          */
         public LinkedListCollection(final Long... numbers) {
             super(new ModifiableLinkedListCollection<Long>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
+            super(new ModifiableLinkedListCollection<Long>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The longs of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new ModifiableLinkedListCollection<Long>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     }
 
     /**
-     * Returns a new longs modifiable collection cloned from the provided longs collection.
-     *
-     * @param collection The original longs collection.
-     * @return A new modifiable longs collection cloned from the provided longs collection.
-     */
-    public static ModifiableLongCollection of(final NumericCollection<Long> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable longs collection with the specified longs.
      *
      * @param numbers The longs for the new modifiable longs collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      */
     public static ModifiableLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable longs collection with the specified element cardinality and the longs.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original longs collection.
+     * @return A new modifiable longs collection with the specified element cardinality and the longs.
+     */
+    public static ModifiableLongCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new longs modifiable collection cloned from the provided longs collection.
+     *
+     * @param collection The original longs collection.
+     * @return A new modifiable longs collection cloned from the provided longs collection.
+     */
+    public static ModifiableLongCollection of(final NumericCollection<Long> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

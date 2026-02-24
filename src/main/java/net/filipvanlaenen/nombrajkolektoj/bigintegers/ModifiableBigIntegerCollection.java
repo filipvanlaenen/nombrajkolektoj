@@ -31,17 +31,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given BigIntegers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigIntegers of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new ModifiableArrayCollection<BigInteger>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<BigInteger>(source));
         }
 
         /**
@@ -52,6 +42,26 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          */
         public ArrayCollection(final BigInteger... numbers) {
             super(new ModifiableArrayCollection<BigInteger>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
+            super(new ModifiableArrayCollection<BigInteger>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigIntegers of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+            super(new ModifiableArrayCollection<BigInteger>(elementCardinality, numbers));
         }
     }
 
@@ -66,17 +76,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given BigIntegers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigIntegers of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new ModifiableLinkedListCollection<BigInteger>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<BigInteger>(source));
         }
 
         /**
@@ -87,6 +87,26 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          */
         public LinkedListCollection(final BigInteger... numbers) {
             super(new ModifiableLinkedListCollection<BigInteger>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
+            super(new ModifiableLinkedListCollection<BigInteger>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigIntegers of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+            super(new ModifiableLinkedListCollection<BigInteger>(elementCardinality, numbers));
         }
     }
 
@@ -154,16 +174,6 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
     }
 
     /**
-     * Returns a new BigIntegers modifiable collection cloned from the provided BigIntegers collection.
-     *
-     * @param collection The original BigIntegers collection.
-     * @return A new modifiable BigIntegers collection cloned from the provided BigIntegers collection.
-     */
-    public static ModifiableBigIntegerCollection of(final NumericCollection<BigInteger> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable BigIntegers collection with the specified BigIntegers.
      *
      * @param numbers The BigIntegers for the new modifiable BigIntegers collection.
@@ -182,6 +192,28 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
      */
     public static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable BigIntegers collection with the specified element cardinality and the BigIntegers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original BigIntegers collection.
+     * @return A new modifiable BigIntegers collection with the specified element cardinality and the BigIntegers.
+     */
+    public static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new BigIntegers modifiable collection cloned from the provided BigIntegers collection.
+     *
+     * @param collection The original BigIntegers collection.
+     * @return A new modifiable BigIntegers collection cloned from the provided BigIntegers collection.
+     */
+    public static ModifiableBigIntegerCollection of(final NumericCollection<BigInteger> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

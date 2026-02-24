@@ -31,17 +31,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
-        }
-
-        /**
-         * Constructs a collection with the given BigDecimals and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigDecimals of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<BigDecimal>(source));
         }
 
         /**
@@ -52,6 +42,26 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          */
         public ArrayCollection(final BigDecimal... numbers) {
             super(new ModifiableArrayCollection<BigDecimal>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
+            super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, numbers));
         }
     }
 
@@ -66,17 +76,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
-        }
-
-        /**
-         * Constructs a collection with the given BigDecimals and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigDecimals of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<BigDecimal>(source));
         }
 
         /**
@@ -87,6 +87,26 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          */
         public LinkedListCollection(final BigDecimal... numbers) {
             super(new ModifiableLinkedListCollection<BigDecimal>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
+            super(new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            super(new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, numbers));
         }
     }
 
@@ -154,16 +174,6 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
     }
 
     /**
-     * Returns a new BigDecimals modifiable collection cloned from the provided BigDecimals collection.
-     *
-     * @param collection The original BigDecimals collection.
-     * @return A new modifiable BigDecimals collection cloned from the provided BigDecimals collection.
-     */
-    public static ModifiableBigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable BigDecimals collection with the specified BigDecimals.
      *
      * @param numbers The BigDecimals for the new modifiable BigDecimals collection.
@@ -182,6 +192,28 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      */
     public static ModifiableBigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals collection with the specified element cardinality and the BigDecimals.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original BigDecimals collection.
+     * @return A new modifiable BigDecimals collection with the specified element cardinality and the BigDecimals.
+     */
+    public static ModifiableBigDecimalCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new BigDecimals modifiable collection cloned from the provided BigDecimals collection.
+     *
+     * @param collection The original BigDecimals collection.
+     * @return A new modifiable BigDecimals collection cloned from the provided BigDecimals collection.
+     */
+    public static ModifiableBigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

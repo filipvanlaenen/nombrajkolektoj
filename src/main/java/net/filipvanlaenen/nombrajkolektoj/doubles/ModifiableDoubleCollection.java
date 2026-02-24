@@ -29,17 +29,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Double> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
-        }
-
-        /**
-         * Constructs a collection with the given doubles and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The doubles of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new ModifiableArrayCollection<Double>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Double>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          */
         public ArrayCollection(final Double... numbers) {
             super(new ModifiableArrayCollection<Double>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
+            super(new ModifiableArrayCollection<Double>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new ModifiableArrayCollection<Double>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Double> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
-        }
-
-        /**
-         * Constructs a collection with the given doubles and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The doubles of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new ModifiableLinkedListCollection<Double>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Double>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          */
         public LinkedListCollection(final Double... numbers) {
             super(new ModifiableLinkedListCollection<Double>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
+            super(new ModifiableLinkedListCollection<Double>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new ModifiableLinkedListCollection<Double>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     }
 
     /**
-     * Returns a new doubles modifiable collection cloned from the provided doubles collection.
-     *
-     * @param collection The original doubles collection.
-     * @return A new modifiable doubles collection cloned from the provided doubles collection.
-     */
-    public static ModifiableDoubleCollection of(final NumericCollection<Double> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable doubles collection with the specified doubles.
      *
      * @param numbers The doubles for the new modifiable doubles collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
      */
     public static ModifiableDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable doubles collection with the specified element cardinality and the doubles.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original doubles collection.
+     * @return A new modifiable doubles collection with the specified element cardinality and the doubles.
+     */
+    public static ModifiableDoubleCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new doubles modifiable collection cloned from the provided doubles collection.
+     *
+     * @param collection The original doubles collection.
+     * @return A new modifiable doubles collection cloned from the provided doubles collection.
+     */
+    public static ModifiableDoubleCollection of(final NumericCollection<Double> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

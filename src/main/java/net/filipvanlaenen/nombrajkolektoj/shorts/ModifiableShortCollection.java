@@ -29,17 +29,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
-        }
-
-        /**
-         * Constructs a collection with the given shorts and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The shorts of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableArrayCollection<Short>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Short>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          */
         public ArrayCollection(final Short... numbers) {
             super(new ModifiableArrayCollection<Short>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
+            super(new ModifiableArrayCollection<Short>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new ModifiableArrayCollection<Short>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
-        }
-
-        /**
-         * Constructs a collection with the given shorts and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The shorts of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableLinkedListCollection<Short>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Short>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          */
         public LinkedListCollection(final Short... numbers) {
             super(new ModifiableLinkedListCollection<Short>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
+            super(new ModifiableLinkedListCollection<Short>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new ModifiableLinkedListCollection<Short>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     }
 
     /**
-     * Returns a new shorts modifiable collection cloned from the provided shorts collection.
-     *
-     * @param collection The original shorts collection.
-     * @return A new modifiable shorts collection cloned from the provided shorts collection.
-     */
-    public static ModifiableShortCollection of(final NumericCollection<Short> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable shorts collection with the specified shorts.
      *
      * @param numbers The shorts for the new modifiable shorts collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      */
     public static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable shorts collection with the specified element cardinality and the shorts.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original shorts collection.
+     * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
+     */
+    public static ModifiableShortCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new shorts modifiable collection cloned from the provided shorts collection.
+     *
+     * @param collection The original shorts collection.
+     * @return A new modifiable shorts collection cloned from the provided shorts collection.
+     */
+    public static ModifiableShortCollection of(final NumericCollection<Short> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

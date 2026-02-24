@@ -29,17 +29,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
-        }
-
-        /**
-         * Constructs a collection with the given floats and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The floats of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableArrayCollection<Float>(elementCardinality, numbers));
+            super(new ModifiableArrayCollection<Float>(source));
         }
 
         /**
@@ -50,6 +40,26 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          */
         public ArrayCollection(final Float... numbers) {
             super(new ModifiableArrayCollection<Float>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
+            super(new ModifiableArrayCollection<Float>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The floats of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new ModifiableArrayCollection<Float>(elementCardinality, numbers));
         }
     }
 
@@ -64,17 +74,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
-        }
-
-        /**
-         * Constructs a collection with the given floats and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The floats of the collection.
-         */
-        public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableLinkedListCollection<Float>(elementCardinality, numbers));
+            super(new ModifiableLinkedListCollection<Float>(source));
         }
 
         /**
@@ -85,6 +85,26 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          */
         public LinkedListCollection(final Float... numbers) {
             super(new ModifiableLinkedListCollection<Float>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
+            super(new ModifiableLinkedListCollection<Float>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The floats of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new ModifiableLinkedListCollection<Float>(elementCardinality, numbers));
         }
     }
 
@@ -152,16 +172,6 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
     }
 
     /**
-     * Returns a new floats modifiable collection cloned from the provided floats collection.
-     *
-     * @param collection The original floats collection.
-     * @return A new modifiable floats collection cloned from the provided floats collection.
-     */
-    public static ModifiableFloatCollection of(final NumericCollection<Float> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new modifiable floats collection with the specified floats.
      *
      * @param numbers The floats for the new modifiable floats collection.
@@ -180,6 +190,28 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
      */
     public static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable floats collection with the specified element cardinality and the floats.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original floats collection.
+     * @return A new modifiable floats collection with the specified element cardinality and the floats.
+     */
+    public static ModifiableFloatCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new floats modifiable collection cloned from the provided floats collection.
+     *
+     * @param collection The original floats collection.
+     * @return A new modifiable floats collection cloned from the provided floats collection.
+     */
+    public static ModifiableFloatCollection of(final NumericCollection<Float> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

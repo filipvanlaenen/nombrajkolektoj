@@ -22,17 +22,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
-        }
-
-        /**
-         * Constructs a collection with the given bytes and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The bytes of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(source));
         }
 
         /**
@@ -43,6 +33,26 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          */
         public ArrayCollection(final Byte... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, numbers));
         }
     }
 
@@ -95,16 +105,6 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
     }
 
     /**
-     * Returns a new bytes collection cloned from the provided bytes collection.
-     *
-     * @param collection The original bytes collection.
-     * @return A new bytes collection cloned from the provided bytes collection.
-     */
-    public static ByteCollection of(final NumericCollection<Byte> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new bytes collection with the specified bytes.
      *
      * @param numbers The bytes for the new bytes collection.
@@ -123,6 +123,30 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      */
     public static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new bytes collection with the specified element cardinality cloned from the provided bytes
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original bytes collection.
+     * @return A new bytes collection with the specified element cardinality cloned from the provided bytes
+     *         collection.
+     */
+    public static ByteCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new bytes collection cloned from the provided bytes collection.
+     *
+     * @param collection The original bytes collection.
+     * @return A new bytes collection cloned from the provided bytes collection.
+     */
+    public static ByteCollection of(final NumericCollection<Byte> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

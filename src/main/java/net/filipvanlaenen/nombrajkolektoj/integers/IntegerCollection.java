@@ -22,17 +22,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given integers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The integers of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(source));
         }
 
         /**
@@ -43,6 +33,26 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          */
         public ArrayCollection(final Integer... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, numbers));
         }
     }
 
@@ -95,16 +105,6 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
-     * Returns a new integers collection cloned from the provided integers collection.
-     *
-     * @param collection The original integers collection.
-     * @return A new integers collection cloned from the provided integers collection.
-     */
-    public static IntegerCollection of(final NumericCollection<Integer> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new integers collection with the specified integers.
      *
      * @param numbers The integers for the new integers collection.
@@ -123,6 +123,30 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
      */
     public static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new integers collection with the specified element cardinality cloned from the provided integers
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original integers collection.
+     * @return A new integers collection with the specified element cardinality cloned from the provided integers
+     *         collection.
+     */
+    public static IntegerCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new integers collection cloned from the provided integers collection.
+     *
+     * @param collection The original integers collection.
+     * @return A new integers collection cloned from the provided integers collection.
+     */
+    public static IntegerCollection of(final NumericCollection<Integer> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

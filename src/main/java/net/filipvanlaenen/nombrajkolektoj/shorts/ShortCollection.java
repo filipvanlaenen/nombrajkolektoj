@@ -22,17 +22,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
-        }
-
-        /**
-         * Constructs a collection with the given shorts and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The shorts of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(source));
         }
 
         /**
@@ -43,6 +33,26 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          */
         public ArrayCollection(final Short... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, numbers));
         }
     }
 
@@ -95,16 +105,6 @@ public abstract class ShortCollection extends AbstractShortCollection implements
     }
 
     /**
-     * Returns a new shorts collection cloned from the provided shorts collection.
-     *
-     * @param collection The original shorts collection.
-     * @return A new shorts collection cloned from the provided shorts collection.
-     */
-    public static ShortCollection of(final NumericCollection<Short> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new shorts collection with the specified shorts.
      *
      * @param numbers The shorts for the new shorts collection.
@@ -123,6 +123,30 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      */
     public static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new shorts collection with the specified element cardinality cloned from the provided shorts
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original shorts collection.
+     * @return A new shorts collection with the specified element cardinality cloned from the provided shorts
+     *         collection.
+     */
+    public static ShortCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new shorts collection cloned from the provided shorts collection.
+     *
+     * @param collection The original shorts collection.
+     * @return A new shorts collection cloned from the provided shorts collection.
+     */
+    public static ShortCollection of(final NumericCollection<Short> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

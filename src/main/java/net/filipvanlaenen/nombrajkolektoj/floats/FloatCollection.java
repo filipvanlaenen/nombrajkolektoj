@@ -22,17 +22,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
-        }
-
-        /**
-         * Constructs a collection with the given floats and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The floats of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(source));
         }
 
         /**
@@ -43,6 +33,26 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          */
         public ArrayCollection(final Float... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The floats of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, numbers));
         }
     }
 
@@ -95,16 +105,6 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
     }
 
     /**
-     * Returns a new floats collection cloned from the provided floats collection.
-     *
-     * @param collection The original floats collection.
-     * @return A new floats collection cloned from the provided floats collection.
-     */
-    public static FloatCollection of(final NumericCollection<Float> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new floats collection with the specified floats.
      *
      * @param numbers The floats for the new floats collection.
@@ -123,6 +123,30 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
      */
     public static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new floats collection with the specified element cardinality cloned from the provided floats
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original floats collection.
+     * @return A new floats collection with the specified element cardinality cloned from the provided floats
+     *         collection.
+     */
+    public static FloatCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new floats collection cloned from the provided floats collection.
+     *
+     * @param collection The original floats collection.
+     * @return A new floats collection cloned from the provided floats collection.
+     */
+    public static FloatCollection of(final NumericCollection<Float> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

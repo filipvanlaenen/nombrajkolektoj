@@ -24,17 +24,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
-        }
-
-        /**
-         * Constructs a collection with the given BigIntegers and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigIntegers of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(source));
         }
 
         /**
@@ -45,6 +35,26 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          */
         public ArrayCollection(final BigInteger... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigIntegers of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, numbers));
         }
     }
 
@@ -97,16 +107,6 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
     }
 
     /**
-     * Returns a new BigIntegers collection cloned from the provided BigIntegers collection.
-     *
-     * @param collection The original BigIntegers collection.
-     * @return A new BigIntegers collection cloned from the provided BigIntegers collection.
-     */
-    public static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new BigIntegers collection with the specified BigIntegers.
      *
      * @param numbers The BigIntegers for the new BigIntegers collection.
@@ -125,6 +125,30 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
      */
     public static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new BigIntegers collection with the specified element cardinality cloned from the provided BigIntegers
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original BigIntegers collection.
+     * @return A new BigIntegers collection with the specified element cardinality cloned from the provided BigIntegers
+     *         collection.
+     */
+    public static BigIntegerCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new BigIntegers collection cloned from the provided BigIntegers collection.
+     *
+     * @param collection The original BigIntegers collection.
+     * @return A new BigIntegers collection cloned from the provided BigIntegers collection.
+     */
+    public static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

@@ -22,17 +22,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Double> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
-        }
-
-        /**
-         * Constructs a collection with the given doubles and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The doubles of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(source));
         }
 
         /**
@@ -43,6 +33,26 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          */
         public ArrayCollection(final Double... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, numbers));
         }
     }
 
@@ -95,16 +105,6 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
     }
 
     /**
-     * Returns a new doubles collection cloned from the provided doubles collection.
-     *
-     * @param collection The original doubles collection.
-     * @return A new doubles collection cloned from the provided doubles collection.
-     */
-    public static DoubleCollection of(final NumericCollection<Double> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new doubles collection with the specified doubles.
      *
      * @param numbers The doubles for the new doubles collection.
@@ -123,6 +123,30 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
      */
     public static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new doubles collection with the specified element cardinality cloned from the provided doubles
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original doubles collection.
+     * @return A new doubles collection with the specified element cardinality cloned from the provided doubles
+     *         collection.
+     */
+    public static DoubleCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new doubles collection cloned from the provided doubles collection.
+     *
+     * @param collection The original doubles collection.
+     * @return A new doubles collection cloned from the provided doubles collection.
+     */
+    public static DoubleCollection of(final NumericCollection<Double> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

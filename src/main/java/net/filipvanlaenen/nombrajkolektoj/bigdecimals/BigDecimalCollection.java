@@ -24,17 +24,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
-        }
-
-        /**
-         * Constructs a collection with the given BigDecimals and element cardinality.
-         *
-         * @param elementCardinality The element cardinality.
-         * @param numbers            The BigDecimals of the collection.
-         */
-        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, numbers));
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(source));
         }
 
         /**
@@ -45,6 +35,26 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          */
         public ArrayCollection(final BigDecimal... numbers) {
             super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, numbers));
         }
     }
 
@@ -97,16 +107,6 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
     }
 
     /**
-     * Returns a new BigDecimals collection cloned from the provided BigDecimals collection.
-     *
-     * @param collection The original BigDecimals collection.
-     * @return A new BigDecimals collection cloned from the provided BigDecimals collection.
-     */
-    public static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
-        return new ArrayCollection(collection);
-    }
-
-    /**
      * Returns a new BigDecimals collection with the specified BigDecimals.
      *
      * @param numbers The BigDecimals for the new BigDecimals collection.
@@ -125,6 +125,30 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
      */
     public static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new BigDecimals collection with the specified element cardinality cloned from the provided BigDecimals
+     * collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original BigDecimals collection.
+     * @return A new BigDecimals collection with the specified element cardinality cloned from the provided BigDecimals
+     *         collection.
+     */
+    public static BigDecimalCollection of(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(elementCardinality, collection);
+    }
+
+    /**
+     * Returns a new BigDecimals collection cloned from the provided BigDecimals collection.
+     *
+     * @param collection The original BigDecimals collection.
+     * @return A new BigDecimals collection cloned from the provided BigDecimals collection.
+     */
+    public static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(collection);
     }
 
     @Override

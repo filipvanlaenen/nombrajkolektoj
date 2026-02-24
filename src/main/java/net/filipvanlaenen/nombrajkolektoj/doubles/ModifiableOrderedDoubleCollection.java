@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
      */
     public static final class ArrayCollection extends ModifiableOrderedDoubleCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same doubles and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The doubles of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Double> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
+        public ArrayCollection(final Double... numbers) {
+            super(new ModifiableOrderedArrayCollection<Double>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
          * @param numbers            The doubles of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Double>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Double>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given doubles. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given doubles and element cardinality.
          *
-         * @param numbers The doubles of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Double>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Double> source) {
+            super(new ModifiableOrderedArrayCollection<Double>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same doubles and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Double> source) {
+            super(new ModifiableOrderedArrayCollection<Double>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
     public static ModifiableOrderedDoubleCollection of(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection with the specified element cardinality and the doubles.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered doubles collection.
+     * @return A new modifiable ordered doubles collection with the specified element cardinality and the doubles.
+     */
+    public static ModifiableOrderedDoubleCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Double> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

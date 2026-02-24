@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -25,13 +26,13 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
      */
     public static final class ArrayCollection extends ModifiableOrderedBigDecimalCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same BigDecimals and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The BigDecimals of the collection.
          */
-        public ArrayCollection(final OrderedCollection<BigDecimal> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
+        public ArrayCollection(final BigDecimal... numbers) {
+            super(new ModifiableOrderedArrayCollection<BigDecimal>(numbers));
         }
 
         /**
@@ -41,18 +42,27 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
          * @param numbers            The BigDecimals of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<BigDecimal>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<BigDecimal>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given BigDecimals. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given BigDecimals and element cardinality.
          *
-         * @param numbers The BigDecimals of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<BigDecimal>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<BigDecimal> source) {
+            super(new ModifiableOrderedArrayCollection<BigDecimal>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same BigDecimals and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<BigDecimal> source) {
+            super(new ModifiableOrderedArrayCollection<BigDecimal>(source));
         }
     }
 
@@ -207,6 +217,18 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
     public static ModifiableOrderedBigDecimalCollection of(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigDecimals collection with the specified element cardinality and the BigDecimals.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered BigDecimals collection.
+     * @return A new modifiable ordered BigDecimals collection with the specified element cardinality and the BigDecimals.
+     */
+    public static ModifiableOrderedBigDecimalCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

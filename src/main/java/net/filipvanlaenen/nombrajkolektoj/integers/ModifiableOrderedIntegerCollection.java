@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
      */
     public static final class ArrayCollection extends ModifiableOrderedIntegerCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same integers and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The integers of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
+        public ArrayCollection(final Integer... numbers) {
+            super(new ModifiableOrderedArrayCollection<Integer>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
          * @param numbers            The integers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Integer>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Integer>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given integers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given integers and element cardinality.
          *
-         * @param numbers The integers of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Integer>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Integer> source) {
+            super(new ModifiableOrderedArrayCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same integers and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Integer> source) {
+            super(new ModifiableOrderedArrayCollection<Integer>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
     public static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection with the specified element cardinality and the integers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered integers collection.
+     * @return A new modifiable ordered integers collection with the specified element cardinality and the integers.
+     */
+    public static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Integer> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

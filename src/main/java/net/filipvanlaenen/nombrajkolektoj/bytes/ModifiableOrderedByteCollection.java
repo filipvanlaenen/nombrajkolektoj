@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
      */
     public static final class ArrayCollection extends ModifiableOrderedByteCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same bytes and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The bytes of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
+        public ArrayCollection(final Byte... numbers) {
+            super(new ModifiableOrderedArrayCollection<Byte>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
          * @param numbers            The bytes of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Byte>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Byte>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given bytes. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given bytes and element cardinality.
          *
-         * @param numbers The bytes of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Byte>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Byte> source) {
+            super(new ModifiableOrderedArrayCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same bytes and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Byte> source) {
+            super(new ModifiableOrderedArrayCollection<Byte>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
     public static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection with the specified element cardinality and the bytes.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered bytes collection.
+     * @return A new modifiable ordered bytes collection with the specified element cardinality and the bytes.
+     */
+    public static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Byte> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

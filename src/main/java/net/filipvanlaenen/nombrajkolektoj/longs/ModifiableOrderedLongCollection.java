@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
      */
     public static final class ArrayCollection extends ModifiableOrderedLongCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same longs and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The longs of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Long> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
+        public ArrayCollection(final Long... numbers) {
+            super(new ModifiableOrderedArrayCollection<Long>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param numbers            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Long>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Long>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given longs. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given longs and element cardinality.
          *
-         * @param numbers The longs of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Long>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Long> source) {
+            super(new ModifiableOrderedArrayCollection<Long>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same longs and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Long> source) {
+            super(new ModifiableOrderedArrayCollection<Long>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
     public static ModifiableOrderedLongCollection of(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered longs collection with the specified element cardinality and the longs.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered longs collection.
+     * @return A new modifiable ordered longs collection with the specified element cardinality and the longs.
+     */
+    public static ModifiableOrderedLongCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Long> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

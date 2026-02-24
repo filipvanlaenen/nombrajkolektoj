@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      */
     public static final class ArrayCollection extends ModifiableOrderedShortCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same shorts and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The shorts of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+        public ArrayCollection(final Short... numbers) {
+            super(new ModifiableOrderedArrayCollection<Short>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param numbers            The shorts of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Short>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Short>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given shorts. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given shorts and element cardinality.
          *
-         * @param numbers The shorts of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Short>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Short> source) {
+            super(new ModifiableOrderedArrayCollection<Short>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same shorts and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Short> source) {
+            super(new ModifiableOrderedArrayCollection<Short>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
     public static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered shorts collection with the specified element cardinality and the shorts.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered shorts collection.
+     * @return A new modifiable ordered shorts collection with the specified element cardinality and the shorts.
+     */
+    public static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Short> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

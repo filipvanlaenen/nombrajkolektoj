@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -25,13 +26,13 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
      */
     public static final class ArrayCollection extends ModifiableOrderedBigIntegerCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same BigIntegers and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The BigIntegers of the collection.
          */
-        public ArrayCollection(final OrderedCollection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
+        public ArrayCollection(final BigInteger... numbers) {
+            super(new ModifiableOrderedArrayCollection<BigInteger>(numbers));
         }
 
         /**
@@ -41,18 +42,27 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
          * @param numbers            The BigIntegers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<BigInteger>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<BigInteger>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given BigIntegers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given BigIntegers and element cardinality.
          *
-         * @param numbers The BigIntegers of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<BigInteger>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<BigInteger> source) {
+            super(new ModifiableOrderedArrayCollection<BigInteger>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same BigIntegers and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<BigInteger> source) {
+            super(new ModifiableOrderedArrayCollection<BigInteger>(source));
         }
     }
 
@@ -207,6 +217,18 @@ public abstract class ModifiableOrderedBigIntegerCollection extends AbstractModi
     public static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
             final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered BigIntegers collection.
+     * @return A new modifiable ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
+     */
+    public static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<BigInteger> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

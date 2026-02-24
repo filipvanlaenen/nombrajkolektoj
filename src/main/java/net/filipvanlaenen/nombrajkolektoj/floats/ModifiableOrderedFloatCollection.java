@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -23,13 +24,13 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      */
     public static final class ArrayCollection extends ModifiableOrderedFloatCollection {
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same floats and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The floats of the collection.
          */
-        public ArrayCollection(final OrderedCollection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+        public ArrayCollection(final Float... numbers) {
+            super(new ModifiableOrderedArrayCollection<Float>(numbers));
         }
 
         /**
@@ -39,18 +40,27 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param numbers            The floats of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Float>(elementCardinality,
-                    numbers));
+            super(new ModifiableOrderedArrayCollection<Float>(elementCardinality, numbers));
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given floats. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection with the given floats and element cardinality.
          *
-         * @param numbers The floats of the collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection<Float>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Float> source) {
+            super(new ModifiableOrderedArrayCollection<Float>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable ordered collection from another ordered collection, with the same floats and the
+         * same element cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Float> source) {
+            super(new ModifiableOrderedArrayCollection<Float>(source));
         }
     }
 
@@ -205,6 +215,18 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
     public static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection with the specified element cardinality and the floats.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered floats collection.
+     * @return A new modifiable ordered floats collection with the specified element cardinality and the floats.
+     */
+    public static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Float> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**

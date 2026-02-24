@@ -23,12 +23,13 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
      */
     public static final class HashMap<K> extends BigDecimalMap<K> {
         /**
-         * Constructs a map from another map, with the same keys and BigDecimals and the same key and value cardinality.
+         * Constructs a map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(source));
+        public HashMap(final Entry<K, BigDecimal>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(entries));
         }
 
         /**
@@ -42,13 +43,22 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
         }
 
         /**
-         * Constructs a map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a map from another map with the specified key and value cardinality cloned from another map.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, BigDecimal>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigDecimal> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a map from another map, with the same keys and BigDecimals and the same key and value cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, BigDecimal> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigDecimal>(source));
         }
     }
 
@@ -132,17 +142,6 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
     }
 
     /**
-     * Returns a new BigDecimals map cloned from the provided BigDecimals map.
-     *
-     * @param <L> The key type.
-     * @param map The original BigDecimals map.
-     * @return A new BigDecimals map cloned from the provided BigDecimals map.
-     */
-    public static <L> BigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
-        return new HashMap<L>(map);
-    }
-
-    /**
      * Returns a new BigDecimals map with the specified entries.
      *
      * @param <L>     The key type.
@@ -164,6 +163,19 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
     public static <L> BigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new BigDecimals map with the specified key and value cardinality cloned from the provided BigDecimals map.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original BigDecimals map.
+     * @return A new BigDecimals map with the specified key and value cardinality cloned from the provided BigDecimals map.
+     */
+    public static <L> BigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, BigDecimal> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -251,6 +263,17 @@ public abstract class BigDecimalMap<K> extends AbstractBigDecimalMap<K> implemen
         return new HashMap<L>(new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4),
                 new Entry<L, BigDecimal>(key5, value5));
+    }
+
+    /**
+     * Returns a new BigDecimals map cloned from the provided BigDecimals map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigDecimals map.
+     * @return A new BigDecimals map cloned from the provided BigDecimals map.
+     */
+    public static <L> BigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

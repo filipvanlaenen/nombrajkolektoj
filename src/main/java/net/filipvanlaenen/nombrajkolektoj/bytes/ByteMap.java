@@ -21,12 +21,13 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      */
     public static final class HashMap<K> extends ByteMap<K> {
         /**
-         * Constructs a map from another map, with the same keys and Bytes and the same key and value cardinality.
+         * Constructs a map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(source));
+        public HashMap(final Entry<K, Byte>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(entries));
         }
 
         /**
@@ -40,13 +41,22 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
         }
 
         /**
-         * Constructs a map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a map from another map with the specified key and value cardinality cloned from another map.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a map from another map, with the same keys and Bytes and the same key and value cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(source));
         }
     }
 
@@ -130,17 +140,6 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
     }
 
     /**
-     * Returns a new bytes map cloned from the provided bytes map.
-     *
-     * @param <L> The key type.
-     * @param map The original bytes map.
-     * @return A new bytes map cloned from the provided bytes map.
-     */
-    public static <L> ByteMap<L> of(final NumericMap<? extends L, Byte> map) {
-        return new HashMap<L>(map);
-    }
-
-    /**
      * Returns a new bytes map with the specified entries.
      *
      * @param <L>     The key type.
@@ -162,6 +161,19 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
     public static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Byte>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new bytes map with the specified key and value cardinality cloned from the provided bytes map.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original bytes map.
+     * @return A new bytes map with the specified key and value cardinality cloned from the provided bytes map.
+     */
+    public static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Byte> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -249,6 +261,17 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
         return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4),
                 new Entry<L, Byte>(key5, value5));
+    }
+
+    /**
+     * Returns a new bytes map cloned from the provided bytes map.
+     *
+     * @param <L> The key type.
+     * @param map The original bytes map.
+     * @return A new bytes map cloned from the provided bytes map.
+     */
+    public static <L> ByteMap<L> of(final NumericMap<? extends L, Byte> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

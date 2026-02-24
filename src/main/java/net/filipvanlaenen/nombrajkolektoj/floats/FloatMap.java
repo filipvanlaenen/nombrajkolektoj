@@ -21,12 +21,13 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
      */
     public static final class HashMap<K> extends FloatMap<K> {
         /**
-         * Constructs a map from another map, with the same keys and Floats and the same key and value cardinality.
+         * Constructs a map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, Float> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(source));
+        public HashMap(final Entry<K, Float>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(entries));
         }
 
         /**
@@ -40,13 +41,22 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
         }
 
         /**
-         * Constructs a map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a map from another map with the specified key and value cardinality cloned from another map.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, Float>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Float> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a map from another map, with the same keys and Floats and the same key and value cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, Float> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Float>(source));
         }
     }
 
@@ -130,17 +140,6 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
     }
 
     /**
-     * Returns a new floats map cloned from the provided floats map.
-     *
-     * @param <L> The key type.
-     * @param map The original floats map.
-     * @return A new floats map cloned from the provided floats map.
-     */
-    public static <L> FloatMap<L> of(final NumericMap<? extends L, Float> map) {
-        return new HashMap<L>(map);
-    }
-
-    /**
      * Returns a new floats map with the specified entries.
      *
      * @param <L>     The key type.
@@ -162,6 +161,19 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
     public static <L> FloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Float>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new floats map with the specified key and value cardinality cloned from the provided floats map.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original floats map.
+     * @return A new floats map with the specified key and value cardinality cloned from the provided floats map.
+     */
+    public static <L> FloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Float> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -249,6 +261,17 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
         return new HashMap<L>(new Entry<L, Float>(key1, value1), new Entry<L, Float>(key2, value2),
                 new Entry<L, Float>(key3, value3), new Entry<L, Float>(key4, value4),
                 new Entry<L, Float>(key5, value5));
+    }
+
+    /**
+     * Returns a new floats map cloned from the provided floats map.
+     *
+     * @param <L> The key type.
+     * @param map The original floats map.
+     * @return A new floats map cloned from the provided floats map.
+     */
+    public static <L> FloatMap<L> of(final NumericMap<? extends L, Float> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

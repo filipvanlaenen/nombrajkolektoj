@@ -23,12 +23,13 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
      */
     public static final class HashMap<K> extends BigIntegerMap<K> {
         /**
-         * Constructs a map from another map, with the same keys and BigIntegers and the same key and value cardinality.
+         * Constructs a map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(source));
+        public HashMap(final Entry<K, BigInteger>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(entries));
         }
 
         /**
@@ -42,13 +43,22 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
         }
 
         /**
-         * Constructs a map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a map from another map with the specified key and value cardinality cloned from another map.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, BigInteger>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigInteger> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a map from another map, with the same keys and BigIntegers and the same key and value cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, BigInteger> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, BigInteger>(source));
         }
     }
 
@@ -132,17 +142,6 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
     }
 
     /**
-     * Returns a new BigIntegers map cloned from the provided BigIntegers map.
-     *
-     * @param <L> The key type.
-     * @param map The original BigIntegers map.
-     * @return A new BigIntegers map cloned from the provided BigIntegers map.
-     */
-    public static <L> BigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
-        return new HashMap<L>(map);
-    }
-
-    /**
      * Returns a new BigIntegers map with the specified entries.
      *
      * @param <L>     The key type.
@@ -164,6 +163,19 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
     public static <L> BigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new BigIntegers map with the specified key and value cardinality cloned from the provided BigIntegers map.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original BigIntegers map.
+     * @return A new BigIntegers map with the specified key and value cardinality cloned from the provided BigIntegers map.
+     */
+    public static <L> BigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, BigInteger> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -251,6 +263,17 @@ public abstract class BigIntegerMap<K> extends AbstractBigIntegerMap<K> implemen
         return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
                 new Entry<L, BigInteger>(key5, value5));
+    }
+
+    /**
+     * Returns a new BigIntegers map cloned from the provided BigIntegers map.
+     *
+     * @param <L> The key type.
+     * @param map The original BigIntegers map.
+     * @return A new BigIntegers map cloned from the provided BigIntegers map.
+     */
+    public static <L> BigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

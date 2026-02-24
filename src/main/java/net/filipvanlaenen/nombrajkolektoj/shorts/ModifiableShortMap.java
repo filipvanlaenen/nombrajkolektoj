@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -31,7 +32,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Short>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Short>(entries));
+            super(new ModifiableHashMap<K, Short>(entries));
         }
 
         /**
@@ -41,7 +42,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Short>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Short>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, Short>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -51,7 +52,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Short> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Short>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, Short>(keyAndValueCardinality, source));
         }
 
         /**
@@ -61,7 +62,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Short> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Short>(source));
+            super(new ModifiableHashMap<K, Short>(source));
         }
     }
 

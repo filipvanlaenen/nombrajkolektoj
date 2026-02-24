@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -31,7 +32,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Long>(entries));
+            super(new ModifiableHashMap<K, Long>(entries));
         }
 
         /**
@@ -41,7 +42,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Long>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, Long>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -51,7 +52,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Long>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, Long>(keyAndValueCardinality, source));
         }
 
         /**
@@ -61,7 +62,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Long>(source));
+            super(new ModifiableHashMap<K, Long>(source));
         }
     }
 

@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -31,7 +32,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Float>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Float>(entries));
+            super(new ModifiableHashMap<K, Float>(entries));
         }
 
         /**
@@ -41,7 +42,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Float>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Float>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, Float>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -51,7 +52,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Float> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Float>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, Float>(keyAndValueCardinality, source));
         }
 
         /**
@@ -61,7 +62,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Float> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Float>(source));
+            super(new ModifiableHashMap<K, Float>(source));
         }
     }
 

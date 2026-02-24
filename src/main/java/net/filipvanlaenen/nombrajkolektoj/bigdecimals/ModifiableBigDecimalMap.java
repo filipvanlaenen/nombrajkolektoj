@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -33,7 +34,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, BigDecimal>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigDecimal>(entries));
+            super(new ModifiableHashMap<K, BigDecimal>(entries));
         }
 
         /**
@@ -43,7 +44,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, BigDecimal>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigDecimal>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, BigDecimal>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -53,7 +54,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigDecimal>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, BigDecimal>(keyAndValueCardinality, source));
         }
 
         /**
@@ -63,7 +64,7 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, BigDecimal>(source));
+            super(new ModifiableHashMap<K, BigDecimal>(source));
         }
     }
 

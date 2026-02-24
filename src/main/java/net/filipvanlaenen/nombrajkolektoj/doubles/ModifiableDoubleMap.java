@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -31,7 +32,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(entries));
+            super(new ModifiableHashMap<K, Double>(entries));
         }
 
         /**
@@ -41,7 +42,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, Double>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -51,7 +52,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, Double>(keyAndValueCardinality, source));
         }
 
         /**
@@ -61,7 +62,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(source));
+            super(new ModifiableHashMap<K, Double>(source));
         }
     }
 

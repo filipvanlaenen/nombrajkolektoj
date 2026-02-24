@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
@@ -31,7 +32,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(entries));
+            super(new ModifiableHashMap<K, Byte>(entries));
         }
 
         /**
@@ -41,7 +42,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(keyAndValueCardinality, entries));
+            super(new ModifiableHashMap<K, Byte>(keyAndValueCardinality, entries));
         }
 
         /**
@@ -51,7 +52,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(keyAndValueCardinality, source));
+            super(new ModifiableHashMap<K, Byte>(keyAndValueCardinality, source));
         }
 
         /**
@@ -61,7 +62,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(source));
+            super(new ModifiableHashMap<K, Byte>(source));
         }
     }
 

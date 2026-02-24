@@ -13,9 +13,7 @@ import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
@@ -140,7 +138,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
-    public NumericCollection<BigDecimal> getAll(final K key) throws IllegalArgumentException {
+    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
         return new BigDecimalCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -220,7 +218,7 @@ public abstract class ModifiableSortedBigDecimalMap<K> extends AbstractModifiabl
     }
 
     @Override
-    public OrderedNumericCollection<BigDecimal> getValues() {
+    public OrderedBigDecimalCollection getValues() {
         return new OrderedBigDecimalCollection.ArrayCollection(map.getValues());
     }
 

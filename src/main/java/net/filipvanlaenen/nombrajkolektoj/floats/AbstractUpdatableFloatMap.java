@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -35,6 +36,28 @@ abstract class AbstractUpdatableFloatMap<K> extends AbstractFloatMap<K> implemen
             update(key, oldValue, oldValue / divisor);
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final Float divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Float> originalValues = getAll(key);
+            ModifiableFloatCollection dividedValues = ModifiableFloatCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableFloatCollection newValues = ModifiableFloatCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableFloatCollection removedValues = ModifiableFloatCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (Float removedValue : removedValues) {
+                    Float newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

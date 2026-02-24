@@ -8,7 +8,6 @@ import java.util.Spliterator;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
@@ -113,7 +112,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
     }
 
     @Override
-    public NumericCollection<BigDecimal> getAll(final K key) throws IllegalArgumentException {
+    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
         return new BigDecimalCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -128,7 +127,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
     }
 
     @Override
-    public NumericCollection<BigDecimal> getValues() {
+    public BigDecimalCollection getValues() {
         return new BigDecimalCollection.ArrayCollection(map.getValues());
     }
 

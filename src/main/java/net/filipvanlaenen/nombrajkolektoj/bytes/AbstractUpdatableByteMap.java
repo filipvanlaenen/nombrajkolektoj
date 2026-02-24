@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -35,6 +36,28 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
             update(key, oldValue, (byte) (oldValue / divisor));
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final Byte divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Byte> originalValues = getAll(key);
+            ModifiableByteCollection dividedValues = ModifiableByteCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableByteCollection newValues = ModifiableByteCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableByteCollection removedValues = ModifiableByteCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (Byte removedValue : removedValues) {
+                    Byte newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

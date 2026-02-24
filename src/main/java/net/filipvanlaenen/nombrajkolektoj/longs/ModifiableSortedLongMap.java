@@ -11,9 +11,7 @@ import net.filipvanlaenen.kolektoj.ModifiableSortedMap;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
@@ -138,7 +136,7 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     }
 
     @Override
-    public NumericCollection<Long> getAll(final K key) throws IllegalArgumentException {
+    public LongCollection getAll(final K key) throws IllegalArgumentException {
         return new LongCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -218,7 +216,7 @@ public abstract class ModifiableSortedLongMap<K> extends AbstractModifiableSorte
     }
 
     @Override
-    public OrderedNumericCollection<Long> getValues() {
+    public OrderedLongCollection getValues() {
         return new OrderedLongCollection.ArrayCollection(map.getValues());
     }
 

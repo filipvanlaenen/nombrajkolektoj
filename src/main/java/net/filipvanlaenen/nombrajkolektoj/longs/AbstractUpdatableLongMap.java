@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -35,6 +36,28 @@ abstract class AbstractUpdatableLongMap<K> extends AbstractLongMap<K> implements
             update(key, oldValue, oldValue / divisor);
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final Long divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Long> originalValues = getAll(key);
+            ModifiableLongCollection dividedValues = ModifiableLongCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableLongCollection newValues = ModifiableLongCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableLongCollection removedValues = ModifiableLongCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (Long removedValue : removedValues) {
+                    Long newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

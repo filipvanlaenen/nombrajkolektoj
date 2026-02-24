@@ -10,7 +10,6 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
@@ -128,7 +127,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
     }
 
     @Override
-    public NumericCollection<BigInteger> getAll(final K key) throws IllegalArgumentException {
+    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
         return new BigIntegerCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -143,7 +142,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
     }
 
     @Override
-    public NumericCollection<BigInteger> getValues() {
+    public BigIntegerCollection getValues() {
         return new BigIntegerCollection.ArrayCollection(map.getValues());
     }
 

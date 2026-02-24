@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -37,6 +38,28 @@ abstract class AbstractUpdatableBigIntegerMap<K> extends AbstractBigIntegerMap<K
             update(key, oldValue, oldValue.divide(divisor));
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final BigInteger divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<BigInteger> originalValues = getAll(key);
+            ModifiableBigIntegerCollection dividedValues = ModifiableBigIntegerCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableBigIntegerCollection newValues = ModifiableBigIntegerCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableBigIntegerCollection removedValues = ModifiableBigIntegerCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (BigInteger removedValue : removedValues) {
+                    BigInteger newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

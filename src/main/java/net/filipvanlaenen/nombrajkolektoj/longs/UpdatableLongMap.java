@@ -6,7 +6,6 @@ import java.util.Spliterator;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
@@ -111,7 +110,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     }
 
     @Override
-    public NumericCollection<Long> getAll(final K key) throws IllegalArgumentException {
+    public LongCollection getAll(final K key) throws IllegalArgumentException {
         return new LongCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -126,7 +125,7 @@ public abstract class UpdatableLongMap<K> extends AbstractUpdatableLongMap<K>
     }
 
     @Override
-    public NumericCollection<Long> getValues() {
+    public LongCollection getValues() {
         return new LongCollection.ArrayCollection(map.getValues());
     }
 

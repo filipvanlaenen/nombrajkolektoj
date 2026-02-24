@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -35,6 +36,28 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
             update(key, oldValue, (short) (oldValue / divisor));
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final Short divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Short> originalValues = getAll(key);
+            ModifiableShortCollection dividedValues = ModifiableShortCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableShortCollection newValues = ModifiableShortCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableShortCollection removedValues = ModifiableShortCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (Short removedValue : removedValues) {
+                    Short newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

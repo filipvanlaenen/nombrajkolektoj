@@ -8,7 +8,6 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
@@ -126,7 +125,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     @Override
-    public NumericCollection<Float> getAll(final K key) throws IllegalArgumentException {
+    public FloatCollection getAll(final K key) throws IllegalArgumentException {
         return new FloatCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -141,7 +140,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     @Override
-    public NumericCollection<Float> getValues() {
+    public FloatCollection getValues() {
         return new FloatCollection.ArrayCollection(map.getValues());
     }
 

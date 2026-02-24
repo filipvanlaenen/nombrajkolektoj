@@ -30,6 +30,16 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
     N divide(K key, N divisor) throws IllegalArgumentException;
 
     /**
+     * Divides all the values in the map with the divisor and returns whether any of the values were changed. Ignores
+     * <code>null</code> values.
+     *
+     * @param divisor The number by which the values should be divided.
+     * @return True if any of the values in the map was changed.
+     * @throws IllegalArgumentException Thrown if the map would contain duplicate values when they're not allowed.
+     */
+    boolean divide(N divisor) throws IllegalArgumentException;
+
+    /**
      * Multiplies the value for the key in the map with the multiplicand and returns the value that was previously
      * mapped to the key. Throws an exception if the map doesn't contain an entry with the key or its value is
      * <code>null</code>.

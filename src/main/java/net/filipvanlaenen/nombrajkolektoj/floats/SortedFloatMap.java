@@ -9,9 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
@@ -162,7 +160,7 @@ public abstract class SortedFloatMap<K> extends AbstractSortedFloatMap<K> implem
     }
 
     @Override
-    public NumericCollection<Float> getAll(final K key) throws IllegalArgumentException {
+    public FloatCollection getAll(final K key) throws IllegalArgumentException {
         return new FloatCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -242,7 +240,7 @@ public abstract class SortedFloatMap<K> extends AbstractSortedFloatMap<K> implem
     }
 
     @Override
-    public OrderedNumericCollection<Float> getValues() {
+    public OrderedFloatCollection getValues() {
         return new OrderedFloatCollection.ArrayCollection(map.getValues());
     }
 

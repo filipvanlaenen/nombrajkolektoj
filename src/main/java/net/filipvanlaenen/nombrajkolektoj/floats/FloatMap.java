@@ -5,7 +5,6 @@ import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
@@ -106,7 +105,7 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
     }
 
     @Override
-    public NumericCollection<Float> getAll(final K key) throws IllegalArgumentException {
+    public FloatCollection getAll(final K key) throws IllegalArgumentException {
         return new FloatCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -121,7 +120,7 @@ public abstract class FloatMap<K> extends AbstractFloatMap<K> implements Numeric
     }
 
     @Override
-    public NumericCollection<Float> getValues() {
+    public FloatCollection getValues() {
         return new FloatCollection.ArrayCollection(map.getValues());
     }
 

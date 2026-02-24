@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
@@ -35,6 +36,28 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
             update(key, oldValue, oldValue / divisor);
             return oldValue;
         }
+    }
+
+    @Override
+    public boolean divide(final Double divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Double> originalValues = getAll(key);
+            ModifiableDoubleCollection dividedValues = ModifiableDoubleCollection.of(originalValues);
+            if (dividedValues.divide(divisor)) {
+                ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(dividedValues);
+                newValues.removeAll(originalValues);
+                ModifiableDoubleCollection removedValues = ModifiableDoubleCollection.of(originalValues);
+                removedValues.removeAll(dividedValues);
+                for (Double removedValue : removedValues) {
+                    Double newValue = newValues.get();
+                    update(key, removedValue, newValue);
+                    newValues.remove(newValue);
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 
     @Override

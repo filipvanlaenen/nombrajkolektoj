@@ -1,7 +1,9 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -77,6 +79,73 @@ public class AbstractUpdatableDoubleMapTest {
         UpdatableDoubleMap<String> map12 = createMap12();
         map12.augment("one", 2D);
         assertEquals(THREE, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with an absent key.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", 1D));
+        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
+     */
+    @Test
+    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", 1D));
+        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns the old value.
+     */
+    @Test
+    public void divideShouldReturnTheOldValue() {
+        assertEquals(1D, createMap12().divide("one", 2D));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates the value for the given key.
+     */
+    @Test
+    public void divideShouldUpdateTheValueForTheKey() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        map12.divide("two", MINUS_TWO);
+        assertEquals(MINUS_ONE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> updates all the values.
+     */
+    @Test
+    public void divideShouldUpdateAllValues() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        map12.divide(MINUS_ONE);
+        assertEquals(MINUS_ONE, map12.get("one"));
+        assertEquals(MINUS_TWO, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void divideShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertTrue(map12.divide(MINUS_ONE));
+    }
+
+    /**
+     * Verifies that <code>divide</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void divideShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertFalse(map12.divide(1D));
     }
 
     /**
@@ -192,43 +261,5 @@ public class AbstractUpdatableDoubleMapTest {
         UpdatableDoubleMap<String> map12 = createMap12();
         map12.subtract("one", 2D);
         assertEquals(MINUS_ONE, map12.get("one"));
-    }
-
-    /**
-     * Verifies that <code>divide</code> throws an exception when called with an absent key.
-     */
-    @Test
-    public void divideShouldThrowExceptionWhenCalledWithAbsentKey() {
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> MAP12.divide("zero", 1D));
-        assertEquals("Map doesn't contain an entry with the key zero.", exception.getMessage());
-    }
-
-    /**
-     * Verifies that <code>divide</code> throws an exception when called with a key having the value <code>null</code>.
-     */
-    @Test
-    public void divideShouldThrowExceptionWhenCalledWithKeyHoldingNull() {
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> MAP12NULL.divide("null", 1D));
-        assertEquals("The entry in the map with the key null contains null.", exception.getMessage());
-    }
-
-    /**
-     * Verifies that <code>divide</code> returns the old value.
-     */
-    @Test
-    public void divideShouldReturnTheOldValue() {
-        assertEquals(1D, createMap12().divide("one", 2D));
-    }
-
-    /**
-     * Verifies that <code>divide</code> updates the value for the given key.
-     */
-    @Test
-    public void divideShouldUpdateTheValueForTheKey() {
-        UpdatableDoubleMap<String> map12 = createMap12();
-        map12.divide("two", MINUS_TWO);
-        assertEquals(MINUS_ONE, map12.get("two"));
     }
 }

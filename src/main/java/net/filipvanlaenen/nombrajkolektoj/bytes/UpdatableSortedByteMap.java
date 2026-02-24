@@ -9,9 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
@@ -165,7 +163,7 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
     }
 
     @Override
-    public NumericCollection<Byte> getAll(final K key) throws IllegalArgumentException {
+    public ByteCollection getAll(final K key) throws IllegalArgumentException {
         return new ByteCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -245,7 +243,7 @@ public abstract class UpdatableSortedByteMap<K> extends AbstractUpdatableSortedB
     }
 
     @Override
-    public OrderedNumericCollection<Byte> getValues() {
+    public OrderedByteCollection getValues() {
         return new OrderedByteCollection.ArrayCollection(map.getValues());
     }
 

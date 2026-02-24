@@ -9,9 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
 /**
@@ -162,7 +160,7 @@ public abstract class SortedShortMap<K> extends AbstractSortedShortMap<K> implem
     }
 
     @Override
-    public NumericCollection<Short> getAll(final K key) throws IllegalArgumentException {
+    public ShortCollection getAll(final K key) throws IllegalArgumentException {
         return new ShortCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -242,7 +240,7 @@ public abstract class SortedShortMap<K> extends AbstractSortedShortMap<K> implem
     }
 
     @Override
-    public OrderedNumericCollection<Short> getValues() {
+    public OrderedShortCollection getValues() {
         return new OrderedShortCollection.ArrayCollection(map.getValues());
     }
 

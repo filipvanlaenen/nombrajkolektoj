@@ -8,7 +8,6 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
@@ -126,7 +125,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     }
 
     @Override
-    public NumericCollection<Double> getAll(final K key) throws IllegalArgumentException {
+    public DoubleCollection getAll(final K key) throws IllegalArgumentException {
         return new DoubleCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -141,7 +140,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     }
 
     @Override
-    public NumericCollection<Double> getValues() {
+    public DoubleCollection getValues() {
         return new DoubleCollection.ArrayCollection(map.getValues());
     }
 

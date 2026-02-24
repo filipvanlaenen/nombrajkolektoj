@@ -11,9 +11,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
@@ -167,7 +165,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public NumericCollection<BigInteger> getAll(final K key) throws IllegalArgumentException {
+    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
         return new BigIntegerCollection.ArrayCollection(map.getAll(key));
     }
 
@@ -247,7 +245,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
     }
 
     @Override
-    public OrderedNumericCollection<BigInteger> getValues() {
+    public OrderedBigIntegerCollection getValues() {
         return new OrderedBigIntegerCollection.ArrayCollection(map.getValues());
     }
 

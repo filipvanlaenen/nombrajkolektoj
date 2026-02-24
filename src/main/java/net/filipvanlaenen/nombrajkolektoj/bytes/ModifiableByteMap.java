@@ -25,13 +25,13 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      */
     public static final class HashMap<K> extends ModifiableByteMap<K> {
         /**
-         * Constructs a modifiable map from another map, with the same keys and Bytes and the same key and value
-         * cardinality.
+         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(source));
+        public HashMap(final Entry<K, Byte>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(entries));
         }
 
         /**
@@ -45,13 +45,23 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
         }
 
         /**
-         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a modifiable map with the given entries and key and value cardinality.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable map from another map, with the same keys and Bytes and the same key and value
+         * cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Byte>(source));
         }
     }
 
@@ -157,7 +167,7 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      * @param keys         The keys for the new map.
      * @return A new modifiable bytes map with the specified entries.
      */
-    public static <L> ModifiableByteMap<L> of(final Byte defaultValue, final L... keys) {
+    public static <L> ModifiableByteMap<L> of(final Byte defaultValue, final Collection<? extends L> keys) {
         ModifiableByteMap<L> map = ModifiableByteMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -166,14 +176,19 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     }
 
     /**
-     * Returns a new modifiable bytes map cloned from the provided bytes map.
+     * Returns a new modifiable bytes map with the specified keys with a default value.
      *
-     * @param <L> The key type.
-     * @param map The original bytes map.
-     * @return A new modifiable bytes map cloned from the provided bytes map.
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable bytes map with the specified entries.
      */
-    public static <L> ModifiableByteMap<L> of(final NumericMap<? extends L, Byte> map) {
-        return new HashMap<L>(map);
+    public static <L> ModifiableByteMap<L> of(final Byte defaultValue, final L... keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
     }
 
     /**
@@ -185,6 +200,68 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      */
     public static <L> ModifiableByteMap<L> of(final Entry<L, Byte>... entries) {
         return new HashMap<L>(entries);
+    }
+
+    /**
+     * Returns a new modifiable bytes map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable bytes map with the specified entries.
+     */
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final Collection<? extends L> keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable bytes map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable bytes map with the specified entries.
+     */
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final L... keys) {
+        ModifiableByteMap<L> map = ModifiableByteMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable bytes map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new modifiable bytes map with the specified entries.
+     */
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Byte>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new modifiable bytes map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original bytes map.
+     * @return A new modifiable bytes map with the specified entries.
+     */
+    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Byte> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -275,34 +352,14 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     }
 
     /**
-     * Returns a new modifiable bytes map with the specified entries and key and value cardinality.
+     * Returns a new modifiable bytes map cloned from the provided bytes map.
      *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new modifiable bytes map with the specified entries.
+     * @param <L> The key type.
+     * @param map The original bytes map.
+     * @return A new modifiable bytes map cloned from the provided bytes map.
      */
-    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, Byte>... entries) {
-        return new HashMap<L>(keyAndValueCardinality, entries);
-    }
-
-    /**
-     * Returns a new modifiable bytes map with the specified keys with a default value and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new modifiable bytes map with the specified entries.
-     */
-    public static <L> ModifiableByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Byte defaultValue, final L... keys) {
-        ModifiableByteMap<L> map = ModifiableByteMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
+    public static <L> ModifiableByteMap<L> of(final NumericMap<? extends L, Byte> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

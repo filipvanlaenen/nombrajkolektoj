@@ -25,13 +25,13 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      */
     public static final class HashMap<K> extends ModifiableDoubleMap<K> {
         /**
-         * Constructs a modifiable map from another map, with the same keys and Doubles and the same key and value
-         * cardinality.
+         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(source));
+        public HashMap(final Entry<K, Double>... entries) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(entries));
         }
 
         /**
@@ -45,13 +45,23 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
         }
 
         /**
-         * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a modifiable map with the given entries and key and value cardinality.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Double> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(keyAndValueCardinality, source));
+        }
+
+        /**
+         * Constructs a modifiable map from another map, with the same keys and Doubles and the same key and value
+         * cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, Double> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.ModifiableHashMap<K, Double>(source));
         }
     }
 
@@ -157,7 +167,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param keys         The keys for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final L... keys) {
+    public static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final Collection<? extends L> keys) {
         ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -166,14 +176,19 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     }
 
     /**
-     * Returns a new modifiable doubles map cloned from the provided doubles map.
+     * Returns a new modifiable doubles map with the specified keys with a default value.
      *
-     * @param <L> The key type.
-     * @param map The original doubles map.
-     * @return A new modifiable doubles map cloned from the provided doubles map.
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final NumericMap<? extends L, Double> map) {
-        return new HashMap<L>(map);
+    public static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final L... keys) {
+        ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
     }
 
     /**
@@ -185,6 +200,68 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      */
     public static <L> ModifiableDoubleMap<L> of(final Entry<L, Double>... entries) {
         return new HashMap<L>(entries);
+    }
+
+    /**
+     * Returns a new modifiable doubles map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable doubles map with the specified entries.
+     */
+    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Double defaultValue, final Collection<? extends L> keys) {
+        ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable doubles map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable doubles map with the specified entries.
+     */
+    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Double defaultValue, final L... keys) {
+        ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
+     * Returns a new modifiable doubles map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new modifiable doubles map with the specified entries.
+     */
+    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Double>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new modifiable doubles map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original doubles map.
+     * @return A new modifiable doubles map with the specified entries.
+     */
+    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Double> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -275,34 +352,14 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
     }
 
     /**
-     * Returns a new modifiable doubles map with the specified entries and key and value cardinality.
+     * Returns a new modifiable doubles map cloned from the provided doubles map.
      *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new modifiable doubles map with the specified entries.
+     * @param <L> The key type.
+     * @param map The original doubles map.
+     * @return A new modifiable doubles map cloned from the provided doubles map.
      */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, Double>... entries) {
-        return new HashMap<L>(keyAndValueCardinality, entries);
-    }
-
-    /**
-     * Returns a new modifiable doubles map with the specified keys with a default value and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new modifiable doubles map with the specified entries.
-     */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Double defaultValue, final L... keys) {
-        ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return map;
+    public static <L> ModifiableDoubleMap<L> of(final NumericMap<? extends L, Double> map) {
+        return new HashMap<L>(map);
     }
 
     @Override

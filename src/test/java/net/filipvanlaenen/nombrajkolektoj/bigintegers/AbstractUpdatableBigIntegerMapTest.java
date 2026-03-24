@@ -84,6 +84,35 @@ public class AbstractUpdatableBigIntegerMapTest {
     }
 
     /**
+     * Verifies that <code>augment</code> updates all the values.
+     */
+    @Test
+    public void augmentShouldUpdateAllValues() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        map12.augment(BigInteger.ONE);
+        assertEquals(BigInteger.TWO, map12.get("one"));
+        assertEquals(THREE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertTrue(map12.augment(BigInteger.ONE));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertFalse(map12.augment(BigInteger.ZERO));
+    }
+
+    /**
      * Verifies that <code>divide</code> throws an exception when called with an absent key.
      */
     @Test

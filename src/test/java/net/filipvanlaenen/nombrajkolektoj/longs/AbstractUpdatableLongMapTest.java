@@ -82,6 +82,35 @@ public class AbstractUpdatableLongMapTest {
     }
 
     /**
+     * Verifies that <code>augment</code> updates all the values.
+     */
+    @Test
+    public void augmentShouldUpdateAllValues() {
+        UpdatableLongMap<String> map12 = createMap12();
+        map12.augment(1L);
+        assertEquals(2L, map12.get("one"));
+        assertEquals(THREE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertTrue(map12.augment(1L));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertFalse(map12.augment(0L));
+    }
+
+    /**
      * Verifies that <code>divide</code> throws an exception when called with an absent key.
      */
     @Test

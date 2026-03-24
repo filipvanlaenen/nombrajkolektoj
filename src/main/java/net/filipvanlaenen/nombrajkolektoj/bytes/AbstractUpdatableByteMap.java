@@ -11,6 +11,20 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
  */
 abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements UpdatableNumericMap<K, Byte> {
     @Override
+    public boolean augment(final Byte addend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Byte> originalValues = getAll(key);
+            ModifiableByteCollection newValues = ModifiableByteCollection.of(originalValues);
+            if (newValues.augment(addend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Byte augment(final K key, final Byte addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -25,6 +39,20 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
     }
 
     @Override
+    public boolean divide(final Byte divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Byte> originalValues = getAll(key);
+            ModifiableByteCollection newValues = ModifiableByteCollection.of(originalValues);
+            if (newValues.divide(divisor)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Byte divide(final K key, final Byte divisor) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -36,28 +64,6 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
             update(key, oldValue, (byte) (oldValue / divisor));
             return oldValue;
         }
-    }
-
-    @Override
-    public boolean divide(final Byte divisor) throws IllegalArgumentException {
-        boolean result = false;
-        for (K key : getKeys()) {
-            NumericCollection<Byte> originalValues = getAll(key);
-            ModifiableByteCollection dividedValues = ModifiableByteCollection.of(originalValues);
-            if (dividedValues.divide(divisor)) {
-                ModifiableByteCollection newValues = ModifiableByteCollection.of(dividedValues);
-                newValues.removeAll(originalValues);
-                ModifiableByteCollection removedValues = ModifiableByteCollection.of(originalValues);
-                removedValues.removeAll(dividedValues);
-                for (Byte removedValue : removedValues) {
-                    Byte newValue = newValues.get();
-                    update(key, removedValue, newValue);
-                    newValues.remove(newValue);
-                }
-                result = true;
-            }
-        }
-        return result;
     }
 
     @Override
@@ -99,6 +105,26 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
         } else {
             update(key, oldValue, (byte) (oldValue - subtrahend));
             return oldValue;
+        }
+    }
+
+    /**
+     * Updates the values for a key from the original values to the new values.
+     *
+     * @param key            The key for which the values should be updated.
+     * @param originalValues The original values for the key.
+     * @param dividedValues  The new values for the key.
+     */
+    private void updateValuesForKey(final K key, final NumericCollection<Byte> originalValues,
+            final ModifiableByteCollection dividedValues) {
+        ModifiableByteCollection changedNewValues = ModifiableByteCollection.of(dividedValues);
+        changedNewValues.removeAll(originalValues);
+        ModifiableByteCollection removedValues = ModifiableByteCollection.of(originalValues);
+        removedValues.removeAll(dividedValues);
+        for (Byte removedValue : removedValues) {
+            Byte newValue = changedNewValues.get();
+            update(key, removedValue, newValue);
+            changedNewValues.remove(newValue);
         }
     }
 }

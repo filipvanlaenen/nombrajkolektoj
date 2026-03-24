@@ -11,6 +11,20 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
  */
 abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implements UpdatableNumericMap<K, Double> {
     @Override
+    public boolean augment(final Double addend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Double> originalValues = getAll(key);
+            ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(originalValues);
+            if (newValues.augment(addend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Double augment(final K key, final Double addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -25,6 +39,20 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
     }
 
     @Override
+    public boolean divide(final Double divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Double> originalValues = getAll(key);
+            ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(originalValues);
+            if (newValues.divide(divisor)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Double divide(final K key, final Double divisor) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -36,28 +64,6 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
             update(key, oldValue, oldValue / divisor);
             return oldValue;
         }
-    }
-
-    @Override
-    public boolean divide(final Double divisor) throws IllegalArgumentException {
-        boolean result = false;
-        for (K key : getKeys()) {
-            NumericCollection<Double> originalValues = getAll(key);
-            ModifiableDoubleCollection dividedValues = ModifiableDoubleCollection.of(originalValues);
-            if (dividedValues.divide(divisor)) {
-                ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(dividedValues);
-                newValues.removeAll(originalValues);
-                ModifiableDoubleCollection removedValues = ModifiableDoubleCollection.of(originalValues);
-                removedValues.removeAll(dividedValues);
-                for (Double removedValue : removedValues) {
-                    Double newValue = newValues.get();
-                    update(key, removedValue, newValue);
-                    newValues.remove(newValue);
-                }
-                result = true;
-            }
-        }
-        return result;
     }
 
     @Override
@@ -99,6 +105,26 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
         } else {
             update(key, oldValue, oldValue - subtrahend);
             return oldValue;
+        }
+    }
+
+    /**
+     * Updates the values for a key from the original values to the new values.
+     *
+     * @param key            The key for which the values should be updated.
+     * @param originalValues The original values for the key.
+     * @param dividedValues  The new values for the key.
+     */
+    private void updateValuesForKey(final K key, final NumericCollection<Double> originalValues,
+            final ModifiableDoubleCollection dividedValues) {
+        ModifiableDoubleCollection changedNewValues = ModifiableDoubleCollection.of(dividedValues);
+        changedNewValues.removeAll(originalValues);
+        ModifiableDoubleCollection removedValues = ModifiableDoubleCollection.of(originalValues);
+        removedValues.removeAll(dividedValues);
+        for (Double removedValue : removedValues) {
+            Double newValue = changedNewValues.get();
+            update(key, removedValue, newValue);
+            changedNewValues.remove(newValue);
         }
     }
 }

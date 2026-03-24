@@ -11,6 +11,20 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
  */
 abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> implements UpdatableNumericMap<K, Integer> {
     @Override
+    public boolean augment(final Integer addend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Integer> originalValues = getAll(key);
+            ModifiableIntegerCollection newValues = ModifiableIntegerCollection.of(originalValues);
+            if (newValues.augment(addend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Integer augment(final K key, final Integer addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -25,6 +39,20 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
     }
 
     @Override
+    public boolean divide(final Integer divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Integer> originalValues = getAll(key);
+            ModifiableIntegerCollection newValues = ModifiableIntegerCollection.of(originalValues);
+            if (newValues.divide(divisor)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Integer divide(final K key, final Integer divisor) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -36,28 +64,6 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
             update(key, oldValue, oldValue / divisor);
             return oldValue;
         }
-    }
-
-    @Override
-    public boolean divide(final Integer divisor) throws IllegalArgumentException {
-        boolean result = false;
-        for (K key : getKeys()) {
-            NumericCollection<Integer> originalValues = getAll(key);
-            ModifiableIntegerCollection dividedValues = ModifiableIntegerCollection.of(originalValues);
-            if (dividedValues.divide(divisor)) {
-                ModifiableIntegerCollection newValues = ModifiableIntegerCollection.of(dividedValues);
-                newValues.removeAll(originalValues);
-                ModifiableIntegerCollection removedValues = ModifiableIntegerCollection.of(originalValues);
-                removedValues.removeAll(dividedValues);
-                for (Integer removedValue : removedValues) {
-                    Integer newValue = newValues.get();
-                    update(key, removedValue, newValue);
-                    newValues.remove(newValue);
-                }
-                result = true;
-            }
-        }
-        return result;
     }
 
     @Override
@@ -99,6 +105,26 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
         } else {
             update(key, oldValue, oldValue - subtrahend);
             return oldValue;
+        }
+    }
+
+    /**
+     * Updates the values for a key from the original values to the new values.
+     *
+     * @param key            The key for which the values should be updated.
+     * @param originalValues The original values for the key.
+     * @param dividedValues  The new values for the key.
+     */
+    private void updateValuesForKey(final K key, final NumericCollection<Integer> originalValues,
+            final ModifiableIntegerCollection dividedValues) {
+        ModifiableIntegerCollection changedNewValues = ModifiableIntegerCollection.of(dividedValues);
+        changedNewValues.removeAll(originalValues);
+        ModifiableIntegerCollection removedValues = ModifiableIntegerCollection.of(originalValues);
+        removedValues.removeAll(dividedValues);
+        for (Integer removedValue : removedValues) {
+            Integer newValue = changedNewValues.get();
+            update(key, removedValue, newValue);
+            changedNewValues.remove(newValue);
         }
     }
 }

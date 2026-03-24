@@ -13,6 +13,20 @@ import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
  */
 abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K> implements UpdatableNumericMap<K, BigDecimal> {
     @Override
+    public boolean augment(final BigDecimal addend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<BigDecimal> originalValues = getAll(key);
+            ModifiableBigDecimalCollection newValues = ModifiableBigDecimalCollection.of(originalValues);
+            if (newValues.augment(addend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public BigDecimal augment(final K key, final BigDecimal addend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -27,6 +41,20 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
     }
 
     @Override
+    public boolean divide(final BigDecimal divisor) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<BigDecimal> originalValues = getAll(key);
+            ModifiableBigDecimalCollection newValues = ModifiableBigDecimalCollection.of(originalValues);
+            if (newValues.divide(divisor)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public BigDecimal divide(final K key, final BigDecimal divisor) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");
@@ -38,28 +66,6 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
             update(key, oldValue, oldValue.divide(divisor));
             return oldValue;
         }
-    }
-
-    @Override
-    public boolean divide(final BigDecimal divisor) throws IllegalArgumentException {
-        boolean result = false;
-        for (K key : getKeys()) {
-            NumericCollection<BigDecimal> originalValues = getAll(key);
-            ModifiableBigDecimalCollection dividedValues = ModifiableBigDecimalCollection.of(originalValues);
-            if (dividedValues.divide(divisor)) {
-                ModifiableBigDecimalCollection newValues = ModifiableBigDecimalCollection.of(dividedValues);
-                newValues.removeAll(originalValues);
-                ModifiableBigDecimalCollection removedValues = ModifiableBigDecimalCollection.of(originalValues);
-                removedValues.removeAll(dividedValues);
-                for (BigDecimal removedValue : removedValues) {
-                    BigDecimal newValue = newValues.get();
-                    update(key, removedValue, newValue);
-                    newValues.remove(newValue);
-                }
-                result = true;
-            }
-        }
-        return result;
     }
 
     @Override
@@ -101,6 +107,26 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
         } else {
             update(key, oldValue, oldValue.subtract(subtrahend));
             return oldValue;
+        }
+    }
+
+    /**
+     * Updates the values for a key from the original values to the new values.
+     *
+     * @param key            The key for which the values should be updated.
+     * @param originalValues The original values for the key.
+     * @param dividedValues  The new values for the key.
+     */
+    private void updateValuesForKey(final K key, final NumericCollection<BigDecimal> originalValues,
+            final ModifiableBigDecimalCollection dividedValues) {
+        ModifiableBigDecimalCollection changedNewValues = ModifiableBigDecimalCollection.of(dividedValues);
+        changedNewValues.removeAll(originalValues);
+        ModifiableBigDecimalCollection removedValues = ModifiableBigDecimalCollection.of(originalValues);
+        removedValues.removeAll(dividedValues);
+        for (BigDecimal removedValue : removedValues) {
+            BigDecimal newValue = changedNewValues.get();
+            update(key, removedValue, newValue);
+            changedNewValues.remove(newValue);
         }
     }
 }

@@ -82,6 +82,35 @@ public class AbstractUpdatableShortMapTest {
     }
 
     /**
+     * Verifies that <code>augment</code> updates all the values.
+     */
+    @Test
+    public void augmentShouldUpdateAllValues() {
+        UpdatableShortMap<String> map12 = createMap12();
+        map12.augment((short) 1);
+        assertEquals((short) 2, map12.get("one"));
+        assertEquals(THREE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableShortMap<String> map12 = createMap12();
+        assertTrue(map12.augment((short) 1));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableShortMap<String> map12 = createMap12();
+        assertFalse(map12.augment((short) 0));
+    }
+
+    /**
      * Verifies that <code>divide</code> throws an exception when called with an absent key.
      */
     @Test

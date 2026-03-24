@@ -82,6 +82,35 @@ public class AbstractUpdatableIntegerMapTest {
     }
 
     /**
+     * Verifies that <code>augment</code> updates all the values.
+     */
+    @Test
+    public void augmentShouldUpdateAllValues() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        map12.augment(1);
+        assertEquals(2, map12.get("one"));
+        assertEquals(THREE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        assertTrue(map12.augment(1));
+    }
+
+    /**
+     * Verifies that <code>augment</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void augmentShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        assertFalse(map12.augment(0));
+    }
+
+    /**
      * Verifies that <code>divide</code> throws an exception when called with an absent key.
      */
     @Test

@@ -67,55 +67,6 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
     }
 
     /**
-     * The modifiable map holding the keys and the floats.
-     */
-    private final ModifiableMap<K, Float> map;
-
-    /**
-     * Private constructor taking a map with the keys and the floats as its parameter.
-     *
-     * @param map The map holding the keys and the floats.
-     */
-    private ModifiableFloatMap(final ModifiableMap<K, Float> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Float value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Float> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Float> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Float value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty floats map.
      *
      * @param <K> The key type.
@@ -123,41 +74,6 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      */
     public static <K> ModifiableFloatMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Float> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Float get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public FloatCollection getAll(final K key) throws IllegalArgumentException {
-        return new FloatCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public FloatCollection getValues() {
-        return new FloatCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Float>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -361,6 +277,121 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      */
     public static <L> ModifiableFloatMap<L> of(final NumericMap<? extends L, Float> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new modifiable floats map with the specified key and value cardinality containing all the entries from
+     * the provided floats maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The floats maps from which to copy all the entries.
+     * @return A new modifiable floats map with the specified key and value cardinality containing all the entries from
+     *         the provided floats maps.
+     */
+    public static <L> ModifiableFloatMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Float>... maps) {
+        ModifiableFloatMap<L> result = ModifiableFloatMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Float> map : maps) {
+            result.addAll(map);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable map containing all the entries from the provided maps.
+     *
+     * @param <L>  The key type.
+     * @param <W>  The value type.
+     * @param maps The maps from which to copy all the entries.
+     * @return A new modifiable map containing all the entries from the provided maps.
+     */
+    public static <L> ModifiableFloatMap<L> unionOf(final NumericMap<? extends L, Float>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The modifiable map holding the keys and the floats.
+     */
+    private final ModifiableMap<K, Float> map;
+
+    /**
+     * Private constructor taking a map with the keys and the floats as its parameter.
+     *
+     * @param map The map holding the keys and the floats.
+     */
+    private ModifiableFloatMap(final ModifiableMap<K, Float> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Float value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Float> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Float> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Float value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Float> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Float get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public FloatCollection getAll(final K key) throws IllegalArgumentException {
+        return new FloatCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public FloatCollection getValues() {
+        return new FloatCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Float>> iterator() {
+        return map.iterator();
     }
 
     @Override

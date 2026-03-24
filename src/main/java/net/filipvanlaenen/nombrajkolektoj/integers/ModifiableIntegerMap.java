@@ -67,55 +67,6 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
     }
 
     /**
-     * The modifiable map holding the keys and the integers.
-     */
-    private final ModifiableMap<K, Integer> map;
-
-    /**
-     * Private constructor taking a map with the keys and the integers as its parameter.
-     *
-     * @param map The map holding the keys and the integers.
-     */
-    private ModifiableIntegerMap(final ModifiableMap<K, Integer> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Integer value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Integer> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Integer> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Integer value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty integers map.
      *
      * @param <K> The key type.
@@ -123,41 +74,6 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      */
     public static <K> ModifiableIntegerMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Integer get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new IntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public IntegerCollection getValues() {
-        return new IntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Integer>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -361,6 +277,121 @@ public class ModifiableIntegerMap<K> extends AbstractModifiableIntegerMap<K> imp
      */
     public static <L> ModifiableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new modifiable integers map with the specified key and value cardinality containing all the entries from
+     * the provided integers maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The integers maps from which to copy all the entries.
+     * @return A new modifiable integers map with the specified key and value cardinality containing all the entries from
+     *         the provided integers maps.
+     */
+    public static <L> ModifiableIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Integer>... maps) {
+        ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Integer> map : maps) {
+            result.addAll(map);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable map containing all the entries from the provided maps.
+     *
+     * @param <L>  The key type.
+     * @param <W>  The value type.
+     * @param maps The maps from which to copy all the entries.
+     * @return A new modifiable map containing all the entries from the provided maps.
+     */
+    public static <L> ModifiableIntegerMap<L> unionOf(final NumericMap<? extends L, Integer>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The modifiable map holding the keys and the integers.
+     */
+    private final ModifiableMap<K, Integer> map;
+
+    /**
+     * Private constructor taking a map with the keys and the integers as its parameter.
+     *
+     * @param map The map holding the keys and the integers.
+     */
+    private ModifiableIntegerMap(final ModifiableMap<K, Integer> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Integer value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Integer> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Integer> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Integer value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Integer get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
+        return new IntegerCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public IntegerCollection getValues() {
+        return new IntegerCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Integer>> iterator() {
+        return map.iterator();
     }
 
     @Override

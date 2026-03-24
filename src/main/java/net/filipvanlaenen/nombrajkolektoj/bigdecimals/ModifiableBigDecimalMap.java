@@ -69,55 +69,6 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
     }
 
     /**
-     * The modifiable map holding the keys and the BigDecimals.
-     */
-    private final ModifiableMap<K, BigDecimal> map;
-
-    /**
-     * Private constructor taking a map with the keys and the BigDecimals as its parameter.
-     *
-     * @param map The map holding the keys and the BigDecimals.
-     */
-    private ModifiableBigDecimalMap(final ModifiableMap<K, BigDecimal> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final BigDecimal value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends BigDecimal> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, BigDecimal> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final BigDecimal value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty BigDecimals map.
      *
      * @param <K> The key type.
@@ -125,41 +76,6 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
      */
     public static <K> ModifiableBigDecimalMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, BigDecimal> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public BigDecimal get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
-        return new BigDecimalCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public BigDecimalCollection getValues() {
-        return new BigDecimalCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, BigDecimal>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -363,6 +279,121 @@ public class ModifiableBigDecimalMap<K> extends AbstractModifiableBigDecimalMap<
      */
     public static <L> ModifiableBigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals map with the specified key and value cardinality containing all the entries from
+     * the provided BigDecimals maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The BigDecimals maps from which to copy all the entries.
+     * @return A new modifiable BigDecimals map with the specified key and value cardinality containing all the entries from
+     *         the provided BigDecimals maps.
+     */
+    public static <L> ModifiableBigDecimalMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, BigDecimal>... maps) {
+        ModifiableBigDecimalMap<L> result = ModifiableBigDecimalMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, BigDecimal> map : maps) {
+            result.addAll(map);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable map containing all the entries from the provided maps.
+     *
+     * @param <L>  The key type.
+     * @param <W>  The value type.
+     * @param maps The maps from which to copy all the entries.
+     * @return A new modifiable map containing all the entries from the provided maps.
+     */
+    public static <L> ModifiableBigDecimalMap<L> unionOf(final NumericMap<? extends L, BigDecimal>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The modifiable map holding the keys and the BigDecimals.
+     */
+    private final ModifiableMap<K, BigDecimal> map;
+
+    /**
+     * Private constructor taking a map with the keys and the BigDecimals as its parameter.
+     *
+     * @param map The map holding the keys and the BigDecimals.
+     */
+    private ModifiableBigDecimalMap(final ModifiableMap<K, BigDecimal> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final BigDecimal value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends BigDecimal> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean contains(final Entry<K, BigDecimal> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final BigDecimal value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, BigDecimal> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public BigDecimal get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
+        return new BigDecimalCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public BigDecimalCollection getValues() {
+        return new BigDecimalCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, BigDecimal>> iterator() {
+        return map.iterator();
     }
 
     @Override

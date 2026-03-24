@@ -67,55 +67,6 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
     }
 
     /**
-     * The modifiable map holding the keys and the bytes.
-     */
-    private final ModifiableMap<K, Byte> map;
-
-    /**
-     * Private constructor taking a map with the keys and the bytes as its parameter.
-     *
-     * @param map The map holding the keys and the bytes.
-     */
-    private ModifiableByteMap(final ModifiableMap<K, Byte> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Byte value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Byte> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Byte> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Byte value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty bytes map.
      *
      * @param <K> The key type.
@@ -123,41 +74,6 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      */
     public static <K> ModifiableByteMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Byte> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Byte get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public ByteCollection getAll(final K key) throws IllegalArgumentException {
-        return new ByteCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public ByteCollection getValues() {
-        return new ByteCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Byte>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -361,6 +277,121 @@ public class ModifiableByteMap<K> extends AbstractModifiableByteMap<K> implement
      */
     public static <L> ModifiableByteMap<L> of(final NumericMap<? extends L, Byte> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new modifiable bytes map with the specified key and value cardinality containing all the entries from
+     * the provided bytes maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The bytes maps from which to copy all the entries.
+     * @return A new modifiable bytes map with the specified key and value cardinality containing all the entries from
+     *         the provided bytes maps.
+     */
+    public static <L> ModifiableByteMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Byte>... maps) {
+        ModifiableByteMap<L> result = ModifiableByteMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Byte> map : maps) {
+            result.addAll(map);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable map containing all the entries from the provided maps.
+     *
+     * @param <L>  The key type.
+     * @param <W>  The value type.
+     * @param maps The maps from which to copy all the entries.
+     * @return A new modifiable map containing all the entries from the provided maps.
+     */
+    public static <L> ModifiableByteMap<L> unionOf(final NumericMap<? extends L, Byte>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The modifiable map holding the keys and the bytes.
+     */
+    private final ModifiableMap<K, Byte> map;
+
+    /**
+     * Private constructor taking a map with the keys and the bytes as its parameter.
+     *
+     * @param map The map holding the keys and the bytes.
+     */
+    private ModifiableByteMap(final ModifiableMap<K, Byte> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Byte value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Byte> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Byte> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Byte value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Byte> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Byte get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public ByteCollection getAll(final K key) throws IllegalArgumentException {
+        return new ByteCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public ByteCollection getValues() {
+        return new ByteCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Byte>> iterator() {
+        return map.iterator();
     }
 
     @Override

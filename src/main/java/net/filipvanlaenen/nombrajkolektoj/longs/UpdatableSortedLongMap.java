@@ -9,6 +9,8 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
+import net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap;
+import net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
@@ -29,6 +31,17 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
      */
     public static final class ArrayMap<K> extends UpdatableSortedLongMap<K> {
         /**
+         * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
+            super(new UpdatableSortedArrayMap<K, Long>(comparator, entries));
+        }
+
+        /**
          * Constructs an updatable sorted map from another map, with the same keys and Longs and the same key and
          * value cardinality.
          *
@@ -36,7 +49,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
          * @param source     The map to create a new map from.
          */
         public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap<K, Long>(comparator, source));
+            super(new UpdatableSortedArrayMap<K, Long>(comparator, source));
         }
 
         /**
@@ -48,19 +61,19 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
          */
         public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap<K, Long>(keyAndValueCardinality,
-                    comparator, entries));
+            super(new UpdatableSortedArrayMap<K, Long>(keyAndValueCardinality, comparator, entries));
         }
 
         /**
-         * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs an updatable sorted map from another map with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap<K, Long>(comparator, entries));
+        public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
+                final Map<? extends K, Long> source) {
+            super(new UpdatableSortedArrayMap<K, Long>(keyAndValueCardinality, comparator, source));
         }
     }
 
@@ -72,6 +85,17 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
      */
     public static final class SortedTreeMap<K> extends UpdatableSortedLongMap<K> {
         /**
+         * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
+            super(new UpdatableSortedTreeMap<K, Long>(comparator, entries));
+        }
+
+        /**
          * Constructs an updatable sorted map from another map, with the same keys and Longs and the same key and
          * value cardinality.
          *
@@ -79,7 +103,7 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
          * @param source     The map to create a new map from.
          */
         public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap<K, Long>(comparator, source));
+            super(new UpdatableSortedTreeMap<K, Long>(comparator, source));
         }
 
         /**
@@ -91,54 +115,20 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
          */
         public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
                 final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap<K, Long>(keyAndValueCardinality,
-                    comparator, entries));
+            super(new UpdatableSortedTreeMap<K, Long>(keyAndValueCardinality, comparator, entries));
         }
 
         /**
-         * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs an updatable sorted map from another map with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap<K, Long>(comparator, entries));
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Map<? extends K, Long> source) {
+            super(new UpdatableSortedTreeMap<K, Long>(keyAndValueCardinality, comparator, source));
         }
-    }
-
-    /**
-     * The updatable sorted map holding the keys and the longs.
-     */
-    private final UpdatableSortedMap<K, Long> map;
-
-    /**
-     * Private constructor taking a map with the keys and the longs as its parameter.
-     *
-     * @param map The map holding the keys and the longs.
-     */
-    private UpdatableSortedLongMap(final UpdatableSortedMap<K, Long> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Long> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Long value) {
-        return map.containsValue(value);
     }
 
     /**
@@ -152,104 +142,22 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
         return new ArrayMap<L>(comparator);
     }
 
-    @Override
-    public Entry<K, Long> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Long get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public LongCollection getAll(final K key) throws IllegalArgumentException {
-        return new LongCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public Comparator<? super K> getComparator() {
-        return map.getComparator();
-    }
-
-    @Override
-    public Entry<K, Long> getGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThan(key);
-    }
-
-    @Override
-    public Entry<K, Long> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public Entry<K, Long> getGreatest() {
-        return map.getGreatest();
-    }
-
-    @Override
-    public K getGreatestKey() {
-        return map.getGreatestKey();
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThan(key);
-    }
-
-    @Override
-    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThan(key);
-    }
-
-    @Override
-    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public SortedCollection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public Entry<K, Long> getLeast() {
-        return map.getLeast();
-    }
-
-    @Override
-    public K getLeastKey() {
-        return map.getLeastKey();
-    }
-
-    @Override
-    public Entry<K, Long> getLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThan(key);
-    }
-
-    @Override
-    public Entry<K, Long> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public OrderedLongCollection getValues() {
-        return new OrderedLongCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Long>> iterator() {
-        return map.iterator();
+    /**
+     * Returns a new updatable sorted longs map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param comparator   The comparator by which to sort the keys.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable sorted longs map with the specified entries.
+     */
+    public static <L> UpdatableSortedLongMap<L> of(final Comparator<? super L> comparator, final Long defaultValue,
+            final Collection<? extends L> keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<L>(comparator, map);
     }
 
     /**
@@ -267,21 +175,6 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
         for (L key : keys) {
             map.add(key, defaultValue);
         }
-        return new SortedTreeMap<L>(comparator, map);
-    }
-
-    /**
-     * Returns a new updatable sorted longs map cloned from the provided long map but sorted according to the
-     * comparator.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param map        The original longs map.
-     * @return A new updatable sorted longs map cloned from the provided longs map but sorted according to the
-     *         comparator.
-     */
-    public static <L> UpdatableSortedLongMap<L> of(final Comparator<? super L> comparator,
-            final NumericMap<? extends L, Long> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
 
@@ -395,6 +288,41 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
     }
 
     /**
+     * Returns a new updatable sorted longs map cloned from the provided longs map but sorted according to the
+     * comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original longs map.
+     * @return A new updatable sorted longs map cloned from the provided longs map but sorted according to the
+     *         comparator.
+     */
+    public static <L> UpdatableSortedLongMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Long> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new updatable sorted longs map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable sorted longs map with the specified entries.
+     */
+    public static <L> UpdatableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Long defaultValue, final Collection<? extends L> keys) {
+        ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
      * Returns a new updatable sorted longs map with the specified keys with a default value and key and value
      * cardinality.
      *
@@ -426,6 +354,22 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
     public static <L> UpdatableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final Entry<L, Long>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new updatable sorted longs map cloned from the provided longs map with the specified key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param map                    The original longs map.
+     * @return A new updatable sorted longs map cloned from the provided longs map with the specified key and value
+     *         cardinality.
+     */
+    public static <L> UpdatableSortedLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final NumericMap<? extends L, Long> map) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, map);
     }
 
     /**
@@ -463,6 +407,140 @@ public abstract class UpdatableSortedLongMap<K> extends AbstractUpdatableSortedL
             }
         }
         return new SortedTreeMap<L>(map.getComparator(), slice);
+    }
+
+    /**
+     * The updatable sorted map holding the keys and the longs.
+     */
+    private final UpdatableSortedMap<K, Long> map;
+
+    /**
+     * Private constructor taking a map with the keys and the longs as its parameter.
+     *
+     * @param map The map holding the keys and the longs.
+     */
+    private UpdatableSortedLongMap(final UpdatableSortedMap<K, Long> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Long> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Long value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Long> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Long get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public LongCollection getAll(final K key) throws IllegalArgumentException {
+        return new LongCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Long> getGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThan(key);
+    }
+
+    @Override
+    public Entry<K, Long> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public Entry<K, Long> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThan(key);
+    }
+
+    @Override
+    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThan(key);
+    }
+
+    @Override
+    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public SortedCollection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Long> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
+    }
+
+    @Override
+    public Entry<K, Long> getLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThan(key);
+    }
+
+    @Override
+    public Entry<K, Long> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public OrderedLongCollection getValues() {
+        return new OrderedLongCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Long>> iterator() {
+        return map.iterator();
     }
 
     @Override

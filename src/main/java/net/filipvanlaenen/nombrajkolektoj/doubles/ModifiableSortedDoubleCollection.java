@@ -32,8 +32,9 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
+        public SortedTreeCollection(final Comparator<? super Double> comparator,
+                final Collection<Double> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -50,6 +51,19 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same doubles and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Double> comparator,
+                Collection<Double> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.DOUBLES));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -63,45 +77,6 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
     }
 
     /**
-     * The modifiable sorted collection holding the doubles.
-     */
-    private final ModifiableSortedCollection<Double> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the doubles as its parameter.
-     *
-     * @param collection The sorted collection holding the doubles.
-     */
-    private ModifiableSortedDoubleCollection(final ModifiableSortedCollection<Double> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Double element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Double> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted doubles collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -109,66 +84,6 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
      */
     public static ModifiableSortedDoubleCollection empty(final Comparator<Double> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Double> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Double element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -230,6 +145,21 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
     }
 
     /**
+     * Returns a new modifiable sorted doubles collection with the specified element cardinality cloned from the
+     * provided doubles collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original doubles collection.
+     * @return A new modifiable sorted doubles collection with the specified element cardinality cloned from the
+     *         provided doubles collection.
+     */
+    public static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Double> comparator, final NumericCollection<Double> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
      *
      * @param collection The original sorted doubles collection.
@@ -263,6 +193,105 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the doubles.
+     */
+    private final ModifiableSortedCollection<Double> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the doubles as its parameter.
+     *
+     * @param collection The sorted collection holding the doubles.
+     */
+    private ModifiableSortedDoubleCollection(final ModifiableSortedCollection<Double> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final Double element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Double> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Double getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Double> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Double element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

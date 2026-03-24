@@ -32,8 +32,9 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Collection<Byte> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BYTES));
+        public SortedTreeCollection(final Comparator<? super Byte> comparator,
+                final Collection<Byte> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -50,6 +51,19 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same bytes and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Byte> comparator,
+                Collection<Byte> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.BYTES));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given bytes. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -63,45 +77,6 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
     }
 
     /**
-     * The modifiable sorted collection holding the bytes.
-     */
-    private final ModifiableSortedCollection<Byte> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the bytes as its parameter.
-     *
-     * @param collection The sorted collection holding the bytes.
-     */
-    private ModifiableSortedByteCollection(final ModifiableSortedCollection<Byte> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Byte element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Byte> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted bytes collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -109,66 +84,6 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
      */
     public static ModifiableSortedByteCollection empty(final Comparator<Byte> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Byte element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Byte> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Byte getGreaterThan(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Byte getGreaterThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Byte getLessThan(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Byte getLessThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Byte element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Byte element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -230,6 +145,21 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
     }
 
     /**
+     * Returns a new modifiable sorted bytes collection with the specified element cardinality cloned from the
+     * provided bytes collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original bytes collection.
+     * @return A new modifiable sorted bytes collection with the specified element cardinality cloned from the
+     *         provided bytes collection.
+     */
+    public static ModifiableSortedByteCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Byte> comparator, final NumericCollection<Byte> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted bytes collection cloned from the provided sorted bytes collection.
      *
      * @param collection The original sorted bytes collection.
@@ -263,6 +193,105 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the bytes.
+     */
+    private final ModifiableSortedCollection<Byte> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the bytes as its parameter.
+     *
+     * @param collection The sorted collection holding the bytes.
+     */
+    private ModifiableSortedByteCollection(final ModifiableSortedCollection<Byte> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final Byte element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Byte> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Byte element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Byte element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Byte getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Byte> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Byte getGreaterThan(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Byte getGreaterThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Byte getLessThan(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Byte getLessThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Byte element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Byte element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

@@ -32,8 +32,9 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Integer> comparator, final Collection<Integer> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.INTEGERS));
+        public SortedTreeCollection(final Comparator<? super Integer> comparator,
+                final Collection<Integer> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -50,6 +51,19 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same integers and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Integer> comparator,
+                Collection<Integer> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.INTEGERS));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given integers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -63,45 +77,6 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
     }
 
     /**
-     * The modifiable sorted collection holding the integers.
-     */
-    private final ModifiableSortedCollection<Integer> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the integers as its parameter.
-     *
-     * @param collection The sorted collection holding the integers.
-     */
-    private ModifiableSortedIntegerCollection(final ModifiableSortedCollection<Integer> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Integer element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted integers collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -109,66 +84,6 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
      */
     public static ModifiableSortedIntegerCollection empty(final Comparator<Integer> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Integer element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Integer> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Integer getGreaterThan(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Integer getGreaterThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Integer getLessThan(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Integer getLessThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Integer element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Integer element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -230,6 +145,21 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
     }
 
     /**
+     * Returns a new modifiable sorted integers collection with the specified element cardinality cloned from the
+     * provided integers collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original integers collection.
+     * @return A new modifiable sorted integers collection with the specified element cardinality cloned from the
+     *         provided integers collection.
+     */
+    public static ModifiableSortedIntegerCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Integer> comparator, final NumericCollection<Integer> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted integers collection cloned from the provided sorted integers collection.
      *
      * @param collection The original sorted integers collection.
@@ -263,6 +193,105 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the integers.
+     */
+    private final ModifiableSortedCollection<Integer> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the integers as its parameter.
+     *
+     * @param collection The sorted collection holding the integers.
+     */
+    private ModifiableSortedIntegerCollection(final ModifiableSortedCollection<Integer> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final Integer element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Integer> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Integer element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Integer element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Integer getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Integer> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Integer getGreaterThan(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Integer getGreaterThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Integer getLessThan(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Integer getLessThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Integer element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

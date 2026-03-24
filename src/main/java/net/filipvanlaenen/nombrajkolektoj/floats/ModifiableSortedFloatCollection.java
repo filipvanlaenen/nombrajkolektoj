@@ -32,8 +32,9 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Float> comparator, final Collection<Float> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.FLOATS));
+        public SortedTreeCollection(final Comparator<? super Float> comparator,
+                final Collection<Float> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -50,6 +51,19 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same floats and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Float> comparator,
+                Collection<Float> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.FLOATS));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -63,45 +77,6 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
     }
 
     /**
-     * The modifiable sorted collection holding the floats.
-     */
-    private final ModifiableSortedCollection<Float> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the floats as its parameter.
-     *
-     * @param collection The sorted collection holding the floats.
-     */
-    private ModifiableSortedFloatCollection(final ModifiableSortedCollection<Float> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Float element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Float> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted floats collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -109,66 +84,6 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
      */
     public static ModifiableSortedFloatCollection empty(final Comparator<Float> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Float element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Float> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Float getGreaterThan(final Float element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Float getGreaterThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Float getLessThan(final Float element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Float getLessThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Float element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Float element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -230,6 +145,21 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
     }
 
     /**
+     * Returns a new modifiable sorted floats collection with the specified element cardinality cloned from the
+     * provided floats collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original floats collection.
+     * @return A new modifiable sorted floats collection with the specified element cardinality cloned from the
+     *         provided floats collection.
+     */
+    public static ModifiableSortedFloatCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Float> comparator, final NumericCollection<Float> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted floats collection cloned from the provided sorted floats collection.
      *
      * @param collection The original sorted floats collection.
@@ -263,6 +193,105 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the floats.
+     */
+    private final ModifiableSortedCollection<Float> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the floats as its parameter.
+     *
+     * @param collection The sorted collection holding the floats.
+     */
+    private ModifiableSortedFloatCollection(final ModifiableSortedCollection<Float> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final Float element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Float> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Float element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Float get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Float getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Float> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Float getGreaterThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Float getGreaterThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Float getLessThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Float getLessThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Float> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Float element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

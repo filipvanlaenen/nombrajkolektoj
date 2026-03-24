@@ -34,8 +34,9 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
+        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator,
+                final Collection<BigDecimal> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -52,6 +53,19 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same BigDecimals and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super BigDecimal> comparator,
+                Collection<BigDecimal> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given BigDecimals. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -65,45 +79,6 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
     }
 
     /**
-     * The modifiable sorted collection holding the BigDecimals.
-     */
-    private final ModifiableSortedCollection<BigDecimal> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the BigDecimals as its parameter.
-     *
-     * @param collection The sorted collection holding the BigDecimals.
-     */
-    private ModifiableSortedBigDecimalCollection(final ModifiableSortedCollection<BigDecimal> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final BigDecimal element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted BigDecimals collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -111,66 +86,6 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
      */
     public static ModifiableSortedBigDecimalCollection empty(final Comparator<BigDecimal> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final BigDecimal element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super BigDecimal> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public BigDecimal getGreaterThan(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public BigDecimal getGreaterThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public BigDecimal getLessThan(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public BigDecimal getLessThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final BigDecimal element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final BigDecimal element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -232,6 +147,21 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
     }
 
     /**
+     * Returns a new modifiable sorted BigDecimals collection with the specified element cardinality cloned from the
+     * provided BigDecimals collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original BigDecimals collection.
+     * @return A new modifiable sorted BigDecimals collection with the specified element cardinality cloned from the
+     *         provided BigDecimals collection.
+     */
+    public static ModifiableSortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super BigDecimal> comparator, final NumericCollection<BigDecimal> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      *
      * @param collection The original sorted BigDecimals collection.
@@ -265,6 +195,105 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the BigDecimals.
+     */
+    private final ModifiableSortedCollection<BigDecimal> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the BigDecimals as its parameter.
+     *
+     * @param collection The sorted collection holding the BigDecimals.
+     */
+    private ModifiableSortedBigDecimalCollection(final ModifiableSortedCollection<BigDecimal> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final BigDecimal element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigDecimal element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super BigDecimal> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public BigDecimal getGreaterThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigDecimal getGreaterThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigDecimal getLessThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigDecimal getLessThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final BigDecimal element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final BigDecimal element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

@@ -34,8 +34,9 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
+        public SortedTreeCollection(final Comparator<? super BigInteger> comparator,
+                final Collection<BigInteger> source) {
+            this(source.getElementCardinality(), comparator, source);
         }
 
         /**
@@ -52,6 +53,19 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
         }
 
         /**
+         * Constructs a modifiable sorted collection from a collection, with the same BigIntegers and the provided element
+         * cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param source             The sorted collection to create a new collection from.
+         */
+        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super BigInteger> comparator,
+                Collection<BigInteger> source) {
+            this(elementCardinality, comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
+        }
+
+        /**
          * Constructs a modifiable sorted collection with the given BigIntegers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
          *
@@ -65,45 +79,6 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
     }
 
     /**
-     * The modifiable sorted collection holding the BigIntegers.
-     */
-    private final ModifiableSortedCollection<BigInteger> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the BigIntegers as its parameter.
-     *
-     * @param collection The sorted collection holding the BigIntegers.
-     */
-    private ModifiableSortedBigIntegerCollection(final ModifiableSortedCollection<BigInteger> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final BigInteger element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigInteger> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable sorted BigIntegers collection.
      *
      * @param comparator The comparator by which to sort the elements.
@@ -111,66 +86,6 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
      */
     public static ModifiableSortedBigIntegerCollection empty(final Comparator<BigInteger> comparator) {
         return new SortedTreeCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final BigInteger element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super BigInteger> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public BigInteger getGreaterThan(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public BigInteger getGreaterThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public BigInteger getLessThan(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public BigInteger getLessThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final BigInteger element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final BigInteger element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -232,6 +147,21 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
     }
 
     /**
+     * Returns a new modifiable sorted BigIntegers collection with the specified element cardinality cloned from the
+     * provided BigIntegers collection.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original BigIntegers collection.
+     * @return A new modifiable sorted BigIntegers collection with the specified element cardinality cloned from the
+     *         provided BigIntegers collection.
+     */
+    public static ModifiableSortedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super BigInteger> comparator, final NumericCollection<BigInteger> collection) {
+        return new SortedTreeCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new modifiable sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      *
      * @param collection The original sorted BigIntegers collection.
@@ -265,6 +195,105 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted collection holding the BigIntegers.
+     */
+    private final ModifiableSortedCollection<BigInteger> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the BigIntegers as its parameter.
+     *
+     * @param collection The sorted collection holding the BigIntegers.
+     */
+    private ModifiableSortedBigIntegerCollection(final ModifiableSortedCollection<BigInteger> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean add(final BigInteger element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends BigInteger> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final BigInteger element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigInteger element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigInteger get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super BigInteger> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public BigInteger getGreaterThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigInteger getGreaterThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigInteger getLessThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigInteger getLessThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final BigInteger element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigInteger> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final BigInteger element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

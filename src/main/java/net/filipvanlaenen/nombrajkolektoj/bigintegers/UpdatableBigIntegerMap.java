@@ -8,6 +8,7 @@ import java.util.Spliterator;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
+import net.filipvanlaenen.kolektoj.hash.UpdatableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
@@ -27,13 +28,13 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      */
     public static final class HashMap<K> extends UpdatableBigIntegerMap<K> {
         /**
-         * Constructs an updatable map from another map, with the same keys and BigIntegers and the same key and value
-         * cardinality.
+         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, BigInteger>(source));
+        public HashMap(final Entry<K, BigInteger>... entries) {
+            super(new UpdatableHashMap<K, BigInteger>(entries));
         }
 
         /**
@@ -43,52 +44,28 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, BigInteger>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, BigInteger>(keyAndValueCardinality, entries));
+            super(new UpdatableHashMap<K, BigInteger>(keyAndValueCardinality, entries));
         }
 
         /**
-         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs an updatable map from another map with the given key and value cardinality.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, BigInteger>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, BigInteger>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigInteger> source) {
+            super(new UpdatableHashMap<K, BigInteger>(keyAndValueCardinality, source));
         }
-    }
 
-    /**
-     * The updatable map holding the keys and the BigIntegers.
-     */
-    private final UpdatableMap<K, BigInteger> map;
-
-    /**
-     * Private constructor taking a map with the keys and the BigIntegers as its parameter.
-     *
-     * @param map The map holding the keys and the BigIntegers.
-     */
-    private UpdatableBigIntegerMap(final UpdatableMap<K, BigInteger> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, BigInteger> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final BigInteger value) {
-        return map.containsValue(value);
+        /**
+         * Constructs an updatable map from another map, with the same keys and BigIntegers and the same key and value
+         * cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, BigInteger> source) {
+            super(new UpdatableHashMap<K, BigInteger>(source));
+        }
     }
 
     /**
@@ -101,49 +78,35 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
         return new HashMap<L>();
     }
 
-    @Override
-    public Entry<K, BigInteger> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public BigInteger get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new BigIntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public BigIntegerCollection getValues() {
-        return new BigIntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, BigInteger>> iterator() {
-        return map.iterator();
+    /**
+     * Returns a new updatable BigIntegers map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable BigIntegers map with the specified entries.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final BigInteger defaultValue, final Collection<? extends L> keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
     }
 
     /**
-     * Returns a new updatable BigIntegers map cloned from the provided BigIntegers map.
+     * Returns a new updatable BigIntegers map with the specified keys with a default value.
      *
-     * @param <L> The key type.
-     * @param map The original BigIntegers map.
-     * @return A new updatable BigIntegers map cloned from the provided BigIntegers map.
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
+    public static <L> UpdatableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
         return new HashMap<L>(map);
     }
 
@@ -156,6 +119,68 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
      */
     public static <L> UpdatableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(entries);
+    }
+
+    /**
+     * Returns a new updatable BigIntegers map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable BigIntegers map with the specified entries.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigInteger defaultValue, final Collection<? extends L> keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new updatable BigIntegers map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable BigIntegers map with the specified entries.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigInteger defaultValue, final L... keys) {
+        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new BigIntegers map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new BigIntegers map with the specified entries.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, BigInteger>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new BigIntegers map cloned from the provided BigIntegers map with the specified key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original BigIntegers map.
+     * @return A new BigIntegers map cloned from the provided BigIntegers map with the specified key and value cardinality.
+     */
+    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, BigInteger> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -246,50 +271,113 @@ public abstract class UpdatableBigIntegerMap<K> extends AbstractUpdatableBigInte
     }
 
     /**
-     * Returns a new updatable BigIntegers map with the specified keys with a default value and key and value cardinality.
+     * Returns a new updatable BigIntegers map cloned from the provided BigIntegers map.
      *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new updatable BigIntegers map with the specified entries.
+     * @param <L> The key type.
+     * @param map The original BigIntegers map.
+     * @return A new updatable BigIntegers map cloned from the provided BigIntegers map.
      */
-    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigInteger defaultValue, final L... keys) {
-        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
+    public static <L> UpdatableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(map);
     }
 
     /**
-     * Returns a new BigIntegers map with the specified entries and key and value cardinality.
+     * Returns a new updatable BigIntegers map with the specified key and value cardinality containing all the entries from
+     * the provided BigIntegers maps.
      *
      * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new BigIntegers map with the specified entries.
+     * @param maps                   The BigIntegers maps from which to copy all the entries.
+     * @return A new updatable BigIntegers map with the specified key and value cardinality containing all the entries from
+     *         the provided BigIntegers maps.
      */
-    public static <L> UpdatableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, BigInteger>... entries) {
-        return new HashMap<L>(keyAndValueCardinality, entries);
+    public static <L> UpdatableBigIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, BigInteger>... maps) {
+        ModifiableBigIntegerMap<L> result = ModifiableBigIntegerMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, BigInteger> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
     }
 
     /**
-     * Returns a new updatable BigIntegers map with the specified keys with a default value.
+     * Returns a new updatable BigIntegers map containing all the entries from the provided BigIntegers maps.
      *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new updatable BigIntegers map with the specified entries.
+     * @param <L>  The key type.
+     * @param maps The BigIntegers maps from which to copy all the entries.
+     * @return A new updatable BigIntegers map containing all the entries from the provided BigIntegers maps.
      */
-    public static <L> UpdatableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
-        ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return new HashMap<L>(map);
+    public static <L> UpdatableBigIntegerMap<L> unionOf(final NumericMap<? extends L, BigInteger>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The updatable map holding the keys and the BigIntegers.
+     */
+    private final UpdatableMap<K, BigInteger> map;
+
+    /**
+     * Private constructor taking a map with the keys and the BigIntegers as its parameter.
+     *
+     * @param map The map holding the keys and the BigIntegers.
+     */
+    private UpdatableBigIntegerMap(final UpdatableMap<K, BigInteger> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, BigInteger> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final BigInteger value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, BigInteger> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public BigInteger get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
+        return new BigIntegerCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public BigIntegerCollection getValues() {
+        return new BigIntegerCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, BigInteger>> iterator() {
+        return map.iterator();
     }
 
     @Override

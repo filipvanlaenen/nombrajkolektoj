@@ -6,6 +6,7 @@ import java.util.Spliterator;
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
+import net.filipvanlaenen.kolektoj.hash.UpdatableHashMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
@@ -25,13 +26,13 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      */
     public static final class HashMap<K> extends UpdatableIntegerMap<K> {
         /**
-         * Constructs an updatable map from another map, with the same keys and Integers and the same key and value
-         * cardinality.
+         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
          *
-         * @param source The map to create a new map from.
+         * @param entries The entries of the map.
          */
-        public HashMap(final Map<? extends K, Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Integer>(source));
+        public HashMap(final Entry<K, Integer>... entries) {
+            super(new UpdatableHashMap<K, Integer>(entries));
         }
 
         /**
@@ -41,52 +42,28 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Integer>(keyAndValueCardinality, entries));
+            super(new UpdatableHashMap<K, Integer>(keyAndValueCardinality, entries));
         }
 
         /**
-         * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs an updatable map from another map with the given key and value cardinality.
          *
-         * @param entries The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param source                 The map to create a new map from.
          */
-        public HashMap(final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.UpdatableHashMap<K, Integer>(entries));
+        public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Integer> source) {
+            super(new UpdatableHashMap<K, Integer>(keyAndValueCardinality, source));
         }
-    }
 
-    /**
-     * The updatable map holding the keys and the integers.
-     */
-    private final UpdatableMap<K, Integer> map;
-
-    /**
-     * Private constructor taking a map with the keys and the integers as its parameter.
-     *
-     * @param map The map holding the keys and the integers.
-     */
-    private UpdatableIntegerMap(final UpdatableMap<K, Integer> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Integer> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Integer value) {
-        return map.containsValue(value);
+        /**
+         * Constructs an updatable map from another map, with the same keys and Integers and the same key and value
+         * cardinality.
+         *
+         * @param source The map to create a new map from.
+         */
+        public HashMap(final Map<? extends K, Integer> source) {
+            super(new UpdatableHashMap<K, Integer>(source));
+        }
     }
 
     /**
@@ -99,49 +76,35 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
         return new HashMap<L>();
     }
 
-    @Override
-    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Integer get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new IntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public IntegerCollection getValues() {
-        return new IntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Integer>> iterator() {
-        return map.iterator();
+    /**
+     * Returns a new updatable integers map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
+     */
+    public static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final Collection<? extends L> keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
     }
 
     /**
-     * Returns a new updatable integers map cloned from the provided integers map.
+     * Returns a new updatable integers map with the specified keys with a default value.
      *
-     * @param <L> The key type.
-     * @param map The original integers map.
-     * @return A new updatable integers map cloned from the provided integers map.
+     * @param <L>          The key type.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
+    public static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
         return new HashMap<L>(map);
     }
 
@@ -154,6 +117,68 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      */
     public static <L> UpdatableIntegerMap<L> of(final Entry<L, Integer>... entries) {
         return new HashMap<L>(entries);
+    }
+
+    /**
+     * Returns a new updatable integers map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
+     */
+    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final Collection<? extends L> keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new updatable integers map with the specified keys with a default value and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new updatable integers map with the specified entries.
+     */
+    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final L... keys) {
+        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new integers map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param entries                The entries for the new map.
+     * @return A new integers map with the specified entries.
+     */
+    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Entry<L, Integer>... entries) {
+        return new HashMap<L>(keyAndValueCardinality, entries);
+    }
+
+    /**
+     * Returns a new integers map cloned from the provided integers map with the specified key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original integers map.
+     * @return A new integers map cloned from the provided integers map with the specified key and value cardinality.
+     */
+    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Integer> map) {
+        return new HashMap<L>(keyAndValueCardinality, map);
     }
 
     /**
@@ -244,50 +269,113 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
     }
 
     /**
-     * Returns a new updatable integers map with the specified keys with a default value and key and value cardinality.
+     * Returns a new updatable integers map cloned from the provided integers map.
      *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param defaultValue           The default value for the entries.
-     * @param keys                   The keys for the new map.
-     * @return A new updatable integers map with the specified entries.
+     * @param <L> The key type.
+     * @param map The original integers map.
+     * @return A new updatable integers map cloned from the provided integers map.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Integer defaultValue, final L... keys) {
-        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
+    public static <L> UpdatableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
     }
 
     /**
-     * Returns a new integers map with the specified entries and key and value cardinality.
+     * Returns a new updatable integers map with the specified key and value cardinality containing all the entries from
+     * the provided integers maps.
      *
      * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
-     * @param entries                The entries for the new map.
-     * @return A new integers map with the specified entries.
+     * @param maps                   The integers maps from which to copy all the entries.
+     * @return A new updatable integers map with the specified key and value cardinality containing all the entries from
+     *         the provided integers maps.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, Integer>... entries) {
-        return new HashMap<L>(keyAndValueCardinality, entries);
+    public static <L> UpdatableIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Integer>... maps) {
+        ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Integer> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
     }
 
     /**
-     * Returns a new updatable integers map with the specified keys with a default value.
+     * Returns a new updatable integers map containing all the entries from the provided integers maps.
      *
-     * @param <L>          The key type.
-     * @param defaultValue The default value for the entries.
-     * @param keys         The keys for the new map.
-     * @return A new updatable integers map with the specified entries.
+     * @param <L>  The key type.
+     * @param maps The integers maps from which to copy all the entries.
+     * @return A new updatable integers map containing all the entries from the provided integers maps.
      */
-    public static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
-        ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
-        for (L key : keys) {
-            map.add(key, defaultValue);
-        }
-        return new HashMap<L>(map);
+    public static <L> UpdatableIntegerMap<L> unionOf(final NumericMap<? extends L, Integer>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The updatable map holding the keys and the integers.
+     */
+    private final UpdatableMap<K, Integer> map;
+
+    /**
+     * Private constructor taking a map with the keys and the integers as its parameter.
+     *
+     * @param map The map holding the keys and the integers.
+     */
+    private UpdatableIntegerMap(final UpdatableMap<K, Integer> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Integer> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Integer value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Integer get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
+        return new IntegerCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public IntegerCollection getValues() {
+        return new IntegerCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Integer>> iterator() {
+        return map.iterator();
     }
 
     @Override

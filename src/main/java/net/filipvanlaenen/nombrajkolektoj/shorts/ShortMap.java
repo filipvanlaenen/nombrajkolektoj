@@ -61,40 +61,6 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
     }
 
     /**
-     * The map holding the keys and the shorts.
-     */
-    private final Map<K, Short> map;
-
-    /**
-     * Private constructor taking a map with the keys and the shorts as its parameter.
-     *
-     * @param map The map holding the keys and the shorts.
-     */
-    private ShortMap(final Map<K, Short> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Short> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Short value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty shorts map.
      *
      * @param <K> The key type.
@@ -102,41 +68,6 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
      */
     public static <K> ShortMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Short> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Short get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public ShortCollection getAll(final K key) throws IllegalArgumentException {
-        return new ShortCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public ShortCollection getValues() {
-        return new ShortCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Short>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -272,6 +203,105 @@ public abstract class ShortMap<K> extends AbstractShortMap<K> implements Numeric
      */
     public static <L> ShortMap<L> of(final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new shorts map with the specified key and value cardinality containing all the entries from the
+     * provided shorts maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The shorts maps from which to copy all the entries.
+     * @return A new shorts map with the specified key and value cardinality containing all the entries from the
+     *         provided shorts maps.
+     */
+    public static <L> ShortMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Short>... maps) {
+        ModifiableShortMap<L> result = ModifiableShortMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Short> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
+    }
+
+    /**
+     * Returns a new shorts map containing all the entries from the provided shorts maps.
+     *
+     * @param <L>  The key type.
+     * @param maps The shorts maps from which to copy all the entries.
+     * @return A new shorts map containing all the entries from the provided shorts maps.
+     */
+    public static <L> ShortMap<L> unionOf(final NumericMap<? extends L, Short>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The map holding the keys and the shorts.
+     */
+    private final Map<K, Short> map;
+
+    /**
+     * Private constructor taking a map with the keys and the shorts as its parameter.
+     *
+     * @param map The map holding the keys and the shorts.
+     */
+    private ShortMap(final Map<K, Short> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Short> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Short value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Short> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Short get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public ShortCollection getAll(final K key) throws IllegalArgumentException {
+        return new ShortCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public ShortCollection getValues() {
+        return new ShortCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Short>> iterator() {
+        return map.iterator();
     }
 
     @Override

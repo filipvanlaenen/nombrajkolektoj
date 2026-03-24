@@ -61,40 +61,6 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
     }
 
     /**
-     * The map holding the keys and the doubles.
-     */
-    private final Map<K, Double> map;
-
-    /**
-     * Private constructor taking a map with the keys and the doubles as its parameter.
-     *
-     * @param map The map holding the keys and the doubles.
-     */
-    private DoubleMap(final Map<K, Double> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Double> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Double value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty doubles map.
      *
      * @param <K> The key type.
@@ -102,41 +68,6 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
      */
     public static <K> DoubleMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Double> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Double get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public DoubleCollection getAll(final K key) throws IllegalArgumentException {
-        return new DoubleCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public DoubleCollection getValues() {
-        return new DoubleCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Double>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -272,6 +203,105 @@ public abstract class DoubleMap<K> extends AbstractDoubleMap<K> implements Numer
      */
     public static <L> DoubleMap<L> of(final NumericMap<? extends L, Double> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new doubles map with the specified key and value cardinality containing all the entries from the
+     * provided doubles maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The doubles maps from which to copy all the entries.
+     * @return A new doubles map with the specified key and value cardinality containing all the entries from the
+     *         provided doubles maps.
+     */
+    public static <L> DoubleMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Double>... maps) {
+        ModifiableDoubleMap<L> result = ModifiableDoubleMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Double> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
+    }
+
+    /**
+     * Returns a new doubles map containing all the entries from the provided doubles maps.
+     *
+     * @param <L>  The key type.
+     * @param maps The doubles maps from which to copy all the entries.
+     * @return A new doubles map containing all the entries from the provided doubles maps.
+     */
+    public static <L> DoubleMap<L> unionOf(final NumericMap<? extends L, Double>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The map holding the keys and the doubles.
+     */
+    private final Map<K, Double> map;
+
+    /**
+     * Private constructor taking a map with the keys and the doubles as its parameter.
+     *
+     * @param map The map holding the keys and the doubles.
+     */
+    private DoubleMap(final Map<K, Double> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Double> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Double value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Double> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Double get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public DoubleCollection getAll(final K key) throws IllegalArgumentException {
+        return new DoubleCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public DoubleCollection getValues() {
+        return new DoubleCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Double>> iterator() {
+        return map.iterator();
     }
 
     @Override

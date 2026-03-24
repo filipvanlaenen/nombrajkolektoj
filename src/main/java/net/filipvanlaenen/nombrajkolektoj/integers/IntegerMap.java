@@ -61,40 +61,6 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
     }
 
     /**
-     * The map holding the keys and the integers.
-     */
-    private final Map<K, Integer> map;
-
-    /**
-     * Private constructor taking a map with the keys and the integers as its parameter.
-     *
-     * @param map The map holding the keys and the integers.
-     */
-    private IntegerMap(final Map<K, Integer> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Integer> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Integer value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty integers map.
      *
      * @param <K> The key type.
@@ -102,41 +68,6 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      */
     public static <K> IntegerMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Integer get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new IntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public IntegerCollection getValues() {
-        return new IntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Integer>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -272,6 +203,105 @@ public abstract class IntegerMap<K> extends AbstractIntegerMap<K> implements Num
      */
     public static <L> IntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new integers map with the specified key and value cardinality containing all the entries from the
+     * provided integers maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The integers maps from which to copy all the entries.
+     * @return A new integers map with the specified key and value cardinality containing all the entries from the
+     *         provided integers maps.
+     */
+    public static <L> IntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Integer>... maps) {
+        ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Integer> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
+    }
+
+    /**
+     * Returns a new integers map containing all the entries from the provided integers maps.
+     *
+     * @param <L>  The key type.
+     * @param maps The integers maps from which to copy all the entries.
+     * @return A new integers map containing all the entries from the provided integers maps.
+     */
+    public static <L> IntegerMap<L> unionOf(final NumericMap<? extends L, Integer>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The map holding the keys and the integers.
+     */
+    private final Map<K, Integer> map;
+
+    /**
+     * Private constructor taking a map with the keys and the integers as its parameter.
+     *
+     * @param map The map holding the keys and the integers.
+     */
+    private IntegerMap(final Map<K, Integer> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Integer> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Integer value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Integer get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
+        return new IntegerCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public IntegerCollection getValues() {
+        return new IntegerCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Integer>> iterator() {
+        return map.iterator();
     }
 
     @Override

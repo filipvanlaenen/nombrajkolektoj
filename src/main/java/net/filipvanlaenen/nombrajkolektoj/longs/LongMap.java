@@ -61,40 +61,6 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
     }
 
     /**
-     * The map holding the keys and the longs.
-     */
-    private final Map<K, Long> map;
-
-    /**
-     * Private constructor taking a map with the keys and the longs as its parameter.
-     *
-     * @param map The map holding the keys and the longs.
-     */
-    private LongMap(final Map<K, Long> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Long> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Long value) {
-        return map.containsValue(value);
-    }
-
-    /**
      * Returns a new empty longs map.
      *
      * @param <K> The key type.
@@ -102,41 +68,6 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      */
     public static <K> LongMap<K> empty() {
         return new HashMap<K>();
-    }
-
-    @Override
-    public Entry<K, Long> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Long get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public LongCollection getAll(final K key) throws IllegalArgumentException {
-        return new LongCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public LongCollection getValues() {
-        return new LongCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Long>> iterator() {
-        return map.iterator();
     }
 
     /**
@@ -272,6 +203,105 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      */
     public static <L> LongMap<L> of(final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(map);
+    }
+
+    /**
+     * Returns a new longs map with the specified key and value cardinality containing all the entries from the
+     * provided longs maps.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param maps                   The longs maps from which to copy all the entries.
+     * @return A new longs map with the specified key and value cardinality containing all the entries from the
+     *         provided longs maps.
+     */
+    public static <L> LongMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+            final NumericMap<? extends L, Long>... maps) {
+        ModifiableLongMap<L> result = ModifiableLongMap.of(keyAndValueCardinality);
+        for (NumericMap<? extends L, Long> map : maps) {
+            result.addAll(map);
+        }
+        return new HashMap<L>(result);
+    }
+
+    /**
+     * Returns a new longs map containing all the entries from the provided longs maps.
+     *
+     * @param <L>  The key type.
+     * @param maps The longs maps from which to copy all the entries.
+     * @return A new longs map containing all the entries from the provided longs maps.
+     */
+    public static <L> LongMap<L> unionOf(final NumericMap<? extends L, Long>... maps) {
+        return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
+    }
+
+    /**
+     * The map holding the keys and the longs.
+     */
+    private final Map<K, Long> map;
+
+    /**
+     * Private constructor taking a map with the keys and the longs as its parameter.
+     *
+     * @param map The map holding the keys and the longs.
+     */
+    private LongMap(final Map<K, Long> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Long> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Long value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Long> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Long get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public LongCollection getAll(final K key) throws IllegalArgumentException {
+        return new LongCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public Collection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public LongCollection getValues() {
+        return new LongCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Long>> iterator() {
+        return map.iterator();
     }
 
     @Override

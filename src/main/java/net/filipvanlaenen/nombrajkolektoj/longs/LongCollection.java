@@ -57,30 +57,6 @@ public abstract class LongCollection extends AbstractLongCollection implements N
     }
 
     /**
-     * The collection holding the longs.
-     */
-    private final Collection<Long> numbers;
-
-    /**
-     * Private constructor taking a collection with the longs as its parameter.
-     *
-     * @param numbers The collection holding the longs.
-     */
-    private LongCollection(final Collection<Long> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty longs collection.
      *
      * @return A new empty longs collection.
@@ -89,19 +65,21 @@ public abstract class LongCollection extends AbstractLongCollection implements N
         return new ArrayCollection();
     }
 
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new longs collection containing all the elements present in each of the provided longs collections.
+     *
+     * @param collections The longs collections from which to calculate the intersection.
+     * @return A new longs collection containing all the elements present in each of the provided longs collections.
+     */
+    public static LongCollection intersectionOf(final NumericCollection<Long>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableLongCollection result = ModifiableLongCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -147,6 +125,73 @@ public abstract class LongCollection extends AbstractLongCollection implements N
      */
     public static LongCollection of(final NumericCollection<Long> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new longs collection containing all the elements from the provided longs collections.
+     *
+     * @param collections The longs collections from which to copy all the elements.
+     * @return A new longs collection containing all the elements from the provided longs collections.
+     */
+    public static LongCollection unionOf(final NumericCollection<Long>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new longs collection with the specified element cardinality containing all the elements from the
+     * provided longs collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The longs collections from which to copy all the elements.
+     * @return A new longs collection with the specified element cardinality containing all the elements from the
+     *         provided longs collections.
+     */
+    public static LongCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Long>... collections) {
+        ModifiableLongCollection result = ModifiableLongCollection.of(elementCardinality);
+        for (NumericCollection<Long> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the longs.
+     */
+    private final Collection<Long> numbers;
+
+    /**
+     * Private constructor taking a collection with the longs as its parameter.
+     *
+     * @param numbers The collection holding the longs.
+     */
+    private LongCollection(final Collection<Long> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final Long element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public Long get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Long> iterator() {
+        return numbers.iterator();
     }
 
     @Override

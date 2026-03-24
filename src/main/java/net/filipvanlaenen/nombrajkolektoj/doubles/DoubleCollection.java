@@ -57,30 +57,6 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
     }
 
     /**
-     * The collection holding the doubles.
-     */
-    private final Collection<Double> numbers;
-
-    /**
-     * Private constructor taking a collection with the doubles as its parameter.
-     *
-     * @param numbers The collection holding the doubles.
-     */
-    private DoubleCollection(final Collection<Double> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty doubles collection.
      *
      * @return A new empty doubles collection.
@@ -89,19 +65,21 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
         return new ArrayCollection();
     }
 
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new doubles collection containing all the elements present in each of the provided doubles collections.
+     *
+     * @param collections The doubles collections from which to calculate the intersection.
+     * @return A new doubles collection containing all the elements present in each of the provided doubles collections.
+     */
+    public static DoubleCollection intersectionOf(final NumericCollection<Double>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -147,6 +125,73 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
      */
     public static DoubleCollection of(final NumericCollection<Double> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new doubles collection containing all the elements from the provided doubles collections.
+     *
+     * @param collections The doubles collections from which to copy all the elements.
+     * @return A new doubles collection containing all the elements from the provided doubles collections.
+     */
+    public static DoubleCollection unionOf(final NumericCollection<Double>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new doubles collection with the specified element cardinality containing all the elements from the
+     * provided doubles collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The doubles collections from which to copy all the elements.
+     * @return A new doubles collection with the specified element cardinality containing all the elements from the
+     *         provided doubles collections.
+     */
+    public static DoubleCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Double>... collections) {
+        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(elementCardinality);
+        for (NumericCollection<Double> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the doubles.
+     */
+    private final Collection<Double> numbers;
+
+    /**
+     * Private constructor taking a collection with the doubles as its parameter.
+     *
+     * @param numbers The collection holding the doubles.
+     */
+    private DoubleCollection(final Collection<Double> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return numbers.iterator();
     }
 
     @Override

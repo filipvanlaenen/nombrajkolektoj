@@ -57,30 +57,6 @@ public abstract class ShortCollection extends AbstractShortCollection implements
     }
 
     /**
-     * The collection holding the shorts.
-     */
-    private final Collection<Short> numbers;
-
-    /**
-     * Private constructor taking a collection with the shorts as its parameter.
-     *
-     * @param numbers The collection holding the shorts.
-     */
-    private ShortCollection(final Collection<Short> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty shorts collection.
      *
      * @return A new empty shorts collection.
@@ -89,19 +65,21 @@ public abstract class ShortCollection extends AbstractShortCollection implements
         return new ArrayCollection();
     }
 
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new shorts collection containing all the elements present in each of the provided shorts collections.
+     *
+     * @param collections The shorts collections from which to calculate the intersection.
+     * @return A new shorts collection containing all the elements present in each of the provided shorts collections.
+     */
+    public static ShortCollection intersectionOf(final NumericCollection<Short>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableShortCollection result = ModifiableShortCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -147,6 +125,73 @@ public abstract class ShortCollection extends AbstractShortCollection implements
      */
     public static ShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new shorts collection containing all the elements from the provided shorts collections.
+     *
+     * @param collections The shorts collections from which to copy all the elements.
+     * @return A new shorts collection containing all the elements from the provided shorts collections.
+     */
+    public static ShortCollection unionOf(final NumericCollection<Short>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new shorts collection with the specified element cardinality containing all the elements from the
+     * provided shorts collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The shorts collections from which to copy all the elements.
+     * @return A new shorts collection with the specified element cardinality containing all the elements from the
+     *         provided shorts collections.
+     */
+    public static ShortCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Short>... collections) {
+        ModifiableShortCollection result = ModifiableShortCollection.of(elementCardinality);
+        for (NumericCollection<Short> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the shorts.
+     */
+    private final Collection<Short> numbers;
+
+    /**
+     * Private constructor taking a collection with the shorts as its parameter.
+     *
+     * @param numbers The collection holding the shorts.
+     */
+    private ShortCollection(final Collection<Short> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return numbers.iterator();
     }
 
     @Override

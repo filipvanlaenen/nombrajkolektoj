@@ -59,30 +59,6 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
     }
 
     /**
-     * The collection holding the BigDecimals.
-     */
-    private final Collection<BigDecimal> numbers;
-
-    /**
-     * Private constructor taking a collection with the BigDecimals as its parameter.
-     *
-     * @param numbers The collection holding the BigDecimals.
-     */
-    private BigDecimalCollection(final Collection<BigDecimal> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty BigDecimals collection.
      *
      * @return A new empty BigDecimals collection.
@@ -91,19 +67,21 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
         return new ArrayCollection();
     }
 
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new BigDecimals collection containing all the elements present in each of the provided BigDecimals collections.
+     *
+     * @param collections The BigDecimals collections from which to calculate the intersection.
+     * @return A new BigDecimals collection containing all the elements present in each of the provided BigDecimals collections.
+     */
+    public static BigDecimalCollection intersectionOf(final NumericCollection<BigDecimal>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -149,6 +127,73 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
      */
     public static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new BigDecimals collection containing all the elements from the provided BigDecimals collections.
+     *
+     * @param collections The BigDecimals collections from which to copy all the elements.
+     * @return A new BigDecimals collection containing all the elements from the provided BigDecimals collections.
+     */
+    public static BigDecimalCollection unionOf(final NumericCollection<BigDecimal>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new BigDecimals collection with the specified element cardinality containing all the elements from the
+     * provided BigDecimals collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The BigDecimals collections from which to copy all the elements.
+     * @return A new BigDecimals collection with the specified element cardinality containing all the elements from the
+     *         provided BigDecimals collections.
+     */
+    public static BigDecimalCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal>... collections) {
+        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(elementCardinality);
+        for (NumericCollection<BigDecimal> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the BigDecimals.
+     */
+    private final Collection<BigDecimal> numbers;
+
+    /**
+     * Private constructor taking a collection with the BigDecimals as its parameter.
+     *
+     * @param numbers The collection holding the BigDecimals.
+     */
+    private BigDecimalCollection(final Collection<BigDecimal> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return numbers.iterator();
     }
 
     @Override

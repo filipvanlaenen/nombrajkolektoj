@@ -57,30 +57,6 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
-     * The collection holding the integers.
-     */
-    private final Collection<Integer> numbers;
-
-    /**
-     * Private constructor taking a collection with the integers as its parameter.
-     *
-     * @param numbers The collection holding the integers.
-     */
-    private IntegerCollection(final Collection<Integer> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty integers collection.
      *
      * @return A new empty integers collection.
@@ -89,19 +65,21 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
         return new ArrayCollection();
     }
 
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new integers collection containing all the elements present in each of the provided integers collections.
+     *
+     * @param collections The integers collections from which to calculate the intersection.
+     * @return A new integers collection containing all the elements present in each of the provided integers collections.
+     */
+    public static IntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableIntegerCollection result = ModifiableIntegerCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -147,6 +125,73 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
      */
     public static IntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new integers collection containing all the elements from the provided integers collections.
+     *
+     * @param collections The integers collections from which to copy all the elements.
+     * @return A new integers collection containing all the elements from the provided integers collections.
+     */
+    public static IntegerCollection unionOf(final NumericCollection<Integer>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new integers collection with the specified element cardinality containing all the elements from the
+     * provided integers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The integers collections from which to copy all the elements.
+     * @return A new integers collection with the specified element cardinality containing all the elements from the
+     *         provided integers collections.
+     */
+    public static IntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer>... collections) {
+        ModifiableIntegerCollection result = ModifiableIntegerCollection.of(elementCardinality);
+        for (NumericCollection<Integer> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the integers.
+     */
+    private final Collection<Integer> numbers;
+
+    /**
+     * Private constructor taking a collection with the integers as its parameter.
+     *
+     * @param numbers The collection holding the integers.
+     */
+    private IntegerCollection(final Collection<Integer> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final Integer element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return numbers.iterator();
     }
 
     @Override

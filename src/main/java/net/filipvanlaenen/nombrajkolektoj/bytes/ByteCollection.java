@@ -57,30 +57,6 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
     }
 
     /**
-     * The collection holding the bytes.
-     */
-    private final Collection<Byte> numbers;
-
-    /**
-     * Private constructor taking a collection with the bytes as its parameter.
-     *
-     * @param numbers The collection holding the bytes.
-     */
-    private ByteCollection(final Collection<Byte> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty bytes collection.
      *
      * @return A new empty bytes collection.
@@ -89,19 +65,21 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
         return new ArrayCollection();
     }
 
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new bytes collection containing all the elements present in each of the provided bytes collections.
+     *
+     * @param collections The bytes collections from which to calculate the intersection.
+     * @return A new bytes collection containing all the elements present in each of the provided bytes collections.
+     */
+    public static ByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableByteCollection result = ModifiableByteCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -147,6 +125,73 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
      */
     public static ByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new bytes collection containing all the elements from the provided bytes collections.
+     *
+     * @param collections The bytes collections from which to copy all the elements.
+     * @return A new bytes collection containing all the elements from the provided bytes collections.
+     */
+    public static ByteCollection unionOf(final NumericCollection<Byte>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new bytes collection with the specified element cardinality containing all the elements from the
+     * provided bytes collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The bytes collections from which to copy all the elements.
+     * @return A new bytes collection with the specified element cardinality containing all the elements from the
+     *         provided bytes collections.
+     */
+    public static ByteCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte>... collections) {
+        ModifiableByteCollection result = ModifiableByteCollection.of(elementCardinality);
+        for (NumericCollection<Byte> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the bytes.
+     */
+    private final Collection<Byte> numbers;
+
+    /**
+     * Private constructor taking a collection with the bytes as its parameter.
+     *
+     * @param numbers The collection holding the bytes.
+     */
+    private ByteCollection(final Collection<Byte> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final Byte element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return numbers.iterator();
     }
 
     @Override

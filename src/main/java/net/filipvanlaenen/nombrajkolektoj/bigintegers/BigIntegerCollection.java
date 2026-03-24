@@ -59,30 +59,6 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
     }
 
     /**
-     * The collection holding the BigIntegers.
-     */
-    private final Collection<BigInteger> numbers;
-
-    /**
-     * Private constructor taking a collection with the BigIntegers as its parameter.
-     *
-     * @param numbers The collection holding the BigIntegers.
-     */
-    private BigIntegerCollection(final Collection<BigInteger> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    /**
      * Returns a new empty BigIntegers collection.
      *
      * @return A new empty BigIntegers collection.
@@ -91,19 +67,21 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
         return new ArrayCollection();
     }
 
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return numbers.iterator();
+    /**
+     * Returns a new BigIntegers collection containing all the elements present in each of the provided BigIntegers collections.
+     *
+     * @param collections The BigIntegers collections from which to calculate the intersection.
+     * @return A new BigIntegers collection containing all the elements present in each of the provided BigIntegers collections.
+     */
+    public static BigIntegerCollection intersectionOf(final NumericCollection<BigInteger>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableBigIntegerCollection result = ModifiableBigIntegerCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return new ArrayCollection(result);
     }
 
     /**
@@ -149,6 +127,73 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
      */
     public static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new BigIntegers collection containing all the elements from the provided BigIntegers collections.
+     *
+     * @param collections The BigIntegers collections from which to copy all the elements.
+     * @return A new BigIntegers collection containing all the elements from the provided BigIntegers collections.
+     */
+    public static BigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * Returns a new BigIntegers collection with the specified element cardinality containing all the elements from the
+     * provided BigIntegers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The BigIntegers collections from which to copy all the elements.
+     * @return A new BigIntegers collection with the specified element cardinality containing all the elements from the
+     *         provided BigIntegers collections.
+     */
+    public static BigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger>... collections) {
+        ModifiableBigIntegerCollection result = ModifiableBigIntegerCollection.of(elementCardinality);
+        for (NumericCollection<BigInteger> collection : collections) {
+            result.addAll(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * The collection holding the BigIntegers.
+     */
+    private final Collection<BigInteger> numbers;
+
+    /**
+     * Private constructor taking a collection with the BigIntegers as its parameter.
+     *
+     * @param numbers The collection holding the BigIntegers.
+     */
+    private BigIntegerCollection(final Collection<BigInteger> numbers) {
+        this.numbers = numbers;
+    }
+
+    @Override
+    public boolean contains(final BigInteger element) {
+        return numbers.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return numbers.containsAll(collection);
+    }
+
+    @Override
+    public BigInteger get() throws IndexOutOfBoundsException {
+        return numbers.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return numbers.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<BigInteger> iterator() {
+        return numbers.iterator();
     }
 
     @Override

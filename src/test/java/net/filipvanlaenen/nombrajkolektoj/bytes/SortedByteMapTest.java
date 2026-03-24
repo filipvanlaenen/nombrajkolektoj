@@ -24,7 +24,7 @@ public final class SortedByteMapTest extends ByteMapTestBase<SortedByteMap<Strin
     }
 
     @Override
-    protected SortedByteMap<String> createByteMap(SortedByteMap<String> map) {
+    protected SortedByteMap<String> createByteMap(final SortedByteMap<String> map) {
         return SortedByteMap.of(map);
     }
 

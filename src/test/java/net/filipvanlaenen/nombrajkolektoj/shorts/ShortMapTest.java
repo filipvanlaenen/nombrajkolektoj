@@ -54,7 +54,7 @@ public final class ShortMapTest extends ShortMapTestBase<ShortMap<String>> {
     }
 
     @Override
-    protected ShortMap<String> createShortMap(ShortMap<String> map) {
+    protected ShortMap<String> createShortMap(final ShortMap<String> map) {
         return ShortMap.of(map);
     }
 }

@@ -93,7 +93,7 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
     }
 
     @Override
-    protected ModifiableSortedBigDecimalMap<String> createBigDecimalMap(ModifiableSortedBigDecimalMap<String> map) {
+    protected ModifiableSortedBigDecimalMap<String> createBigDecimalMap(final ModifiableSortedBigDecimalMap<String> map) {
         return ModifiableSortedBigDecimalMap.of(map);
     }
 

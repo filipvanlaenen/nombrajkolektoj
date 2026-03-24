@@ -91,7 +91,7 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
     }
 
     @Override
-    protected ModifiableSortedDoubleMap<String> createDoubleMap(ModifiableSortedDoubleMap<String> map) {
+    protected ModifiableSortedDoubleMap<String> createDoubleMap(final ModifiableSortedDoubleMap<String> map) {
         return ModifiableSortedDoubleMap.of(map);
     }
 

@@ -24,7 +24,7 @@ public final class SortedDoubleMapTest extends DoubleMapTestBase<SortedDoubleMap
     }
 
     @Override
-    protected SortedDoubleMap<String> createDoubleMap(SortedDoubleMap<String> map) {
+    protected SortedDoubleMap<String> createDoubleMap(final SortedDoubleMap<String> map) {
         return SortedDoubleMap.of(map);
     }
 

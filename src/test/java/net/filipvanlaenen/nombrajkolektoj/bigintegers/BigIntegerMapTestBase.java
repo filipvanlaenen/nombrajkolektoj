@@ -80,9 +80,9 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     protected abstract T createBigIntegerMap(Entry<String, BigInteger>... entries);
 
     /**
-     * Creates a BigIntegers map containing the provided entries.
+     * Creates a BigIntegers map cloned from another BigIntegers map.
      *
-     * @param entries The entries to be included in the BigIntegers map.
+     * @param map The original BigIntegers map.
      * @return A BigIntegers map containing the provided entries.
      */
     protected abstract T createBigIntegerMap(T map);

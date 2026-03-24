@@ -24,7 +24,7 @@ public final class UpdatableSortedShortMapTest extends UpdatableShortMapTestBase
     }
 
     @Override
-    protected UpdatableSortedShortMap<String> createShortMap(UpdatableSortedShortMap<String> map) {
+    protected UpdatableSortedShortMap<String> createShortMap(final UpdatableSortedShortMap<String> map) {
         return UpdatableSortedShortMap.of(map);
     }
 

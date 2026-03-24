@@ -54,7 +54,7 @@ public final class FloatMapTest extends FloatMapTestBase<FloatMap<String>> {
     }
 
     @Override
-    protected FloatMap<String> createFloatMap(FloatMap<String> map) {
+    protected FloatMap<String> createFloatMap(final FloatMap<String> map) {
         return FloatMap.of(map);
     }
 }

@@ -56,7 +56,7 @@ public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap
     }
 
     @Override
-    protected BigDecimalMap<String> createBigDecimalMap(BigDecimalMap<String> map) {
+    protected BigDecimalMap<String> createBigDecimalMap(final BigDecimalMap<String> map) {
         return BigDecimalMap.of(map);
     }
 }

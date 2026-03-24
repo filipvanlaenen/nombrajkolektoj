@@ -91,7 +91,7 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
     }
 
     @Override
-    protected ModifiableSortedLongMap<String> createLongMap(ModifiableSortedLongMap<String> map) {
+    protected ModifiableSortedLongMap<String> createLongMap(final ModifiableSortedLongMap<String> map) {
         return ModifiableSortedLongMap.of(map);
     }
 

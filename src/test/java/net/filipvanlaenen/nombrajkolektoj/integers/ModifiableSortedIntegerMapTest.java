@@ -91,7 +91,7 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     }
 
     @Override
-    protected ModifiableSortedIntegerMap<String> createIntegerMap(ModifiableSortedIntegerMap<String> map) {
+    protected ModifiableSortedIntegerMap<String> createIntegerMap(final ModifiableSortedIntegerMap<String> map) {
         return ModifiableSortedIntegerMap.of(map);
     }
 

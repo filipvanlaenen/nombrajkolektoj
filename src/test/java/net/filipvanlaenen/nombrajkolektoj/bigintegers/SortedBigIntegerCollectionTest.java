@@ -51,13 +51,13 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     }
 
     @Override
-    protected SortedBigIntegerCollection createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source) {
+    protected SortedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source) {
         return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
     protected SortedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }
 }

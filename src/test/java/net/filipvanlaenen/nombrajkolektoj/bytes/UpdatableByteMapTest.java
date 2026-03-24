@@ -13,7 +13,7 @@ public final class UpdatableByteMapTest extends UpdatableByteMapTestBase<Updatab
     }
 
     @Override
-    protected UpdatableByteMap<String> createByteMap(UpdatableByteMap<String> map) {
+    protected UpdatableByteMap<String> createByteMap(final UpdatableByteMap<String> map) {
         return UpdatableByteMap.of(map);
     }
 

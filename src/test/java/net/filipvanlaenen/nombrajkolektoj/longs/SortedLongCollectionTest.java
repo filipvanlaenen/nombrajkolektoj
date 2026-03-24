@@ -49,13 +49,13 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
-    protected SortedLongCollection createOrderedLongCollection(OrderedNumericCollection<Long> source) {
+    protected SortedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source) {
         return SortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
     protected SortedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return SortedLongCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }
 }

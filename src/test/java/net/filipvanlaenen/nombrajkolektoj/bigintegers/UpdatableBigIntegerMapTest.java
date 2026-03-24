@@ -15,7 +15,7 @@ public final class UpdatableBigIntegerMapTest extends UpdatableBigIntegerMapTest
     }
 
     @Override
-    protected UpdatableBigIntegerMap<String> createBigIntegerMap(UpdatableBigIntegerMap<String> map) {
+    protected UpdatableBigIntegerMap<String> createBigIntegerMap(final UpdatableBigIntegerMap<String> map) {
         return UpdatableBigIntegerMap.of(map);
     }
 

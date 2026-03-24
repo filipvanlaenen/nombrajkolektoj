@@ -25,6 +25,10 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * The long four.
      */
     private static final Long LONG_FOUR = 4L;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered longs collection containing the provided longs.
@@ -50,8 +54,8 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * @param toIndex   The index of the first element not to be included in the new ordered longs collection.
      * @return An ordered longs collection containing the provided range of longs.
      */
-    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered longs collection containing the provided longs.
@@ -113,7 +117,7 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedLongCollection(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE, LONG_FOUR);
-        T actual = createOrderedLongCollection(source, 1, 3);
+        T actual = createOrderedLongCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Long[] {2L, LONG_THREE}, actual.toArray());
     }

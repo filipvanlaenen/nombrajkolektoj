@@ -25,6 +25,10 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * The double four.
      */
     private static final Double DOUBLE_FOUR = 4D;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.
@@ -50,8 +54,8 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * @param toIndex   The index of the first element not to be included in the new ordered doubles collection.
      * @return An ordered doubles collection containing the provided range of doubles.
      */
-    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.
@@ -113,7 +117,7 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedDoubleCollection(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE, DOUBLE_FOUR);
-        T actual = createOrderedDoubleCollection(source, 1, 3);
+        T actual = createOrderedDoubleCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Double[] {2D, DOUBLE_THREE}, actual.toArray());
     }

@@ -91,7 +91,7 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
     }
 
     @Override
-    protected ModifiableSortedFloatMap<String> createFloatMap(ModifiableSortedFloatMap<String> map) {
+    protected ModifiableSortedFloatMap<String> createFloatMap(final ModifiableSortedFloatMap<String> map) {
         return ModifiableSortedFloatMap.of(map);
     }
 

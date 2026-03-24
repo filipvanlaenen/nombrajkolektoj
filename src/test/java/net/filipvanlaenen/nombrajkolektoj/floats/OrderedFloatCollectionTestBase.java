@@ -25,6 +25,10 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * The float four.
      */
     private static final Float FLOAT_FOUR = 4F;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered floats collection containing the provided floats.
@@ -50,8 +54,8 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * @param toIndex   The index of the first element not to be included in the new ordered floats collection.
      * @return An ordered floats collection containing the provided range of floats.
      */
-    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered floats collection containing the provided floats.
@@ -113,7 +117,7 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedFloatCollection(DISTINCT_ELEMENTS, 1F, 2F, FLOAT_THREE, FLOAT_FOUR);
-        T actual = createOrderedFloatCollection(source, 1, 3);
+        T actual = createOrderedFloatCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Float[] {2F, FLOAT_THREE}, actual.toArray());
     }

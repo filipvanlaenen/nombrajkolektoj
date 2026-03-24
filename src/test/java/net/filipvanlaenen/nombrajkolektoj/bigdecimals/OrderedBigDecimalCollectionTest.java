@@ -29,9 +29,12 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     private static final BigDecimal BIG_DECIMAL_FOUR = BigDecimal.valueOf(4L);
     /**
-     * The BigDecimal sixe.
+     * The BigDecimal six.
      */
     private static final BigDecimal BIG_DECIMAL_SIX = BigDecimal.valueOf(6L);
+    /**
+     * Array with the BigDecimals zero, one and two.
+     */
     private static final BigDecimal[] BIG_DECIMALS = new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L)};
 
     @Override
@@ -67,13 +70,13 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     @Override
-    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source) {
+    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source) {
         return OrderedBigDecimalCollection.of(source);
     }
 
     @Override
     protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedBigDecimalCollection.of(source, fromIndex, toIndex);
     }
 

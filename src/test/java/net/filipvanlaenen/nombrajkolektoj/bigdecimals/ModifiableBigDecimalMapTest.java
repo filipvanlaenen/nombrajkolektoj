@@ -51,7 +51,7 @@ public final class ModifiableBigDecimalMapTest extends UpdatableBigDecimalMapTes
     }
 
     @Override
-    protected ModifiableBigDecimalMap<String> createBigDecimalMap(ModifiableBigDecimalMap<String> map) {
+    protected ModifiableBigDecimalMap<String> createBigDecimalMap(final ModifiableBigDecimalMap<String> map) {
         return ModifiableBigDecimalMap.of(map);
     }
 

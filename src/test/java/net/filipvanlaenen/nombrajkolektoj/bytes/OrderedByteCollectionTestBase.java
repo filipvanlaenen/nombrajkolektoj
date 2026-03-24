@@ -25,6 +25,10 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
      * The byte four.
      */
     private static final Byte BYTE_FOUR = (byte) 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered bytes collection containing the provided bytes.
@@ -50,8 +54,8 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
      * @param toIndex   The index of the first element not to be included in the new ordered bytes collection.
      * @return An ordered bytes collection containing the provided range of bytes.
      */
-    protected abstract T createOrderedByteCollection(OrderedNumericCollection<Byte> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedByteCollection(OrderedNumericCollection<Byte> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered bytes collection containing the provided bytes.
@@ -113,7 +117,7 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedByteCollection(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE, BYTE_FOUR);
-        T actual = createOrderedByteCollection(source, 1, 3);
+        T actual = createOrderedByteCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Byte[] {(byte) 2, BYTE_THREE}, actual.toArray());
     }

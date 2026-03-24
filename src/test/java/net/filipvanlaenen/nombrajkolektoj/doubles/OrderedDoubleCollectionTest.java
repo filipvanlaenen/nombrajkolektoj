@@ -27,9 +27,12 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     private static final Double DOUBLE_FOUR = 4D;
     /**
-     * The double sixe.
+     * The double six.
      */
     private static final Double DOUBLE_SIX = 6D;
+    /**
+     * Array with the doubles zero, one and two.
+     */
     private static final Double[] DOUBLES = new Double[] {0D, 1D, 2D};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(OrderedNumericCollection<Double> source) {
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source) {
         return OrderedDoubleCollection.of(source);
     }
 
     @Override
     protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedDoubleCollection.of(source, fromIndex, toIndex);
     }
 

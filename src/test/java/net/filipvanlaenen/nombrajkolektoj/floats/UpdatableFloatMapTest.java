@@ -13,7 +13,7 @@ public final class UpdatableFloatMapTest extends UpdatableFloatMapTestBase<Updat
     }
 
     @Override
-    protected UpdatableFloatMap<String> createFloatMap(UpdatableFloatMap<String> map) {
+    protected UpdatableFloatMap<String> createFloatMap(final UpdatableFloatMap<String> map) {
         return UpdatableFloatMap.of(map);
     }
 

@@ -27,6 +27,10 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * The BigInteger four.
      */
     private static final BigInteger BIG_INTEGER_FOUR = BigInteger.valueOf(4L);
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
@@ -52,8 +56,8 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * @param toIndex   The index of the first element not to be included in the new ordered BigIntegers collection.
      * @return An ordered BigIntegers collection containing the provided range of BigIntegers.
      */
-    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.
@@ -115,7 +119,7 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BIG_INTEGER_FOUR);
-        T actual = createOrderedBigIntegerCollection(source, 1, 3);
+        T actual = createOrderedBigIntegerCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new BigInteger[] {BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
     }

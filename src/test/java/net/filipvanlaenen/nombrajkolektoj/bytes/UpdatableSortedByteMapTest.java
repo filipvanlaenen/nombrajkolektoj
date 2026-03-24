@@ -24,7 +24,7 @@ public final class UpdatableSortedByteMapTest extends UpdatableByteMapTestBase<U
     }
 
     @Override
-    protected UpdatableSortedByteMap<String> createByteMap(UpdatableSortedByteMap<String> map) {
+    protected UpdatableSortedByteMap<String> createByteMap(final UpdatableSortedByteMap<String> map) {
         return UpdatableSortedByteMap.of(map);
     }
 

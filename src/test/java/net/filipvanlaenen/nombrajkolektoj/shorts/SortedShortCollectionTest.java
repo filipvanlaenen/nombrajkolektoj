@@ -49,13 +49,13 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createOrderedShortCollection(OrderedNumericCollection<Short> source) {
+    protected SortedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source) {
         return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
     protected SortedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return SortedShortCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }
 }

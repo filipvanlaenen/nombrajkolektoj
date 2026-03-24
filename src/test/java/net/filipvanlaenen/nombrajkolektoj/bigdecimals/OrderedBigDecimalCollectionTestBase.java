@@ -27,6 +27,10 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
      * The BigDecimal four.
      */
     private static final BigDecimal BIG_DECIMAL_FOUR = BigDecimal.valueOf(4L);
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.
@@ -52,8 +56,8 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
      * @param toIndex   The index of the first element not to be included in the new ordered BigDecimals collection.
      * @return An ordered BigDecimals collection containing the provided range of BigDecimals.
      */
-    protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.
@@ -115,7 +119,7 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR);
-        T actual = createOrderedBigDecimalCollection(source, 1, 3);
+        T actual = createOrderedBigDecimalCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new BigDecimal[] {BigDecimal.valueOf(2L), BIG_DECIMAL_THREE}, actual.toArray());
     }

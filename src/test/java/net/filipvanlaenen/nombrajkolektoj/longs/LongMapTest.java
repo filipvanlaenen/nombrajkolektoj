@@ -54,7 +54,7 @@ public final class LongMapTest extends LongMapTestBase<LongMap<String>> {
     }
 
     @Override
-    protected LongMap<String> createLongMap(LongMap<String> map) {
+    protected LongMap<String> createLongMap(final LongMap<String> map) {
         return LongMap.of(map);
     }
 }

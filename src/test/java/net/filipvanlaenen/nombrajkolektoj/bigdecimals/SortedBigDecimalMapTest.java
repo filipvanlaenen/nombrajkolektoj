@@ -26,7 +26,7 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
     }
 
     @Override
-    protected SortedBigDecimalMap<String> createBigDecimalMap(SortedBigDecimalMap<String> map) {
+    protected SortedBigDecimalMap<String> createBigDecimalMap(final SortedBigDecimalMap<String> map) {
         return SortedBigDecimalMap.of(map);
     }
 

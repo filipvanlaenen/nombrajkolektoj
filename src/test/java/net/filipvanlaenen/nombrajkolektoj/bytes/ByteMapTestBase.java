@@ -78,9 +78,9 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
     protected abstract T createByteMap(Entry<String, Byte>... entries);
 
     /**
-     * Creates a bytes map containing the provided entries.
+     * Creates a bytes map cloned from another bytes map.
      *
-     * @param entries The entries to be included in the bytes map.
+     * @param map The original bytes map.
      * @return A bytes map containing the provided entries.
      */
     protected abstract T createByteMap(T map);

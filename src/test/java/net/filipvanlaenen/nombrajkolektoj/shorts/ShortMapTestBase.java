@@ -78,9 +78,9 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
     protected abstract T createShortMap(Entry<String, Short>... entries);
 
     /**
-     * Creates a shorts map containing the provided entries.
+     * Creates a shorts map cloned from another shorts map.
      *
-     * @param entries The entries to be included in the shorts map.
+     * @param map The original shorts map.
      * @return A shorts map containing the provided entries.
      */
     protected abstract T createShortMap(T map);

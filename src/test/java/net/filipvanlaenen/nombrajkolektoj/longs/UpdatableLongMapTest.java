@@ -13,7 +13,7 @@ public final class UpdatableLongMapTest extends UpdatableLongMapTestBase<Updatab
     }
 
     @Override
-    protected UpdatableLongMap<String> createLongMap(UpdatableLongMap<String> map) {
+    protected UpdatableLongMap<String> createLongMap(final UpdatableLongMap<String> map) {
         return UpdatableLongMap.of(map);
     }
 

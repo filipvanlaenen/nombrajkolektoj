@@ -24,7 +24,7 @@ public final class UpdatableSortedIntegerMapTest extends UpdatableIntegerMapTest
     }
 
     @Override
-    protected UpdatableSortedIntegerMap<String> createIntegerMap(UpdatableSortedIntegerMap<String> map) {
+    protected UpdatableSortedIntegerMap<String> createIntegerMap(final UpdatableSortedIntegerMap<String> map) {
         return UpdatableSortedIntegerMap.of(map);
     }
 

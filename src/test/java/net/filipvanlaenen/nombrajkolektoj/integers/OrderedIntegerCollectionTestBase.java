@@ -25,6 +25,10 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
      * The int four.
      */
     private static final Integer INTEGER_FOUR = 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered integers collection containing the provided integers.
@@ -50,8 +54,8 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
      * @param toIndex   The index of the first element not to be included in the new ordered integers collection.
      * @return An ordered integers collection containing the provided range of integers.
      */
-    protected abstract T createOrderedIntegerCollection(OrderedNumericCollection<Integer> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedIntegerCollection(OrderedNumericCollection<Integer> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered integers collection containing the provided integers.
@@ -113,7 +117,7 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedIntegerCollection(DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE, INTEGER_FOUR);
-        T actual = createOrderedIntegerCollection(source, 1, 3);
+        T actual = createOrderedIntegerCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Integer[] {2, INTEGER_THREE}, actual.toArray());
     }

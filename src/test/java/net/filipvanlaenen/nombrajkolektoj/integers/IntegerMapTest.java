@@ -54,7 +54,7 @@ public final class IntegerMapTest extends IntegerMapTestBase<IntegerMap<String>>
     }
 
     @Override
-    protected IntegerMap<String> createIntegerMap(IntegerMap<String> map) {
+    protected IntegerMap<String> createIntegerMap(final IntegerMap<String> map) {
         return IntegerMap.of(map);
     }
 }

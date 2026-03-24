@@ -78,9 +78,9 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     protected abstract T createIntegerMap(Entry<String, Integer>... entries);
 
     /**
-     * Creates a integers map containing the provided entries.
+     * Creates a integers map cloned from another integers map.
      *
-     * @param entries The entries to be included in the integers map.
+     * @param map The original integers map.
      * @return A integers map containing the provided entries.
      */
     protected abstract T createIntegerMap(T map);

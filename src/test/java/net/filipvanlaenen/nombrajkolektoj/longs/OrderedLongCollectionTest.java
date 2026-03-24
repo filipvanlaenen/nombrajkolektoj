@@ -27,9 +27,12 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     private static final Long LONG_FOUR = 4L;
     /**
-     * The long sixe.
+     * The long six.
      */
     private static final Long LONG_SIX = 6L;
+    /**
+     * Array with the longs zero, one and two.
+     */
     private static final Long[] LONGS = new Long[] {0L, 1L, 2L};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createOrderedLongCollection(OrderedNumericCollection<Long> source) {
+    protected OrderedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source) {
         return OrderedLongCollection.of(source);
     }
 
     @Override
     protected OrderedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedLongCollection.of(source, fromIndex, toIndex);
     }
 

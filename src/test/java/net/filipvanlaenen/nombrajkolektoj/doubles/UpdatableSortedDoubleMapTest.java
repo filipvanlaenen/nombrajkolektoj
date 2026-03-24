@@ -24,7 +24,7 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
     }
 
     @Override
-    protected UpdatableSortedDoubleMap<String> createDoubleMap(UpdatableSortedDoubleMap<String> map) {
+    protected UpdatableSortedDoubleMap<String> createDoubleMap(final UpdatableSortedDoubleMap<String> map) {
         return UpdatableSortedDoubleMap.of(map);
     }
 

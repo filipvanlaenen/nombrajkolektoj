@@ -24,7 +24,7 @@ public final class UpdatableSortedLongMapTest extends UpdatableLongMapTestBase<U
     }
 
     @Override
-    protected UpdatableSortedLongMap<String> createLongMap(UpdatableSortedLongMap<String> map) {
+    protected UpdatableSortedLongMap<String> createLongMap(final UpdatableSortedLongMap<String> map) {
         return UpdatableSortedLongMap.of(map);
     }
 

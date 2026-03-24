@@ -25,6 +25,10 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * The short four.
      */
     private static final Short SHORT_FOUR = (short) 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.
@@ -50,8 +54,8 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * @param toIndex   The index of the first element not to be included in the new ordered shorts collection.
      * @return An ordered shorts collection containing the provided range of shorts.
      */
-    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source, final int fromIndex,
-            final int toIndex);
+    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source, int fromIndex,
+            int toIndex);
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.
@@ -113,7 +117,7 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
     @Test
     public void ofWithCollectionShouldReturnTheCorrectSlice() {
         T source = createOrderedShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE, SHORT_FOUR);
-        T actual = createOrderedShortCollection(source, 1, 3);
+        T actual = createOrderedShortCollection(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Short[] {(short) 2, SHORT_THREE}, actual.toArray());
     }

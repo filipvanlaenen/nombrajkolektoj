@@ -27,9 +27,12 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     private static final Float FLOAT_FOUR = 4F;
     /**
-     * The float sixe.
+     * The float six.
      */
     private static final Float FLOAT_SIX = 6F;
+    /**
+     * Array with the floats zero, one and two.
+     */
     private static final Float[] FLOATS = new Float[] {0F, 1F, 2F};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(OrderedNumericCollection<Float> source) {
+    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source) {
         return OrderedFloatCollection.of(source);
     }
 
     @Override
     protected OrderedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedFloatCollection.of(source, fromIndex, toIndex);
     }
 

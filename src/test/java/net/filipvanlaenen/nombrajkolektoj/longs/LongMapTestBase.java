@@ -78,9 +78,9 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
     protected abstract T createLongMap(Entry<String, Long>... entries);
 
     /**
-     * Creates a longs map containing the provided entries.
+     * Creates a longs map cloned from another longs map.
      *
-     * @param entries The entries to be included in the longs map.
+     * @param map The original longs map.
      * @return A longs map containing the provided entries.
      */
     protected abstract T createLongMap(T map);

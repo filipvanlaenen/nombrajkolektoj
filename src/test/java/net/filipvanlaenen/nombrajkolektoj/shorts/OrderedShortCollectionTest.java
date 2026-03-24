@@ -27,9 +27,12 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     private static final Short SHORT_FOUR = (short) 4;
     /**
-     * The short sixe.
+     * The short six.
      */
     private static final Short SHORT_SIX = (short) 6;
+    /**
+     * Array with the shorts zero, one and two.
+     */
     private static final Short[] SHORTS = new Short[] {(short) 0, (short) 1, (short) 2};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     @Override
-    protected OrderedShortCollection createOrderedShortCollection(OrderedNumericCollection<Short> source) {
+    protected OrderedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source) {
         return OrderedShortCollection.of(source);
     }
 
     @Override
     protected OrderedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedShortCollection.of(source, fromIndex, toIndex);
     }
 

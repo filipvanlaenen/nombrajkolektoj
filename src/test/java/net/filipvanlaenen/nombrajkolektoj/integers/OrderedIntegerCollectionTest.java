@@ -27,9 +27,12 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     private static final Integer INTEGER_FOUR = 4;
     /**
-     * The int sixe.
+     * The int six.
      */
     private static final Integer INTEGER_SIX = 6;
+    /**
+     * Array with the integers zero, one and two.
+     */
     private static final Integer[] INTEGERS = new Integer[] {0, 1, 2};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createOrderedIntegerCollection(OrderedNumericCollection<Integer> source) {
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source) {
         return OrderedIntegerCollection.of(source);
     }
 
     @Override
     protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedIntegerCollection.of(source, fromIndex, toIndex);
     }
 

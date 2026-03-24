@@ -29,9 +29,12 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     private static final BigInteger BIG_INTEGER_FOUR = BigInteger.valueOf(4L);
     /**
-     * The BigInteger sixe.
+     * The BigInteger six.
      */
     private static final BigInteger BIG_INTEGER_SIX = BigInteger.valueOf(6L);
+    /**
+     * Array with the BigIntegers zero, one and two.
+     */
     private static final BigInteger[] BIG_INTEGERS = new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO};
 
     @Override
@@ -67,13 +70,13 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source) {
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source) {
         return OrderedBigIntegerCollection.of(source);
     }
 
     @Override
     protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedBigIntegerCollection.of(source, fromIndex, toIndex);
     }
 

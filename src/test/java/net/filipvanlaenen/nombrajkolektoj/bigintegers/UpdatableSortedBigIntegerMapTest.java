@@ -26,7 +26,7 @@ public final class UpdatableSortedBigIntegerMapTest extends UpdatableBigIntegerM
     }
 
     @Override
-    protected UpdatableSortedBigIntegerMap<String> createBigIntegerMap(UpdatableSortedBigIntegerMap<String> map) {
+    protected UpdatableSortedBigIntegerMap<String> createBigIntegerMap(final UpdatableSortedBigIntegerMap<String> map) {
         return UpdatableSortedBigIntegerMap.of(map);
     }
 

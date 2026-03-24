@@ -49,7 +49,7 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     @Override
-    protected ModifiableLongMap<String> createLongMap(ModifiableLongMap<String> map) {
+    protected ModifiableLongMap<String> createLongMap(final ModifiableLongMap<String> map) {
         return ModifiableLongMap.of(map);
     }
 

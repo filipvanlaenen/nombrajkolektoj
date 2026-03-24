@@ -78,9 +78,9 @@ public abstract class FloatMapTestBase<T extends NumericMap<String, Float>> {
     protected abstract T createFloatMap(Entry<String, Float>... entries);
 
     /**
-     * Creates a floats map containing the provided entries.
+     * Creates a floats map cloned from another floats map.
      *
-     * @param entries The entries to be included in the floats map.
+     * @param map The original floats map.
      * @return A floats map containing the provided entries.
      */
     protected abstract T createFloatMap(T map);

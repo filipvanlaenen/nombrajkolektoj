@@ -49,7 +49,7 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     }
 
     @Override
-    protected ModifiableDoubleMap<String> createDoubleMap(ModifiableDoubleMap<String> map) {
+    protected ModifiableDoubleMap<String> createDoubleMap(final ModifiableDoubleMap<String> map) {
         return ModifiableDoubleMap.of(map);
     }
 

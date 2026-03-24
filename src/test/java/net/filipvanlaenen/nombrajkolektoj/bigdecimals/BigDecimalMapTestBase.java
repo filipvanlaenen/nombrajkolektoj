@@ -80,9 +80,9 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     protected abstract T createBigDecimalMap(Entry<String, BigDecimal>... entries);
 
     /**
-     * Creates a BigDecimals map containing the provided entries.
+     * Creates a BigDecimals map cloned from another BigDecimals map.
      *
-     * @param entries The entries to be included in the BigDecimals map.
+     * @param map The original BigDecimals map.
      * @return A BigDecimals map containing the provided entries.
      */
     protected abstract T createBigDecimalMap(T map);

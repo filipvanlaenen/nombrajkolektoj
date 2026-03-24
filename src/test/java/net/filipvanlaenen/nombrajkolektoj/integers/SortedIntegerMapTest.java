@@ -24,7 +24,7 @@ public final class SortedIntegerMapTest extends IntegerMapTestBase<SortedInteger
     }
 
     @Override
-    protected SortedIntegerMap<String> createIntegerMap(SortedIntegerMap<String> map) {
+    protected SortedIntegerMap<String> createIntegerMap(final SortedIntegerMap<String> map) {
         return SortedIntegerMap.of(map);
     }
 

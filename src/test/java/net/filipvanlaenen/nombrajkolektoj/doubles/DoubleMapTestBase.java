@@ -78,9 +78,9 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     protected abstract T createDoubleMap(Entry<String, Double>... entries);
 
     /**
-     * Creates a doubles map containing the provided entries.
+     * Creates a doubles map cloned from another doubles map.
      *
-     * @param entries The entries to be included in the doubles map.
+     * @param map The original doubles map.
      * @return A doubles map containing the provided entries.
      */
     protected abstract T createDoubleMap(T map);

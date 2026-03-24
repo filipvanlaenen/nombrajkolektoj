@@ -24,7 +24,7 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     }
 
     @Override
-    protected SortedFloatMap<String> createFloatMap(SortedFloatMap<String> map) {
+    protected SortedFloatMap<String> createFloatMap(final SortedFloatMap<String> map) {
         return SortedFloatMap.of(map);
     }
 

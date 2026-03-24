@@ -51,7 +51,7 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
     }
 
     @Override
-    protected ModifiableBigIntegerMap<String> createBigIntegerMap(ModifiableBigIntegerMap<String> map) {
+    protected ModifiableBigIntegerMap<String> createBigIntegerMap(final ModifiableBigIntegerMap<String> map) {
         return ModifiableBigIntegerMap.of(map);
     }
 

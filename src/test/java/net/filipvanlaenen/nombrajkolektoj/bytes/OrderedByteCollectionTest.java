@@ -27,9 +27,12 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     private static final Byte BYTE_FOUR = (byte) 4;
     /**
-     * The byte sixe.
+     * The byte six.
      */
     private static final Byte BYTE_SIX = (byte) 6;
+    /**
+     * Array with the bytes zero, one and two.
+     */
     private static final Byte[] BYTES = new Byte[] {(byte) 0, (byte) 1, (byte) 2};
 
     @Override
@@ -65,13 +68,13 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createOrderedByteCollection(OrderedNumericCollection<Byte> source) {
+    protected OrderedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source) {
         return OrderedByteCollection.of(source);
     }
 
     @Override
     protected OrderedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source,
-            int fromIndex, int toIndex) {
+            final int fromIndex, final int toIndex) {
         return OrderedByteCollection.of(source, fromIndex, toIndex);
     }
 

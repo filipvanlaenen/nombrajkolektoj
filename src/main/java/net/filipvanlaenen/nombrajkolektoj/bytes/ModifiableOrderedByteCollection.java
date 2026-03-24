@@ -102,97 +102,12 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
     }
 
     /**
-     * The modifiable ordered collection holding the bytes.
-     */
-    private final ModifiableOrderedCollection<Byte> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the bytes as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the bytes.
-     */
-    private ModifiableOrderedByteCollection(final ModifiableOrderedCollection<Byte> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Byte element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Byte> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Byte> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Byte element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable bytes collection.
      *
      * @return A new empty modifiable bytes collection.
      */
     public static ModifiableOrderedByteCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final Byte element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Byte element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Byte element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -256,6 +171,121 @@ public abstract class ModifiableOrderedByteCollection extends AbstractModifiable
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection with the specified element cardinality containing all the
+     * elements from the provided ordered bytes collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered bytes collections from which to copy all the elements.
+     * @return A new modifiable ordered bytes collection with the specified element cardinality containing all the
+     *         elements from the provided ordered bytes collections.
+     */
+    public static ModifiableOrderedByteCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Byte>... collections) {
+        ModifiableOrderedByteCollection result = ModifiableOrderedByteCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Byte> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection containing all the elements from the provided ordered bytes
+     * collections.
+     *
+     * @param collections The ordered bytes collections from which to copy all the elements.
+     * @return A new modifiable ordered bytes collection containing all the elements from the provided ordered bytes
+     *         collections.
+     */
+    public static ModifiableOrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the bytes.
+     */
+    private final ModifiableOrderedCollection<Byte> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the bytes as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the bytes.
+     */
+    private ModifiableOrderedByteCollection(final ModifiableOrderedCollection<Byte> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Byte element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Byte> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Byte> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Byte element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Byte element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Byte element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Byte getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Byte element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Byte element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

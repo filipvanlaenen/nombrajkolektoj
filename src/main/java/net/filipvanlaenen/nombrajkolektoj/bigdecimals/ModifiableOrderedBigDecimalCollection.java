@@ -104,97 +104,12 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
     }
 
     /**
-     * The modifiable ordered collection holding the BigDecimals.
-     */
-    private final ModifiableOrderedCollection<BigDecimal> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the BigDecimals as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the BigDecimals.
-     */
-    private ModifiableOrderedBigDecimalCollection(final ModifiableOrderedCollection<BigDecimal> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final BigDecimal element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends BigDecimal> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable BigDecimals collection.
      *
      * @return A new empty modifiable BigDecimals collection.
      */
     public static ModifiableOrderedBigDecimalCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final BigDecimal element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final BigDecimal element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final BigDecimal element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -258,6 +173,121 @@ public abstract class ModifiableOrderedBigDecimalCollection extends AbstractModi
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered BigDecimals collection with the specified element cardinality containing all the
+     * elements from the provided ordered BigDecimals collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered BigDecimals collections from which to copy all the elements.
+     * @return A new modifiable ordered BigDecimals collection with the specified element cardinality containing all the
+     *         elements from the provided ordered BigDecimals collections.
+     */
+    public static ModifiableOrderedBigDecimalCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<BigDecimal>... collections) {
+        ModifiableOrderedBigDecimalCollection result = ModifiableOrderedBigDecimalCollection.of(elementCardinality);
+        for (OrderedNumericCollection<BigDecimal> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals
+     * collections.
+     *
+     * @param collections The ordered BigDecimals collections from which to copy all the elements.
+     * @return A new modifiable ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals
+     *         collections.
+     */
+    public static ModifiableOrderedBigDecimalCollection unionOf(final OrderedNumericCollection<BigDecimal>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the BigDecimals.
+     */
+    private final ModifiableOrderedCollection<BigDecimal> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the BigDecimals as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the BigDecimals.
+     */
+    private ModifiableOrderedBigDecimalCollection(final ModifiableOrderedCollection<BigDecimal> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final BigDecimal element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends BigDecimal> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigDecimal element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final BigDecimal element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final BigDecimal element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

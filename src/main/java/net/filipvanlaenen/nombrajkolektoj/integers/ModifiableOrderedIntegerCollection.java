@@ -102,97 +102,12 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
     }
 
     /**
-     * The modifiable ordered collection holding the integers.
-     */
-    private final ModifiableOrderedCollection<Integer> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the integers as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the integers.
-     */
-    private ModifiableOrderedIntegerCollection(final ModifiableOrderedCollection<Integer> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Integer element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Integer> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Integer element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable integers collection.
      *
      * @return A new empty modifiable integers collection.
      */
     public static ModifiableOrderedIntegerCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final Integer element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Integer element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Integer element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -256,6 +171,121 @@ public abstract class ModifiableOrderedIntegerCollection extends AbstractModifia
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection with the specified element cardinality containing all the
+     * elements from the provided ordered integers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered integers collections from which to copy all the elements.
+     * @return A new modifiable ordered integers collection with the specified element cardinality containing all the
+     *         elements from the provided ordered integers collections.
+     */
+    public static ModifiableOrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Integer>... collections) {
+        ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Integer> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection containing all the elements from the provided ordered integers
+     * collections.
+     *
+     * @param collections The ordered integers collections from which to copy all the elements.
+     * @return A new modifiable ordered integers collection containing all the elements from the provided ordered integers
+     *         collections.
+     */
+    public static ModifiableOrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the integers.
+     */
+    private final ModifiableOrderedCollection<Integer> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the integers as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the integers.
+     */
+    private ModifiableOrderedIntegerCollection(final ModifiableOrderedCollection<Integer> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Integer element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Integer> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Integer> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Integer element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Integer element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Integer element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Integer getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Integer element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

@@ -102,97 +102,12 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
     }
 
     /**
-     * The modifiable ordered collection holding the floats.
-     */
-    private final ModifiableOrderedCollection<Float> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the floats as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the floats.
-     */
-    private ModifiableOrderedFloatCollection(final ModifiableOrderedCollection<Float> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Float element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Float> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Float> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Float element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable floats collection.
      *
      * @return A new empty modifiable floats collection.
      */
     public static ModifiableOrderedFloatCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final Float element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Float element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Float element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -256,6 +171,121 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection with the specified element cardinality containing all the
+     * elements from the provided ordered floats collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered floats collections from which to copy all the elements.
+     * @return A new modifiable ordered floats collection with the specified element cardinality containing all the
+     *         elements from the provided ordered floats collections.
+     */
+    public static ModifiableOrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Float>... collections) {
+        ModifiableOrderedFloatCollection result = ModifiableOrderedFloatCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Float> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection containing all the elements from the provided ordered floats
+     * collections.
+     *
+     * @param collections The ordered floats collections from which to copy all the elements.
+     * @return A new modifiable ordered floats collection containing all the elements from the provided ordered floats
+     *         collections.
+     */
+    public static ModifiableOrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the floats.
+     */
+    private final ModifiableOrderedCollection<Float> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the floats as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the floats.
+     */
+    private ModifiableOrderedFloatCollection(final ModifiableOrderedCollection<Float> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Float element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Float> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Float> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Float element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Float element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Float get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Float getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Float> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Float element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

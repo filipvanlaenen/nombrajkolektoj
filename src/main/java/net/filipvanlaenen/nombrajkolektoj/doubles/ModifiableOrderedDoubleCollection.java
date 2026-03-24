@@ -102,97 +102,12 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
     }
 
     /**
-     * The modifiable ordered collection holding the doubles.
-     */
-    private final ModifiableOrderedCollection<Double> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the doubles as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the doubles.
-     */
-    private ModifiableOrderedDoubleCollection(final ModifiableOrderedCollection<Double> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Double element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Double> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Double> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Double element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable doubles collection.
      *
      * @return A new empty modifiable doubles collection.
      */
     public static ModifiableOrderedDoubleCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Double element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -256,6 +171,121 @@ public abstract class ModifiableOrderedDoubleCollection extends AbstractModifiab
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection with the specified element cardinality containing all the
+     * elements from the provided ordered doubles collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered doubles collections from which to copy all the elements.
+     * @return A new modifiable ordered doubles collection with the specified element cardinality containing all the
+     *         elements from the provided ordered doubles collections.
+     */
+    public static ModifiableOrderedDoubleCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Double>... collections) {
+        ModifiableOrderedDoubleCollection result = ModifiableOrderedDoubleCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Double> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection containing all the elements from the provided ordered doubles
+     * collections.
+     *
+     * @param collections The ordered doubles collections from which to copy all the elements.
+     * @return A new modifiable ordered doubles collection containing all the elements from the provided ordered doubles
+     *         collections.
+     */
+    public static ModifiableOrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the doubles.
+     */
+    private final ModifiableOrderedCollection<Double> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the doubles as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the doubles.
+     */
+    private ModifiableOrderedDoubleCollection(final ModifiableOrderedCollection<Double> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Double element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Double> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Double> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Double element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Double getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Double element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

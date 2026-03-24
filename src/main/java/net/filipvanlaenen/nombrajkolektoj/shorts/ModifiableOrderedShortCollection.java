@@ -102,97 +102,12 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
     }
 
     /**
-     * The modifiable ordered collection holding the shorts.
-     */
-    private final ModifiableOrderedCollection<Short> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the shorts as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the shorts.
-     */
-    private ModifiableOrderedShortCollection(final ModifiableOrderedCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Short element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Short> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Short element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable shorts collection.
      *
      * @return A new empty modifiable shorts collection.
      */
     public static ModifiableOrderedShortCollection empty() {
         return new ArrayCollection();
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return collection.lastIndexOf(element);
     }
 
     /**
@@ -256,6 +171,121 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
             result.addLast(collection.getAt(i));
         }
         return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered shorts collection with the specified element cardinality containing all the
+     * elements from the provided ordered shorts collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered shorts collections from which to copy all the elements.
+     * @return A new modifiable ordered shorts collection with the specified element cardinality containing all the
+     *         elements from the provided ordered shorts collections.
+     */
+    public static ModifiableOrderedShortCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Short>... collections) {
+        ModifiableOrderedShortCollection result = ModifiableOrderedShortCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Short> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable ordered shorts collection containing all the elements from the provided ordered shorts
+     * collections.
+     *
+     * @param collections The ordered shorts collections from which to copy all the elements.
+     * @return A new modifiable ordered shorts collection containing all the elements from the provided ordered shorts
+     *         collections.
+     */
+    public static ModifiableOrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable ordered collection holding the shorts.
+     */
+    private final ModifiableOrderedCollection<Short> collection;
+
+    /**
+     * Private constructor taking a modifiable ordered collection with the shorts as its parameter.
+     *
+     * @param numbers The modifiable ordered collection holding the shorts.
+     */
+    private ModifiableOrderedShortCollection(final ModifiableOrderedCollection<Short> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Short element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Short> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Short> otherCollection)
+            throws IndexOutOfBoundsException {
+        return collection.addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Short element) throws IndexOutOfBoundsException {
+        return collection.addAt(index, element);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Short element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Short getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Short element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Short element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

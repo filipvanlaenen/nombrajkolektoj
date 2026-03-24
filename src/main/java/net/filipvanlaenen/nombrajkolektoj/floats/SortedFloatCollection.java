@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.kolektoj.array.SortedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
@@ -30,7 +31,31 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          * @param source     The sorted collection to create a new collection from.
          */
         public ArrayCollection(final Comparator<? super Float> comparator, final Collection<Float> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.FLOATS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The floats of the sorted collection.
+         */
+        public ArrayCollection(final Comparator<? super Float> comparator, final Float... numbers) {
+            super(new SortedArrayCollection<Float>(comparator, numbers));
+        }
+
+        /**
+         * Constructs a sorted collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The floats of the sorted collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Float> comparator,
+                final Collection<Float> source) {
+            super(new SortedArrayCollection<Float>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.FLOATS)));
         }
 
         /**
@@ -42,19 +67,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Float> comparator,
                 final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Float>(elementCardinality, comparator,
-                    numbers));
-        }
-
-        /**
-         * Constructs a sorted collection with the given floats. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
-         *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The floats of the sorted collection.
-         */
-        public ArrayCollection(final Comparator<? super Float> comparator, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Float>(comparator, numbers));
+            super(new SortedArrayCollection<Float>(elementCardinality, comparator, numbers));
         }
     }
 
@@ -70,7 +83,18 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          * @param source     The sorted collection to create a new collection from.
          */
         public SortedTreeCollection(final Comparator<? super Float> comparator, final Collection<Float> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.FLOATS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The floats of the sorted collection.
+         */
+        public SortedTreeCollection(final Comparator<? super Float> comparator, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(comparator, numbers));
         }
 
         /**
@@ -87,39 +111,17 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
         }
 
         /**
-         * Constructs a sorted collection with the given floats. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a sorted collection with the given floats and element cardinality.
          *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The floats of the sorted collection.
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The floats of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<? super Float> comparator, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(comparator, numbers));
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Float> comparator, final Collection<Float> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Float>(elementCardinality,
+                    comparator, source.toArray(EmptyArrays.FLOATS)));
         }
-    }
-
-    /**
-     * The sorted collection holding the floats.
-     */
-    private final SortedCollection<Float> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the floats as its parameter.
-     *
-     * @param collection The sorted collection holding the floats.
-     */
-    private SortedFloatCollection(final SortedCollection<Float> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -130,61 +132,6 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
      */
     public static SortedFloatCollection empty(final Comparator<? super Float> comparator) {
         return new ArrayCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Float element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Float> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Float getGreaterThan(final Float element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Float getGreaterThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Float getLessThan(final Float element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Float getLessThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Float element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
     }
 
     /**
@@ -242,6 +189,19 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
     }
 
     /**
+     * Returns a new sorted floats collection with the specified element cardinality and the floats.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original floats collection.
+     * @return A new sorted floats collection with the specified element cardinality and the floats.
+     */
+    public static SortedFloatCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Float> comparator, final NumericCollection<Float> collection) {
+        return new ArrayCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new sorted floats collection cloned from the provided sorted floats collection.
      *
      * @param collection The original sorted floats collection.
@@ -274,6 +234,85 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
+    }
+
+    /**
+     * The sorted collection holding the floats.
+     */
+    private final SortedCollection<Float> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the floats as its parameter.
+     *
+     * @param collection The sorted collection holding the floats.
+     */
+    private SortedFloatCollection(final SortedCollection<Float> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean contains(final Float element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Float get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Float getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Float> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Float getGreaterThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Float getGreaterThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Float getLessThan(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Float getLessThanOrEqualTo(final Float element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Float> iterator() {
+        return collection.iterator();
     }
 
     @Override

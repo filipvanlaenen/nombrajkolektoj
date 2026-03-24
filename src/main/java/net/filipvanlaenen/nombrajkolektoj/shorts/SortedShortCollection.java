@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.kolektoj.array.SortedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
@@ -30,7 +31,31 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
          * @param source     The sorted collection to create a new collection from.
          */
         public ArrayCollection(final Comparator<? super Short> comparator, final Collection<Short> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.SHORTS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The shorts of the sorted collection.
+         */
+        public ArrayCollection(final Comparator<? super Short> comparator, final Short... numbers) {
+            super(new SortedArrayCollection<Short>(comparator, numbers));
+        }
+
+        /**
+         * Constructs a sorted collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The shorts of the sorted collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Short> comparator,
+                final Collection<Short> source) {
+            super(new SortedArrayCollection<Short>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.SHORTS)));
         }
 
         /**
@@ -42,19 +67,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Short> comparator,
                 final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Short>(elementCardinality, comparator,
-                    numbers));
-        }
-
-        /**
-         * Constructs a sorted collection with the given shorts. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
-         *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The shorts of the sorted collection.
-         */
-        public ArrayCollection(final Comparator<? super Short> comparator, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Short>(comparator, numbers));
+            super(new SortedArrayCollection<Short>(elementCardinality, comparator, numbers));
         }
     }
 
@@ -70,7 +83,18 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
          * @param source     The sorted collection to create a new collection from.
          */
         public SortedTreeCollection(final Comparator<? super Short> comparator, final Collection<Short> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.SHORTS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The shorts of the sorted collection.
+         */
+        public SortedTreeCollection(final Comparator<? super Short> comparator, final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Short>(comparator, numbers));
         }
 
         /**
@@ -87,39 +111,17 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
         }
 
         /**
-         * Constructs a sorted collection with the given shorts. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a sorted collection with the given shorts and element cardinality.
          *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The shorts of the sorted collection.
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The shorts of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<? super Short> comparator, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Short>(comparator, numbers));
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Short> comparator, final Collection<Short> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Short>(elementCardinality,
+                    comparator, source.toArray(EmptyArrays.SHORTS)));
         }
-    }
-
-    /**
-     * The sorted collection holding the shorts.
-     */
-    private final SortedCollection<Short> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the shorts as its parameter.
-     *
-     * @param collection The sorted collection holding the shorts.
-     */
-    private SortedShortCollection(final SortedCollection<Short> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -130,61 +132,6 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
      */
     public static SortedShortCollection empty(final Comparator<? super Short> comparator) {
         return new ArrayCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Short> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Short getGreaterThan(final Short element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Short getGreaterThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Short getLessThan(final Short element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Short getLessThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
     }
 
     /**
@@ -242,6 +189,19 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
     }
 
     /**
+     * Returns a new sorted shorts collection with the specified element cardinality and the shorts.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original shorts collection.
+     * @return A new sorted shorts collection with the specified element cardinality and the shorts.
+     */
+    public static SortedShortCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Short> comparator, final NumericCollection<Short> collection) {
+        return new ArrayCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new sorted shorts collection cloned from the provided sorted shorts collection.
      *
      * @param collection The original sorted shorts collection.
@@ -274,6 +234,85 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
+    }
+
+    /**
+     * The sorted collection holding the shorts.
+     */
+    private final SortedCollection<Short> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the shorts as its parameter.
+     *
+     * @param collection The sorted collection holding the shorts.
+     */
+    private SortedShortCollection(final SortedCollection<Short> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Short element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Short getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Short> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Short getGreaterThan(final Short element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Short getGreaterThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Short getLessThan(final Short element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Short getLessThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Short element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return collection.iterator();
     }
 
     @Override

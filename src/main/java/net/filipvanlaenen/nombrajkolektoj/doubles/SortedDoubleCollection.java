@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.kolektoj.array.SortedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
@@ -30,7 +31,31 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param source     The sorted collection to create a new collection from.
          */
         public ArrayCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The doubles of the sorted collection.
+         */
+        public ArrayCollection(final Comparator<? super Double> comparator, final Double... numbers) {
+            super(new SortedArrayCollection<Double>(comparator, numbers));
+        }
+
+        /**
+         * Constructs a sorted collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The doubles of the sorted collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
+                final Collection<Double> source) {
+            super(new SortedArrayCollection<Double>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.DOUBLES)));
         }
 
         /**
@@ -42,19 +67,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
                 final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(elementCardinality, comparator,
-                    numbers));
-        }
-
-        /**
-         * Constructs a sorted collection with the given doubles. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
-         *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The doubles of the sorted collection.
-         */
-        public ArrayCollection(final Comparator<? super Double> comparator, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<Double>(comparator, numbers));
+            super(new SortedArrayCollection<Double>(elementCardinality, comparator, numbers));
         }
     }
 
@@ -70,7 +83,18 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param source     The sorted collection to create a new collection from.
          */
         public SortedTreeCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.DOUBLES));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The doubles of the sorted collection.
+         */
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers));
         }
 
         /**
@@ -87,39 +111,17 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
         }
 
         /**
-         * Constructs a sorted collection with the given doubles. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a sorted collection with the given doubles and element cardinality.
          *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The doubles of the sorted collection.
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The doubles of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<? super Double> comparator, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers));
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Double> comparator, final Collection<Double> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(elementCardinality,
+                    comparator, source.toArray(EmptyArrays.DOUBLES)));
         }
-    }
-
-    /**
-     * The sorted collection holding the doubles.
-     */
-    private final SortedCollection<Double> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the doubles as its parameter.
-     *
-     * @param collection The sorted collection holding the doubles.
-     */
-    private SortedDoubleCollection(final SortedCollection<Double> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -130,61 +132,6 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      */
     public static SortedDoubleCollection empty(final Comparator<? super Double> comparator) {
         return new ArrayCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Double> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
     }
 
     /**
@@ -242,6 +189,19 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
     }
 
     /**
+     * Returns a new sorted doubles collection with the specified element cardinality and the doubles.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original doubles collection.
+     * @return A new sorted doubles collection with the specified element cardinality and the doubles.
+     */
+    public static SortedDoubleCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super Double> comparator, final NumericCollection<Double> collection) {
+        return new ArrayCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new sorted doubles collection cloned from the provided sorted doubles collection.
      *
      * @param collection The original sorted doubles collection.
@@ -274,6 +234,85 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
+    }
+
+    /**
+     * The sorted collection holding the doubles.
+     */
+    private final SortedCollection<Double> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the doubles as its parameter.
+     *
+     * @param collection The sorted collection holding the doubles.
+     */
+    private SortedDoubleCollection(final SortedCollection<Double> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Double getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super Double> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return collection.iterator();
     }
 
     @Override

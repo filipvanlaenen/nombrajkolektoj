@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.kolektoj.array.SortedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
@@ -32,7 +33,31 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
          * @param source     The sorted collection to create a new collection from.
          */
         public ArrayCollection(final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The BigDecimals of the sorted collection.
+         */
+        public ArrayCollection(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
+            super(new SortedArrayCollection<BigDecimal>(comparator, numbers));
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The BigDecimals of the sorted collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigDecimal> comparator,
+                final Collection<BigDecimal> source) {
+            super(new SortedArrayCollection<BigDecimal>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.BIG_DECIMALS)));
         }
 
         /**
@@ -44,19 +69,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigDecimal> comparator,
                 final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigDecimal>(elementCardinality, comparator,
-                    numbers));
-        }
-
-        /**
-         * Constructs a sorted collection with the given BigDecimals. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
-         *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The BigDecimals of the sorted collection.
-         */
-        public ArrayCollection(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigDecimal>(comparator, numbers));
+            super(new SortedArrayCollection<BigDecimal>(elementCardinality, comparator, numbers));
         }
     }
 
@@ -72,7 +85,18 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
          * @param source     The sorted collection to create a new collection from.
          */
         public SortedTreeCollection(final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The BigDecimals of the sorted collection.
+         */
+        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigDecimal>(comparator, numbers));
         }
 
         /**
@@ -89,39 +113,17 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
         }
 
         /**
-         * Constructs a sorted collection with the given BigDecimals. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a sorted collection with the given BigDecimals and element cardinality.
          *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The BigDecimals of the sorted collection.
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The BigDecimals of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigDecimal>(comparator, numbers));
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigDecimal>(elementCardinality,
+                    comparator, source.toArray(EmptyArrays.BIG_DECIMALS)));
         }
-    }
-
-    /**
-     * The sorted collection holding the BigDecimals.
-     */
-    private final SortedCollection<BigDecimal> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the BigDecimals as its parameter.
-     *
-     * @param collection The sorted collection holding the BigDecimals.
-     */
-    private SortedBigDecimalCollection(final SortedCollection<BigDecimal> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -132,61 +134,6 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
      */
     public static SortedBigDecimalCollection empty(final Comparator<? super BigDecimal> comparator) {
         return new ArrayCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final BigDecimal element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super BigDecimal> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public BigDecimal getGreaterThan(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public BigDecimal getGreaterThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public BigDecimal getLessThan(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public BigDecimal getLessThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final BigDecimal element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return collection.iterator();
     }
 
     /**
@@ -244,6 +191,19 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
     }
 
     /**
+     * Returns a new sorted BigDecimals collection with the specified element cardinality and the BigDecimals.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original BigDecimals collection.
+     * @return A new sorted BigDecimals collection with the specified element cardinality and the BigDecimals.
+     */
+    public static SortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super BigDecimal> comparator, final NumericCollection<BigDecimal> collection) {
+        return new ArrayCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      *
      * @param collection The original sorted BigDecimals collection.
@@ -276,6 +236,85 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
+    }
+
+    /**
+     * The sorted collection holding the BigDecimals.
+     */
+    private final SortedCollection<BigDecimal> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the BigDecimals as its parameter.
+     *
+     * @param collection The sorted collection holding the BigDecimals.
+     */
+    private SortedBigDecimalCollection(final SortedCollection<BigDecimal> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigDecimal element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigDecimal getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super BigDecimal> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public BigDecimal getGreaterThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigDecimal getGreaterThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigDecimal getLessThan(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigDecimal getLessThanOrEqualTo(final BigDecimal element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final BigDecimal element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return collection.iterator();
     }
 
     @Override

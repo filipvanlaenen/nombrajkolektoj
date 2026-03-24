@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
+import net.filipvanlaenen.kolektoj.array.SortedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
@@ -32,7 +33,31 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param source     The sorted collection to create a new collection from.
          */
         public ArrayCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The BigIntegers of the sorted collection.
+         */
+        public ArrayCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
+            super(new SortedArrayCollection<BigInteger>(comparator, numbers));
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The BigIntegers of the sorted collection.
+         */
+        public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigInteger> comparator,
+                final Collection<BigInteger> source) {
+            super(new SortedArrayCollection<BigInteger>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.BIG_INTEGERS)));
         }
 
         /**
@@ -44,19 +69,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigInteger> comparator,
                 final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigInteger>(elementCardinality, comparator,
-                    numbers));
-        }
-
-        /**
-         * Constructs a sorted collection with the given BigIntegers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
-         *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The BigIntegers of the sorted collection.
-         */
-        public ArrayCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayCollection<BigInteger>(comparator, numbers));
+            super(new SortedArrayCollection<BigInteger>(elementCardinality, comparator, numbers));
         }
     }
 
@@ -72,7 +85,18 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          * @param source     The sorted collection to create a new collection from.
          */
         public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
-            this(source.getElementCardinality(), comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
+            this(source.getElementCardinality(), comparator, source);
+        }
+
+        /**
+         * Constructs a sorted collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param comparator The comparator by which to sort the elements.
+         * @param numbers    The BigIntegers of the sorted collection.
+         */
+        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(comparator, numbers));
         }
 
         /**
@@ -89,39 +113,17 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
         }
 
         /**
-         * Constructs a sorted collection with the given BigIntegers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a sorted collection with the given BigIntegers and element cardinality.
          *
-         * @param comparator The comparator by which to sort the elements.
-         * @param numbers    The BigIntegers of the sorted collection.
+         * @param elementCardinality The element cardinality.
+         * @param comparator         The comparator by which to sort the elements.
+         * @param numbers            The BigIntegers of the sorted collection.
          */
-        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(comparator, numbers));
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(elementCardinality,
+                    comparator, source.toArray(EmptyArrays.BIG_INTEGERS)));
         }
-    }
-
-    /**
-     * The sorted collection holding the BigIntegers.
-     */
-    private final SortedCollection<BigInteger> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the BigIntegers as its parameter.
-     *
-     * @param collection The sorted collection holding the BigIntegers.
-     */
-    private SortedBigIntegerCollection(final SortedCollection<BigInteger> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
     }
 
     /**
@@ -132,61 +134,6 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
      */
     public static SortedBigIntegerCollection empty(final Comparator<? super BigInteger> comparator) {
         return new ArrayCollection(comparator);
-    }
-
-    @Override
-    public int firstIndexOf(final BigInteger element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super BigInteger> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public BigInteger getGreaterThan(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public BigInteger getGreaterThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public BigInteger getLessThan(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public BigInteger getLessThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final BigInteger element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return collection.iterator();
     }
 
     /**
@@ -244,6 +191,19 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
     }
 
     /**
+     * Returns a new sorted BigIntegers collection with the specified element cardinality and the BigIntegers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param comparator         The comparator by which to sort the elements.
+     * @param collection         The original BigIntegers collection.
+     * @return A new sorted BigIntegers collection with the specified element cardinality and the BigIntegers.
+     */
+    public static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final Comparator<? super BigInteger> comparator, final NumericCollection<BigInteger> collection) {
+        return new ArrayCollection(elementCardinality, comparator, collection);
+    }
+
+    /**
      * Returns a new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      *
      * @param collection The original sorted BigIntegers collection.
@@ -276,6 +236,85 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
+    }
+
+    /**
+     * The sorted collection holding the BigIntegers.
+     */
+    private final SortedCollection<BigInteger> collection;
+
+    /**
+     * Private constructor taking a sorted collection with the BigIntegers as its parameter.
+     *
+     * @param collection The sorted collection holding the BigIntegers.
+     */
+    private SortedBigIntegerCollection(final SortedCollection<BigInteger> collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public boolean contains(final BigInteger element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigInteger element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigInteger get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public Comparator<? super BigInteger> getComparator() {
+        return collection.getComparator();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public BigInteger getGreaterThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThan(element);
+    }
+
+    @Override
+    public BigInteger getGreaterThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getGreaterThanOrEqualTo(element);
+    }
+
+    @Override
+    public BigInteger getLessThan(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThan(element);
+    }
+
+    @Override
+    public BigInteger getLessThanOrEqualTo(final BigInteger element) throws IndexOutOfBoundsException {
+        return collection.getLessThanOrEqualTo(element);
+    }
+
+    @Override
+    public int indexOf(final BigInteger element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigInteger> iterator() {
+        return collection.iterator();
     }
 
     @Override

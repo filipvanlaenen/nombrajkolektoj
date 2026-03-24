@@ -22,13 +22,13 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      */
     public static final class ArrayCollection extends OrderedByteCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same bytes and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The bytes of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
+        public ArrayCollection(final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(numbers));
         }
 
         /**
@@ -42,38 +42,25 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
         }
 
         /**
-         * Constructs an ordered collection with the given bytes. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same bytes and the provided
+         * element cardinality.
          *
-         * @param numbers The bytes of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Byte> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.BYTES));
         }
-    }
 
-    /**
-     * The ordered collection holding the bytes.
-     */
-    private final OrderedCollection<Byte> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the bytes as its parameter.
-     *
-     * @param numbers The ordered collection holding the bytes.
-     */
-    private OrderedByteCollection(final OrderedCollection<Byte> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same bytes and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Byte> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -177,41 +164,6 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final Byte element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Byte element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Byte element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered bytes collection with the specified bytes collection.
      *
@@ -231,6 +183,20 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
      */
     public static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered bytes collection cloned from the provided ordered bytes collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered bytes collection.
+     * @return A new ordered bytes collection cloned from the provided ordered bytes collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedByteCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Byte> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -286,6 +252,94 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered bytes collection with the specified element cardinality containing all the elements from
+     * the provided ordered bytes collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered bytes collections from which to copy all the elements.
+     * @return A new ordered bytes collection with the specified element cardinality containing all the elements from
+     *         the provided ordered bytes collections.
+     */
+    public static OrderedByteCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Byte>... collections) {
+        ModifiableOrderedByteCollection result = ModifiableOrderedByteCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Byte> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the bytes.
+     */
+    private final OrderedCollection<Byte> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the bytes as its parameter.
+     *
+     * @param numbers The ordered collection holding the bytes.
+     */
+    private OrderedByteCollection(final OrderedCollection<Byte> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final Byte element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Byte element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Byte getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Byte element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Byte element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

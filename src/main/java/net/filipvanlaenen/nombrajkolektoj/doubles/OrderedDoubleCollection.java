@@ -22,13 +22,13 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      */
     public static final class ArrayCollection extends OrderedDoubleCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same doubles and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The doubles of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<Double> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
+        public ArrayCollection(final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers));
         }
 
         /**
@@ -42,38 +42,25 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
         }
 
         /**
-         * Constructs an ordered collection with the given doubles. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same doubles and the provided
+         * element cardinality.
          *
-         * @param numbers The doubles of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Double> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.DOUBLES));
         }
-    }
 
-    /**
-     * The ordered collection holding the doubles.
-     */
-    private final OrderedCollection<Double> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the doubles as its parameter.
-     *
-     * @param numbers The ordered collection holding the doubles.
-     */
-    private OrderedDoubleCollection(final OrderedCollection<Double> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same doubles and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Double> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -177,41 +164,6 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Double element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered doubles collection with the specified doubles collection.
      *
@@ -231,6 +183,20 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      */
     public static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered doubles collection cloned from the provided ordered doubles collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered doubles collection.
+     * @return A new ordered doubles collection cloned from the provided ordered doubles collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedDoubleCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Double> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -286,6 +252,94 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered doubles collection with the specified element cardinality containing all the elements from
+     * the provided ordered doubles collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered doubles collections from which to copy all the elements.
+     * @return A new ordered doubles collection with the specified element cardinality containing all the elements from
+     *         the provided ordered doubles collections.
+     */
+    public static OrderedDoubleCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Double>... collections) {
+        ModifiableOrderedDoubleCollection result = ModifiableOrderedDoubleCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Double> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the doubles.
+     */
+    private final OrderedCollection<Double> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the doubles as its parameter.
+     *
+     * @param numbers The ordered collection holding the doubles.
+     */
+    private OrderedDoubleCollection(final OrderedCollection<Double> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Double element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Double getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Double element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Double element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

@@ -22,13 +22,13 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      */
     public static final class ArrayCollection extends OrderedIntegerCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same integers and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The integers of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
+        public ArrayCollection(final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers));
         }
 
         /**
@@ -42,38 +42,25 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
         }
 
         /**
-         * Constructs an ordered collection with the given integers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same integers and the provided
+         * element cardinality.
          *
-         * @param numbers The integers of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Integer> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.INTEGERS));
         }
-    }
 
-    /**
-     * The ordered collection holding the integers.
-     */
-    private final OrderedCollection<Integer> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the integers as its parameter.
-     *
-     * @param numbers The ordered collection holding the integers.
-     */
-    private OrderedIntegerCollection(final OrderedCollection<Integer> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same integers and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Integer> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -177,41 +164,6 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final Integer element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Integer element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Integer element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered integers collection with the specified integers collection.
      *
@@ -231,6 +183,20 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      */
     public static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered integers collection cloned from the provided ordered integers collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered integers collection.
+     * @return A new ordered integers collection cloned from the provided ordered integers collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedIntegerCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Integer> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -286,6 +252,94 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered integers collection with the specified element cardinality containing all the elements from
+     * the provided ordered integers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered integers collections from which to copy all the elements.
+     * @return A new ordered integers collection with the specified element cardinality containing all the elements from
+     *         the provided ordered integers collections.
+     */
+    public static OrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Integer>... collections) {
+        ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Integer> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the integers.
+     */
+    private final OrderedCollection<Integer> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the integers as its parameter.
+     *
+     * @param numbers The ordered collection holding the integers.
+     */
+    private OrderedIntegerCollection(final OrderedCollection<Integer> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final Integer element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Integer element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Integer getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Integer element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

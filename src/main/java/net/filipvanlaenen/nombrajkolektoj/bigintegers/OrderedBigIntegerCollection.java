@@ -24,13 +24,13 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
      */
     public static final class ArrayCollection extends OrderedBigIntegerCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same BigIntegers and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The BigIntegers of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
+        public ArrayCollection(final BigInteger... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<BigInteger>(numbers));
         }
 
         /**
@@ -44,38 +44,25 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
         }
 
         /**
-         * Constructs an ordered collection with the given BigIntegers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same BigIntegers and the provided
+         * element cardinality.
          *
-         * @param numbers The BigIntegers of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<BigInteger>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<BigInteger> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.BIG_INTEGERS));
         }
-    }
 
-    /**
-     * The ordered collection holding the BigIntegers.
-     */
-    private final OrderedCollection<BigInteger> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the BigIntegers as its parameter.
-     *
-     * @param numbers The ordered collection holding the BigIntegers.
-     */
-    private OrderedBigIntegerCollection(final OrderedCollection<BigInteger> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same BigIntegers and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<BigInteger> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -179,41 +166,6 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final BigInteger element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final BigInteger element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final BigInteger element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered BigIntegers collection with the specified BigIntegers collection.
      *
@@ -233,6 +185,20 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
      */
     public static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered BigIntegers collection cloned from the provided ordered BigIntegers collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered BigIntegers collection.
+     * @return A new ordered BigIntegers collection cloned from the provided ordered BigIntegers collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<BigInteger> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -288,6 +254,94 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered BigIntegers collection with the specified element cardinality containing all the elements from
+     * the provided ordered BigIntegers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered BigIntegers collections from which to copy all the elements.
+     * @return A new ordered BigIntegers collection with the specified element cardinality containing all the elements from
+     *         the provided ordered BigIntegers collections.
+     */
+    public static OrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<BigInteger>... collections) {
+        ModifiableOrderedBigIntegerCollection result = ModifiableOrderedBigIntegerCollection.of(elementCardinality);
+        for (OrderedNumericCollection<BigInteger> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the BigIntegers.
+     */
+    private final OrderedCollection<BigInteger> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the BigIntegers as its parameter.
+     *
+     * @param numbers The ordered collection holding the BigIntegers.
+     */
+    private OrderedBigIntegerCollection(final OrderedCollection<BigInteger> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final BigInteger element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final BigInteger element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public BigInteger get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final BigInteger element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<BigInteger> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final BigInteger element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

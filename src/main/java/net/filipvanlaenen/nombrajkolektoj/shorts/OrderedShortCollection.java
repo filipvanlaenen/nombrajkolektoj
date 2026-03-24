@@ -22,13 +22,13 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      */
     public static final class ArrayCollection extends OrderedShortCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same shorts and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The shorts of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+        public ArrayCollection(final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers));
         }
 
         /**
@@ -42,38 +42,25 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
         }
 
         /**
-         * Constructs an ordered collection with the given shorts. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same shorts and the provided
+         * element cardinality.
          *
-         * @param numbers The shorts of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Short> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.SHORTS));
         }
-    }
 
-    /**
-     * The ordered collection holding the shorts.
-     */
-    private final OrderedCollection<Short> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the shorts as its parameter.
-     *
-     * @param numbers The ordered collection holding the shorts.
-     */
-    private OrderedShortCollection(final OrderedCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same shorts and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Short> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -177,41 +164,6 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered shorts collection with the specified shorts collection.
      *
@@ -231,6 +183,20 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      */
     public static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered shorts collection cloned from the provided ordered shorts collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered shorts collection.
+     * @return A new ordered shorts collection cloned from the provided ordered shorts collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedShortCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Short> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -286,6 +252,94 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered shorts collection with the specified element cardinality containing all the elements from
+     * the provided ordered shorts collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered shorts collections from which to copy all the elements.
+     * @return A new ordered shorts collection with the specified element cardinality containing all the elements from
+     *         the provided ordered shorts collections.
+     */
+    public static OrderedShortCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Short>... collections) {
+        ModifiableOrderedShortCollection result = ModifiableOrderedShortCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Short> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the shorts.
+     */
+    private final OrderedCollection<Short> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the shorts as its parameter.
+     *
+     * @param numbers The ordered collection holding the shorts.
+     */
+    private OrderedShortCollection(final OrderedCollection<Short> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Short element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Short getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Short element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Short element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

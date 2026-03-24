@@ -22,13 +22,13 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      */
     public static final class ArrayCollection extends OrderedFloatCollection {
         /**
-         * Constructs an ordered collection from another ordered collection, with the same floats and the same element
-         * cardinality.
+         * Constructs an ordered collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The floats of the ordered collection.
          */
-        public ArrayCollection(final OrderedCollection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+        public ArrayCollection(final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(numbers));
         }
 
         /**
@@ -42,38 +42,25 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
         }
 
         /**
-         * Constructs an ordered collection with the given floats. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs an ordered collection from another ordered collection, with the same floats and the provided
+         * element cardinality.
          *
-         * @param numbers The floats of the ordered collection.
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
          */
-        public ArrayCollection(final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(numbers));
+        public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Float> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.FLOATS));
         }
-    }
 
-    /**
-     * The ordered collection holding the floats.
-     */
-    private final OrderedCollection<Float> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the floats as its parameter.
-     *
-     * @param numbers The ordered collection holding the floats.
-     */
-    private OrderedFloatCollection(final OrderedCollection<Float> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same floats and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public ArrayCollection(final OrderedCollection<Float> source) {
+            this(source.getElementCardinality(), source);
+        }
     }
 
     /**
@@ -177,41 +164,6 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
         return new ArrayCollection();
     }
 
-    @Override
-    public int firstIndexOf(final Float element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Float element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Float element) {
-        return collection.lastIndexOf(element);
-    }
-
     /**
      * Returns a new ordered floats collection with the specified floats collection.
      *
@@ -231,6 +183,20 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
      */
     public static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
+    }
+
+    /**
+     * Returns a new ordered floats collection cloned from the provided ordered floats collection with the specified
+     * element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collection         The original ordered floats collection.
+     * @return A new ordered floats collection cloned from the provided ordered floats collection with the specified
+     *         element cardinality.
+     */
+    public static OrderedFloatCollection of(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Float> collection) {
+        return new ArrayCollection(elementCardinality, collection);
     }
 
     /**
@@ -286,6 +252,94 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
             }
         }
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new ordered floats collection with the specified element cardinality containing all the elements from
+     * the provided ordered floats collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The ordered floats collections from which to copy all the elements.
+     * @return A new ordered floats collection with the specified element cardinality containing all the elements from
+     *         the provided ordered floats collections.
+     */
+    public static OrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
+            final OrderedNumericCollection<Float>... collections) {
+        ModifiableOrderedFloatCollection result = ModifiableOrderedFloatCollection.of(elementCardinality);
+        for (OrderedNumericCollection<Float> collection : collections) {
+            result.addAllLast(collection);
+        }
+        return new ArrayCollection(result);
+    }
+
+    /**
+     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     *
+     * @param <F>         The element type.
+     * @param collections The ordered collections from which to copy all the elements.
+     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     */
+    public static OrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The ordered collection holding the floats.
+     */
+    private final OrderedCollection<Float> collection;
+
+    /**
+     * Private constructor taking an ordered collection with the floats as its parameter.
+     *
+     * @param numbers The ordered collection holding the floats.
+     */
+    private OrderedFloatCollection(final OrderedCollection<Float> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean contains(final Float element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public int firstIndexOf(final Float element) {
+        return collection.firstIndexOf(element);
+    }
+
+    @Override
+    public Float get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public Float getAt(final int index) throws IndexOutOfBoundsException {
+        return collection.getAt(index);
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public int indexOf(final Float element) {
+        return collection.indexOf(element);
+    }
+
+    @Override
+    public Iterator<Float> iterator() {
+        return collection.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(final Float element) {
+        return collection.lastIndexOf(element);
     }
 
     @Override

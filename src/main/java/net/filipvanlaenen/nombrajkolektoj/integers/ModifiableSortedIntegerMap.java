@@ -30,6 +30,17 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
      */
     public static final class SortedTreeMap<K> extends ModifiableSortedIntegerMap<K> {
         /**
+         * Constructs a modifiable sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(comparator, entries));
+        }
+
+        /**
          * Constructs a modifiable sorted map from another map, with the same keys and Integers and the same key and
          * value cardinality.
          *
@@ -54,64 +65,17 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
         }
 
         /**
-         * Constructs a modifiable sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a modifiable sorted map from another map with the provided key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(comparator, entries));
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Map<? extends K, Integer> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeMap<K, Integer>(keyAndValueCardinality,
+                    comparator, source));
         }
-    }
-
-    /**
-     * The modifiable sorted map holding the keys and the integers.
-     */
-    private final ModifiableSortedMap<K, Integer> map;
-
-    /**
-     * Private constructor taking a map with the keys and the integers as its parameter.
-     *
-     * @param map The map holding the keys and the integers.
-     */
-    private ModifiableSortedIntegerMap(final ModifiableSortedMap<K, Integer> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Integer value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Integer> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Integer> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Integer value) {
-        return map.containsValue(value);
     }
 
     /**
@@ -125,104 +89,22 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
         return new SortedTreeMap<L>(comparator);
     }
 
-    @Override
-    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Integer get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new IntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public Comparator<? super K> getComparator() {
-        return map.getComparator();
-    }
-
-    @Override
-    public Entry<K, Integer> getGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThan(key);
-    }
-
-    @Override
-    public Entry<K, Integer> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public Entry<K, Integer> getGreatest() {
-        return map.getGreatest();
-    }
-
-    @Override
-    public K getGreatestKey() {
-        return map.getGreatestKey();
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThan(key);
-    }
-
-    @Override
-    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThan(key);
-    }
-
-    @Override
-    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public SortedCollection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public Entry<K, Integer> getLeast() {
-        return map.getLeast();
-    }
-
-    @Override
-    public K getLeastKey() {
-        return map.getLeastKey();
-    }
-
-    @Override
-    public Entry<K, Integer> getLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThan(key);
-    }
-
-    @Override
-    public Entry<K, Integer> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public OrderedIntegerCollection getValues() {
-        return new OrderedIntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Integer>> iterator() {
-        return map.iterator();
+    /**
+     * Returns a new modifiable sorted integers map with the specified keys with a default value.
+     *
+     * @param <L>          The key type.
+     * @param comparator   The comparator by which to sort the keys.
+     * @param defaultValue The default value for the entries.
+     * @param keys         The keys for the new map.
+     * @return A new modifiable sorted integers map with the specified entries.
+     */
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator, final Integer defaultValue,
+            final Collection<? extends L> keys) {
+        ModifiableSortedIntegerMap<L> map = ModifiableSortedIntegerMap.<L>empty(comparator);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
     }
 
     /**
@@ -241,21 +123,6 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
             map.add(key, defaultValue);
         }
         return map;
-    }
-
-    /**
-     * Returns a new modifiable sorted integers map cloned from the provided integers map but sorted according to the
-     * comparator.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param map        The original integers map.
-     * @return A new modifiable sorted integers map cloned from the provided integers map but sorted according to the
-     *         comparator.
-     */
-    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator,
-            final NumericMap<? extends L, Integer> map) {
-        return new SortedTreeMap<L>(comparator, map);
     }
 
     /**
@@ -368,6 +235,41 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
     }
 
     /**
+     * Returns a new modifiable sorted integers map cloned from the provided integers map but sorted according to the
+     * comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original integers map.
+     * @return A new modifiable sorted integers map cloned from the provided integers map but sorted according to the
+     *         comparator.
+     */
+    public static <L> ModifiableSortedIntegerMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Integer> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new modifiable sorted integers map with the specified keys with a default value and key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param defaultValue           The default value for the entries.
+     * @param keys                   The keys for the new map.
+     * @return A new modifiable sorted integers map with the specified entries.
+     */
+    public static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Integer defaultValue, final Collection<? extends L> keys) {
+        ModifiableSortedIntegerMap<L> map = ModifiableSortedIntegerMap.<L>of(keyAndValueCardinality, comparator);
+        for (L key : keys) {
+            map.add(key, defaultValue);
+        }
+        return map;
+    }
+
+    /**
      * Returns a new modifiable sorted integers map with the specified keys with a default value and key and value
      * cardinality.
      *
@@ -399,6 +301,22 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
     public static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new modifiable sorted integers map with the specified key and value cardinality cloned from the provided
+     * integers map.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param map                    The original integers map.
+     * @return A new modifiable sorted integers map with the specified key and value cardinality cloned from the provided
+     *         integers map.
+     */
+    public static <L> ModifiableSortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final NumericMap<? extends L, Integer> map) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, map);
     }
 
     /**
@@ -436,6 +354,155 @@ public abstract class ModifiableSortedIntegerMap<K> extends AbstractModifiableSo
             }
         }
         return result;
+    }
+
+    /**
+     * The modifiable sorted map holding the keys and the integers.
+     */
+    private final ModifiableSortedMap<K, Integer> map;
+
+    /**
+     * Private constructor taking a map with the keys and the integers as its parameter.
+     *
+     * @param map The map holding the keys and the integers.
+     */
+    private ModifiableSortedIntegerMap(final ModifiableSortedMap<K, Integer> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean add(final K key, final Integer value) {
+        return map.add(key, value);
+    }
+
+    @Override
+    public boolean addAll(final Map<? extends K, ? extends Integer> aMap) {
+        return map.addAll(aMap);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean contains(final Entry<K, Integer> entry) {
+        return map.contains(entry);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return map.containsAll(collection);
+    }
+
+    @Override
+    public boolean containsKey(final K key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Integer value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
+        return map.get();
+    }
+
+    @Override
+    public Integer get(final K key) throws IllegalArgumentException {
+        return map.get(key);
+    }
+
+    @Override
+    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
+        return new IntegerCollection.ArrayCollection(map.getAll(key));
+    }
+
+    @Override
+    public Comparator<? super K> getComparator() {
+        return map.getComparator();
+    }
+
+    @Override
+    public Entry<K, Integer> getGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThan(key);
+    }
+
+    @Override
+    public Entry<K, Integer> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public Entry<K, Integer> getGreatest() {
+        return map.getGreatest();
+    }
+
+    @Override
+    public K getGreatestKey() {
+        return map.getGreatestKey();
+    }
+
+    @Override
+    public KeyAndValueCardinality getKeyAndValueCardinality() {
+        return map.getKeyAndValueCardinality();
+    }
+
+    @Override
+    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThan(key);
+    }
+
+    @Override
+    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyGreaterThanOrEqualTo(key);
+    }
+
+    @Override
+    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThan(key);
+    }
+
+    @Override
+    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getKeyLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public SortedCollection<K> getKeys() {
+        return map.getKeys();
+    }
+
+    @Override
+    public Entry<K, Integer> getLeast() {
+        return map.getLeast();
+    }
+
+    @Override
+    public K getLeastKey() {
+        return map.getLeastKey();
+    }
+
+    @Override
+    public Entry<K, Integer> getLessThan(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThan(key);
+    }
+
+    @Override
+    public Entry<K, Integer> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
+        return map.getLessThanOrEqualTo(key);
+    }
+
+    @Override
+    public OrderedIntegerCollection getValues() {
+        return new OrderedIntegerCollection.ArrayCollection(map.getValues());
+    }
+
+    @Override
+    public Iterator<Entry<K, Integer>> iterator() {
+        return map.iterator();
     }
 
     @Override

@@ -109,45 +109,6 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
     }
 
     /**
-     * The modifiable collection holding the longs.
-     */
-    private final ModifiableCollection<Long> collection;
-
-    /**
-     * Private constructor taking a collection with the longs as its parameter.
-     *
-     * @param numbers The collection holding the longs.
-     */
-    private ModifiableLongCollection(final ModifiableCollection<Long> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Long element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Long> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable longs collection.
      *
      * @return A new empty modifiable longs collection.
@@ -156,19 +117,24 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
         return new ArrayCollection();
     }
 
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable longs collection containing all the elements present in each of the provided longs
+     * collections.
+     *
+     * @param collections The longs collections from which to calculate the intersection.
+     * @return A new modifiable longs collection containing all the elements present in each of the provided longs
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return collection.iterator();
+    public static ModifiableLongCollection intersectionOf(final NumericCollection<Long>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableLongCollection result = ModifiableLongCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -212,6 +178,89 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      */
     public static ModifiableLongCollection of(final NumericCollection<Long> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable longs collection with the specified element cardinality containing all the elements
+     * from the provided longs collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The longs collections from which to copy all the elements.
+     * @return A new modifiable longs collection with the specified element cardinality containing all the elements
+     *         from the provided longs collections.
+     */
+    public static ModifiableLongCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Long>... collections) {
+        ModifiableLongCollection result = ModifiableLongCollection.of(elementCardinality);
+        for (NumericCollection<Long> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable longs collection containing all the elements from the provided longs collections.
+     *
+     * @param collections The longs collections from which to copy all the elements.
+     * @return A new modifiable longs collection containing all the elements from the provided longs collections.
+     */
+
+    public static ModifiableLongCollection unionOf(final NumericCollection<Long>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the longs.
+     */
+    private final ModifiableCollection<Long> collection;
+
+    /**
+     * Private constructor taking a collection with the longs as its parameter.
+     *
+     * @param numbers The collection holding the longs.
+     */
+    private ModifiableLongCollection(final ModifiableCollection<Long> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Long element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Long> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Long element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public Long get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Long> iterator() {
+        return collection.iterator();
     }
 
     @Override

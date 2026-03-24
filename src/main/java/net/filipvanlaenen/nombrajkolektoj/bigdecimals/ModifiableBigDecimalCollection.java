@@ -111,45 +111,6 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
     }
 
     /**
-     * The modifiable collection holding the BigDecimals.
-     */
-    private final ModifiableCollection<BigDecimal> collection;
-
-    /**
-     * Private constructor taking a collection with the BigDecimals as its parameter.
-     *
-     * @param numbers The collection holding the BigDecimals.
-     */
-    private ModifiableBigDecimalCollection(final ModifiableCollection<BigDecimal> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final BigDecimal element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable BigDecimals collection.
      *
      * @return A new empty modifiable BigDecimals collection.
@@ -158,19 +119,24 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
         return new ArrayCollection();
     }
 
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable BigDecimals collection containing all the elements present in each of the provided BigDecimals
+     * collections.
+     *
+     * @param collections The BigDecimals collections from which to calculate the intersection.
+     * @return A new modifiable BigDecimals collection containing all the elements present in each of the provided BigDecimals
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return collection.iterator();
+    public static ModifiableBigDecimalCollection intersectionOf(final NumericCollection<BigDecimal>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -214,6 +180,89 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      */
     public static ModifiableBigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals collection with the specified element cardinality containing all the elements
+     * from the provided BigDecimals collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The BigDecimals collections from which to copy all the elements.
+     * @return A new modifiable BigDecimals collection with the specified element cardinality containing all the elements
+     *         from the provided BigDecimals collections.
+     */
+    public static ModifiableBigDecimalCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal>... collections) {
+        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(elementCardinality);
+        for (NumericCollection<BigDecimal> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals collection containing all the elements from the provided BigDecimals collections.
+     *
+     * @param collections The BigDecimals collections from which to copy all the elements.
+     * @return A new modifiable BigDecimals collection containing all the elements from the provided BigDecimals collections.
+     */
+
+    public static ModifiableBigDecimalCollection unionOf(final NumericCollection<BigDecimal>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the BigDecimals.
+     */
+    private final ModifiableCollection<BigDecimal> collection;
+
+    /**
+     * Private constructor taking a collection with the BigDecimals as its parameter.
+     *
+     * @param numbers The collection holding the BigDecimals.
+     */
+    private ModifiableBigDecimalCollection(final ModifiableCollection<BigDecimal> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final BigDecimal element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return collection.iterator();
     }
 
     @Override

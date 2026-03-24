@@ -109,45 +109,6 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
     }
 
     /**
-     * The modifiable collection holding the doubles.
-     */
-    private final ModifiableCollection<Double> collection;
-
-    /**
-     * Private constructor taking a collection with the doubles as its parameter.
-     *
-     * @param numbers The collection holding the doubles.
-     */
-    private ModifiableDoubleCollection(final ModifiableCollection<Double> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Double element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Double> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable doubles collection.
      *
      * @return A new empty modifiable doubles collection.
@@ -156,19 +117,24 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
         return new ArrayCollection();
     }
 
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable doubles collection containing all the elements present in each of the provided doubles
+     * collections.
+     *
+     * @param collections The doubles collections from which to calculate the intersection.
+     * @return A new modifiable doubles collection containing all the elements present in each of the provided doubles
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
+    public static ModifiableDoubleCollection intersectionOf(final NumericCollection<Double>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -212,6 +178,89 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
      */
     public static ModifiableDoubleCollection of(final NumericCollection<Double> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable doubles collection with the specified element cardinality containing all the elements
+     * from the provided doubles collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The doubles collections from which to copy all the elements.
+     * @return A new modifiable doubles collection with the specified element cardinality containing all the elements
+     *         from the provided doubles collections.
+     */
+    public static ModifiableDoubleCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Double>... collections) {
+        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(elementCardinality);
+        for (NumericCollection<Double> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable doubles collection containing all the elements from the provided doubles collections.
+     *
+     * @param collections The doubles collections from which to copy all the elements.
+     * @return A new modifiable doubles collection containing all the elements from the provided doubles collections.
+     */
+
+    public static ModifiableDoubleCollection unionOf(final NumericCollection<Double>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the doubles.
+     */
+    private final ModifiableCollection<Double> collection;
+
+    /**
+     * Private constructor taking a collection with the doubles as its parameter.
+     *
+     * @param numbers The collection holding the doubles.
+     */
+    private ModifiableDoubleCollection(final ModifiableCollection<Double> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Double element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Double> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Double element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return collection.iterator();
     }
 
     @Override

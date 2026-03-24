@@ -109,45 +109,6 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
     }
 
     /**
-     * The modifiable collection holding the shorts.
-     */
-    private final ModifiableCollection<Short> collection;
-
-    /**
-     * Private constructor taking a collection with the shorts as its parameter.
-     *
-     * @param numbers The collection holding the shorts.
-     */
-    private ModifiableShortCollection(final ModifiableCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Short element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable shorts collection.
      *
      * @return A new empty modifiable shorts collection.
@@ -156,19 +117,24 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
         return new ArrayCollection();
     }
 
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable shorts collection containing all the elements present in each of the provided shorts
+     * collections.
+     *
+     * @param collections The shorts collections from which to calculate the intersection.
+     * @return A new modifiable shorts collection containing all the elements present in each of the provided shorts
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
+    public static ModifiableShortCollection intersectionOf(final NumericCollection<Short>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableShortCollection result = ModifiableShortCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -212,6 +178,89 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      */
     public static ModifiableShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable shorts collection with the specified element cardinality containing all the elements
+     * from the provided shorts collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The shorts collections from which to copy all the elements.
+     * @return A new modifiable shorts collection with the specified element cardinality containing all the elements
+     *         from the provided shorts collections.
+     */
+    public static ModifiableShortCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Short>... collections) {
+        ModifiableShortCollection result = ModifiableShortCollection.of(elementCardinality);
+        for (NumericCollection<Short> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable shorts collection containing all the elements from the provided shorts collections.
+     *
+     * @param collections The shorts collections from which to copy all the elements.
+     * @return A new modifiable shorts collection containing all the elements from the provided shorts collections.
+     */
+
+    public static ModifiableShortCollection unionOf(final NumericCollection<Short>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the shorts.
+     */
+    private final ModifiableCollection<Short> collection;
+
+    /**
+     * Private constructor taking a collection with the shorts as its parameter.
+     *
+     * @param numbers The collection holding the shorts.
+     */
+    private ModifiableShortCollection(final ModifiableCollection<Short> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Short element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Short> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Short element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return collection.iterator();
     }
 
     @Override

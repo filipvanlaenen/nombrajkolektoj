@@ -109,45 +109,6 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
     }
 
     /**
-     * The modifiable collection holding the integers.
-     */
-    private final ModifiableCollection<Integer> collection;
-
-    /**
-     * Private constructor taking a collection with the integers as its parameter.
-     *
-     * @param numbers The collection holding the integers.
-     */
-    private ModifiableIntegerCollection(final ModifiableCollection<Integer> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Integer element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable integers collection.
      *
      * @return A new empty modifiable integers collection.
@@ -156,19 +117,24 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
         return new ArrayCollection();
     }
 
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable integers collection containing all the elements present in each of the provided integers
+     * collections.
+     *
+     * @param collections The integers collections from which to calculate the intersection.
+     * @return A new modifiable integers collection containing all the elements present in each of the provided integers
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
+    public static ModifiableIntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableIntegerCollection result = ModifiableIntegerCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -212,6 +178,89 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      */
     public static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable integers collection with the specified element cardinality containing all the elements
+     * from the provided integers collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The integers collections from which to copy all the elements.
+     * @return A new modifiable integers collection with the specified element cardinality containing all the elements
+     *         from the provided integers collections.
+     */
+    public static ModifiableIntegerCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer>... collections) {
+        ModifiableIntegerCollection result = ModifiableIntegerCollection.of(elementCardinality);
+        for (NumericCollection<Integer> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable integers collection containing all the elements from the provided integers collections.
+     *
+     * @param collections The integers collections from which to copy all the elements.
+     * @return A new modifiable integers collection containing all the elements from the provided integers collections.
+     */
+
+    public static ModifiableIntegerCollection unionOf(final NumericCollection<Integer>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the integers.
+     */
+    private final ModifiableCollection<Integer> collection;
+
+    /**
+     * Private constructor taking a collection with the integers as its parameter.
+     *
+     * @param numbers The collection holding the integers.
+     */
+    private ModifiableIntegerCollection(final ModifiableCollection<Integer> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Integer element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Integer> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Integer element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return collection.iterator();
     }
 
     @Override

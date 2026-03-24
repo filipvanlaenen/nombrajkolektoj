@@ -109,45 +109,6 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
     }
 
     /**
-     * The modifiable collection holding the bytes.
-     */
-    private final ModifiableCollection<Byte> collection;
-
-    /**
-     * Private constructor taking a collection with the bytes as its parameter.
-     *
-     * @param numbers The collection holding the bytes.
-     */
-    private ModifiableByteCollection(final ModifiableCollection<Byte> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Byte element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Byte> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    /**
      * Returns a new empty modifiable bytes collection.
      *
      * @return A new empty modifiable bytes collection.
@@ -156,19 +117,24 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
         return new ArrayCollection();
     }
 
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
+    /**
+     * Returns a new modifiable bytes collection containing all the elements present in each of the provided bytes
+     * collections.
+     *
+     * @param collections The bytes collections from which to calculate the intersection.
+     * @return A new modifiable bytes collection containing all the elements present in each of the provided bytes
+     *         collections.
+     */
 
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
+    public static ModifiableByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableByteCollection result = ModifiableByteCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**
@@ -212,6 +178,89 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      */
     public static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
+    }
+
+    /**
+     * Returns a new modifiable bytes collection with the specified element cardinality containing all the elements
+     * from the provided bytes collections.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param collections        The bytes collections from which to copy all the elements.
+     * @return A new modifiable bytes collection with the specified element cardinality containing all the elements
+     *         from the provided bytes collections.
+     */
+    public static ModifiableByteCollection unionOf(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte>... collections) {
+        ModifiableByteCollection result = ModifiableByteCollection.of(elementCardinality);
+        for (NumericCollection<Byte> collection : collections) {
+            result.addAll(collection);
+        }
+        return result;
+    }
+
+    /**
+     * Returns a new modifiable bytes collection containing all the elements from the provided bytes collections.
+     *
+     * @param collections The bytes collections from which to copy all the elements.
+     * @return A new modifiable bytes collection containing all the elements from the provided bytes collections.
+     */
+
+    public static ModifiableByteCollection unionOf(final NumericCollection<Byte>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
+    }
+
+    /**
+     * The modifiable collection holding the bytes.
+     */
+    private final ModifiableCollection<Byte> collection;
+
+    /**
+     * Private constructor taking a collection with the bytes as its parameter.
+     *
+     * @param numbers The collection holding the bytes.
+     */
+    private ModifiableByteCollection(final ModifiableCollection<Byte> numbers) {
+        this.collection = numbers;
+    }
+
+    @Override
+    public boolean add(final Byte element) {
+        return collection.add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Byte> otherCollection) {
+        return collection.addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        collection.clear();
+    }
+
+    @Override
+    public boolean contains(final Byte element) {
+        return collection.contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> otherCollection) {
+        return collection.containsAll(otherCollection);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return collection.get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return collection.getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return collection.iterator();
     }
 
     @Override

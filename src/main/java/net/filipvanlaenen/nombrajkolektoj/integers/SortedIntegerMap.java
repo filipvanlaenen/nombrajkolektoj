@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
+import net.filipvanlaenen.kolektoj.array.SortedArrayMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -26,6 +27,17 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
      */
     public static final class ArrayMap<K> extends SortedIntegerMap<K> {
         /**
+         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
+            super(new SortedArrayMap<K, Integer>(comparator, entries));
+        }
+
+        /**
          * Constructs a sorted map from another map, with the same keys and Integers and the same key and value
          * cardinality.
          *
@@ -33,7 +45,7 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
          * @param source     The map to create a new map from.
          */
         public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Integer>(comparator, source));
+            super(new SortedArrayMap<K, Integer>(comparator, source));
         }
 
         /**
@@ -45,19 +57,19 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
          */
         public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Integer>(keyAndValueCardinality, comparator,
-                    entries));
+            super(new SortedArrayMap<K, Integer>(keyAndValueCardinality, comparator, entries));
         }
 
         /**
-         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a sorted map from another matp with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Integer>(comparator, entries));
+        public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
+                final Map<? extends K, Integer> source) {
+            super(new SortedArrayMap<K, Integer>(keyAndValueCardinality, comparator, source));
         }
     }
 
@@ -68,6 +80,17 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
      * @param <K> The key type.
      */
     public static final class SortedTreeMap<K> extends SortedIntegerMap<K> {
+        /**
+         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Integer>(comparator, entries));
+        }
+
         /**
          * Constructs a sorted map from another map, with the same keys and Integers and the same key and value
          * cardinality.
@@ -93,15 +116,214 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
         }
 
         /**
-         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a sorted map from another map with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Integer>... entries) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Integer>(comparator, entries));
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Map<? extends K, Integer> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Integer>(keyAndValueCardinality,
+                    comparator, source));
         }
+    }
+
+    /**
+     * Returns a new empty integers map.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @return A new empty integers map.
+     */
+    public static <L> SortedIntegerMap<L> empty(final Comparator<? super L> comparator) {
+        return new ArrayMap<L>(comparator);
+    }
+
+    /**
+     * Returns a new sorted integers map with the specified entries.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param entries    The entries for the new map.
+     * @return A new sorted integers map with the specified entries.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
+        return new SortedTreeMap<L>(comparator, entries);
+    }
+
+    /**
+     * Returns a new sorted integers map containing an entry with the key and the value.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key        The key for the entry.
+     * @param value      The value for the entry.
+     * @return A new sorted integers map containing an entry with the key and the value.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key, final Integer value) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key, value));
+    }
+
+    /**
+     * Returns a new sorted integers map containing two entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @return A new sorted integers map containing two entries using the provided keys and values.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
+            final L key2, final Integer value2) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2));
+    }
+
+    /**
+     * Returns a new sorted integers map containing three entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @return A new sorted integers map containing three entries using the provided keys and values.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
+            final L key2, final Integer value2, final L key3, final Integer value3) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3));
+    }
+
+    /**
+     * Returns a new sorted integers map containing four entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @param key4       The fourth key for the entry.
+     * @param value4     The fourth value for the entry.
+     * @return A new sorted integers map containing four entries using the provided keys and values.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
+            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4));
+    }
+
+    /**
+     * Returns a new sorted integers map containing five entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @param key4       The fourth key for the entry.
+     * @param value4     The fourth value for the entry.
+     * @param key5       The fifth key for the entry.
+     * @param value5     The fifth value for the entry.
+     * @return A new sorted integers map containing five entries using the provided keys and values.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
+            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4,
+            final L key5, final Integer value5) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
+                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
+                new Entry<L, Integer>(key5, value5));
+    }
+
+    /**
+     * Returns a new sorted integers map cloned from the provided integers map but sorted according to the comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original integers map.
+     * @return A new sorted integers map cloned from the provided integers map but sorted according to the comparator.
+     */
+    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Integer> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new sorted integers map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param entries                The entries for the new map.
+     * @return A new sorted integers map with the specified entries.
+     */
+    public static <L> SortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new sorted integers map cloned from the provided integers map with the specified key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param map                    The original integers map.
+     * @return A new sorted integers map cloned from the provided integers map with the specified key and value
+     *         cardinality.
+     */
+    public static <L> SortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final NumericMap<? extends L, Integer> map) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, map);
+    }
+
+    /**
+     * Returns a new sorted integers map cloned from the provided sorted integers map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted integers map.
+     * @return A new sorted integers map cloned from the provided sorted integers map.
+     */
+    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new sorted integers map cloned from the provided sorted integers map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted integers map.
+     * @param range The range.
+     * @return A new sorted integers map cloned from the provided sorted integers map.
+     */
+    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map, final Range<L> range) {
+        ModifiableSortedIntegerMap<L> slice =
+                ModifiableSortedIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, Integer> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                slice.add(entry.key(), entry.value());
+            }
+        }
+        return new SortedTreeMap<L>(map.getComparator(), slice);
     }
 
     /**
@@ -136,17 +358,6 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
     @Override
     public boolean containsValue(final Integer value) {
         return map.containsValue(value);
-    }
-
-    /**
-     * Returns a new empty integers map.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @return A new empty integers map.
-     */
-    public static <L> SortedIntegerMap<L> empty(final Comparator<? super L> comparator) {
-        return new ArrayMap<L>(comparator);
     }
 
     @Override
@@ -247,176 +458,6 @@ public abstract class SortedIntegerMap<K> extends AbstractSortedIntegerMap<K> im
     @Override
     public Iterator<Entry<K, Integer>> iterator() {
         return map.iterator();
-    }
-
-    /**
-     * Returns a new sorted integers map cloned from the provided integers map but sorted according to the comparator.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param map        The original integers map.
-     * @return A new sorted integers map cloned from the provided integers map but sorted according to the comparator.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator,
-            final NumericMap<? extends L, Integer> map) {
-        return new SortedTreeMap<L>(comparator, map);
-    }
-
-    /**
-     * Returns a new sorted integers map with the specified entries.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param entries    The entries for the new map.
-     * @return A new sorted integers map with the specified entries.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
-        return new SortedTreeMap<L>(comparator, entries);
-    }
-
-    /**
-     * Returns a new sorted integers map with the specified entries and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param entries                The entries for the new map.
-     * @return A new sorted integers map with the specified entries.
-     */
-    public static <L> SortedIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Entry<L, Integer>... entries) {
-        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
-    }
-
-    /**
-     * Returns a new sorted integers map cloned from the provided sorted integers map.
-     *
-     * @param <L> The key type.
-     * @param map The original sorted integers map.
-     * @return A new sorted integers map cloned from the provided sorted integers map.
-     */
-    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map) {
-        return new SortedTreeMap<L>(map.getComparator(), map);
-    }
-
-    /**
-     * Returns a new sorted integers map cloned from the provided sorted integers map.
-     *
-     * @param <L>   The key type.
-     * @param map   The original sorted integers map.
-     * @param range The range.
-     * @return A new sorted integers map cloned from the provided sorted integers map.
-     */
-    public static <L> SortedIntegerMap<L> of(final SortedNumericMap<L, Integer> map, final Range<L> range) {
-        ModifiableSortedIntegerMap<L> slice =
-                ModifiableSortedIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
-        boolean below = true;
-        for (Entry<L, Integer> entry : map) {
-            if (below && !range.isBelow(map.getComparator(), entry.key())) {
-                below = false;
-            }
-            if (!below) {
-                if (range.isAbove(map.getComparator(), entry.key())) {
-                    break;
-                }
-                slice.add(entry.key(), entry.value());
-            }
-        }
-        return new SortedTreeMap<L>(map.getComparator(), slice);
-    }
-
-    /**
-     * Returns a new sorted integers map containing an entry with the key and the value.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key        The key for the entry.
-     * @param value      The value for the entry.
-     * @return A new sorted integers map containing an entry with the key and the value.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key, final Integer value) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key, value));
-    }
-
-    /**
-     * Returns a new sorted integers map containing two entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @return A new sorted integers map containing two entries using the provided keys and values.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2));
-    }
-
-    /**
-     * Returns a new sorted integers map containing three entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @return A new sorted integers map containing three entries using the provided keys and values.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
-                new Entry<L, Integer>(key3, value3));
-    }
-
-    /**
-     * Returns a new sorted integers map containing four entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @param key4       The fourth key for the entry.
-     * @param value4     The fourth value for the entry.
-     * @return A new sorted integers map containing four entries using the provided keys and values.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
-                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4));
-    }
-
-    /**
-     * Returns a new sorted integers map containing five entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @param key4       The fourth key for the entry.
-     * @param value4     The fourth value for the entry.
-     * @param key5       The fifth key for the entry.
-     * @param value5     The fifth value for the entry.
-     * @return A new sorted integers map containing five entries using the provided keys and values.
-     */
-    public static <L> SortedIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final Integer value1,
-            final L key2, final Integer value2, final L key3, final Integer value3, final L key4, final Integer value4,
-            final L key5, final Integer value5) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
-                new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
-                new Entry<L, Integer>(key5, value5));
     }
 
     @Override

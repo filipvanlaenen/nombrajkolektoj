@@ -9,6 +9,7 @@ import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.SortedMap;
+import net.filipvanlaenen.kolektoj.array.SortedArrayMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 
@@ -26,6 +27,17 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
      */
     public static final class ArrayMap<K> extends SortedDoubleMap<K> {
         /**
+         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
+            super(new SortedArrayMap<K, Double>(comparator, entries));
+        }
+
+        /**
          * Constructs a sorted map from another map, with the same keys and Doubles and the same key and value
          * cardinality.
          *
@@ -33,7 +45,7 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
          * @param source     The map to create a new map from.
          */
         public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, Double> source) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Double>(comparator, source));
+            super(new SortedArrayMap<K, Double>(comparator, source));
         }
 
         /**
@@ -45,19 +57,19 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
          */
         public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Double>(keyAndValueCardinality, comparator,
-                    entries));
+            super(new SortedArrayMap<K, Double>(keyAndValueCardinality, comparator, entries));
         }
 
         /**
-         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a sorted map from another matp with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public ArrayMap(final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.array.SortedArrayMap<K, Double>(comparator, entries));
+        public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
+                final Map<? extends K, Double> source) {
+            super(new SortedArrayMap<K, Double>(keyAndValueCardinality, comparator, source));
         }
     }
 
@@ -68,6 +80,17 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
      * @param <K> The key type.
      */
     public static final class SortedTreeMap<K> extends SortedDoubleMap<K> {
+        /**
+         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
+         * <code>DISTINCT_KEYS</code>.
+         *
+         * @param comparator The comparator by which to sort the keys.
+         * @param entries    The entries of the map.
+         */
+        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Double>(comparator, entries));
+        }
+
         /**
          * Constructs a sorted map from another map, with the same keys and Doubles and the same key and value
          * cardinality.
@@ -93,15 +116,214 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
         }
 
         /**
-         * Constructs a sorted map with the given entries. The key and value cardinality is defaulted to
-         * <code>DISTINCT_KEYS</code>.
+         * Constructs a sorted map from another map with the given key and value cardinality.
          *
-         * @param comparator The comparator by which to sort the keys.
-         * @param entries    The entries of the map.
+         * @param keyAndValueCardinality The key and value cardinality.
+         * @param comparator             The comparator by which to sort the keys.
+         * @param source                 The map to create a new map from.
          */
-        public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, Double>... entries) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Double>(comparator, entries));
+        public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
+                final Comparator<? super K> comparator, final Map<? extends K, Double> source) {
+            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeMap<K, Double>(keyAndValueCardinality,
+                    comparator, source));
         }
+    }
+
+    /**
+     * Returns a new empty doubles map.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @return A new empty doubles map.
+     */
+    public static <L> SortedDoubleMap<L> empty(final Comparator<? super L> comparator) {
+        return new ArrayMap<L>(comparator);
+    }
+
+    /**
+     * Returns a new sorted doubles map with the specified entries.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param entries    The entries for the new map.
+     * @return A new sorted doubles map with the specified entries.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final Entry<L, Double>... entries) {
+        return new SortedTreeMap<L>(comparator, entries);
+    }
+
+    /**
+     * Returns a new sorted doubles map containing an entry with the key and the value.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key        The key for the entry.
+     * @param value      The value for the entry.
+     * @return A new sorted doubles map containing an entry with the key and the value.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key, final Double value) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key, value));
+    }
+
+    /**
+     * Returns a new sorted doubles map containing two entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @return A new sorted doubles map containing two entries using the provided keys and values.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
+            final L key2, final Double value2) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2));
+    }
+
+    /**
+     * Returns a new sorted doubles map containing three entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @return A new sorted doubles map containing three entries using the provided keys and values.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
+            final L key2, final Double value2, final L key3, final Double value3) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
+                new Entry<L, Double>(key3, value3));
+    }
+
+    /**
+     * Returns a new sorted doubles map containing four entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @param key4       The fourth key for the entry.
+     * @param value4     The fourth value for the entry.
+     * @return A new sorted doubles map containing four entries using the provided keys and values.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
+            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
+                new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4));
+    }
+
+    /**
+     * Returns a new sorted doubles map containing five entries using the provided keys and values.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param key1       The first key for the entry.
+     * @param value1     The first value for the entry.
+     * @param key2       The second key for the entry.
+     * @param value2     The second value for the entry.
+     * @param key3       The third key for the entry.
+     * @param value3     The third value for the entry.
+     * @param key4       The fourth key for the entry.
+     * @param value4     The fourth value for the entry.
+     * @param key5       The fifth key for the entry.
+     * @param value5     The fifth value for the entry.
+     * @return A new sorted doubles map containing five entries using the provided keys and values.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
+            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4,
+            final L key5, final Double value5) {
+        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
+                new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4),
+                new Entry<L, Double>(key5, value5));
+    }
+
+    /**
+     * Returns a new sorted doubles map cloned from the provided doubles map but sorted according to the comparator.
+     *
+     * @param <L>        The key type.
+     * @param comparator The comparator by which to sort the keys.
+     * @param map        The original doubles map.
+     * @return A new sorted doubles map cloned from the provided doubles map but sorted according to the comparator.
+     */
+    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator,
+            final NumericMap<? extends L, Double> map) {
+        return new SortedTreeMap<L>(comparator, map);
+    }
+
+    /**
+     * Returns a new sorted doubles map with the specified entries and key and value cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param entries                The entries for the new map.
+     * @return A new sorted doubles map with the specified entries.
+     */
+    public static <L> SortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final Entry<L, Double>... entries) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
+    }
+
+    /**
+     * Returns a new sorted doubles map cloned from the provided doubles map with the specified key and value
+     * cardinality.
+     *
+     * @param <L>                    The key type.
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param comparator             The comparator by which to sort the keys.
+     * @param map                    The original doubles map.
+     * @return A new sorted doubles map cloned from the provided doubles map with the specified key and value
+     *         cardinality.
+     */
+    public static <L> SortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+            final Comparator<? super L> comparator, final NumericMap<? extends L, Double> map) {
+        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, map);
+    }
+
+    /**
+     * Returns a new sorted doubles map cloned from the provided sorted doubles map.
+     *
+     * @param <L> The key type.
+     * @param map The original sorted doubles map.
+     * @return A new sorted doubles map cloned from the provided sorted doubles map.
+     */
+    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map) {
+        return new SortedTreeMap<L>(map.getComparator(), map);
+    }
+
+    /**
+     * Returns a new sorted doubles map cloned from the provided sorted doubles map.
+     *
+     * @param <L>   The key type.
+     * @param map   The original sorted doubles map.
+     * @param range The range.
+     * @return A new sorted doubles map cloned from the provided sorted doubles map.
+     */
+    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map, final Range<L> range) {
+        ModifiableSortedDoubleMap<L> slice =
+                ModifiableSortedDoubleMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
+        boolean below = true;
+        for (Entry<L, Double> entry : map) {
+            if (below && !range.isBelow(map.getComparator(), entry.key())) {
+                below = false;
+            }
+            if (!below) {
+                if (range.isAbove(map.getComparator(), entry.key())) {
+                    break;
+                }
+                slice.add(entry.key(), entry.value());
+            }
+        }
+        return new SortedTreeMap<L>(map.getComparator(), slice);
     }
 
     /**
@@ -136,17 +358,6 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
     @Override
     public boolean containsValue(final Double value) {
         return map.containsValue(value);
-    }
-
-    /**
-     * Returns a new empty doubles map.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @return A new empty doubles map.
-     */
-    public static <L> SortedDoubleMap<L> empty(final Comparator<? super L> comparator) {
-        return new ArrayMap<L>(comparator);
     }
 
     @Override
@@ -247,176 +458,6 @@ public abstract class SortedDoubleMap<K> extends AbstractSortedDoubleMap<K> impl
     @Override
     public Iterator<Entry<K, Double>> iterator() {
         return map.iterator();
-    }
-
-    /**
-     * Returns a new sorted doubles map cloned from the provided doubles map but sorted according to the comparator.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param map        The original doubles map.
-     * @return A new sorted doubles map cloned from the provided doubles map but sorted according to the comparator.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator,
-            final NumericMap<? extends L, Double> map) {
-        return new SortedTreeMap<L>(comparator, map);
-    }
-
-    /**
-     * Returns a new sorted doubles map with the specified entries.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param entries    The entries for the new map.
-     * @return A new sorted doubles map with the specified entries.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final Entry<L, Double>... entries) {
-        return new SortedTreeMap<L>(comparator, entries);
-    }
-
-    /**
-     * Returns a new sorted doubles map with the specified entries and key and value cardinality.
-     *
-     * @param <L>                    The key type.
-     * @param keyAndValueCardinality The key and value cardinality.
-     * @param comparator             The comparator by which to sort the keys.
-     * @param entries                The entries for the new map.
-     * @return A new sorted doubles map with the specified entries.
-     */
-    public static <L> SortedDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Comparator<? super L> comparator, final Entry<L, Double>... entries) {
-        return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
-    }
-
-    /**
-     * Returns a new sorted doubles map cloned from the provided sorted doubles map.
-     *
-     * @param <L> The key type.
-     * @param map The original sorted doubles map.
-     * @return A new sorted doubles map cloned from the provided sorted doubles map.
-     */
-    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map) {
-        return new SortedTreeMap<L>(map.getComparator(), map);
-    }
-
-    /**
-     * Returns a new sorted doubles map cloned from the provided sorted doubles map.
-     *
-     * @param <L>   The key type.
-     * @param map   The original sorted doubles map.
-     * @param range The range.
-     * @return A new sorted doubles map cloned from the provided sorted doubles map.
-     */
-    public static <L> SortedDoubleMap<L> of(final SortedNumericMap<L, Double> map, final Range<L> range) {
-        ModifiableSortedDoubleMap<L> slice =
-                ModifiableSortedDoubleMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
-        boolean below = true;
-        for (Entry<L, Double> entry : map) {
-            if (below && !range.isBelow(map.getComparator(), entry.key())) {
-                below = false;
-            }
-            if (!below) {
-                if (range.isAbove(map.getComparator(), entry.key())) {
-                    break;
-                }
-                slice.add(entry.key(), entry.value());
-            }
-        }
-        return new SortedTreeMap<L>(map.getComparator(), slice);
-    }
-
-    /**
-     * Returns a new sorted doubles map containing an entry with the key and the value.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key        The key for the entry.
-     * @param value      The value for the entry.
-     * @return A new sorted doubles map containing an entry with the key and the value.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key, final Double value) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key, value));
-    }
-
-    /**
-     * Returns a new sorted doubles map containing two entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @return A new sorted doubles map containing two entries using the provided keys and values.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2));
-    }
-
-    /**
-     * Returns a new sorted doubles map containing three entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @return A new sorted doubles map containing three entries using the provided keys and values.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
-                new Entry<L, Double>(key3, value3));
-    }
-
-    /**
-     * Returns a new sorted doubles map containing four entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @param key4       The fourth key for the entry.
-     * @param value4     The fourth value for the entry.
-     * @return A new sorted doubles map containing four entries using the provided keys and values.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
-                new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4));
-    }
-
-    /**
-     * Returns a new sorted doubles map containing five entries using the provided keys and values.
-     *
-     * @param <L>        The key type.
-     * @param comparator The comparator by which to sort the keys.
-     * @param key1       The first key for the entry.
-     * @param value1     The first value for the entry.
-     * @param key2       The second key for the entry.
-     * @param value2     The second value for the entry.
-     * @param key3       The third key for the entry.
-     * @param value3     The third value for the entry.
-     * @param key4       The fourth key for the entry.
-     * @param value4     The fourth value for the entry.
-     * @param key5       The fifth key for the entry.
-     * @param value5     The fifth value for the entry.
-     * @return A new sorted doubles map containing five entries using the provided keys and values.
-     */
-    public static <L> SortedDoubleMap<L> of(final Comparator<? super L> comparator, final L key1, final Double value1,
-            final L key2, final Double value2, final L key3, final Double value3, final L key4, final Double value4,
-            final L key5, final Double value5) {
-        return new SortedTreeMap<L>(comparator, new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
-                new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4),
-                new Entry<L, Double>(key5, value5));
     }
 
     @Override

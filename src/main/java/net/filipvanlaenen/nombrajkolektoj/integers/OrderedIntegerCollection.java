@@ -165,6 +165,33 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     /**
+     * Returns a new ordered integers collection as the matrix direct product of two ordered integers collections.
+     *
+     * @param collectionA The first ordered integers collection.
+     * @param collectionB The second ordered integers collection.
+     * @return The matrix direct product of the two provided ordered integers collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<Integer> collectionA,
+            final OrderedNumericCollection<Integer> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.empty();
+        for (Integer a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (Integer b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered integers collection with the specified integers collection.
      *
      * @param numbers The integers for the new ordered integers collection.
@@ -225,33 +252,6 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered integers collection as the matrix direct product of two ordered integers collections.
-     *
-     * @param collectionA The first ordered integers collection.
-     * @param collectionB The second ordered integers collection.
-     * @return The matrix direct product of the two provided ordered integers collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedIntegerCollection ofMatrixDirectProduct(final OrderedNumericCollection<Integer> collectionA,
-            final OrderedNumericCollection<Integer> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.empty();
-        for (Integer a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (Integer b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a * b);
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

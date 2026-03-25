@@ -165,6 +165,33 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
     }
 
     /**
+     * Returns a new ordered floats collection as the matrix direct product of two ordered floats collections.
+     *
+     * @param collectionA The first ordered floats collection.
+     * @param collectionB The second ordered floats collection.
+     * @return The matrix direct product of the two provided ordered floats collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedFloatCollection matrixDirectProductOf(final OrderedNumericCollection<Float> collectionA,
+            final OrderedNumericCollection<Float> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedFloatCollection collection = ModifiableOrderedFloatCollection.empty();
+        for (Float a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (Float b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered floats collection with the specified floats collection.
      *
      * @param numbers The floats for the new ordered floats collection.
@@ -225,33 +252,6 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered floats collection as the matrix direct product of two ordered floats collections.
-     *
-     * @param collectionA The first ordered floats collection.
-     * @param collectionB The second ordered floats collection.
-     * @return The matrix direct product of the two provided ordered floats collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedFloatCollection ofMatrixDirectProduct(final OrderedNumericCollection<Float> collectionA,
-            final OrderedNumericCollection<Float> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedFloatCollection collection = ModifiableOrderedFloatCollection.empty();
-        for (Float a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (Float b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a * b);
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

@@ -165,6 +165,33 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
     }
 
     /**
+     * Returns a new ordered doubles collection as the matrix direct product of two ordered doubles collections.
+     *
+     * @param collectionA The first ordered doubles collection.
+     * @param collectionB The second ordered doubles collection.
+     * @return The matrix direct product of the two provided ordered doubles collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedDoubleCollection matrixDirectProductOf(final OrderedNumericCollection<Double> collectionA,
+            final OrderedNumericCollection<Double> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedDoubleCollection collection = ModifiableOrderedDoubleCollection.empty();
+        for (Double a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (Double b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered doubles collection with the specified doubles collection.
      *
      * @param numbers The doubles for the new ordered doubles collection.
@@ -225,33 +252,6 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered doubles collection as the matrix direct product of two ordered doubles collections.
-     *
-     * @param collectionA The first ordered doubles collection.
-     * @param collectionB The second ordered doubles collection.
-     * @return The matrix direct product of the two provided ordered doubles collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedDoubleCollection ofMatrixDirectProduct(final OrderedNumericCollection<Double> collectionA,
-            final OrderedNumericCollection<Double> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedDoubleCollection collection = ModifiableOrderedDoubleCollection.empty();
-        for (Double a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (Double b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a * b);
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

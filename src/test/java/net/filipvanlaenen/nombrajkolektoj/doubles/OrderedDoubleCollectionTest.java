@@ -85,7 +85,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
         OrderedDoubleCollection collectionA = createOrderedDoubleCollection(1D, 2D);
         OrderedDoubleCollection collectionB = createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE);
-        OrderedDoubleCollection actual = OrderedDoubleCollection.ofMatrixDirectProduct(collectionA, collectionB);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Double[] {1D, 2D, DOUBLE_THREE, 2D, DOUBLE_FOUR, DOUBLE_SIX}, actual.toArray());
     }
 
@@ -98,11 +98,11 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
         OrderedDoubleCollection collectionA = createOrderedDoubleCollection(1D, 2D);
         OrderedDoubleCollection collectionB = createOrderedDoubleCollection(1D, null, DOUBLE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedDoubleCollection.ofMatrixDirectProduct(collectionA, collectionB));
+                () -> OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedDoubleCollection.ofMatrixDirectProduct(collectionB, collectionA));
+                () -> OrderedDoubleCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

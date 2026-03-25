@@ -87,7 +87,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
         OrderedBigIntegerCollection collectionA = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
         OrderedBigIntegerCollection collectionB = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.ofMatrixDirectProduct(collectionA, collectionB);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BigInteger.TWO, BIG_INTEGER_FOUR, BIG_INTEGER_SIX}, actual.toArray());
     }
 
@@ -100,11 +100,11 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
         OrderedBigIntegerCollection collectionA = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
         OrderedBigIntegerCollection collectionB = createOrderedBigIntegerCollection(BigInteger.ONE, null, BIG_INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigIntegerCollection.ofMatrixDirectProduct(collectionA, collectionB));
+                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigIntegerCollection.ofMatrixDirectProduct(collectionB, collectionA));
+                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

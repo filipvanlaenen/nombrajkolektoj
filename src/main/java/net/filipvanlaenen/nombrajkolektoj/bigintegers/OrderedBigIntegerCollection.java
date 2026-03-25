@@ -167,6 +167,33 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
     }
 
     /**
+     * Returns a new ordered BigIntegers collection as the matrix direct product of two ordered BigIntegers collections.
+     *
+     * @param collectionA The first ordered BigIntegers collection.
+     * @param collectionB The second ordered BigIntegers collection.
+     * @return The matrix direct product of the two provided ordered BigIntegers collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedBigIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<BigInteger> collectionA,
+            final OrderedNumericCollection<BigInteger> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection.empty();
+        for (BigInteger a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (BigInteger b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a.multiply(b));
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered BigIntegers collection with the specified BigIntegers collection.
      *
      * @param numbers The BigIntegers for the new ordered BigIntegers collection.
@@ -227,33 +254,6 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered BigIntegers collection as the matrix direct product of two ordered BigIntegers collections.
-     *
-     * @param collectionA The first ordered BigIntegers collection.
-     * @param collectionB The second ordered BigIntegers collection.
-     * @return The matrix direct product of the two provided ordered BigIntegers collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedBigIntegerCollection ofMatrixDirectProduct(final OrderedNumericCollection<BigInteger> collectionA,
-            final OrderedNumericCollection<BigInteger> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection.empty();
-        for (BigInteger a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (BigInteger b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a.multiply(b));
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

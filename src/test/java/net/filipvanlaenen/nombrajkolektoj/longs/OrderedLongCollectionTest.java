@@ -85,7 +85,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
         OrderedLongCollection collectionA = createOrderedLongCollection(1L, 2L);
         OrderedLongCollection collectionB = createOrderedLongCollection(1L, 2L, LONG_THREE);
-        OrderedLongCollection actual = OrderedLongCollection.ofMatrixDirectProduct(collectionA, collectionB);
+        OrderedLongCollection actual = OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Long[] {1L, 2L, LONG_THREE, 2L, LONG_FOUR, LONG_SIX}, actual.toArray());
     }
 
@@ -98,11 +98,11 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
         OrderedLongCollection collectionA = createOrderedLongCollection(1L, 2L);
         OrderedLongCollection collectionB = createOrderedLongCollection(1L, null, LONG_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedLongCollection.ofMatrixDirectProduct(collectionA, collectionB));
+                () -> OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedLongCollection.ofMatrixDirectProduct(collectionB, collectionA));
+                () -> OrderedLongCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

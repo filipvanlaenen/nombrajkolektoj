@@ -87,7 +87,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
         OrderedBigDecimalCollection collectionA = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
         OrderedBigDecimalCollection collectionB = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.ofMatrixDirectProduct(collectionA, collectionB);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX}, actual.toArray());
     }
 
@@ -100,11 +100,11 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
         OrderedBigDecimalCollection collectionA = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
         OrderedBigDecimalCollection collectionB = createOrderedBigDecimalCollection(BigDecimal.ONE, null, BIG_DECIMAL_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigDecimalCollection.ofMatrixDirectProduct(collectionA, collectionB));
+                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigDecimalCollection.ofMatrixDirectProduct(collectionB, collectionA));
+                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

@@ -167,6 +167,33 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
     }
 
     /**
+     * Returns a new ordered BigDecimals collection as the matrix direct product of two ordered BigDecimals collections.
+     *
+     * @param collectionA The first ordered BigDecimals collection.
+     * @param collectionB The second ordered BigDecimals collection.
+     * @return The matrix direct product of the two provided ordered BigDecimals collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedBigDecimalCollection matrixDirectProductOf(final OrderedNumericCollection<BigDecimal> collectionA,
+            final OrderedNumericCollection<BigDecimal> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedBigDecimalCollection collection = ModifiableOrderedBigDecimalCollection.empty();
+        for (BigDecimal a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (BigDecimal b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a.multiply(b));
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered BigDecimals collection with the specified BigDecimals collection.
      *
      * @param numbers The BigDecimals for the new ordered BigDecimals collection.
@@ -227,33 +254,6 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered BigDecimals collection as the matrix direct product of two ordered BigDecimals collections.
-     *
-     * @param collectionA The first ordered BigDecimals collection.
-     * @param collectionB The second ordered BigDecimals collection.
-     * @return The matrix direct product of the two provided ordered BigDecimals collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedBigDecimalCollection ofMatrixDirectProduct(final OrderedNumericCollection<BigDecimal> collectionA,
-            final OrderedNumericCollection<BigDecimal> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedBigDecimalCollection collection = ModifiableOrderedBigDecimalCollection.empty();
-        for (BigDecimal a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (BigDecimal b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a.multiply(b));
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

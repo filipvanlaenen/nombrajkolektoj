@@ -165,6 +165,33 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     /**
+     * Returns a new ordered longs collection as the matrix direct product of two ordered longs collections.
+     *
+     * @param collectionA The first ordered longs collection.
+     * @param collectionB The second ordered longs collection.
+     * @return The matrix direct product of the two provided ordered longs collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedLongCollection matrixDirectProductOf(final OrderedNumericCollection<Long> collectionA,
+            final OrderedNumericCollection<Long> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.empty();
+        for (Long a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (Long b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add(a * b);
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered longs collection with the specified longs collection.
      *
      * @param numbers The longs for the new ordered longs collection.
@@ -225,33 +252,6 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered longs collection as the matrix direct product of two ordered longs collections.
-     *
-     * @param collectionA The first ordered longs collection.
-     * @param collectionB The second ordered longs collection.
-     * @return The matrix direct product of the two provided ordered longs collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedLongCollection ofMatrixDirectProduct(final OrderedNumericCollection<Long> collectionA,
-            final OrderedNumericCollection<Long> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.empty();
-        for (Long a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (Long b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add(a * b);
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

@@ -165,6 +165,33 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
     }
 
     /**
+     * Returns a new ordered bytes collection as the matrix direct product of two ordered bytes collections.
+     *
+     * @param collectionA The first ordered bytes collection.
+     * @param collectionB The second ordered bytes collection.
+     * @return The matrix direct product of the two provided ordered bytes collections.
+     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
+     */
+    public static OrderedByteCollection matrixDirectProductOf(final OrderedNumericCollection<Byte> collectionA,
+            final OrderedNumericCollection<Byte> collectionB) throws IllegalArgumentException {
+        ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection.empty();
+        for (Byte a : collectionA) {
+            if (a == null) {
+                throw new IllegalArgumentException(
+                        "Cannot produce a matrix direct product when one of the collections contains null.");
+            }
+            for (Byte b : collectionB) {
+                if (b == null) {
+                    throw new IllegalArgumentException(
+                            "Cannot produce a matrix direct product when one of the collections contains null.");
+                }
+                collection.add((byte) (a * b));
+            }
+        }
+        return new ArrayCollection(collection);
+    }
+
+    /**
      * Returns a new ordered bytes collection with the specified bytes collection.
      *
      * @param numbers The bytes for the new ordered bytes collection.
@@ -225,33 +252,6 @@ public abstract class OrderedByteCollection extends AbstractOrderedByteCollectio
             slice.addLast(collection.getAt(i));
         }
         return new ArrayCollection(slice);
-    }
-
-    /**
-     * Returns a new ordered bytes collection as the matrix direct product of two ordered bytes collections.
-     *
-     * @param collectionA The first ordered bytes collection.
-     * @param collectionB The second ordered bytes collection.
-     * @return The matrix direct product of the two provided ordered bytes collections.
-     * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
-     */
-    public static OrderedByteCollection ofMatrixDirectProduct(final OrderedNumericCollection<Byte> collectionA,
-            final OrderedNumericCollection<Byte> collectionB) throws IllegalArgumentException {
-        ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection.empty();
-        for (Byte a : collectionA) {
-            if (a == null) {
-                throw new IllegalArgumentException(
-                        "Cannot produce a matrix direct product when one of the collections contains null.");
-            }
-            for (Byte b : collectionB) {
-                if (b == null) {
-                    throw new IllegalArgumentException(
-                            "Cannot produce a matrix direct product when one of the collections contains null.");
-                }
-                collection.add((byte) (a * b));
-            }
-        }
-        return new ArrayCollection(collection);
     }
 
     /**

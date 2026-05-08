@@ -57,6 +57,50 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends ByteCollection {
+        /**
+         * Constructs a collection from another collection, with the same bytes and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The bytes of the collection.
+         */
+        public HashCollection(final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty bytes collection.
      *
      * @return A new empty bytes collection.

@@ -57,6 +57,50 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends FloatCollection {
+        /**
+         * Constructs a collection from another collection, with the same floats and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Float> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(source));
+        }
+
+        /**
+         * Constructs a collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The floats of the collection.
+         */
+        public HashCollection(final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The floats of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty floats collection.
      *
      * @return A new empty floats collection.

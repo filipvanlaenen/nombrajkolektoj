@@ -57,6 +57,50 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends IntegerCollection {
+        /**
+         * Constructs a collection from another collection, with the same integers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Integer> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(source));
+        }
+
+        /**
+         * Constructs a collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The integers of the collection.
+         */
+        public HashCollection(final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty integers collection.
      *
      * @return A new empty integers collection.

@@ -57,6 +57,50 @@ public abstract class ShortCollection extends AbstractShortCollection implements
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends ShortCollection {
+        /**
+         * Constructs a collection from another collection, with the same shorts and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Short> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(source));
+        }
+
+        /**
+         * Constructs a collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The shorts of the collection.
+         */
+        public HashCollection(final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty shorts collection.
      *
      * @return A new empty shorts collection.

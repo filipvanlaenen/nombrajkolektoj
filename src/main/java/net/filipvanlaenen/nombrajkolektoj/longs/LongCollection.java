@@ -57,6 +57,50 @@ public abstract class LongCollection extends AbstractLongCollection implements N
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends LongCollection {
+        /**
+         * Constructs a collection from another collection, with the same longs and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Long> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(source));
+        }
+
+        /**
+         * Constructs a collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The longs of the collection.
+         */
+        public HashCollection(final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The longs of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty longs collection.
      *
      * @return A new empty longs collection.

@@ -57,6 +57,50 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
     }
 
     /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     */
+    public static final class HashCollection extends DoubleCollection {
+        /**
+         * Constructs a collection from another collection, with the same doubles and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Double> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(source));
+        }
+
+        /**
+         * Constructs a collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The doubles of the collection.
+         */
+        public HashCollection(final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(numbers));
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, numbers));
+        }
+    }
+
+    /**
      * Returns a new empty doubles collection.
      *
      * @return A new empty doubles collection.

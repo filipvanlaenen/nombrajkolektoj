@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedLongCollectionTest
     private static final Long LONG_THREE = 3L;
 
     @Override
-    protected ModifiableSortedLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return new ModifiableSortedLongCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                LongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
-    }
-
-    @Override
     protected ModifiableSortedLongCollection createLongCollection(final Long... numbers) {
         return ModifiableSortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedLongCollectionTest
     protected ModifiableSortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return ModifiableSortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return ModifiableSortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedLongCollection createLongCollection(final NumericCollection<Long> source) {
+        return ModifiableSortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

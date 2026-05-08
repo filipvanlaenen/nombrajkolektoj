@@ -50,7 +50,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The doubles of the sorted collection.
+         * @param source             The doubles collection to create a new sorted doubles collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
                 final Collection<Double> source) {
@@ -115,7 +115,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The doubles of the sorted collection.
+         * @param source             The sorted doubles collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Double> comparator, final Collection<Double> source) {

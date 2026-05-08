@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +22,10 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      */
     private static final int THREE = 3;
     /**
+     * The double three.
+     */
+    private static final Double DOUBLE_THREE = 3D;
+    /**
      * Collection with the doubles 1, 2 and 3.
      */
     private final NumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
@@ -33,14 +38,6 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
     protected abstract T createEmptyDoubleCollection();
 
     /**
-     * Creates a doubles collection from a collection of doubles.
-     *
-     * @param source The collection of doubles.
-     * @return A doubles collection containing the provided doubles.
-     */
-    protected abstract T createDoubleCollection(NumericCollection<Double> source);
-
-    /**
      * Creates a doubles collection with the provided element cardinality containing the provided doubles.
      *
      * @param elementCardinality The element cardinality.
@@ -50,12 +47,30 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
     protected abstract T createDoubleCollection(ElementCardinality elementCardinality, Double... numbers);
 
     /**
+     * Creates a doubles collection from a collection of doubles with the provided element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param source             The collection of doubles.
+     * @return A doubles collection containing the provided doubles with the provided element cardinality.
+     */
+    protected abstract T createDoubleCollection(ElementCardinality elementCardinality,
+            NumericCollection<Double> source);
+
+    /**
      * Creates a doubles collection containing the provided doubles.
      *
      * @param numbers The doubles to be included in the doubles collection.
      * @return An doubles collection containing the provided doubles.
      */
     protected abstract T createDoubleCollection(Double... numbers);
+
+    /**
+     * Creates a doubles collection from a collection of doubles.
+     *
+     * @param source The collection of doubles.
+     * @return A doubles collection containing the provided doubles.
+     */
+    protected abstract T createDoubleCollection(NumericCollection<Double> source);
 
     /**
      * Verifies that an empty doubles collection is empty.
@@ -83,6 +98,18 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
         assertTrue(actual.contains(1D));
+    }
+
+    /**
+     * Verifies that a doubles collection created from another collection has the provided element cardinality.
+     */
+    @Test
+    public void ofWithCollectionAndElementCardinalityShouldReturnADoubleCollectionWithTheProvidedElementCardinality() {
+        DoubleCollection source = DoubleCollection.of(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE);
+        T actual = createDoubleCollection(DISTINCT_ELEMENTS, source);
+        DoubleCollection expected = DoubleCollection.of(1D, 2D, DOUBLE_THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertTrue(actual.containsSame(expected));
     }
 
     /**

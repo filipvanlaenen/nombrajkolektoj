@@ -16,8 +16,8 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     }
 
     @Override
-    protected SortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return SortedByteCollection.of(Comparator.naturalOrder(), source);
+    protected SortedByteCollection createByteCollection(final Byte... numbers) {
+        return SortedByteCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     }
 
     @Override
-    protected SortedByteCollection createByteCollection(final Byte... numbers) {
-        return SortedByteCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return SortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

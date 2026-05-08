@@ -22,8 +22,8 @@ public final class ModifiableOrderedByteCollectionTest
 
     @Override
     protected ModifiableOrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return  ModifiableOrderedByteCollection.of(
-                OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
+        return ModifiableOrderedByteCollection
+                .of(OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }
 
     @Override
@@ -35,6 +35,13 @@ public final class ModifiableOrderedByteCollectionTest
     protected ModifiableOrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return ModifiableOrderedByteCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return ModifiableOrderedByteCollection.of(elementCardinality,
+                OrderedByteCollection.of(source.toArray(EmptyArrays.BYTES)));
     }
 
     @Override

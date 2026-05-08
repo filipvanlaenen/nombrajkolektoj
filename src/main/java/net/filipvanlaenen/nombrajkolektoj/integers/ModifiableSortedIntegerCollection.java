@@ -32,8 +32,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Integer> comparator,
-                final Collection<Integer> source) {
+        public SortedTreeCollection(final Comparator<? super Integer> comparator, final Collection<Integer> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -58,8 +57,8 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Integer> comparator,
-                Collection<Integer> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Integer> comparator, final Collection<Integer> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.INTEGERS));
         }
 

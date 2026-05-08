@@ -14,8 +14,8 @@ public final class ModifiableIntegerCollectionTest
     }
 
     @Override
-    protected ModifiableIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return ModifiableIntegerCollection.of(source);
+    protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return ModifiableIntegerCollection.of(numbers);
     }
 
     @Override
@@ -25,7 +25,13 @@ public final class ModifiableIntegerCollectionTest
     }
 
     @Override
-    protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
-        return ModifiableIntegerCollection.of(numbers);
+    protected ModifiableIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return ModifiableIntegerCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ModifiableIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return ModifiableIntegerCollection.of(source);
     }
 }

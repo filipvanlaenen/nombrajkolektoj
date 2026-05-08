@@ -13,8 +13,8 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     }
 
     @Override
-    protected DoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return DoubleCollection.of(source);
+    protected DoubleCollection createDoubleCollection(final Double... numbers) {
+        return DoubleCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     }
 
     @Override
-    protected DoubleCollection createDoubleCollection(final Double... numbers) {
-        return DoubleCollection.of(numbers);
+    protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return DoubleCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return DoubleCollection.of(source);
     }
 }

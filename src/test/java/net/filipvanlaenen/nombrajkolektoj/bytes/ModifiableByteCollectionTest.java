@@ -14,8 +14,8 @@ public final class ModifiableByteCollectionTest
     }
 
     @Override
-    protected ModifiableByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return ModifiableByteCollection.of(source);
+    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableByteCollection.of(numbers);
     }
 
     @Override
@@ -25,7 +25,13 @@ public final class ModifiableByteCollectionTest
     }
 
     @Override
-    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
-        return ModifiableByteCollection.of(numbers);
+    protected ModifiableByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return ModifiableByteCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ModifiableByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return ModifiableByteCollection.of(source);
     }
 }

@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedShortCollectionTest
     private static final Short SHORT_THREE = (short) 3;
 
     @Override
-    protected ModifiableSortedShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return new ModifiableSortedShortCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                ShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
-    }
-
-    @Override
     protected ModifiableSortedShortCollection createShortCollection(final Short... numbers) {
         return ModifiableSortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedShortCollectionTest
     protected ModifiableSortedShortCollection createShortCollection(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return ModifiableSortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return ModifiableSortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return ModifiableSortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

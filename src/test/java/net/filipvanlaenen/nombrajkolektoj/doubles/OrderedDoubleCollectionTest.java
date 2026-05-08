@@ -39,8 +39,8 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
+    protected OrderedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return OrderedDoubleCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final Double... numbers) {
-        return OrderedDoubleCollection.of(numbers);
+    protected OrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return OrderedDoubleCollection.of(elementCardinality,
+                OrderedDoubleCollection.of(source.toArray(EmptyArrays.DOUBLES)));
+    }
+
+    @Override
+    protected OrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
     }
 
     @Override

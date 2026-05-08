@@ -14,8 +14,8 @@ public final class ModifiableShortCollectionTest
     }
 
     @Override
-    protected ModifiableShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return ModifiableShortCollection.of(source);
+    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
+        return ModifiableShortCollection.of(numbers);
     }
 
     @Override
@@ -25,7 +25,13 @@ public final class ModifiableShortCollectionTest
     }
 
     @Override
-    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
-        return ModifiableShortCollection.of(numbers);
+    protected ModifiableShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return ModifiableShortCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ModifiableShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return ModifiableShortCollection.of(source);
     }
 }

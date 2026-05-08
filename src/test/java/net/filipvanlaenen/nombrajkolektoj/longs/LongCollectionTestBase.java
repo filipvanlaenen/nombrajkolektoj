@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +22,10 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
      */
     private static final int THREE = 3;
     /**
+     * The long three.
+     */
+    private static final Long LONG_THREE = 3L;
+    /**
      * Collection with the longs 1, 2 and 3.
      */
     private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
@@ -33,14 +38,6 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
     protected abstract T createEmptyLongCollection();
 
     /**
-     * Creates a longs collection from a collection of longs.
-     *
-     * @param source The collection of longs.
-     * @return A longs collection containing the provided longs.
-     */
-    protected abstract T createLongCollection(NumericCollection<Long> source);
-
-    /**
      * Creates a longs collection with the provided element cardinality containing the provided longs.
      *
      * @param elementCardinality The element cardinality.
@@ -50,12 +47,30 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
     protected abstract T createLongCollection(ElementCardinality elementCardinality, Long... numbers);
 
     /**
+     * Creates a longs collection from a collection of longs with the provided element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param source             The collection of longs.
+     * @return A longs collection containing the provided longs with the provided element cardinality.
+     */
+    protected abstract T createLongCollection(ElementCardinality elementCardinality,
+            NumericCollection<Long> source);
+
+    /**
      * Creates a longs collection containing the provided longs.
      *
      * @param numbers The longs to be included in the longs collection.
      * @return An longs collection containing the provided longs.
      */
     protected abstract T createLongCollection(Long... numbers);
+
+    /**
+     * Creates a longs collection from a collection of longs.
+     *
+     * @param source The collection of longs.
+     * @return A longs collection containing the provided longs.
+     */
+    protected abstract T createLongCollection(NumericCollection<Long> source);
 
     /**
      * Verifies that an empty longs collection is empty.
@@ -83,6 +98,18 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
         assertTrue(actual.contains(1L));
+    }
+
+    /**
+     * Verifies that a longs collection created from another collection has the provided element cardinality.
+     */
+    @Test
+    public void ofWithCollectionAndElementCardinalityShouldReturnALongCollectionWithTheProvidedElementCardinality() {
+        LongCollection source = LongCollection.of(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE);
+        T actual = createLongCollection(DISTINCT_ELEMENTS, source);
+        LongCollection expected = LongCollection.of(1L, 2L, LONG_THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertTrue(actual.containsSame(expected));
     }
 
     /**

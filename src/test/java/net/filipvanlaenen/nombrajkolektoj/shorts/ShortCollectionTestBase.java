@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +22,10 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
      */
     private static final int THREE = 3;
     /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+    /**
      * Collection with the shorts 1, 2 and 3.
      */
     private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
@@ -33,14 +38,6 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
     protected abstract T createEmptyShortCollection();
 
     /**
-     * Creates a shorts collection from a collection of shorts.
-     *
-     * @param source The collection of shorts.
-     * @return A shorts collection containing the provided shorts.
-     */
-    protected abstract T createShortCollection(NumericCollection<Short> source);
-
-    /**
      * Creates a shorts collection with the provided element cardinality containing the provided shorts.
      *
      * @param elementCardinality The element cardinality.
@@ -50,12 +47,30 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
     protected abstract T createShortCollection(ElementCardinality elementCardinality, Short... numbers);
 
     /**
+     * Creates a shorts collection from a collection of shorts with the provided element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param source             The collection of shorts.
+     * @return A shorts collection containing the provided shorts with the provided element cardinality.
+     */
+    protected abstract T createShortCollection(ElementCardinality elementCardinality,
+            NumericCollection<Short> source);
+
+    /**
      * Creates a shorts collection containing the provided shorts.
      *
      * @param numbers The shorts to be included in the shorts collection.
      * @return An shorts collection containing the provided shorts.
      */
     protected abstract T createShortCollection(Short... numbers);
+
+    /**
+     * Creates a shorts collection from a collection of shorts.
+     *
+     * @param source The collection of shorts.
+     * @return A shorts collection containing the provided shorts.
+     */
+    protected abstract T createShortCollection(NumericCollection<Short> source);
 
     /**
      * Verifies that an empty shorts collection is empty.
@@ -83,6 +98,18 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
         assertTrue(actual.contains((short) 1));
+    }
+
+    /**
+     * Verifies that a shorts collection created from another collection has the provided element cardinality.
+     */
+    @Test
+    public void ofWithCollectionAndElementCardinalityShouldReturnAShortCollectionWithTheProvidedElementCardinality() {
+        ShortCollection source = ShortCollection.of(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE);
+        T actual = createShortCollection(DISTINCT_ELEMENTS, source);
+        ShortCollection expected = ShortCollection.of((short) 1, (short) 2, SHORT_THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertTrue(actual.containsSame(expected));
     }
 
     /**

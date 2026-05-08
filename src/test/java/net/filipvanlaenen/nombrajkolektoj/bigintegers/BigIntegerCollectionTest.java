@@ -15,8 +15,8 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     }
 
     @Override
-    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return BigIntegerCollection.of(source);
+    protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return BigIntegerCollection.of(numbers);
     }
 
     @Override
@@ -26,7 +26,13 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     }
 
     @Override
-    protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return BigIntegerCollection.of(numbers);
+    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> source) {
+        return BigIntegerCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+        return BigIntegerCollection.of(source);
     }
 }

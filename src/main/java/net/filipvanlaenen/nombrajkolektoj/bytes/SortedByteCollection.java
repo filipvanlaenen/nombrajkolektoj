@@ -50,7 +50,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The bytes of the sorted collection.
+         * @param source             The bytes collection to create a new sorted bytes collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Byte> comparator,
                 final Collection<Byte> source) {
@@ -115,7 +115,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The bytes of the sorted collection.
+         * @param source             The sorted bytes collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Byte> comparator, final Collection<Byte> source) {

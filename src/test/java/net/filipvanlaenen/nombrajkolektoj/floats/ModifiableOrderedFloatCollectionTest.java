@@ -22,8 +22,8 @@ public final class ModifiableOrderedFloatCollectionTest
 
     @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return  ModifiableOrderedFloatCollection.of(
-                OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
+        return ModifiableOrderedFloatCollection
+                .of(OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }
 
     @Override
@@ -35,6 +35,13 @@ public final class ModifiableOrderedFloatCollectionTest
     protected ModifiableOrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return ModifiableOrderedFloatCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return ModifiableOrderedFloatCollection.of(elementCardinality,
+                OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
     }
 
     @Override

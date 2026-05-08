@@ -22,8 +22,8 @@ public final class ModifiableOrderedIntegerCollectionTest
 
     @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return  ModifiableOrderedIntegerCollection.of(
-                OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
+        return ModifiableOrderedIntegerCollection
+                .of(OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }
 
     @Override
@@ -35,6 +35,13 @@ public final class ModifiableOrderedIntegerCollectionTest
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return ModifiableOrderedIntegerCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return ModifiableOrderedIntegerCollection.of(elementCardinality,
+                OrderedIntegerCollection.of(source.toArray(EmptyArrays.INTEGERS)));
     }
 
     @Override

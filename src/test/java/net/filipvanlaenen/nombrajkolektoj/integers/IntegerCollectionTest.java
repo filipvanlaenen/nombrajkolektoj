@@ -13,8 +13,8 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return IntegerCollection.of(source);
+    protected IntegerCollection createIntegerCollection(final Integer... numbers) {
+        return IntegerCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(final Integer... numbers) {
-        return IntegerCollection.of(numbers);
+    protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return IntegerCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected IntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return IntegerCollection.of(source);
     }
 }

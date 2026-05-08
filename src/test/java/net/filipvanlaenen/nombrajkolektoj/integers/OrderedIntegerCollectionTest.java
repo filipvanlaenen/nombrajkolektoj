@@ -39,8 +39,8 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
+    protected OrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return OrderedIntegerCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
-        return OrderedIntegerCollection.of(numbers);
+    protected OrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return OrderedIntegerCollection.of(elementCardinality,
+                OrderedIntegerCollection.of(source.toArray(EmptyArrays.INTEGERS)));
+    }
+
+    @Override
+    protected OrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
     }
 
     @Override

@@ -13,8 +13,8 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     }
 
     @Override
-    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return FloatCollection.of(source);
+    protected FloatCollection createFloatCollection(final Float... numbers) {
+        return FloatCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     }
 
     @Override
-    protected FloatCollection createFloatCollection(final Float... numbers) {
-        return FloatCollection.of(numbers);
+    protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return FloatCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return FloatCollection.of(source);
     }
 }

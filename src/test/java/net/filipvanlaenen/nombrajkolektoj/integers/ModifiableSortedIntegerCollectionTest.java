@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedIntegerCollectionTest
     private static final Integer INTEGER_THREE = 3;
 
     @Override
-    protected ModifiableSortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return new ModifiableSortedIntegerCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                IntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
-    }
-
-    @Override
     protected ModifiableSortedIntegerCollection createIntegerCollection(final Integer... numbers) {
         return ModifiableSortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedIntegerCollectionTest
     protected ModifiableSortedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return ModifiableSortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return ModifiableSortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return ModifiableSortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

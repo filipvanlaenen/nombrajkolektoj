@@ -24,8 +24,8 @@ public final class ModifiableOrderedBigDecimalCollectionTest
 
     @Override
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
-        return  ModifiableOrderedBigDecimalCollection.of(
-                OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
+        return ModifiableOrderedBigDecimalCollection
+                .of(OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 
     @Override
@@ -37,6 +37,13 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return ModifiableOrderedBigDecimalCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal> source) {
+        return ModifiableOrderedBigDecimalCollection.of(elementCardinality,
+                OrderedBigDecimalCollection.of(source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 
     @Override

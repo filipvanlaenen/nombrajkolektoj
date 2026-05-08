@@ -52,7 +52,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The BigIntegers of the sorted collection.
+         * @param source             The BigIntegers collection to create a new sorted BigIntegers collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigInteger> comparator,
                 final Collection<BigInteger> source) {
@@ -117,7 +117,7 @@ public abstract class SortedBigIntegerCollection extends AbstractSortedBigIntege
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The BigIntegers of the sorted collection.
+         * @param source             The sorted BigIntegers collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {

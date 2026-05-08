@@ -10,7 +10,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,12 +23,6 @@ public final class ModifiableSortedBigDecimalCollectionTest
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
 
     @Override
-    protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
-        return new ModifiableSortedBigDecimalCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                BigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
-    }
-
-    @Override
     protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return ModifiableSortedBigDecimalCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -38,6 +31,17 @@ public final class ModifiableSortedBigDecimalCollectionTest
     protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return ModifiableSortedBigDecimalCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal> source) {
+        return ModifiableSortedBigDecimalCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+        return ModifiableSortedBigDecimalCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

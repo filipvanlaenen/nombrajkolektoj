@@ -22,8 +22,8 @@ public final class ModifiableOrderedDoubleCollectionTest
 
     @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return  ModifiableOrderedDoubleCollection.of(
-                OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
+        return ModifiableOrderedDoubleCollection
+                .of(OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }
 
     @Override
@@ -35,6 +35,13 @@ public final class ModifiableOrderedDoubleCollectionTest
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return ModifiableOrderedDoubleCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return ModifiableOrderedDoubleCollection.of(elementCardinality,
+                OrderedDoubleCollection.of(source.toArray(EmptyArrays.DOUBLES)));
     }
 
     @Override

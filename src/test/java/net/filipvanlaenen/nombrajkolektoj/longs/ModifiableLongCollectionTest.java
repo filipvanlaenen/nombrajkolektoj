@@ -14,8 +14,8 @@ public final class ModifiableLongCollectionTest
     }
 
     @Override
-    protected ModifiableLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return ModifiableLongCollection.of(source);
+    protected ModifiableLongCollection createLongCollection(final Long... numbers) {
+        return ModifiableLongCollection.of(numbers);
     }
 
     @Override
@@ -25,7 +25,13 @@ public final class ModifiableLongCollectionTest
     }
 
     @Override
-    protected ModifiableLongCollection createLongCollection(final Long... numbers) {
-        return ModifiableLongCollection.of(numbers);
+    protected ModifiableLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return ModifiableLongCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ModifiableLongCollection createLongCollection(final NumericCollection<Long> source) {
+        return ModifiableLongCollection.of(source);
     }
 }

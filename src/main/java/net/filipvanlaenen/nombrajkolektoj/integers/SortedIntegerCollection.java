@@ -50,7 +50,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The integers of the sorted collection.
+         * @param source             The integers collection to create a new sorted integers collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Integer> comparator,
                 final Collection<Integer> source) {
@@ -115,7 +115,7 @@ public abstract class SortedIntegerCollection extends AbstractSortedIntegerColle
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The integers of the sorted collection.
+         * @param source             The sorted integers collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Integer> comparator, final Collection<Integer> source) {

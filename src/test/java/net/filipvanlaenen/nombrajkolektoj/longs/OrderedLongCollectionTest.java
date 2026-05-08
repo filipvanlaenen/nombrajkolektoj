@@ -39,8 +39,8 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
+    protected OrderedLongCollection createLongCollection(final Long... numbers) {
+        return OrderedLongCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createLongCollection(final Long... numbers) {
-        return OrderedLongCollection.of(numbers);
+    protected OrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return OrderedLongCollection.of(elementCardinality,
+                OrderedLongCollection.of(source.toArray(EmptyArrays.LONGS)));
+    }
+
+    @Override
+    protected OrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
+        return OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
     }
 
     @Override

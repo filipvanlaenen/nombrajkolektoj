@@ -39,8 +39,8 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
+    protected OrderedByteCollection createByteCollection(final Byte... numbers) {
+        return OrderedByteCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createByteCollection(final Byte... numbers) {
-        return OrderedByteCollection.of(numbers);
+    protected OrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return OrderedByteCollection.of(elementCardinality,
+                OrderedByteCollection.of(source.toArray(EmptyArrays.BYTES)));
+    }
+
+    @Override
+    protected OrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
     }
 
     @Override

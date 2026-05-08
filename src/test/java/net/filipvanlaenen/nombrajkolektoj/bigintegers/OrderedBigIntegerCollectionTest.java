@@ -41,8 +41,8 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
+    protected OrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return OrderedBigIntegerCollection.of(numbers);
     }
 
     @Override
@@ -52,8 +52,15 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return OrderedBigIntegerCollection.of(numbers);
+    protected OrderedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> source) {
+        return OrderedBigIntegerCollection.of(elementCardinality,
+                OrderedBigIntegerCollection.of(source.toArray(EmptyArrays.BIG_INTEGERS)));
+    }
+
+    @Override
+    protected OrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+        return OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
     }
 
     @Override

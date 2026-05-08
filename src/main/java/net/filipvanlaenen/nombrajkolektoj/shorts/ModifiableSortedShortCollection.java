@@ -32,8 +32,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Short> comparator,
-                final Collection<Short> source) {
+        public SortedTreeCollection(final Comparator<? super Short> comparator, final Collection<Short> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -58,8 +57,8 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Short> comparator,
-                Collection<Short> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Short> comparator, final Collection<Short> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.SHORTS));
         }
 

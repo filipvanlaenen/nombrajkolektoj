@@ -32,8 +32,7 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Float> comparator,
-                final Collection<Float> source) {
+        public SortedTreeCollection(final Comparator<? super Float> comparator, final Collection<Float> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -58,8 +57,8 @@ public abstract class ModifiableSortedFloatCollection extends AbstractModifiable
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Float> comparator,
-                Collection<Float> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Float> comparator, final Collection<Float> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.FLOATS));
         }
 

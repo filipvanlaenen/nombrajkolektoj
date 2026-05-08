@@ -14,8 +14,8 @@ public final class ModifiableDoubleCollectionTest
     }
 
     @Override
-    protected ModifiableDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return ModifiableDoubleCollection.of(source);
+    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableDoubleCollection.of(numbers);
     }
 
     @Override
@@ -25,7 +25,13 @@ public final class ModifiableDoubleCollectionTest
     }
 
     @Override
-    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
-        return ModifiableDoubleCollection.of(numbers);
+    protected ModifiableDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return ModifiableDoubleCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ModifiableDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return ModifiableDoubleCollection.of(source);
     }
 }

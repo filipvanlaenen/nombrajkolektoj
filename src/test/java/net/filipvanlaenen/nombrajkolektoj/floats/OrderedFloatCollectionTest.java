@@ -39,8 +39,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+    protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
+        return OrderedFloatCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
-        return OrderedFloatCollection.of(numbers);
+    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return OrderedFloatCollection.of(elementCardinality,
+                OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
+    }
+
+    @Override
+    protected OrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
     }
 
     @Override

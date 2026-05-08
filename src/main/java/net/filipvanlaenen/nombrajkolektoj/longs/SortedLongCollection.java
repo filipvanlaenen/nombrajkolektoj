@@ -50,7 +50,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The longs of the sorted collection.
+         * @param source             The longs collection to create a new sorted longs collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Long> comparator,
                 final Collection<Long> source) {
@@ -115,7 +115,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The longs of the sorted collection.
+         * @param source             The sorted longs collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Long> comparator, final Collection<Long> source) {

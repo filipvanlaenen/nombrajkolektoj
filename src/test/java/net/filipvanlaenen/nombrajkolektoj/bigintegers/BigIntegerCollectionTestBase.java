@@ -3,6 +3,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,6 +24,10 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      */
     private static final int THREE = 3;
     /**
+     * The BigInteger three.
+     */
+    private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
+    /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
     private final NumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
@@ -35,14 +40,6 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
     protected abstract T createEmptyBigIntegerCollection();
 
     /**
-     * Creates a BigIntegers collection from a collection of BigIntegers.
-     *
-     * @param source The collection of BigIntegers.
-     * @return A BigIntegers collection containing the provided BigIntegers.
-     */
-    protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
-
-    /**
      * Creates a BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
      *
      * @param elementCardinality The element cardinality.
@@ -52,12 +49,30 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
     protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality, BigInteger... numbers);
 
     /**
+     * Creates a BigIntegers collection from a collection of BigIntegers with the provided element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param source             The collection of BigIntegers.
+     * @return A BigIntegers collection containing the provided BigIntegers with the provided element cardinality.
+     */
+    protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality,
+            NumericCollection<BigInteger> source);
+
+    /**
      * Creates a BigIntegers collection containing the provided BigIntegers.
      *
      * @param numbers The BigIntegers to be included in the BigIntegers collection.
      * @return An BigIntegers collection containing the provided BigIntegers.
      */
     protected abstract T createBigIntegerCollection(BigInteger... numbers);
+
+    /**
+     * Creates a BigIntegers collection from a collection of BigIntegers.
+     *
+     * @param source The collection of BigIntegers.
+     * @return A BigIntegers collection containing the provided BigIntegers.
+     */
+    protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
 
     /**
      * Verifies that an empty BigIntegers collection is empty.
@@ -85,6 +100,18 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
         assertTrue(actual.contains(BigInteger.ONE));
+    }
+
+    /**
+     * Verifies that a BigIntegers collection created from another collection has the provided element cardinality.
+     */
+    @Test
+    public void ofWithCollectionAndElementCardinalityShouldReturnABigIntegerCollectionWithTheProvidedElementCardinality() {
+        BigIntegerCollection source = BigIntegerCollection.of(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE);
+        T actual = createBigIntegerCollection(DISTINCT_ELEMENTS, source);
+        BigIntegerCollection expected = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertTrue(actual.containsSame(expected));
     }
 
     /**

@@ -34,8 +34,7 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator,
-                final Collection<BigDecimal> source) {
+        public SortedTreeCollection(final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -60,8 +59,8 @@ public abstract class ModifiableSortedBigDecimalCollection extends AbstractModif
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super BigDecimal> comparator,
-                Collection<BigDecimal> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
         }
 

@@ -34,8 +34,7 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super BigInteger> comparator,
-                final Collection<BigInteger> source) {
+        public SortedTreeCollection(final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -60,8 +59,8 @@ public abstract class ModifiableSortedBigIntegerCollection extends AbstractModif
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super BigInteger> comparator,
-                Collection<BigInteger> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super BigInteger> comparator, final Collection<BigInteger> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
         }
 

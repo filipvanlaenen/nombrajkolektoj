@@ -16,8 +16,8 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
-    protected SortedLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return SortedLongCollection.of(Comparator.naturalOrder(), source);
+    protected SortedLongCollection createLongCollection(final Long... numbers) {
+        return SortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
-    protected SortedLongCollection createLongCollection(final Long... numbers) {
-        return SortedLongCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedLongCollection createLongCollection(final NumericCollection<Long> source) {
+        return SortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

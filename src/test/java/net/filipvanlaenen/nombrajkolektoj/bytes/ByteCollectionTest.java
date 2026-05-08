@@ -13,8 +13,8 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     }
 
     @Override
-    protected ByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return ByteCollection.of(source);
+    protected ByteCollection createByteCollection(final Byte... numbers) {
+        return ByteCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     }
 
     @Override
-    protected ByteCollection createByteCollection(final Byte... numbers) {
-        return ByteCollection.of(numbers);
+    protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return ByteCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return ByteCollection.of(source);
     }
 }

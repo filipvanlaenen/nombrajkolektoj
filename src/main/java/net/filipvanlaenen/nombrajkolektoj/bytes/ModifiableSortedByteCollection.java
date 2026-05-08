@@ -32,8 +32,7 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Byte> comparator,
-                final Collection<Byte> source) {
+        public SortedTreeCollection(final Comparator<? super Byte> comparator, final Collection<Byte> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -58,8 +57,8 @@ public abstract class ModifiableSortedByteCollection extends AbstractModifiableS
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Byte> comparator,
-                Collection<Byte> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Byte> comparator, final Collection<Byte> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.BYTES));
         }
 

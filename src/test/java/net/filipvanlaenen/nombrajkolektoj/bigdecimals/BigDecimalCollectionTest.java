@@ -15,8 +15,8 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     }
 
     @Override
-    protected BigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
-        return BigDecimalCollection.of(source);
+    protected BigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
+        return BigDecimalCollection.of(numbers);
     }
 
     @Override
@@ -26,7 +26,13 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     }
 
     @Override
-    protected BigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
-        return BigDecimalCollection.of(numbers);
+    protected BigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigDecimal> source) {
+        return BigDecimalCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected BigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+        return BigDecimalCollection.of(source);
     }
 }

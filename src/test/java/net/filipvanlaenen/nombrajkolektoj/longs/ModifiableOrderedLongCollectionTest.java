@@ -22,8 +22,8 @@ public final class ModifiableOrderedLongCollectionTest
 
     @Override
     protected ModifiableOrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
-        return  ModifiableOrderedLongCollection.of(
-                OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
+        return ModifiableOrderedLongCollection
+                .of(OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }
 
     @Override
@@ -35,6 +35,13 @@ public final class ModifiableOrderedLongCollectionTest
     protected ModifiableOrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return ModifiableOrderedLongCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return ModifiableOrderedLongCollection.of(elementCardinality,
+                OrderedLongCollection.of(source.toArray(EmptyArrays.LONGS)));
     }
 
     @Override

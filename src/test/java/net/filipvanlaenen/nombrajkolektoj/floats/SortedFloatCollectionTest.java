@@ -16,8 +16,8 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     }
 
     @Override
-    protected SortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), source);
+    protected SortedFloatCollection createFloatCollection(final Float... numbers) {
+        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     }
 
     @Override
-    protected SortedFloatCollection createFloatCollection(final Float... numbers) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return SortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

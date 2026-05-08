@@ -18,8 +18,8 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     }
 
     @Override
-    protected SortedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
+    protected SortedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -29,8 +29,14 @@ public final class SortedBigIntegerCollectionTest extends SortedBigIntegerCollec
     }
 
     @Override
-    protected SortedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> source) {
+        return SortedBigIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+        return SortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

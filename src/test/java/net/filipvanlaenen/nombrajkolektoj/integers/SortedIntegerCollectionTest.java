@@ -16,8 +16,8 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
     }
 
     @Override
-    protected SortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
-        return SortedIntegerCollection.of(Comparator.naturalOrder(), source);
+    protected SortedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return SortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
     }
 
     @Override
-    protected SortedIntegerCollection createIntegerCollection(final Integer... numbers) {
-        return SortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return SortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return SortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedByteCollectionTest
     private static final Byte BYTE_THREE = (byte) 3;
 
     @Override
-    protected ModifiableSortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
-        return new ModifiableSortedByteCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                ByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
-    }
-
-    @Override
     protected ModifiableSortedByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedByteCollectionTest
     protected ModifiableSortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return ModifiableSortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return ModifiableSortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

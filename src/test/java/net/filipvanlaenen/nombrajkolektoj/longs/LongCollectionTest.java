@@ -13,8 +13,8 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     }
 
     @Override
-    protected LongCollection createLongCollection(final NumericCollection<Long> source) {
-        return LongCollection.of(source);
+    protected LongCollection createLongCollection(final Long... numbers) {
+        return LongCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     }
 
     @Override
-    protected LongCollection createLongCollection(final Long... numbers) {
-        return LongCollection.of(numbers);
+    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return LongCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected LongCollection createLongCollection(final NumericCollection<Long> source) {
+        return LongCollection.of(source);
     }
 }

@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedFloatCollectionTest
     private static final Float FLOAT_THREE = 3F;
 
     @Override
-    protected ModifiableSortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return new ModifiableSortedFloatCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                FloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
-    }
-
-    @Override
     protected ModifiableSortedFloatCollection createFloatCollection(final Float... numbers) {
         return ModifiableSortedFloatCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedFloatCollectionTest
     protected ModifiableSortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return ModifiableSortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return ModifiableSortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return ModifiableSortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

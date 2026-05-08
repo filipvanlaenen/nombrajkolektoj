@@ -50,7 +50,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The floats of the sorted collection.
+         * @param source             The floats collection to create a new sorted floats collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Float> comparator,
                 final Collection<Float> source) {
@@ -115,7 +115,7 @@ public abstract class SortedFloatCollection extends AbstractSortedFloatCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The floats of the sorted collection.
+         * @param source             The sorted floats collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Float> comparator, final Collection<Float> source) {

@@ -16,8 +16,8 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return SortedShortCollection.of(Comparator.naturalOrder(), source);
+    protected SortedShortCollection createShortCollection(final Short... numbers) {
+        return SortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createShortCollection(final Short... numbers) {
-        return SortedShortCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

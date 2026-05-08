@@ -39,8 +39,8 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     @Override
-    protected OrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+    protected OrderedShortCollection createShortCollection(final Short... numbers) {
+        return OrderedShortCollection.of(numbers);
     }
 
     @Override
@@ -50,8 +50,15 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     @Override
-    protected OrderedShortCollection createShortCollection(final Short... numbers) {
-        return OrderedShortCollection.of(numbers);
+    protected OrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return OrderedShortCollection.of(elementCardinality,
+                OrderedShortCollection.of(source.toArray(EmptyArrays.SHORTS)));
+    }
+
+    @Override
+    protected OrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
     }
 
     @Override

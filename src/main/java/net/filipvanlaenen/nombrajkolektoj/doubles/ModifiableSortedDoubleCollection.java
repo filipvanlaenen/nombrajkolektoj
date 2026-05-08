@@ -32,8 +32,7 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator The comparator by which to sort the elements.
          * @param source     The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final Comparator<? super Double> comparator,
-                final Collection<Double> source) {
+        public SortedTreeCollection(final Comparator<? super Double> comparator, final Collection<Double> source) {
             this(source.getElementCardinality(), comparator, source);
         }
 
@@ -58,8 +57,8 @@ public abstract class ModifiableSortedDoubleCollection extends AbstractModifiabl
          * @param comparator         The comparator by which to sort the elements.
          * @param source             The sorted collection to create a new collection from.
          */
-        public SortedTreeCollection(final ElementCardinality elementCardinality, Comparator<? super Double> comparator,
-                Collection<Double> source) {
+        public SortedTreeCollection(final ElementCardinality elementCardinality,
+                final Comparator<? super Double> comparator, final Collection<Double> source) {
             this(elementCardinality, comparator, source.toArray(EmptyArrays.DOUBLES));
         }
 

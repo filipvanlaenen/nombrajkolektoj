@@ -50,7 +50,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The shorts of the sorted collection.
+         * @param source             The shorts collection to create a new sorted shorts collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Short> comparator,
                 final Collection<Short> source) {
@@ -115,7 +115,7 @@ public abstract class SortedShortCollection extends AbstractSortedShortCollectio
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The shorts of the sorted collection.
+         * @param source             The sorted shorts collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Short> comparator, final Collection<Short> source) {

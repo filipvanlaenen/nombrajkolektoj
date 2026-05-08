@@ -52,7 +52,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The BigDecimals of the sorted collection.
+         * @param source             The BigDecimals collection to create a new sorted BigDecimals collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super BigDecimal> comparator,
                 final Collection<BigDecimal> source) {
@@ -117,7 +117,7 @@ public abstract class SortedBigDecimalCollection extends AbstractSortedBigDecima
          *
          * @param elementCardinality The element cardinality.
          * @param comparator         The comparator by which to sort the elements.
-         * @param numbers            The BigDecimals of the sorted collection.
+         * @param source             The sorted BigDecimals collection to create a new collection from.
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super BigDecimal> comparator, final Collection<BigDecimal> source) {

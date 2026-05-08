@@ -13,8 +13,8 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     }
 
     @Override
-    protected ShortCollection createShortCollection(final NumericCollection<Short> source) {
-        return ShortCollection.of(source);
+    protected ShortCollection createShortCollection(final Short... numbers) {
+        return ShortCollection.of(numbers);
     }
 
     @Override
@@ -24,7 +24,13 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     }
 
     @Override
-    protected ShortCollection createShortCollection(final Short... numbers) {
-        return ShortCollection.of(numbers);
+    protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return ShortCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return ShortCollection.of(source);
     }
 }

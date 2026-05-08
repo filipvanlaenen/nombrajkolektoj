@@ -16,8 +16,8 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     }
 
     @Override
-    protected SortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
+    protected SortedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
     }
 
     @Override
@@ -27,8 +27,14 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     }
 
     @Override
-    protected SortedDoubleCollection createDoubleCollection(final Double... numbers) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
+    protected SortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected SortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

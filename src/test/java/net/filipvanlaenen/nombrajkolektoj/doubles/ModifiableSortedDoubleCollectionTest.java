@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -22,12 +21,6 @@ public final class ModifiableSortedDoubleCollectionTest
     private static final Double DOUBLE_THREE = 3D;
 
     @Override
-    protected ModifiableSortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
-        return new ModifiableSortedDoubleCollection.SortedTreeCollection(Comparator.naturalOrder(),
-                DoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
-    }
-
-    @Override
     protected ModifiableSortedDoubleCollection createDoubleCollection(final Double... numbers) {
         return ModifiableSortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -36,6 +29,17 @@ public final class ModifiableSortedDoubleCollectionTest
     protected ModifiableSortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return ModifiableSortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected ModifiableSortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return ModifiableSortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), source);
+    }
+
+    @Override
+    protected ModifiableSortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return ModifiableSortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override

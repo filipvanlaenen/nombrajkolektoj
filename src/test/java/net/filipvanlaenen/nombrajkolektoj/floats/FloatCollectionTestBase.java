@@ -1,6 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +22,10 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
      */
     private static final int THREE = 3;
     /**
+     * The float three.
+     */
+    private static final Float FLOAT_THREE = 3F;
+    /**
      * Collection with the floats 1, 2 and 3.
      */
     private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
@@ -33,14 +38,6 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
     protected abstract T createEmptyFloatCollection();
 
     /**
-     * Creates a floats collection from a collection of floats.
-     *
-     * @param source The collection of floats.
-     * @return A floats collection containing the provided floats.
-     */
-    protected abstract T createFloatCollection(NumericCollection<Float> source);
-
-    /**
      * Creates a floats collection with the provided element cardinality containing the provided floats.
      *
      * @param elementCardinality The element cardinality.
@@ -50,12 +47,30 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
     protected abstract T createFloatCollection(ElementCardinality elementCardinality, Float... numbers);
 
     /**
+     * Creates a floats collection from a collection of floats with the provided element cardinality.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param source             The collection of floats.
+     * @return A floats collection containing the provided floats with the provided element cardinality.
+     */
+    protected abstract T createFloatCollection(ElementCardinality elementCardinality,
+            NumericCollection<Float> source);
+
+    /**
      * Creates a floats collection containing the provided floats.
      *
      * @param numbers The floats to be included in the floats collection.
      * @return An floats collection containing the provided floats.
      */
     protected abstract T createFloatCollection(Float... numbers);
+
+    /**
+     * Creates a floats collection from a collection of floats.
+     *
+     * @param source The collection of floats.
+     * @return A floats collection containing the provided floats.
+     */
+    protected abstract T createFloatCollection(NumericCollection<Float> source);
 
     /**
      * Verifies that an empty floats collection is empty.
@@ -83,6 +98,18 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
         assertTrue(actual.contains(1F));
+    }
+
+    /**
+     * Verifies that a floats collection created from another collection has the provided element cardinality.
+     */
+    @Test
+    public void ofWithCollectionAndElementCardinalityShouldReturnAFloatCollectionWithTheProvidedElementCardinality() {
+        FloatCollection source = FloatCollection.of(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE);
+        T actual = createFloatCollection(DISTINCT_ELEMENTS, source);
+        FloatCollection expected = FloatCollection.of(1F, 2F, FLOAT_THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertTrue(actual.containsSame(expected));
     }
 
     /**

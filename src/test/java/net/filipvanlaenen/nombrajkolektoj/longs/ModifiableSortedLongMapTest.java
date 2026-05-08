@@ -53,6 +53,12 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
     }
 
     @Override
+    protected ModifiableSortedLongMap<String> createLongMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedLongMap<String> map) {
+        return ModifiableSortedLongMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedLongMap<String> createLongMap(final String key, final Long value) {
         return ModifiableSortedLongMap.of(Comparator.naturalOrder(), key, value);
     }

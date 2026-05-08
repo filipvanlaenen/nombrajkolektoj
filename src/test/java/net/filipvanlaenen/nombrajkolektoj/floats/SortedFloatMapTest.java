@@ -40,6 +40,12 @@ public final class SortedFloatMapTest extends FloatMapTestBase<SortedFloatMap<St
     }
 
     @Override
+    protected SortedFloatMap<String> createFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final SortedFloatMap<String> map) {
+        return SortedFloatMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected SortedFloatMap<String> createFloatMap(final String key, final Float value) {
         return SortedFloatMap.of(Comparator.naturalOrder(), key, value);
     }

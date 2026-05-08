@@ -98,6 +98,15 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
             Entry<String, BigDecimal>... entries);
 
     /**
+     * Creates a BigDecimals map cloned from another BigDecimals map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original BigDecimals map.
+     * @return A BigDecimals map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createBigDecimalMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a BigDecimals map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -194,6 +203,19 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     @Test
     public void ofWithBigDecimalMapShouldCloneTheMap() {
         T actual = createBigDecimalMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndBigDecimalMapShouldCloneTheMap() {
+        T actual = createBigDecimalMap(DISTINCT_KEYS, createBigDecimalMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

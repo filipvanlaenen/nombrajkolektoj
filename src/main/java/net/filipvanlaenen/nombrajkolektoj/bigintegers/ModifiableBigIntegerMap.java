@@ -304,7 +304,6 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * Returns a new modifiable map containing all the entries from the provided maps.
      *
      * @param <L>  The key type.
-     * @param <W>  The value type.
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */

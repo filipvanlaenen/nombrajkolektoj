@@ -53,6 +53,12 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
     }
 
     @Override
+    protected ModifiableSortedShortMap<String> createShortMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedShortMap<String> map) {
+        return ModifiableSortedShortMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedShortMap<String> createShortMap(final String key, final Short value) {
         return ModifiableSortedShortMap.of(Comparator.naturalOrder(), key, value);
     }

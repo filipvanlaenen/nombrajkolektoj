@@ -40,6 +40,12 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
     }
 
     @Override
+    protected UpdatableSortedDoubleMap<String> createDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableSortedDoubleMap<String> map) {
+        return UpdatableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected UpdatableSortedDoubleMap<String> createDoubleMap(final String key, final Double value) {
         return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), key, value);
     }

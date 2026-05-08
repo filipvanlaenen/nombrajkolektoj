@@ -29,6 +29,12 @@ public final class UpdatableFloatMapTest extends UpdatableFloatMapTestBase<Updat
     }
 
     @Override
+    protected UpdatableFloatMap<String> createFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableFloatMap<String> map) {
+        return UpdatableFloatMap.of(keyAndValueCardinality, map);
+    }
+
+    @Override
     protected UpdatableFloatMap<String> createFloatMap(final String key, final Float value) {
         return UpdatableFloatMap.of(key, value);
     }

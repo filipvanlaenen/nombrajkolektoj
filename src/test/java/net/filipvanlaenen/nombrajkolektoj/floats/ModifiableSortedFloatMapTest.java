@@ -53,6 +53,12 @@ public final class ModifiableSortedFloatMapTest extends UpdatableFloatMapTestBas
     }
 
     @Override
+    protected ModifiableSortedFloatMap<String> createFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedFloatMap<String> map) {
+        return ModifiableSortedFloatMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedFloatMap<String> createFloatMap(final String key, final Float value) {
         return ModifiableSortedFloatMap.of(Comparator.naturalOrder(), key, value);
     }

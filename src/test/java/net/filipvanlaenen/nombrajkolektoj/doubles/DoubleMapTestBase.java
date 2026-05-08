@@ -96,6 +96,15 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
             Entry<String, Double>... entries);
 
     /**
+     * Creates a doubles map cloned from another doubles map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original doubles map.
+     * @return A doubles map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createDoubleMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a doubles map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -192,6 +201,19 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     @Test
     public void ofWithDoubleMapShouldCloneTheMap() {
         T actual = createDoubleMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndDoubleMapShouldCloneTheMap() {
+        T actual = createDoubleMap(DISTINCT_KEYS, createDoubleMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

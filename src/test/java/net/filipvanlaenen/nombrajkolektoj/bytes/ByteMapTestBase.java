@@ -96,6 +96,15 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
             Entry<String, Byte>... entries);
 
     /**
+     * Creates a bytes map cloned from another bytes map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original bytes map.
+     * @return A bytes map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createByteMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a bytes map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -192,6 +201,19 @@ public abstract class ByteMapTestBase<T extends NumericMap<String, Byte>> {
     @Test
     public void ofWithByteMapShouldCloneTheMap() {
         T actual = createByteMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndByteMapShouldCloneTheMap() {
+        T actual = createByteMap(DISTINCT_KEYS, createByteMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

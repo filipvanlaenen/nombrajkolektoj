@@ -2,6 +2,11 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -15,8 +20,19 @@ public final class BigIntegerMapTest extends BigIntegerMapTestBase<BigIntegerMap
     }
 
     @Override
+    protected BigIntegerMap<String> createBigIntegerMap(final BigIntegerMap<String> map) {
+        return BigIntegerMap.of(map);
+    }
+
+    @Override
     protected BigIntegerMap<String> createBigIntegerMap(final Entry<String, BigInteger>... entries) {
         return BigIntegerMap.of(entries);
+    }
+
+    @Override
+    protected BigIntegerMap<String> createBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigIntegerMap<String> map) {
+        return BigIntegerMap.of(keyAndValueCardinality, map);
     }
 
     @Override
@@ -55,8 +71,27 @@ public final class BigIntegerMapTest extends BigIntegerMapTestBase<BigIntegerMap
         return BigIntegerMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    @Override
-    protected BigIntegerMap<String> createBigIntegerMap(final BigIntegerMap<String> map) {
-        return BigIntegerMap.of(map);
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        BigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
+        BigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
+        BigIntegerMap<String> actual = BigIntegerMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        BigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
+        BigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
+        BigIntegerMap<String> actual = BigIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        BigIntegerMap<String> expected =
+                createBigIntegerMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

@@ -1,5 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -13,8 +18,19 @@ public final class FloatMapTest extends FloatMapTestBase<FloatMap<String>> {
     }
 
     @Override
+    protected FloatMap<String> createFloatMap(final FloatMap<String> map) {
+        return FloatMap.of(map);
+    }
+
+    @Override
     protected FloatMap<String> createFloatMap(final Entry<String, Float>... entries) {
         return FloatMap.of(entries);
+    }
+
+    @Override
+    protected FloatMap<String> createFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final FloatMap<String> map) {
+        return FloatMap.of(keyAndValueCardinality, map);
     }
 
     @Override
@@ -53,8 +69,27 @@ public final class FloatMapTest extends FloatMapTestBase<FloatMap<String>> {
         return FloatMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    @Override
-    protected FloatMap<String> createFloatMap(final FloatMap<String> map) {
-        return FloatMap.of(map);
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        FloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        FloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        FloatMap<String> actual = FloatMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createFloatMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        FloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        FloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        FloatMap<String> actual = FloatMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        FloatMap<String> expected =
+                createFloatMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

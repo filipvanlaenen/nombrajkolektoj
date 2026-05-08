@@ -42,6 +42,12 @@ public final class SortedBigDecimalMapTest extends BigDecimalMapTestBase<SortedB
     }
 
     @Override
+    protected SortedBigDecimalMap<String> createBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final SortedBigDecimalMap<String> map) {
+        return SortedBigDecimalMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected SortedBigDecimalMap<String> createBigDecimalMap(final String key, final BigDecimal value) {
         return SortedBigDecimalMap.of(Comparator.naturalOrder(), key, value);
     }

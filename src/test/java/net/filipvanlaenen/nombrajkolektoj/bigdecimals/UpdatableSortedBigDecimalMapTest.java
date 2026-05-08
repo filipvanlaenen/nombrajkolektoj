@@ -42,6 +42,12 @@ public final class UpdatableSortedBigDecimalMapTest extends UpdatableBigDecimalM
     }
 
     @Override
+    protected UpdatableSortedBigDecimalMap<String> createBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableSortedBigDecimalMap<String> map) {
+        return UpdatableSortedBigDecimalMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected UpdatableSortedBigDecimalMap<String> createBigDecimalMap(final String key, final BigDecimal value) {
         return UpdatableSortedBigDecimalMap.of(Comparator.naturalOrder(), key, value);
     }

@@ -96,6 +96,15 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
             Entry<String, Short>... entries);
 
     /**
+     * Creates a shorts map cloned from another shorts map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original shorts map.
+     * @return A shorts map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createShortMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a shorts map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -192,6 +201,19 @@ public abstract class ShortMapTestBase<T extends NumericMap<String, Short>> {
     @Test
     public void ofWithShortMapShouldCloneTheMap() {
         T actual = createShortMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndShortMapShouldCloneTheMap() {
+        T actual = createShortMap(DISTINCT_KEYS, createShortMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

@@ -53,6 +53,12 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
     }
 
     @Override
+    protected ModifiableSortedDoubleMap<String> createDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedDoubleMap<String> map) {
+        return ModifiableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedDoubleMap<String> createDoubleMap(final String key, final Double value) {
         return ModifiableSortedDoubleMap.of(Comparator.naturalOrder(), key, value);
     }

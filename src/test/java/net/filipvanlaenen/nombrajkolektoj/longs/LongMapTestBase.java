@@ -96,6 +96,15 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
             Entry<String, Long>... entries);
 
     /**
+     * Creates a longs map cloned from another longs map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original longs map.
+     * @return A longs map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createLongMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a longs map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -192,6 +201,19 @@ public abstract class LongMapTestBase<T extends NumericMap<String, Long>> {
     @Test
     public void ofWithLongMapShouldCloneTheMap() {
         T actual = createLongMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndLongMapShouldCloneTheMap() {
+        T actual = createLongMap(DISTINCT_KEYS, createLongMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

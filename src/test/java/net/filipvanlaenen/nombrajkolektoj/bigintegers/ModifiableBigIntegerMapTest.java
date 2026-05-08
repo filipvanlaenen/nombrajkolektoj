@@ -62,6 +62,12 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
     }
 
     @Override
+    protected ModifiableBigIntegerMap<String> createBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableBigIntegerMap<String> map) {
+        return ModifiableBigIntegerMap.of(keyAndValueCardinality, map);
+    }
+
+    @Override
     protected ModifiableBigIntegerMap<String> createBigIntegerMap(final String key, final BigInteger value) {
         return ModifiableBigIntegerMap.of(key, value);
     }

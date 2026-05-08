@@ -31,6 +31,12 @@ public final class UpdatableBigIntegerMapTest extends UpdatableBigIntegerMapTest
     }
 
     @Override
+    protected UpdatableBigIntegerMap<String> createBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableBigIntegerMap<String> map) {
+        return UpdatableBigIntegerMap.of(keyAndValueCardinality, map);
+    }
+
+    @Override
     protected UpdatableBigIntegerMap<String> createBigIntegerMap(final String key, final BigInteger value) {
         return UpdatableBigIntegerMap.of(key, value);
     }

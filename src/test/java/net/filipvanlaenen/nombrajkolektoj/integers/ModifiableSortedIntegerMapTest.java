@@ -53,6 +53,12 @@ public final class ModifiableSortedIntegerMapTest extends UpdatableIntegerMapTes
     }
 
     @Override
+    protected ModifiableSortedIntegerMap<String> createIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedIntegerMap<String> map) {
+        return ModifiableSortedIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedIntegerMap<String> createIntegerMap(final String key, final Integer value) {
         return ModifiableSortedIntegerMap.of(Comparator.naturalOrder(), key, value);
     }

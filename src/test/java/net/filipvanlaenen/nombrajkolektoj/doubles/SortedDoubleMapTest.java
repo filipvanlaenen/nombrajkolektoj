@@ -40,6 +40,12 @@ public final class SortedDoubleMapTest extends DoubleMapTestBase<SortedDoubleMap
     }
 
     @Override
+    protected SortedDoubleMap<String> createDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final SortedDoubleMap<String> map) {
+        return SortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected SortedDoubleMap<String> createDoubleMap(final String key, final Double value) {
         return SortedDoubleMap.of(Comparator.naturalOrder(), key, value);
     }

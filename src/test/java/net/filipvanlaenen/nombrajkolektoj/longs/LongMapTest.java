@@ -1,5 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -13,8 +18,19 @@ public final class LongMapTest extends LongMapTestBase<LongMap<String>> {
     }
 
     @Override
+    protected LongMap<String> createLongMap(final LongMap<String> map) {
+        return LongMap.of(map);
+    }
+
+    @Override
     protected LongMap<String> createLongMap(final Entry<String, Long>... entries) {
         return LongMap.of(entries);
+    }
+
+    @Override
+    protected LongMap<String> createLongMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final LongMap<String> map) {
+        return LongMap.of(keyAndValueCardinality, map);
     }
 
     @Override
@@ -53,8 +69,27 @@ public final class LongMapTest extends LongMapTestBase<LongMap<String>> {
         return LongMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    @Override
-    protected LongMap<String> createLongMap(final LongMap<String> map) {
-        return LongMap.of(map);
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        LongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        LongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        LongMap<String> actual = LongMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createLongMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        LongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        LongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        LongMap<String> actual = LongMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        LongMap<String> expected =
+                createLongMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

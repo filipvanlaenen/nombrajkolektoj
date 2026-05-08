@@ -53,6 +53,12 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
     }
 
     @Override
+    protected ModifiableSortedByteMap<String> createByteMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedByteMap<String> map) {
+        return ModifiableSortedByteMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedByteMap<String> createByteMap(final String key, final Byte value) {
         return ModifiableSortedByteMap.of(Comparator.naturalOrder(), key, value);
     }

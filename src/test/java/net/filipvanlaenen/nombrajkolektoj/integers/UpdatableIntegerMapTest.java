@@ -29,6 +29,12 @@ public final class UpdatableIntegerMapTest extends UpdatableIntegerMapTestBase<U
     }
 
     @Override
+    protected UpdatableIntegerMap<String> createIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableIntegerMap<String> map) {
+        return UpdatableIntegerMap.of(keyAndValueCardinality, map);
+    }
+
+    @Override
     protected UpdatableIntegerMap<String> createIntegerMap(final String key, final Integer value) {
         return UpdatableIntegerMap.of(key, value);
     }

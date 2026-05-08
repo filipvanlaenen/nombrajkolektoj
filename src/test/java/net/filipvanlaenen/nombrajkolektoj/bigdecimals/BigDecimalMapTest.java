@@ -2,6 +2,11 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -15,8 +20,19 @@ public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap
     }
 
     @Override
+    protected BigDecimalMap<String> createBigDecimalMap(final BigDecimalMap<String> map) {
+        return BigDecimalMap.of(map);
+    }
+
+    @Override
     protected BigDecimalMap<String> createBigDecimalMap(final Entry<String, BigDecimal>... entries) {
         return BigDecimalMap.of(entries);
+    }
+
+    @Override
+    protected BigDecimalMap<String> createBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigDecimalMap<String> map) {
+        return BigDecimalMap.of(keyAndValueCardinality, map);
     }
 
     @Override
@@ -55,8 +71,27 @@ public final class BigDecimalMapTest extends BigDecimalMapTestBase<BigDecimalMap
         return BigDecimalMap.of(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 
-    @Override
-    protected BigDecimalMap<String> createBigDecimalMap(final BigDecimalMap<String> map) {
-        return BigDecimalMap.of(map);
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        BigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        BigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        BigDecimalMap<String> actual = BigDecimalMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        BigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        BigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        BigDecimalMap<String> actual = BigDecimalMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        BigDecimalMap<String> expected =
+                createBigDecimalMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

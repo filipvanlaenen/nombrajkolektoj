@@ -40,6 +40,12 @@ public final class UpdatableSortedByteMapTest extends UpdatableByteMapTestBase<U
     }
 
     @Override
+    protected UpdatableSortedByteMap<String> createByteMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final UpdatableSortedByteMap<String> map) {
+        return UpdatableSortedByteMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected UpdatableSortedByteMap<String> createByteMap(final String key, final Byte value) {
         return UpdatableSortedByteMap.of(Comparator.naturalOrder(), key, value);
     }

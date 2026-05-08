@@ -55,6 +55,12 @@ public final class ModifiableSortedBigIntegerMapTest extends UpdatableBigInteger
     }
 
     @Override
+    protected ModifiableSortedBigIntegerMap<String> createBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableSortedBigIntegerMap<String> map) {
+        return ModifiableSortedBigIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), map);
+    }
+
+    @Override
     protected ModifiableSortedBigIntegerMap<String> createBigIntegerMap(final String key, final BigInteger value) {
         return ModifiableSortedBigIntegerMap.of(Comparator.naturalOrder(), key, value);
     }

@@ -60,6 +60,12 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
     }
 
     @Override
+    protected ModifiableIntegerMap<String> createIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final ModifiableIntegerMap<String> map) {
+        return ModifiableIntegerMap.of(keyAndValueCardinality, map);
+    }
+
+    @Override
     protected ModifiableIntegerMap<String> createIntegerMap(final String key, final Integer value) {
         return ModifiableIntegerMap.of(key, value);
     }

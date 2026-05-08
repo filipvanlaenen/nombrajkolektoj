@@ -96,6 +96,15 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
             Entry<String, Integer>... entries);
 
     /**
+     * Creates a integers map cloned from another integers map with the provided key and value cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param map                    The original integers map.
+     * @return A integers map containing the provided entries with the provided key and value cardinality.
+     */
+    protected abstract T createIntegerMap(KeyAndValueCardinality keyAndValueCardinality, T map);
+
+    /**
      * Creates a integers map containing the provided key and value.
      *
      * @param key   The key for the entry.
@@ -192,6 +201,19 @@ public abstract class IntegerMapTestBase<T extends NumericMap<String, Integer>> 
     @Test
     public void ofWithIntegerMapShouldCloneTheMap() {
         T actual = createIntegerMap(map123);
+        assertEquals(THREE, actual.size());
+        assertTrue(actual.contains(ENTRY1));
+        assertTrue(actual.contains(ENTRY2));
+        assertTrue(actual.contains(ENTRY3));
+    }
+
+    /**
+     * Verifies that the <code>of</code> method with key and value cardinality with a prototype clones a map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndIntegerMapShouldCloneTheMap() {
+        T actual = createIntegerMap(DISTINCT_KEYS, createIntegerMap(
+                KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3));
         assertEquals(THREE, actual.size());
         assertTrue(actual.contains(ENTRY1));
         assertTrue(actual.contains(ENTRY2));

@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -70,13 +76,50 @@ public final class UpdatableByteMapTest extends UpdatableByteMapTestBase<Updatab
     }
 
     @Override
-    protected UpdatableByteMap<String> createUpdatableByteMap(final Byte defaultValue, final String... keys) {
-        return UpdatableByteMap.of(defaultValue, keys);
+    protected UpdatableByteMap<String> createUpdatableByteMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final Collection<String> keys) {
+        return UpdatableByteMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableByteMap<String> createUpdatableByteMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Byte defaultValue, final String... keys) {
         return UpdatableByteMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableByteMap<String> createUpdatableByteMap(final Byte defaultValue,
+            final Collection<String> keys) {
+        return UpdatableByteMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableByteMap<String> createUpdatableByteMap(final Byte defaultValue, final String... keys) {
+        return UpdatableByteMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
+        UpdatableByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
+        UpdatableByteMap<String> actual = UpdatableByteMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createByteMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
+        UpdatableByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
+        UpdatableByteMap<String> actual =
+                UpdatableByteMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableByteMap<String> expected =
+                createByteMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

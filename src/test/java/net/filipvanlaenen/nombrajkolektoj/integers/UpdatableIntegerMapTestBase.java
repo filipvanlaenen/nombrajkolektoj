@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
@@ -32,12 +33,13 @@ public abstract class UpdatableIntegerMapTestBase<T extends UpdatableNumericMap<
     private static final Integer INTEGER_FOUR = 4;
 
     /**
-     * Creates a integers map containing the provided entries.
+     * Creates a integers map containing the provided keys and a default value.
      *
-     * @param entries The entries to be included in the integers map.
-     * @return A integers map containing the provided entries.
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A integers map containing the provided keys with the default value.
      */
-    protected abstract T createUpdatableIntegerMap(Entry<String, Integer>... entries);
+    protected abstract T createUpdatableIntegerMap(Integer defaultValue, Collection<String> keys);
 
     /**
      * Creates a integers map containing the provided keys and a default value.
@@ -47,6 +49,26 @@ public abstract class UpdatableIntegerMapTestBase<T extends UpdatableNumericMap<
      * @return A integers map containing the provided keys with the default value.
      */
     protected abstract T createUpdatableIntegerMap(Integer defaultValue, String... keys);
+
+    /**
+     * Creates a integers map containing the provided entries.
+     *
+     * @param entries The entries to be included in the integers map.
+     * @return A integers map containing the provided entries.
+     */
+    protected abstract T createUpdatableIntegerMap(Entry<String, Integer>... entries);
+
+    /**
+     * Creates a integers map containing the provided keys and a default value with the provided key and value
+     * cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value.
+     * @param keys                   The keys.
+     * @return A integers map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableIntegerMap(KeyAndValueCardinality keyAndValueCardinality, Integer defaultValue,
+            Collection<String> keys);
 
     /**
      * Creates a integers map containing the provided keys and a default value with the provided key and value
@@ -71,12 +93,34 @@ public abstract class UpdatableIntegerMapTestBase<T extends UpdatableNumericMap<
     }
 
     /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableIntegerMap(0, Collection.of("a", "b", "c"));
+        assertEquals(0, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
+
+    /**
      * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
      * correctly to the internal map.
      */
     @Test
     public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
         T map = createUpdatableIntegerMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, 0, "a", "b", "c");
+        assertEquals(0, map.get("a"));
+        assertEquals(THREE, map.size());
+        assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());
+    }
+
+    /**
+     * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
+     * correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableIntegerMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, 0, Collection.of("a", "b", "c"));
         assertEquals(0, map.get("a"));
         assertEquals(THREE, map.size());
         assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());

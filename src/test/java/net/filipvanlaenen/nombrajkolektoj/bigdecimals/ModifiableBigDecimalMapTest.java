@@ -2,12 +2,14 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -98,19 +100,31 @@ public final class ModifiableBigDecimalMapTest extends UpdatableBigDecimalMapTes
     }
 
     @Override
+    protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue,
+            final Collection<String> keys) {
+        return ModifiableBigDecimalMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue, final String... keys) {
         return ModifiableBigDecimalMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final Entry<String, BigDecimal>... entries) {
+        return ModifiableBigDecimalMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigDecimal defaultValue, final Collection<String> keys) {
+        return ModifiableBigDecimalMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
             final BigDecimal defaultValue, final String... keys) {
         return ModifiableBigDecimalMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableBigDecimalMap<String> createUpdatableBigDecimalMap(final Entry<String, BigDecimal>... entries) {
-        return ModifiableBigDecimalMap.of(entries);
     }
 
     /**
@@ -191,5 +205,30 @@ public final class ModifiableBigDecimalMapTest extends UpdatableBigDecimalMapTes
         ModifiableBigDecimalMap<String> map123 = createUpdatableBigDecimalMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableBigDecimalMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableBigDecimalMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableBigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        ModifiableBigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        ModifiableBigDecimalMap<String> actual = ModifiableBigDecimalMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableBigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        ModifiableBigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        ModifiableBigDecimalMap<String> actual =
+                ModifiableBigDecimalMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableBigDecimalMap<String> expected =
+                createBigDecimalMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

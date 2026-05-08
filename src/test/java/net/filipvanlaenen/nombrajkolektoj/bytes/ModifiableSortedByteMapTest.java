@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -103,6 +104,12 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
 
     @Override
     protected ModifiableSortedByteMap<String> createUpdatableByteMap(final Byte defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedByteMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableSortedByteMap<String> createUpdatableByteMap(final Byte defaultValue,
             final String... keys) {
         return ModifiableSortedByteMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
@@ -110,6 +117,13 @@ public final class ModifiableSortedByteMapTest extends UpdatableByteMapTestBase<
     @Override
     protected ModifiableSortedByteMap<String> createUpdatableByteMap(final Entry<String, Byte>... entries) {
         return ModifiableSortedByteMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected ModifiableSortedByteMap<String> createUpdatableByteMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Byte defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedByteMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

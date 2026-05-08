@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -103,6 +104,12 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
 
     @Override
     protected ModifiableSortedShortMap<String> createUpdatableShortMap(final Short defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedShortMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableSortedShortMap<String> createUpdatableShortMap(final Short defaultValue,
             final String... keys) {
         return ModifiableSortedShortMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
@@ -110,6 +117,13 @@ public final class ModifiableSortedShortMapTest extends UpdatableShortMapTestBas
     @Override
     protected ModifiableSortedShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
         return ModifiableSortedShortMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected ModifiableSortedShortMap<String> createUpdatableShortMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedShortMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

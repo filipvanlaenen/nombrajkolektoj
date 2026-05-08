@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -79,14 +80,27 @@ public final class UpdatableSortedIntegerMapTest extends UpdatableIntegerMapTest
     }
 
     @Override
-    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
-        return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), entries);
+    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override
     protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue,
             final String... keys) {
         return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
+        return UpdatableSortedIntegerMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected UpdatableSortedIntegerMap<String> createUpdatableIntegerMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

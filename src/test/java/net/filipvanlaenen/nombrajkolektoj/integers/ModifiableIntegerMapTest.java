@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
     }
 
     @Override
+    protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue,
+            final Collection<String> keys) {
+        return ModifiableIntegerMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue, final String... keys) {
         return ModifiableIntegerMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
+        return ModifiableIntegerMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final Collection<String> keys) {
+        return ModifiableIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Integer defaultValue, final String... keys) {
         return ModifiableIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableIntegerMap<String> createUpdatableIntegerMap(final Entry<String, Integer>... entries) {
-        return ModifiableIntegerMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
         ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
+        ModifiableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
+        ModifiableIntegerMap<String> actual = ModifiableIntegerMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
+        ModifiableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
+        ModifiableIntegerMap<String> actual =
+                ModifiableIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableIntegerMap<String> expected =
+                createIntegerMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

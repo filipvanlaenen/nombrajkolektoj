@@ -10,6 +10,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -105,6 +106,12 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
 
     @Override
     protected ModifiableSortedBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedBigDecimalMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableSortedBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue,
             final String... keys) {
         return ModifiableSortedBigDecimalMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
@@ -112,6 +119,13 @@ public final class ModifiableSortedBigDecimalMapTest extends UpdatableBigDecimal
     @Override
     protected ModifiableSortedBigDecimalMap<String> createUpdatableBigDecimalMap(final Entry<String, BigDecimal>... entries) {
         return ModifiableSortedBigDecimalMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected ModifiableSortedBigDecimalMap<String> createUpdatableBigDecimalMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final BigDecimal defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedBigDecimalMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

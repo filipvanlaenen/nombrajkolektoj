@@ -2,6 +2,12 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -72,13 +78,50 @@ public final class UpdatableBigDecimalMapTest extends UpdatableBigDecimalMapTest
     }
 
     @Override
-    protected UpdatableBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue, final String... keys) {
-        return UpdatableBigDecimalMap.of(defaultValue, keys);
+    protected UpdatableBigDecimalMap<String> createUpdatableBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigDecimal defaultValue, final Collection<String> keys) {
+        return UpdatableBigDecimalMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableBigDecimalMap<String> createUpdatableBigDecimalMap(final KeyAndValueCardinality keyAndValueCardinality,
             final BigDecimal defaultValue, final String... keys) {
         return UpdatableBigDecimalMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue,
+            final Collection<String> keys) {
+        return UpdatableBigDecimalMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableBigDecimalMap<String> createUpdatableBigDecimalMap(final BigDecimal defaultValue, final String... keys) {
+        return UpdatableBigDecimalMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableBigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        UpdatableBigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        UpdatableBigDecimalMap<String> actual = UpdatableBigDecimalMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createBigDecimalMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableBigDecimalMap<String> map12 = createBigDecimalMap(ENTRY1, ENTRY2);
+        UpdatableBigDecimalMap<String> map23 = createBigDecimalMap(ENTRY2, ENTRY3);
+        UpdatableBigDecimalMap<String> actual =
+                UpdatableBigDecimalMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableBigDecimalMap<String> expected =
+                createBigDecimalMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
@@ -34,12 +35,13 @@ public abstract class UpdatableBigIntegerMapTestBase<T extends UpdatableNumericM
     private static final BigInteger BIG_INTEGER_FOUR = BigInteger.valueOf(4L);
 
     /**
-     * Creates a BigIntegers map containing the provided entries.
+     * Creates a BigIntegers map containing the provided keys and a default value.
      *
-     * @param entries The entries to be included in the BigIntegers map.
-     * @return A BigIntegers map containing the provided entries.
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A BigIntegers map containing the provided keys with the default value.
      */
-    protected abstract T createUpdatableBigIntegerMap(Entry<String, BigInteger>... entries);
+    protected abstract T createUpdatableBigIntegerMap(BigInteger defaultValue, Collection<String> keys);
 
     /**
      * Creates a BigIntegers map containing the provided keys and a default value.
@@ -49,6 +51,26 @@ public abstract class UpdatableBigIntegerMapTestBase<T extends UpdatableNumericM
      * @return A BigIntegers map containing the provided keys with the default value.
      */
     protected abstract T createUpdatableBigIntegerMap(BigInteger defaultValue, String... keys);
+
+    /**
+     * Creates a BigIntegers map containing the provided entries.
+     *
+     * @param entries The entries to be included in the BigIntegers map.
+     * @return A BigIntegers map containing the provided entries.
+     */
+    protected abstract T createUpdatableBigIntegerMap(Entry<String, BigInteger>... entries);
+
+    /**
+     * Creates a BigIntegers map containing the provided keys and a default value with the provided key and value
+     * cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value.
+     * @param keys                   The keys.
+     * @return A BigIntegers map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableBigIntegerMap(KeyAndValueCardinality keyAndValueCardinality, BigInteger defaultValue,
+            Collection<String> keys);
 
     /**
      * Creates a BigIntegers map containing the provided keys and a default value with the provided key and value
@@ -73,12 +95,34 @@ public abstract class UpdatableBigIntegerMapTestBase<T extends UpdatableNumericM
     }
 
     /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableBigIntegerMap(BigInteger.ZERO, Collection.of("a", "b", "c"));
+        assertEquals(BigInteger.ZERO, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
+
+    /**
      * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
      * correctly to the internal map.
      */
     @Test
     public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
         T map = createUpdatableBigIntegerMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, BigInteger.ZERO, "a", "b", "c");
+        assertEquals(BigInteger.ZERO, map.get("a"));
+        assertEquals(THREE, map.size());
+        assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());
+    }
+
+    /**
+     * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
+     * correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableBigIntegerMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, BigInteger.ZERO, Collection.of("a", "b", "c"));
         assertEquals(BigInteger.ZERO, map.get("a"));
         assertEquals(THREE, map.size());
         assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());

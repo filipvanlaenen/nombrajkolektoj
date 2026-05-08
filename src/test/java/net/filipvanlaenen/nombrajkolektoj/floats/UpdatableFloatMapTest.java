@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -70,13 +76,50 @@ public final class UpdatableFloatMapTest extends UpdatableFloatMapTestBase<Updat
     }
 
     @Override
-    protected UpdatableFloatMap<String> createUpdatableFloatMap(final Float defaultValue, final String... keys) {
-        return UpdatableFloatMap.of(defaultValue, keys);
+    protected UpdatableFloatMap<String> createUpdatableFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Float defaultValue, final Collection<String> keys) {
+        return UpdatableFloatMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableFloatMap<String> createUpdatableFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Float defaultValue, final String... keys) {
         return UpdatableFloatMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableFloatMap<String> createUpdatableFloatMap(final Float defaultValue,
+            final Collection<String> keys) {
+        return UpdatableFloatMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableFloatMap<String> createUpdatableFloatMap(final Float defaultValue, final String... keys) {
+        return UpdatableFloatMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableFloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        UpdatableFloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        UpdatableFloatMap<String> actual = UpdatableFloatMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createFloatMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableFloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        UpdatableFloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        UpdatableFloatMap<String> actual =
+                UpdatableFloatMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableFloatMap<String> expected =
+                createFloatMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

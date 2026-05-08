@@ -2,12 +2,14 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -98,19 +100,31 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
     }
 
     @Override
+    protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final BigInteger defaultValue,
+            final Collection<String> keys) {
+        return ModifiableBigIntegerMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final BigInteger defaultValue, final String... keys) {
         return ModifiableBigIntegerMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final Entry<String, BigInteger>... entries) {
+        return ModifiableBigIntegerMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final BigInteger defaultValue, final Collection<String> keys) {
+        return ModifiableBigIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
             final BigInteger defaultValue, final String... keys) {
         return ModifiableBigIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableBigIntegerMap<String> createUpdatableBigIntegerMap(final Entry<String, BigInteger>... entries) {
-        return ModifiableBigIntegerMap.of(entries);
     }
 
     /**
@@ -191,5 +205,30 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
         ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableBigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
+        ModifiableBigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
+        ModifiableBigIntegerMap<String> actual = ModifiableBigIntegerMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableBigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
+        ModifiableBigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
+        ModifiableBigIntegerMap<String> actual =
+                ModifiableBigIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableBigIntegerMap<String> expected =
+                createBigIntegerMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

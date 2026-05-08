@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -79,14 +80,27 @@ public final class UpdatableSortedDoubleMapTest extends UpdatableDoubleMapTestBa
     }
 
     @Override
-    protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
-        return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), entries);
+    protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override
     protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
             final String... keys) {
         return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
+        return UpdatableSortedDoubleMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected UpdatableSortedDoubleMap<String> createUpdatableDoubleMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

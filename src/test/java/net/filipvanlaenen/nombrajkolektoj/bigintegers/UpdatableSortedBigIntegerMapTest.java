@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -81,14 +82,27 @@ public final class UpdatableSortedBigIntegerMapTest extends UpdatableBigIntegerM
     }
 
     @Override
-    protected UpdatableSortedBigIntegerMap<String> createUpdatableBigIntegerMap(final Entry<String, BigInteger>... entries) {
-        return UpdatableSortedBigIntegerMap.of(Comparator.naturalOrder(), entries);
+    protected UpdatableSortedBigIntegerMap<String> createUpdatableBigIntegerMap(final BigInteger defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedBigIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override
     protected UpdatableSortedBigIntegerMap<String> createUpdatableBigIntegerMap(final BigInteger defaultValue,
             final String... keys) {
         return UpdatableSortedBigIntegerMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableSortedBigIntegerMap<String> createUpdatableBigIntegerMap(final Entry<String, BigInteger>... entries) {
+        return UpdatableSortedBigIntegerMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected UpdatableSortedBigIntegerMap<String> createUpdatableBigIntegerMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final BigInteger defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedBigIntegerMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

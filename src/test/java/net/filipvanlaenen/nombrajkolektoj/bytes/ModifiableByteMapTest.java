@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
     }
 
     @Override
+    protected ModifiableByteMap<String> createUpdatableByteMap(final Byte defaultValue,
+            final Collection<String> keys) {
+        return ModifiableByteMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableByteMap<String> createUpdatableByteMap(final Byte defaultValue, final String... keys) {
         return ModifiableByteMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableByteMap<String> createUpdatableByteMap(final Entry<String, Byte>... entries) {
+        return ModifiableByteMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableByteMap<String> createUpdatableByteMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Byte defaultValue, final Collection<String> keys) {
+        return ModifiableByteMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableByteMap<String> createUpdatableByteMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Byte defaultValue, final String... keys) {
         return ModifiableByteMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableByteMap<String> createUpdatableByteMap(final Entry<String, Byte>... entries) {
-        return ModifiableByteMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableByteMapTest extends UpdatableByteMapTestBase<Modifi
         ModifiableByteMap<String> map123 = createUpdatableByteMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableByteMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableByteMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
+        ModifiableByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
+        ModifiableByteMap<String> actual = ModifiableByteMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createByteMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
+        ModifiableByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
+        ModifiableByteMap<String> actual =
+                ModifiableByteMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableByteMap<String> expected =
+                createByteMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

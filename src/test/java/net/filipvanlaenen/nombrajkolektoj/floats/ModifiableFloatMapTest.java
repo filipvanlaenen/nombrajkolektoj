@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
     }
 
     @Override
+    protected ModifiableFloatMap<String> createUpdatableFloatMap(final Float defaultValue,
+            final Collection<String> keys) {
+        return ModifiableFloatMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableFloatMap<String> createUpdatableFloatMap(final Float defaultValue, final String... keys) {
         return ModifiableFloatMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableFloatMap<String> createUpdatableFloatMap(final Entry<String, Float>... entries) {
+        return ModifiableFloatMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableFloatMap<String> createUpdatableFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Float defaultValue, final Collection<String> keys) {
+        return ModifiableFloatMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableFloatMap<String> createUpdatableFloatMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Float defaultValue, final String... keys) {
         return ModifiableFloatMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableFloatMap<String> createUpdatableFloatMap(final Entry<String, Float>... entries) {
-        return ModifiableFloatMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableFloatMapTest extends UpdatableFloatMapTestBase<Modi
         ModifiableFloatMap<String> map123 = createUpdatableFloatMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableFloatMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableFloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        ModifiableFloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        ModifiableFloatMap<String> actual = ModifiableFloatMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createFloatMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableFloatMap<String> map12 = createFloatMap(ENTRY1, ENTRY2);
+        ModifiableFloatMap<String> map23 = createFloatMap(ENTRY2, ENTRY3);
+        ModifiableFloatMap<String> actual =
+                ModifiableFloatMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableFloatMap<String> expected =
+                createFloatMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

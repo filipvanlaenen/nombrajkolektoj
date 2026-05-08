@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -70,13 +76,50 @@ public final class UpdatableLongMapTest extends UpdatableLongMapTestBase<Updatab
     }
 
     @Override
-    protected UpdatableLongMap<String> createUpdatableLongMap(final Long defaultValue, final String... keys) {
-        return UpdatableLongMap.of(defaultValue, keys);
+    protected UpdatableLongMap<String> createUpdatableLongMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final Collection<String> keys) {
+        return UpdatableLongMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableLongMap<String> createUpdatableLongMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Long defaultValue, final String... keys) {
         return UpdatableLongMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableLongMap<String> createUpdatableLongMap(final Long defaultValue,
+            final Collection<String> keys) {
+        return UpdatableLongMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableLongMap<String> createUpdatableLongMap(final Long defaultValue, final String... keys) {
+        return UpdatableLongMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableLongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        UpdatableLongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        UpdatableLongMap<String> actual = UpdatableLongMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createLongMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableLongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        UpdatableLongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        UpdatableLongMap<String> actual =
+                UpdatableLongMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableLongMap<String> expected =
+                createLongMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

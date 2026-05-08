@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
     }
 
     @Override
+    protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
+            final Collection<String> keys) {
+        return ModifiableDoubleMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue, final String... keys) {
         return ModifiableDoubleMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
+        return ModifiableDoubleMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Double defaultValue, final Collection<String> keys) {
+        return ModifiableDoubleMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Double defaultValue, final String... keys) {
         return ModifiableDoubleMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
-        return ModifiableDoubleMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
         ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableDoubleMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableDoubleMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
+        ModifiableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
+        ModifiableDoubleMap<String> actual = ModifiableDoubleMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createDoubleMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
+        ModifiableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
+        ModifiableDoubleMap<String> actual =
+                ModifiableDoubleMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableDoubleMap<String> expected =
+                createDoubleMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
     }
 
     @Override
+    protected ModifiableShortMap<String> createUpdatableShortMap(final Short defaultValue,
+            final Collection<String> keys) {
+        return ModifiableShortMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableShortMap<String> createUpdatableShortMap(final Short defaultValue, final String... keys) {
         return ModifiableShortMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
+        return ModifiableShortMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableShortMap<String> createUpdatableShortMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Short defaultValue, final Collection<String> keys) {
+        return ModifiableShortMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableShortMap<String> createUpdatableShortMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Short defaultValue, final String... keys) {
         return ModifiableShortMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableShortMap<String> createUpdatableShortMap(final Entry<String, Short>... entries) {
-        return ModifiableShortMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableShortMapTest extends UpdatableShortMapTestBase<Modi
         ModifiableShortMap<String> map123 = createUpdatableShortMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableShortMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableShortMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableShortMap<String> map12 = createShortMap(ENTRY1, ENTRY2);
+        ModifiableShortMap<String> map23 = createShortMap(ENTRY2, ENTRY3);
+        ModifiableShortMap<String> actual = ModifiableShortMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createShortMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableShortMap<String> map12 = createShortMap(ENTRY1, ENTRY2);
+        ModifiableShortMap<String> map23 = createShortMap(ENTRY2, ENTRY3);
+        ModifiableShortMap<String> actual =
+                ModifiableShortMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableShortMap<String> expected =
+                createShortMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

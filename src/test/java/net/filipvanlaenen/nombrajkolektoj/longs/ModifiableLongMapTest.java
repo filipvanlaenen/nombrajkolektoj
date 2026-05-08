@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -96,19 +98,31 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
     }
 
     @Override
+    protected ModifiableLongMap<String> createUpdatableLongMap(final Long defaultValue,
+            final Collection<String> keys) {
+        return ModifiableLongMap.of(defaultValue, keys);
+    }
+
+    @Override
     protected ModifiableLongMap<String> createUpdatableLongMap(final Long defaultValue, final String... keys) {
         return ModifiableLongMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
+        return ModifiableLongMap.of(entries);
+    }
+
+    @Override
+    protected ModifiableLongMap<String> createUpdatableLongMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Long defaultValue, final Collection<String> keys) {
+        return ModifiableLongMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected ModifiableLongMap<String> createUpdatableLongMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Long defaultValue, final String... keys) {
         return ModifiableLongMap.of(keyAndValueCardinality, defaultValue, keys);
-    }
-
-    @Override
-    protected ModifiableLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
-        return ModifiableLongMap.of(entries);
     }
 
     /**
@@ -189,5 +203,30 @@ public final class ModifiableLongMapTest extends UpdatableLongMapTestBase<Modifi
         ModifiableLongMap<String> map123 = createUpdatableLongMap(ENTRY1, ENTRY2, ENTRY3);
         assertTrue(map123.retainAll(createUpdatableLongMap(ENTRY3)));
         assertFalse(map123.retainAll(createUpdatableLongMap(ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        ModifiableLongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        ModifiableLongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        ModifiableLongMap<String> actual = ModifiableLongMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createLongMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        ModifiableLongMap<String> map12 = createLongMap(ENTRY1, ENTRY2);
+        ModifiableLongMap<String> map23 = createLongMap(ENTRY2, ENTRY3);
+        ModifiableLongMap<String> actual =
+                ModifiableLongMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        ModifiableLongMap<String> expected =
+                createLongMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

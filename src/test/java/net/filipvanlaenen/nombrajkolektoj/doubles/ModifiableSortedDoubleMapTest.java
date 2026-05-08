@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -103,6 +104,12 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
 
     @Override
     protected ModifiableSortedDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedDoubleMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableSortedDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
             final String... keys) {
         return ModifiableSortedDoubleMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
@@ -110,6 +117,13 @@ public final class ModifiableSortedDoubleMapTest extends UpdatableDoubleMapTestB
     @Override
     protected ModifiableSortedDoubleMap<String> createUpdatableDoubleMap(final Entry<String, Double>... entries) {
         return ModifiableSortedDoubleMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected ModifiableSortedDoubleMap<String> createUpdatableDoubleMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedDoubleMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

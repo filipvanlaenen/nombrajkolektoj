@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -79,14 +80,27 @@ public final class UpdatableSortedFloatMapTest extends UpdatableFloatMapTestBase
     }
 
     @Override
-    protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(final Entry<String, Float>... entries) {
-        return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), entries);
+    protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(final Float defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override
     protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(final Float defaultValue,
             final String... keys) {
         return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(final Entry<String, Float>... entries) {
+        return UpdatableSortedFloatMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected UpdatableSortedFloatMap<String> createUpdatableFloatMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
+            final Collection<String> keys) {
+        return UpdatableSortedFloatMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

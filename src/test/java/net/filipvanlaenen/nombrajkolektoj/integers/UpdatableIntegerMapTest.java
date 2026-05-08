@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -70,13 +76,50 @@ public final class UpdatableIntegerMapTest extends UpdatableIntegerMapTestBase<U
     }
 
     @Override
-    protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue, final String... keys) {
-        return UpdatableIntegerMap.of(defaultValue, keys);
+    protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Integer defaultValue, final Collection<String> keys) {
+        return UpdatableIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Integer defaultValue, final String... keys) {
         return UpdatableIntegerMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue,
+            final Collection<String> keys) {
+        return UpdatableIntegerMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableIntegerMap<String> createUpdatableIntegerMap(final Integer defaultValue, final String... keys) {
+        return UpdatableIntegerMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
+        UpdatableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
+        UpdatableIntegerMap<String> actual = UpdatableIntegerMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
+        UpdatableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
+        UpdatableIntegerMap<String> actual =
+                UpdatableIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableIntegerMap<String> expected =
+                createIntegerMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

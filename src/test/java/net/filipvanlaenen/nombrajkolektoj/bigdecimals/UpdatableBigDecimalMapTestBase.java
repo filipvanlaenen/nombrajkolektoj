@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
@@ -34,12 +35,13 @@ public abstract class UpdatableBigDecimalMapTestBase<T extends UpdatableNumericM
     private static final BigDecimal BIG_DECIMAL_FOUR = BigDecimal.valueOf(4L);
 
     /**
-     * Creates a BigDecimals map containing the provided entries.
+     * Creates a BigDecimals map containing the provided keys and a default value.
      *
-     * @param entries The entries to be included in the BigDecimals map.
-     * @return A BigDecimals map containing the provided entries.
+     * @param defaultValue The default value.
+     * @param keys         The keys.
+     * @return A BigDecimals map containing the provided keys with the default value.
      */
-    protected abstract T createUpdatableBigDecimalMap(Entry<String, BigDecimal>... entries);
+    protected abstract T createUpdatableBigDecimalMap(BigDecimal defaultValue, Collection<String> keys);
 
     /**
      * Creates a BigDecimals map containing the provided keys and a default value.
@@ -49,6 +51,26 @@ public abstract class UpdatableBigDecimalMapTestBase<T extends UpdatableNumericM
      * @return A BigDecimals map containing the provided keys with the default value.
      */
     protected abstract T createUpdatableBigDecimalMap(BigDecimal defaultValue, String... keys);
+
+    /**
+     * Creates a BigDecimals map containing the provided entries.
+     *
+     * @param entries The entries to be included in the BigDecimals map.
+     * @return A BigDecimals map containing the provided entries.
+     */
+    protected abstract T createUpdatableBigDecimalMap(Entry<String, BigDecimal>... entries);
+
+    /**
+     * Creates a BigDecimals map containing the provided keys and a default value with the provided key and value
+     * cardinality.
+     *
+     * @param keyAndValueCardinality The key and value cardinality.
+     * @param defaultValue           The default value.
+     * @param keys                   The keys.
+     * @return A BigDecimals map containing the provided keys with the default value.
+     */
+    protected abstract T createUpdatableBigDecimalMap(KeyAndValueCardinality keyAndValueCardinality, BigDecimal defaultValue,
+            Collection<String> keys);
 
     /**
      * Creates a BigDecimals map containing the provided keys and a default value with the provided key and value
@@ -73,12 +95,34 @@ public abstract class UpdatableBigDecimalMapTestBase<T extends UpdatableNumericM
     }
 
     /**
+     * Verifies that the <code>of</code> methods with keys and a default value is wired correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableBigDecimalMap(BigDecimal.ZERO, Collection.of("a", "b", "c"));
+        assertEquals(BigDecimal.ZERO, map.get("a"));
+        assertEquals(THREE, map.size());
+    }
+
+    /**
      * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
      * correctly to the internal map.
      */
     @Test
     public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueShouldBeWiredCorrectlyToTheInternalMap() {
         T map = createUpdatableBigDecimalMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, BigDecimal.ZERO, "a", "b", "c");
+        assertEquals(BigDecimal.ZERO, map.get("a"));
+        assertEquals(THREE, map.size());
+        assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());
+    }
+
+    /**
+     * Verifies that the <code>of</code> methods with key and value cardinality, keys and a default value is wired
+     * correctly to the internal map.
+     */
+    @Test
+    public void ofWithKeyAndValueCardinalityAndKeysAndDefaultValueCollectionShouldBeWiredCorrectlyToTheInternalMap() {
+        T map = createUpdatableBigDecimalMap(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, BigDecimal.ZERO, Collection.of("a", "b", "c"));
         assertEquals(BigDecimal.ZERO, map.get("a"));
         assertEquals(THREE, map.size());
         assertEquals(DUPLICATE_KEYS_WITH_DISTINCT_VALUES, map.getKeyAndValueCardinality());

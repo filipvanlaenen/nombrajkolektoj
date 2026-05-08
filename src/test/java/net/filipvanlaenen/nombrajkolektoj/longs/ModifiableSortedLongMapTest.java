@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -103,6 +104,12 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
 
     @Override
     protected ModifiableSortedLongMap<String> createUpdatableLongMap(final Long defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedLongMap.of(Comparator.naturalOrder(), defaultValue, keys);
+    }
+
+    @Override
+    protected ModifiableSortedLongMap<String> createUpdatableLongMap(final Long defaultValue,
             final String... keys) {
         return ModifiableSortedLongMap.of(Comparator.naturalOrder(), defaultValue, keys);
     }
@@ -110,6 +117,13 @@ public final class ModifiableSortedLongMapTest extends UpdatableLongMapTestBase<
     @Override
     protected ModifiableSortedLongMap<String> createUpdatableLongMap(final Entry<String, Long>... entries) {
         return ModifiableSortedLongMap.of(Comparator.naturalOrder(), entries);
+    }
+
+    @Override
+    protected ModifiableSortedLongMap<String> createUpdatableLongMap(
+            final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
+            final Collection<String> keys) {
+        return ModifiableSortedLongMap.of(keyAndValueCardinality, Comparator.naturalOrder(), defaultValue, keys);
     }
 
     @Override

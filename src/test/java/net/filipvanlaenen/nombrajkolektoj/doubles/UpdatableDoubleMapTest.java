@@ -1,5 +1,11 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality.DUPLICATE_KEYS_WITH_DUPLICATE_VALUES;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
 
@@ -70,13 +76,50 @@ public final class UpdatableDoubleMapTest extends UpdatableDoubleMapTestBase<Upd
     }
 
     @Override
-    protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue, final String... keys) {
-        return UpdatableDoubleMap.of(defaultValue, keys);
+    protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
+            final Double defaultValue, final Collection<String> keys) {
+        return UpdatableDoubleMap.of(keyAndValueCardinality, defaultValue, keys);
     }
 
     @Override
     protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final KeyAndValueCardinality keyAndValueCardinality,
             final Double defaultValue, final String... keys) {
         return UpdatableDoubleMap.of(keyAndValueCardinality, defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue,
+            final Collection<String> keys) {
+        return UpdatableDoubleMap.of(defaultValue, keys);
+    }
+
+    @Override
+    protected UpdatableDoubleMap<String> createUpdatableDoubleMap(final Double defaultValue, final String... keys) {
+        return UpdatableDoubleMap.of(defaultValue, keys);
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two maps.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoMaps() {
+        UpdatableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
+        UpdatableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
+        UpdatableDoubleMap<String> actual = UpdatableDoubleMap.unionOf(map12, map23);
+        assertTrue(actual.containsSame(createDoubleMap(ENTRY1, ENTRY2, ENTRY3)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two maps.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        UpdatableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
+        UpdatableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
+        UpdatableDoubleMap<String> actual =
+                UpdatableDoubleMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
+        UpdatableDoubleMap<String> expected =
+                createDoubleMap(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, ENTRY1, ENTRY2, ENTRY2, ENTRY3);
+        assertTrue(actual.containsSame(expected));
     }
 }

@@ -273,11 +273,12 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered doubles collection containing all the elements from the provided ordered doubles
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered doubles collections from which to copy all the elements.
+     * @return A new ordered doubles collection containing all the elements from the provided ordered doubles
+     *         collections.
      */
     public static OrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

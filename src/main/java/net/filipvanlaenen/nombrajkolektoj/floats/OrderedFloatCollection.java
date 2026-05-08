@@ -273,11 +273,12 @@ public abstract class OrderedFloatCollection extends AbstractOrderedFloatCollect
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered floats collection containing all the elements from the provided ordered floats
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered floats collections from which to copy all the elements.
+     * @return A new ordered floats collection containing all the elements from the provided ordered floats
+     *         collections.
      */
     public static OrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

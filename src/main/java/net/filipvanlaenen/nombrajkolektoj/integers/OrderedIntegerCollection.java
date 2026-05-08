@@ -273,11 +273,12 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered integers collection containing all the elements from the provided ordered integers
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered integers collections from which to copy all the elements.
+     * @return A new ordered integers collection containing all the elements from the provided ordered integers
+     *         collections.
      */
     public static OrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

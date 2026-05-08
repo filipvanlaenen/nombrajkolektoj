@@ -275,11 +275,12 @@ public abstract class OrderedBigIntegerCollection extends AbstractOrderedBigInte
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered BigIntegers collections from which to copy all the elements.
+     * @return A new ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers
+     *         collections.
      */
     public static OrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

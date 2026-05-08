@@ -1,9 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -229,5 +227,29 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
         OrderedIntegerCollection actual =
                 OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> !Objects.equals(n, 2));
         assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedIntegerCollection collection12 = createIntegerCollection(1, 2);
+        OrderedIntegerCollection collection23 = createIntegerCollection(2, INTEGER_THREE);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createIntegerCollection(1, 2, 2, INTEGER_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedIntegerCollection collection12 = createIntegerCollection(1, 2);
+        OrderedIntegerCollection collection23 = createIntegerCollection(2, INTEGER_THREE);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedIntegerCollection expected = createIntegerCollection(DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

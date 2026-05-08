@@ -273,11 +273,12 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered shorts collection containing all the elements from the provided ordered shorts
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered shorts collections from which to copy all the elements.
+     * @return A new ordered shorts collection containing all the elements from the provided ordered shorts
+     *         collections.
      */
     public static OrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

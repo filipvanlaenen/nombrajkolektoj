@@ -1,9 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -229,5 +227,29 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
         OrderedLongCollection actual =
                 OrderedLongCollection.createSequence(i -> LONGS[i], n -> !Objects.equals(n, 2L));
         assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedLongCollection collection12 = createLongCollection(1L, 2L);
+        OrderedLongCollection collection23 = createLongCollection(2L, LONG_THREE);
+        OrderedLongCollection actual = OrderedLongCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createLongCollection(1L, 2L, 2L, LONG_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedLongCollection collection12 = createLongCollection(1L, 2L);
+        OrderedLongCollection collection23 = createLongCollection(2L, LONG_THREE);
+        OrderedLongCollection actual = OrderedLongCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedLongCollection expected = createLongCollection(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

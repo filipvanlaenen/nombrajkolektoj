@@ -1,9 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -229,5 +227,29 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
         OrderedDoubleCollection actual =
                 OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> !Objects.equals(n, 2D));
         assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedDoubleCollection collection12 = createDoubleCollection(1D, 2D);
+        OrderedDoubleCollection collection23 = createDoubleCollection(2D, DOUBLE_THREE);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createDoubleCollection(1D, 2D, 2D, DOUBLE_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedDoubleCollection collection12 = createDoubleCollection(1D, 2D);
+        OrderedDoubleCollection collection23 = createDoubleCollection(2D, DOUBLE_THREE);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedDoubleCollection expected = createDoubleCollection(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

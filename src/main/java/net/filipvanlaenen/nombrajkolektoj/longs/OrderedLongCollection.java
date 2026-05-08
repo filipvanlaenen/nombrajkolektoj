@@ -273,11 +273,12 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered longs collection containing all the elements from the provided ordered longs
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered longs collections from which to copy all the elements.
+     * @return A new ordered longs collection containing all the elements from the provided ordered longs
+     *         collections.
      */
     public static OrderedLongCollection unionOf(final OrderedNumericCollection<Long>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

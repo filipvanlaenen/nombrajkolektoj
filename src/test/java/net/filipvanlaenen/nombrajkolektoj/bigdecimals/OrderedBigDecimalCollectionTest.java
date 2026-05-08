@@ -2,10 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -231,5 +229,29 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
         OrderedBigDecimalCollection actual =
                 OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> !Objects.equals(n, BigDecimal.valueOf(2L)));
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedBigDecimalCollection collection12 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
+        OrderedBigDecimalCollection collection23 = createBigDecimalCollection(BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedBigDecimalCollection collection12 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
+        OrderedBigDecimalCollection collection23 = createBigDecimalCollection(BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedBigDecimalCollection expected = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

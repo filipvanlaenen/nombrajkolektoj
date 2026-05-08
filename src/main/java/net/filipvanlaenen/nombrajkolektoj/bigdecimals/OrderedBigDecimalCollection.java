@@ -275,11 +275,12 @@ public abstract class OrderedBigDecimalCollection extends AbstractOrderedBigDeci
     }
 
     /**
-     * Returns a new ordered collection containing all the elements from the provided ordered collections.
+     * Returns a new ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals
+     * collections.
      *
-     * @param <F>         The element type.
-     * @param collections The ordered collections from which to copy all the elements.
-     * @return A new ordered collection containing all the elements from the provided ordered collections.
+     * @param collections The ordered BigDecimals collections from which to copy all the elements.
+     * @return A new ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals
+     *         collections.
      */
     public static OrderedBigDecimalCollection unionOf(final OrderedNumericCollection<BigDecimal>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);

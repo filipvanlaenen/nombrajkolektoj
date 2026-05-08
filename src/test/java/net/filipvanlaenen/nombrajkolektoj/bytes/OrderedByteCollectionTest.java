@@ -1,9 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -229,5 +227,29 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
         OrderedByteCollection actual =
                 OrderedByteCollection.createSequence(i -> BYTES[i], n -> !Objects.equals(n, (byte) 2));
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedByteCollection collection12 = createByteCollection((byte) 1, (byte) 2);
+        OrderedByteCollection collection23 = createByteCollection((byte) 2, BYTE_THREE);
+        OrderedByteCollection actual = OrderedByteCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createByteCollection((byte) 1, (byte) 2, (byte) 2, BYTE_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedByteCollection collection12 = createByteCollection((byte) 1, (byte) 2);
+        OrderedByteCollection collection23 = createByteCollection((byte) 2, BYTE_THREE);
+        OrderedByteCollection actual = OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedByteCollection expected = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

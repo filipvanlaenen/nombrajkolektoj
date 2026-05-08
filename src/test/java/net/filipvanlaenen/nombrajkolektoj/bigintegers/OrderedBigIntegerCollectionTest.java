@@ -2,10 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -231,5 +229,29 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
         OrderedBigIntegerCollection actual =
                 OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> !Objects.equals(n, BigInteger.TWO));
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedBigIntegerCollection collection12 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
+        OrderedBigIntegerCollection collection23 = createBigIntegerCollection(BigInteger.TWO, BIG_INTEGER_THREE);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedBigIntegerCollection collection12 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
+        OrderedBigIntegerCollection collection23 = createBigIntegerCollection(BigInteger.TWO, BIG_INTEGER_THREE);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedBigIntegerCollection expected = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

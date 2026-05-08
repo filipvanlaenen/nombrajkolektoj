@@ -1,9 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -229,5 +227,29 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
         OrderedShortCollection actual =
                 OrderedShortCollection.createSequence(i -> SHORTS[i], n -> !Objects.equals(n, (short) 2));
         assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     */
+    @Test
+    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
+        OrderedShortCollection collection12 = createShortCollection((short) 1, (short) 2);
+        OrderedShortCollection collection23 = createShortCollection((short) 2, SHORT_THREE);
+        OrderedShortCollection actual = OrderedShortCollection.unionOf(collection12, collection23);
+        assertTrue(actual.containsSame(createShortCollection((short) 1, (short) 2, (short) 2, SHORT_THREE)));
+    }
+
+    /**
+     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
+     * collections.
+     */
+    @Test
+    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
+        OrderedShortCollection collection12 = createShortCollection((short) 1, (short) 2);
+        OrderedShortCollection collection23 = createShortCollection((short) 2, SHORT_THREE);
+        OrderedShortCollection actual = OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
+        OrderedShortCollection expected = createShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE);
+        assertTrue(actual.containsSame(expected));
     }
 }

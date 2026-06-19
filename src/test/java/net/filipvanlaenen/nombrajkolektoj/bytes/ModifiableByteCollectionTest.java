@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,14 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 public final class ModifiableByteCollectionTest
         extends ModifiableByteCollectionTestBase<ModifiableByteCollection> {
+    /**
+     * The byte three.
+     */
+    private static final Byte BYTE_THREE = (byte) 3;
+    /**
+     * Collection with the bytes 0, 1 and 2.
+     */
+    private final NumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
@@ -65,7 +74,58 @@ public final class ModifiableByteCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createByteCollection((byte) 1, (byte) 2).containsSame(
-                ModifiableByteCollection.intersectionOf(createByteCollection((byte) 0, (byte) 1, (byte) 2), collection123)));
+        assertTrue(createByteCollection((byte) 1, (byte) 2)
+                .containsSame(ModifiableByteCollection.intersectionOf(collection012, collection123)));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableByteCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableByteCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableByteCollection.unionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableByteCollection.unionOf(DISTINCT_ELEMENTS, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE)
+                .containsSame(ModifiableByteCollection.unionOf(collection012, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, BYTE_THREE)
+                .containsSame(ModifiableByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
+    }
+
 }

@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,14 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 public final class ModifiableShortCollectionTest
         extends ModifiableShortCollectionTestBase<ModifiableShortCollection> {
+    /**
+     * The short three.
+     */
+    private static final Short SHORT_THREE = (short) 3;
+    /**
+     * Collection with the shorts 0, 1 and 2.
+     */
+    private final NumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
@@ -65,7 +74,58 @@ public final class ModifiableShortCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createShortCollection((short) 1, (short) 2).containsSame(
-                ModifiableShortCollection.intersectionOf(createShortCollection((short) 0, (short) 1, (short) 2), collection123)));
+        assertTrue(createShortCollection((short) 1, (short) 2)
+                .containsSame(ModifiableShortCollection.intersectionOf(collection012, collection123)));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableShortCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableShortCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableShortCollection.unionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableShortCollection.unionOf(DISTINCT_ELEMENTS, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE)
+                .containsSame(ModifiableShortCollection.unionOf(collection012, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, SHORT_THREE)
+                .containsSame(ModifiableShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
+    }
+
 }

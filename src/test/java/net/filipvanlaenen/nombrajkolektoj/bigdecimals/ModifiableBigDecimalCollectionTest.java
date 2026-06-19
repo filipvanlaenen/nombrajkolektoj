@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,14 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 public final class ModifiableBigDecimalCollectionTest
         extends ModifiableBigDecimalCollectionTestBase<ModifiableBigDecimalCollection> {
+    /**
+     * The BigDecimal three.
+     */
+    private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
+    /**
+     * Collection with the BigDecimals 0, 1 and 2.
+     */
+    private final NumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
@@ -67,7 +76,58 @@ public final class ModifiableBigDecimalCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L)).containsSame(
-                ModifiableBigDecimalCollection.intersectionOf(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L)), collection123)));
+        assertTrue(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L))
+                .containsSame(ModifiableBigDecimalCollection.intersectionOf(collection012, collection123)));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableBigDecimalCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableBigDecimalCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableBigDecimalCollection.unionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+                .containsSame(ModifiableBigDecimalCollection.unionOf(collection012, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+                .containsSame(ModifiableBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
+    }
+
 }

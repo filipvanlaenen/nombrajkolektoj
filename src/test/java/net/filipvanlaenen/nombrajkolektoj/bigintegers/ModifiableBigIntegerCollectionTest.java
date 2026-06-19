@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,14 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 public final class ModifiableBigIntegerCollectionTest
         extends ModifiableBigIntegerCollectionTestBase<ModifiableBigIntegerCollection> {
+    /**
+     * The BigInteger three.
+     */
+    private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
+    /**
+     * Collection with the BigIntegers 0, 1 and 2.
+     */
+    private final NumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
@@ -67,7 +76,58 @@ public final class ModifiableBigIntegerCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO).containsSame(
-                ModifiableBigIntegerCollection.intersectionOf(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO), collection123)));
+        assertTrue(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO)
+                .containsSame(ModifiableBigIntegerCollection.intersectionOf(collection012, collection123)));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableBigIntegerCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableBigIntegerCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableBigIntegerCollection.unionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+                .containsSame(ModifiableBigIntegerCollection.unionOf(collection012, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+                .containsSame(ModifiableBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
+    }
+
 }

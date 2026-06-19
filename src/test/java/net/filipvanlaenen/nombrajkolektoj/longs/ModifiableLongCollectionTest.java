@@ -1,5 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,14 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  */
 public final class ModifiableLongCollectionTest
         extends ModifiableLongCollectionTestBase<ModifiableLongCollection> {
+    /**
+     * The long three.
+     */
+    private static final Long LONG_THREE = 3L;
+    /**
+     * Collection with the longs 0, 1 and 2.
+     */
+    private final NumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
@@ -65,7 +74,58 @@ public final class ModifiableLongCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createLongCollection(1L, 2L).containsSame(
-                ModifiableLongCollection.intersectionOf(createLongCollection(0L, 1L, 2L), collection123)));
+        assertTrue(createLongCollection(1L, 2L)
+                .containsSame(ModifiableLongCollection.intersectionOf(collection012, collection123)));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableLongCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableLongCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableLongCollection.unionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertTrue(collection123.containsSame(ModifiableLongCollection.unionOf(DISTINCT_ELEMENTS, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertTrue(createLongCollection(0L, 1L, 2L, 1L, 2L, LONG_THREE)
+                .containsSame(ModifiableLongCollection.unionOf(collection012, collection123)));
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertTrue(createLongCollection(0L, 1L, 2L, LONG_THREE)
+                .containsSame(ModifiableLongCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
+    }
+
 }

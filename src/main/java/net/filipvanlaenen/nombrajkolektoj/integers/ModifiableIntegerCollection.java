@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -60,6 +61,51 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
             super(new ModifiableArrayCollection<Integer>(elementCardinality, numbers));
+        }
+    }
+
+    /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class HashCollection extends ModifiableIntegerCollection {
+        /**
+         * Constructs a collection from another collection, with the same integers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Integer> source) {
+            super(new ModifiableHashCollection<Integer>(source));
+        }
+
+        /**
+         * Constructs a collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The integers of the collection.
+         */
+        public HashCollection(final Integer... numbers) {
+            super(new ModifiableHashCollection<Integer>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            super(new ModifiableHashCollection<Integer>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            super(new ModifiableHashCollection<Integer>(elementCardinality, numbers));
         }
     }
 

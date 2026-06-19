@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -60,6 +61,51 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
             super(new ModifiableArrayCollection<Long>(elementCardinality, numbers));
+        }
+    }
+
+    /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class HashCollection extends ModifiableLongCollection {
+        /**
+         * Constructs a collection from another collection, with the same longs and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Long> source) {
+            super(new ModifiableHashCollection<Long>(source));
+        }
+
+        /**
+         * Constructs a collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The longs of the collection.
+         */
+        public HashCollection(final Long... numbers) {
+            super(new ModifiableHashCollection<Long>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
+            super(new ModifiableHashCollection<Long>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The longs of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            super(new ModifiableHashCollection<Long>(elementCardinality, numbers));
         }
     }
 

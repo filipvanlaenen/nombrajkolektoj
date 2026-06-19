@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -60,6 +61,51 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
             super(new ModifiableArrayCollection<Byte>(elementCardinality, numbers));
+        }
+    }
+
+    /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class HashCollection extends ModifiableByteCollection {
+        /**
+         * Constructs a collection from another collection, with the same bytes and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<Byte> source) {
+            super(new ModifiableHashCollection<Byte>(source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The bytes of the collection.
+         */
+        public HashCollection(final Byte... numbers) {
+            super(new ModifiableHashCollection<Byte>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            super(new ModifiableHashCollection<Byte>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            super(new ModifiableHashCollection<Byte>(elementCardinality, numbers));
         }
     }
 

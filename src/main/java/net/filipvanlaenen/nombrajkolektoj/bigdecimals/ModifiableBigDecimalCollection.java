@@ -10,6 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
+import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
@@ -62,6 +63,51 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
             super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, numbers));
+        }
+    }
+
+    /**
+     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
+     * interface.
+     */
+    public static final class HashCollection extends ModifiableBigDecimalCollection {
+        /**
+         * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public HashCollection(final Collection<BigDecimal> source) {
+            super(new ModifiableHashCollection<BigDecimal>(source));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The BigDecimals of the collection.
+         */
+        public HashCollection(final BigDecimal... numbers) {
+            super(new ModifiableHashCollection<BigDecimal>(numbers));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
+            super(new ModifiableHashCollection<BigDecimal>(elementCardinality, source));
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the collection.
+         */
+        public HashCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            super(new ModifiableHashCollection<BigDecimal>(elementCardinality, numbers));
         }
     }
 

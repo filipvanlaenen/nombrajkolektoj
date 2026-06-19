@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection} class.
@@ -19,6 +21,26 @@ public final class ModifiableOrderedIntegerCollectionTest
      * The int three.
      */
     private static final Integer INTEGER_THREE = 3;
+    /**
+     * The int four.
+     */
+    private static final Integer INTEGER_FOUR = 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Array with the integers one, two and three.
+     */
+    private static final Integer[] INTEGERS123 = new Integer[] {1, 2, 3};
+    /**
+     * Collection with the integers 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    /**
+     * Collection with the integers 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
     @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
@@ -104,6 +126,19 @@ public final class ModifiableOrderedIntegerCollectionTest
     }
 
     /**
+     * Verifies that an ordered integers collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct integers in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        ModifiableOrderedIntegerCollection source =
+                ModifiableOrderedIntegerCollection.of(DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE, INTEGER_FOUR);
+        ModifiableOrderedIntegerCollection actual = ModifiableOrderedIntegerCollection.of(source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Integer[] {2, INTEGER_THREE}, actual.toArray());
+    }
+
+    /**
      * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -120,4 +155,56 @@ public final class ModifiableOrderedIntegerCollectionTest
     public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).removeAt(1));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableOrderedIntegerCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableOrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(INTEGERS123, ModifiableOrderedIntegerCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(INTEGERS123,
+                ModifiableOrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Integer[] {0, 1, 2, 1, 2, INTEGER_THREE},
+                ModifiableOrderedIntegerCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Integer[] {0, 1, 2, INTEGER_THREE},
+                ModifiableOrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
+    }
+
 }

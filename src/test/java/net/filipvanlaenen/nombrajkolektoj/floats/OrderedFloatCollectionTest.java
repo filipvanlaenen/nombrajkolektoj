@@ -31,7 +31,19 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     /**
      * Array with the floats zero, one and two.
      */
-    private static final Float[] FLOATS = new Float[] {0F, 1F, 2F};
+    private static final Float[] FLOATS012 = new Float[] {0F, 1F, 2F};
+    /**
+     * Array with the floats one, two and three.
+     */
+    private static final Float[] FLOATS123 = new Float[] {1F, 2F, 3F};
+    /**
+     * Collection with the floats 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Float> collection012 = createFloatCollection(0F, 1F, 2F);
+    /**
+     * Collection with the floats 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
 
     @Override
     protected OrderedFloatCollection createEmptyFloatCollection() {
@@ -180,7 +192,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 0);
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 1);
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 1);
         assertArrayEquals(new Float[] {0F}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], 2);
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 2);
         assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> false);
+        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> !Objects.equals(n, 1F));
+                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 1F));
         assertArrayEquals(new Float[] {0F}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS[i], n -> !Objects.equals(n, 2F));
+                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 2F));
         assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedFloatCollection collection12 = createFloatCollection(1F, 2F);
-        OrderedFloatCollection collection23 = createFloatCollection(2F, FLOAT_THREE);
-        OrderedFloatCollection actual = OrderedFloatCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createFloatCollection(1F, 2F, 2F, FLOAT_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedFloatCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedFloatCollection collection12 = createFloatCollection(1F, 2F);
-        OrderedFloatCollection collection23 = createFloatCollection(2F, FLOAT_THREE);
-        OrderedFloatCollection actual = OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedFloatCollection expected = createFloatCollection(DISTINCT_ELEMENTS, 1F, 2F, FLOAT_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Float[] {0F, 1F, 2F, 1F, 2F, FLOAT_THREE},
+                OrderedFloatCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Float[] {0F, 1F, 2F, FLOAT_THREE},
+                OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

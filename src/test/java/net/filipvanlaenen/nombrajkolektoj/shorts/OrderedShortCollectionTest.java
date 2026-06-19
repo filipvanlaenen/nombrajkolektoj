@@ -31,7 +31,19 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     /**
      * Array with the shorts zero, one and two.
      */
-    private static final Short[] SHORTS = new Short[] {(short) 0, (short) 1, (short) 2};
+    private static final Short[] SHORTS012 = new Short[] {(short) 0, (short) 1, (short) 2};
+    /**
+     * Array with the shorts one, two and three.
+     */
+    private static final Short[] SHORTS123 = new Short[] {(short) 1, (short) 2, (short) 3};
+    /**
+     * Collection with the shorts 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    /**
+     * Collection with the shorts 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     @Override
     protected OrderedShortCollection createEmptyShortCollection() {
@@ -180,7 +192,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 0);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 1);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 1);
         assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], 2);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 2);
         assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS[i], n -> false);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedShortCollection actual =
-                OrderedShortCollection.createSequence(i -> SHORTS[i], n -> !Objects.equals(n, (short) 1));
+                OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> !Objects.equals(n, (short) 1));
         assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedShortCollection actual =
-                OrderedShortCollection.createSequence(i -> SHORTS[i], n -> !Objects.equals(n, (short) 2));
+                OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> !Objects.equals(n, (short) 2));
         assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedShortCollection collection12 = createShortCollection((short) 1, (short) 2);
-        OrderedShortCollection collection23 = createShortCollection((short) 2, SHORT_THREE);
-        OrderedShortCollection actual = OrderedShortCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createShortCollection((short) 1, (short) 2, (short) 2, SHORT_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedShortCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedShortCollection collection12 = createShortCollection((short) 1, (short) 2);
-        OrderedShortCollection collection23 = createShortCollection((short) 2, SHORT_THREE);
-        OrderedShortCollection actual = OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedShortCollection expected = createShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedShortCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(SHORTS123, OrderedShortCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(SHORTS123, OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Short[] {(short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE},
+                OrderedShortCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Short[] {(short) 0, (short) 1, (short) 2, SHORT_THREE},
+                OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

@@ -33,7 +33,19 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     /**
      * Array with the BigIntegers zero, one and two.
      */
-    private static final BigInteger[] BIG_INTEGERS = new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO};
+    private static final BigInteger[] BIG_INTEGERS012 = new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO};
+    /**
+     * Array with the BigIntegers one, two and three.
+     */
+    private static final BigInteger[] BIG_INTEGERS123 = new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L)};
+    /**
+     * Collection with the BigIntegers 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    /**
+     * Collection with the BigIntegers 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     @Override
     protected OrderedBigIntegerCollection createEmptyBigIntegerCollection() {
@@ -182,7 +194,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 0);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -192,7 +204,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 1);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], 1);
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO}, actual.toArray());
     }
 
@@ -202,7 +214,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], 2);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], 2);
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
     }
 
@@ -212,7 +224,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> false);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -223,7 +235,7 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedBigIntegerCollection actual =
-                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> !Objects.equals(n, BigInteger.ONE));
+                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], n -> !Objects.equals(n, BigInteger.ONE));
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO}, actual.toArray());
     }
 
@@ -234,31 +246,57 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedBigIntegerCollection actual =
-                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS[i], n -> !Objects.equals(n, BigInteger.TWO));
+                OrderedBigIntegerCollection.createSequence(i -> BIG_INTEGERS012[i], n -> !Objects.equals(n, BigInteger.TWO));
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedBigIntegerCollection collection12 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
-        OrderedBigIntegerCollection collection23 = createBigIntegerCollection(BigInteger.TWO, BIG_INTEGER_THREE);
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedBigIntegerCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedBigIntegerCollection collection12 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
-        OrderedBigIntegerCollection collection23 = createBigIntegerCollection(BigInteger.TWO, BIG_INTEGER_THREE);
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedBigIntegerCollection expected = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(BIG_INTEGERS123, OrderedBigIntegerCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(BIG_INTEGERS123, OrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE},
+                OrderedBigIntegerCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE},
+                OrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

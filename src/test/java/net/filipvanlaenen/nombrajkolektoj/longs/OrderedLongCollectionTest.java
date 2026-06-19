@@ -31,7 +31,19 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     /**
      * Array with the longs zero, one and two.
      */
-    private static final Long[] LONGS = new Long[] {0L, 1L, 2L};
+    private static final Long[] LONGS012 = new Long[] {0L, 1L, 2L};
+    /**
+     * Array with the longs one, two and three.
+     */
+    private static final Long[] LONGS123 = new Long[] {1L, 2L, 3L};
+    /**
+     * Collection with the longs 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
+    /**
+     * Collection with the longs 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
 
     @Override
     protected OrderedLongCollection createEmptyLongCollection() {
@@ -180,7 +192,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 0);
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 1);
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS012[i], 1);
         assertArrayEquals(new Long[] {0L}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], 2);
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS012[i], 2);
         assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS[i], n -> false);
+        OrderedLongCollection actual = OrderedLongCollection.createSequence(i -> LONGS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedLongCollection actual =
-                OrderedLongCollection.createSequence(i -> LONGS[i], n -> !Objects.equals(n, 1L));
+                OrderedLongCollection.createSequence(i -> LONGS012[i], n -> !Objects.equals(n, 1L));
         assertArrayEquals(new Long[] {0L}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedLongCollection actual =
-                OrderedLongCollection.createSequence(i -> LONGS[i], n -> !Objects.equals(n, 2L));
+                OrderedLongCollection.createSequence(i -> LONGS012[i], n -> !Objects.equals(n, 2L));
         assertArrayEquals(new Long[] {0L, 1L}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedLongCollection collection12 = createLongCollection(1L, 2L);
-        OrderedLongCollection collection23 = createLongCollection(2L, LONG_THREE);
-        OrderedLongCollection actual = OrderedLongCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createLongCollection(1L, 2L, 2L, LONG_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedLongCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedLongCollection collection12 = createLongCollection(1L, 2L);
-        OrderedLongCollection collection23 = createLongCollection(2L, LONG_THREE);
-        OrderedLongCollection actual = OrderedLongCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedLongCollection expected = createLongCollection(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedLongCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(LONGS123, OrderedLongCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(LONGS123, OrderedLongCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Long[] {0L, 1L, 2L, 1L, 2L, LONG_THREE},
+                OrderedLongCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Long[] {0L, 1L, 2L, LONG_THREE},
+                OrderedLongCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

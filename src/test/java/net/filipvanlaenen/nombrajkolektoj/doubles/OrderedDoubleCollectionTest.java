@@ -31,7 +31,19 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     /**
      * Array with the doubles zero, one and two.
      */
-    private static final Double[] DOUBLES = new Double[] {0D, 1D, 2D};
+    private static final Double[] DOUBLES012 = new Double[] {0D, 1D, 2D};
+    /**
+     * Array with the doubles one, two and three.
+     */
+    private static final Double[] DOUBLES123 = new Double[] {1D, 2D, 3D};
+    /**
+     * Collection with the doubles 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    /**
+     * Collection with the doubles 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
 
     @Override
     protected OrderedDoubleCollection createEmptyDoubleCollection() {
@@ -180,7 +192,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 0);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 1);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], 1);
         assertArrayEquals(new Double[] {0D}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], 2);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], 2);
         assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> false);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedDoubleCollection actual =
-                OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> !Objects.equals(n, 1D));
+                OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], n -> !Objects.equals(n, 1D));
         assertArrayEquals(new Double[] {0D}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedDoubleCollection actual =
-                OrderedDoubleCollection.createSequence(i -> DOUBLES[i], n -> !Objects.equals(n, 2D));
+                OrderedDoubleCollection.createSequence(i -> DOUBLES012[i], n -> !Objects.equals(n, 2D));
         assertArrayEquals(new Double[] {0D, 1D}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedDoubleCollection collection12 = createDoubleCollection(1D, 2D);
-        OrderedDoubleCollection collection23 = createDoubleCollection(2D, DOUBLE_THREE);
-        OrderedDoubleCollection actual = OrderedDoubleCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createDoubleCollection(1D, 2D, 2D, DOUBLE_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedDoubleCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedDoubleCollection collection12 = createDoubleCollection(1D, 2D);
-        OrderedDoubleCollection collection23 = createDoubleCollection(2D, DOUBLE_THREE);
-        OrderedDoubleCollection actual = OrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedDoubleCollection expected = createDoubleCollection(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(DOUBLES123, OrderedDoubleCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(DOUBLES123, OrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Double[] {0D, 1D, 2D, 1D, 2D, DOUBLE_THREE},
+                OrderedDoubleCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Double[] {0D, 1D, 2D, DOUBLE_THREE},
+                OrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

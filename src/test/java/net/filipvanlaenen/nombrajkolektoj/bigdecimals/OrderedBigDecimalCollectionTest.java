@@ -33,7 +33,19 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     /**
      * Array with the BigDecimals zero, one and two.
      */
-    private static final BigDecimal[] BIG_DECIMALS = new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L)};
+    private static final BigDecimal[] BIG_DECIMALS012 = new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L)};
+    /**
+     * Array with the BigDecimals one, two and three.
+     */
+    private static final BigDecimal[] BIG_DECIMALS123 = new BigDecimal[] {BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L)};
+    /**
+     * Collection with the BigDecimals 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    /**
+     * Collection with the BigDecimals 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     @Override
     protected OrderedBigDecimalCollection createEmptyBigDecimalCollection() {
@@ -182,7 +194,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 0);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -192,7 +204,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 1);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], 1);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO}, actual.toArray());
     }
 
@@ -202,7 +214,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], 2);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], 2);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
     }
 
@@ -212,7 +224,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> false);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -223,7 +235,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedBigDecimalCollection actual =
-                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> !Objects.equals(n, BigDecimal.ONE));
+                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], n -> !Objects.equals(n, BigDecimal.ONE));
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO}, actual.toArray());
     }
 
@@ -234,31 +246,57 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedBigDecimalCollection actual =
-                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS[i], n -> !Objects.equals(n, BigDecimal.valueOf(2L)));
+                OrderedBigDecimalCollection.createSequence(i -> BIG_DECIMALS012[i], n -> !Objects.equals(n, BigDecimal.valueOf(2L)));
         assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedBigDecimalCollection collection12 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
-        OrderedBigDecimalCollection collection23 = createBigDecimalCollection(BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedBigDecimalCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedBigDecimalCollection collection12 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
-        OrderedBigDecimalCollection collection23 = createBigDecimalCollection(BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedBigDecimalCollection expected = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedBigDecimalCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(BIG_DECIMALS123, OrderedBigDecimalCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(BIG_DECIMALS123, OrderedBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE},
+                OrderedBigDecimalCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new BigDecimal[] {BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE},
+                OrderedBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

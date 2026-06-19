@@ -2,6 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollection} class.
@@ -19,6 +21,26 @@ public final class ModifiableOrderedDoubleCollectionTest
      * The double three.
      */
     private static final Double DOUBLE_THREE = 3D;
+    /**
+     * The double four.
+     */
+    private static final Double DOUBLE_FOUR = 4D;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Array with the doubles one, two and three.
+     */
+    private static final Double[] DOUBLES123 = new Double[] {1D, 2D, 3D};
+    /**
+     * Collection with the doubles 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    /**
+     * Collection with the doubles 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
 
     @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
@@ -104,6 +126,19 @@ public final class ModifiableOrderedDoubleCollectionTest
     }
 
     /**
+     * Verifies that an ordered doubles collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct doubles in the same order.
+     */
+    @Test
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        ModifiableOrderedDoubleCollection source =
+                ModifiableOrderedDoubleCollection.of(DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE, DOUBLE_FOUR);
+        ModifiableOrderedDoubleCollection actual = ModifiableOrderedDoubleCollection.of(source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertArrayEquals(new Double[] {2D, DOUBLE_THREE}, actual.toArray());
+    }
+
+    /**
      * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
      */
     @Test
@@ -120,4 +155,56 @@ public final class ModifiableOrderedDoubleCollectionTest
     public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
         assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).removeAt(1));
     }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableOrderedDoubleCollection.unionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the union of no collections is an empty collection.
+     */
+    @Test
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(ModifiableOrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(DOUBLES123, ModifiableOrderedDoubleCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(DOUBLES123,
+                ModifiableOrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Double[] {0D, 1D, 2D, 1D, 2D, DOUBLE_THREE},
+                ModifiableOrderedDoubleCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Double[] {0D, 1D, 2D, DOUBLE_THREE},
+                ModifiableOrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
+    }
+
 }

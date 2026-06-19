@@ -31,7 +31,19 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     /**
      * Array with the bytes zero, one and two.
      */
-    private static final Byte[] BYTES = new Byte[] {(byte) 0, (byte) 1, (byte) 2};
+    private static final Byte[] BYTES012 = new Byte[] {(byte) 0, (byte) 1, (byte) 2};
+    /**
+     * Array with the bytes one, two and three.
+     */
+    private static final Byte[] BYTES123 = new Byte[] {(byte) 1, (byte) 2, (byte) 3};
+    /**
+     * Collection with the bytes 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    /**
+     * Collection with the bytes 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     @Override
     protected OrderedByteCollection createEmptyByteCollection() {
@@ -180,7 +192,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 0);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 1);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 1);
         assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], 2);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 2);
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES[i], n -> false);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedByteCollection actual =
-                OrderedByteCollection.createSequence(i -> BYTES[i], n -> !Objects.equals(n, (byte) 1));
+                OrderedByteCollection.createSequence(i -> BYTES012[i], n -> !Objects.equals(n, (byte) 1));
         assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedByteCollection actual =
-                OrderedByteCollection.createSequence(i -> BYTES[i], n -> !Objects.equals(n, (byte) 2));
+                OrderedByteCollection.createSequence(i -> BYTES012[i], n -> !Objects.equals(n, (byte) 2));
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedByteCollection collection12 = createByteCollection((byte) 1, (byte) 2);
-        OrderedByteCollection collection23 = createByteCollection((byte) 2, BYTE_THREE);
-        OrderedByteCollection actual = OrderedByteCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createByteCollection((byte) 1, (byte) 2, (byte) 2, BYTE_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedByteCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedByteCollection collection12 = createByteCollection((byte) 1, (byte) 2);
-        OrderedByteCollection collection23 = createByteCollection((byte) 2, BYTE_THREE);
-        OrderedByteCollection actual = OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedByteCollection expected = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedByteCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(BYTES123, OrderedByteCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(BYTES123, OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE},
+                OrderedByteCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1, (byte) 2, BYTE_THREE},
+                OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

@@ -31,7 +31,19 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     /**
      * Array with the integers zero, one and two.
      */
-    private static final Integer[] INTEGERS = new Integer[] {0, 1, 2};
+    private static final Integer[] INTEGERS012 = new Integer[] {0, 1, 2};
+    /**
+     * Array with the integers one, two and three.
+     */
+    private static final Integer[] INTEGERS123 = new Integer[] {1, 2, 3};
+    /**
+     * Collection with the integers 0, 1 and 2.
+     */
+    private final OrderedNumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    /**
+     * Collection with the integers 1, 2 and 3.
+     */
+    private final OrderedNumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
     @Override
     protected OrderedIntegerCollection createEmptyIntegerCollection() {
@@ -180,7 +192,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 0);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -190,7 +202,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 1);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], 1);
         assertArrayEquals(new Integer[] {0}, actual.toArray());
     }
 
@@ -200,7 +212,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], 2);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], 2);
         assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
     }
 
@@ -210,7 +222,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> false);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -221,7 +233,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
         OrderedIntegerCollection actual =
-                OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> !Objects.equals(n, 1));
+                OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], n -> !Objects.equals(n, 1));
         assertArrayEquals(new Integer[] {0}, actual.toArray());
     }
 
@@ -232,31 +244,57 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
         OrderedIntegerCollection actual =
-                OrderedIntegerCollection.createSequence(i -> INTEGERS[i], n -> !Objects.equals(n, 2));
+                OrderedIntegerCollection.createSequence(i -> INTEGERS012[i], n -> !Objects.equals(n, 2));
         assertArrayEquals(new Integer[] {0, 1}, actual.toArray());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method returns the union of two ordered collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfShouldReturnUnionOfTwoOrderedCollections() {
-        OrderedIntegerCollection collection12 = createIntegerCollection(1, 2);
-        OrderedIntegerCollection collection23 = createIntegerCollection(2, INTEGER_THREE);
-        OrderedIntegerCollection actual = OrderedIntegerCollection.unionOf(collection12, collection23);
-        assertTrue(actual.containsSame(createIntegerCollection(1, 2, 2, INTEGER_THREE)));
+    public void unionOfNoCollectionsShouldBeEmpty() {
+        assertTrue(OrderedIntegerCollection.unionOf().isEmpty());
     }
 
     /**
-     * Verifies that the <code>unionOf</code> method with key value cardinality returns the union of two ordered
-     * collections.
+     * Verifies that the union of no collections is an empty collection.
      */
     @Test
-    public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        OrderedIntegerCollection collection12 = createIntegerCollection(1, 2);
-        OrderedIntegerCollection collection23 = createIntegerCollection(2, INTEGER_THREE);
-        OrderedIntegerCollection actual = OrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection12, collection23);
-        OrderedIntegerCollection expected = createIntegerCollection(DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE);
-        assertTrue(actual.containsSame(expected));
+    public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
+        assertTrue(OrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsShouldBeItself() {
+        assertArrayEquals(INTEGERS123, OrderedIntegerCollection.unionOf(collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of one collections is the collection itself.
+     */
+    @Test
+    public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
+        assertArrayEquals(INTEGERS123, OrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsShouldContainAllElements() {
+        assertArrayEquals(new Integer[] {0, 1, 2, 1, 2, INTEGER_THREE},
+                OrderedIntegerCollection.unionOf(collection012, collection123).toArray());
+    }
+
+    /**
+     * Verifies that the union of two collections is a collection with all distinct elements.
+     */
+    @Test
+    public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
+        assertArrayEquals(new Integer[] {0, 1, 2, INTEGER_THREE},
+                OrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

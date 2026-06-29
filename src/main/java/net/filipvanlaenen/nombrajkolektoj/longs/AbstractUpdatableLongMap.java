@@ -67,6 +67,20 @@ abstract class AbstractUpdatableLongMap<K> extends AbstractLongMap<K> implements
     }
 
     @Override
+    public boolean multiply(final Long multiplicand) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Long> originalValues = getAll(key);
+            ModifiableLongCollection newValues = ModifiableLongCollection.of(originalValues);
+            if (newValues.multiply(multiplicand)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Long multiply(final K key, final Long multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

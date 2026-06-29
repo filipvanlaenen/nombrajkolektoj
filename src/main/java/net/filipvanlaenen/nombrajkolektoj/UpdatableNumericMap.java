@@ -61,6 +61,16 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
     N multiply(K key, N multiplicand) throws IllegalArgumentException;
 
     /**
+     * Multiplies all the values in the map with the multiplicand and returns whether any of the values were changed.
+     * Ignores <code>null</code> values.
+     *
+     * @param multiplicand The number by which the values should be multiplied.
+     * @return True if any of the values in the map was changed.
+     * @throws IllegalArgumentException Thrown if the map would contain duplicate values when they're not allowed.
+     */
+    boolean multiply(N multiplicand) throws IllegalArgumentException;
+
+    /**
      * Negates the value for the key in the map and returns the value that was previously mapped to the key. Throws an
      * exception if the map doesn't contain an entry with the key or its value is <code>null</code>.
      *

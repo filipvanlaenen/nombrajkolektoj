@@ -17,6 +17,10 @@ public class AbstractUpdatableLongMapTest {
      */
     private static final Long THREE = 3L;
     /**
+     * The magic number four.
+     */
+    private static final Long FOUR = 4L;
+    /**
      * The magic number minus one.
      */
     private static final Long MINUS_ONE = -1L;
@@ -214,6 +218,35 @@ public class AbstractUpdatableLongMapTest {
         UpdatableLongMap<String> map12 = createMap12();
         map12.multiply("one", 2L);
         assertEquals(2L, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableLongMap<String> map12 = createMap12();
+        map12.multiply(2L);
+        assertEquals(2L, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(2L));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(1L));
     }
 
     /**

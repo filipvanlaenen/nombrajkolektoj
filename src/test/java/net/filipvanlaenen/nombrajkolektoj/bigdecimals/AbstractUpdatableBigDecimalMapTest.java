@@ -19,6 +19,10 @@ public class AbstractUpdatableBigDecimalMapTest {
      */
     private static final BigDecimal THREE = BigDecimal.valueOf(3L);
     /**
+     * The magic number four.
+     */
+    private static final BigDecimal FOUR = BigDecimal.valueOf(4L);
+    /**
      * The magic number minus one.
      */
     private static final BigDecimal MINUS_ONE = BigDecimal.valueOf(-1L);
@@ -216,6 +220,35 @@ public class AbstractUpdatableBigDecimalMapTest {
         UpdatableBigDecimalMap<String> map12 = createMap12();
         map12.multiply("one", BigDecimal.valueOf(2L));
         assertEquals(BigDecimal.valueOf(2L), map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        map12.multiply(BigDecimal.valueOf(2L));
+        assertEquals(BigDecimal.valueOf(2L), map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(BigDecimal.ONE));
     }
 
     /**

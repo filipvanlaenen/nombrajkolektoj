@@ -17,6 +17,10 @@ public class AbstractUpdatableFloatMapTest {
      */
     private static final Float THREE = 3F;
     /**
+     * The magic number four.
+     */
+    private static final Float FOUR = 4F;
+    /**
      * The magic number minus one.
      */
     private static final Float MINUS_ONE = -1F;
@@ -214,6 +218,35 @@ public class AbstractUpdatableFloatMapTest {
         UpdatableFloatMap<String> map12 = createMap12();
         map12.multiply("one", 2F);
         assertEquals(2F, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        map12.multiply(2F);
+        assertEquals(2F, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(2F));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(1F));
     }
 
     /**

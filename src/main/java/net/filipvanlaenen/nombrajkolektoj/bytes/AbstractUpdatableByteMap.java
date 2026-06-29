@@ -67,6 +67,20 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
     }
 
     @Override
+    public boolean multiply(final Byte multiplicand) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Byte> originalValues = getAll(key);
+            ModifiableByteCollection newValues = ModifiableByteCollection.of(originalValues);
+            if (newValues.multiply(multiplicand)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Byte multiply(final K key, final Byte multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

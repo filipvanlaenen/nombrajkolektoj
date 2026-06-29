@@ -67,6 +67,20 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
     }
 
     @Override
+    public boolean multiply(final Double multiplicand) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Double> originalValues = getAll(key);
+            ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(originalValues);
+            if (newValues.multiply(multiplicand)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Double multiply(final K key, final Double multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

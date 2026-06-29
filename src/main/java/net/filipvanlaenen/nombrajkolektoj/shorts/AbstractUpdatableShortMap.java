@@ -67,6 +67,20 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
     }
 
     @Override
+    public boolean multiply(final Short multiplicand) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Short> originalValues = getAll(key);
+            ModifiableShortCollection newValues = ModifiableShortCollection.of(originalValues);
+            if (newValues.multiply(multiplicand)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Short multiply(final K key, final Short multiplicand) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

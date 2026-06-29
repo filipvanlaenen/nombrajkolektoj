@@ -17,6 +17,10 @@ public class AbstractUpdatableIntegerMapTest {
      */
     private static final Integer THREE = 3;
     /**
+     * The magic number four.
+     */
+    private static final Integer FOUR = 4;
+    /**
      * The magic number minus one.
      */
     private static final Integer MINUS_ONE = -1;
@@ -214,6 +218,35 @@ public class AbstractUpdatableIntegerMapTest {
         UpdatableIntegerMap<String> map12 = createMap12();
         map12.multiply("one", 2);
         assertEquals(2, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        map12.multiply(2);
+        assertEquals(2, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(2));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableIntegerMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(1));
     }
 
     /**

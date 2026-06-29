@@ -17,6 +17,10 @@ public class AbstractUpdatableByteMapTest {
      */
     private static final Byte THREE = (byte) 3;
     /**
+     * The magic number four.
+     */
+    private static final Byte FOUR = (byte) 4;
+    /**
      * The magic number minus one.
      */
     private static final Byte MINUS_ONE = -(byte) 1;
@@ -214,6 +218,35 @@ public class AbstractUpdatableByteMapTest {
         UpdatableByteMap<String> map12 = createMap12();
         map12.multiply("one", (byte) 2);
         assertEquals((byte) 2, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableByteMap<String> map12 = createMap12();
+        map12.multiply((byte) 2);
+        assertEquals((byte) 2, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableByteMap<String> map12 = createMap12();
+        assertTrue(map12.multiply((byte) 2));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableByteMap<String> map12 = createMap12();
+        assertFalse(map12.multiply((byte) 1));
     }
 
     /**

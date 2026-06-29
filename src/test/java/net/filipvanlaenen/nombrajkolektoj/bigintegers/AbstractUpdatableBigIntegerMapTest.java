@@ -19,6 +19,10 @@ public class AbstractUpdatableBigIntegerMapTest {
      */
     private static final BigInteger THREE = BigInteger.valueOf(3L);
     /**
+     * The magic number four.
+     */
+    private static final BigInteger FOUR = BigInteger.valueOf(4L);
+    /**
      * The magic number minus one.
      */
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1L);
@@ -216,6 +220,35 @@ public class AbstractUpdatableBigIntegerMapTest {
         UpdatableBigIntegerMap<String> map12 = createMap12();
         map12.multiply("one", BigInteger.TWO);
         assertEquals(BigInteger.TWO, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        map12.multiply(BigInteger.TWO);
+        assertEquals(BigInteger.TWO, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(BigInteger.TWO));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(BigInteger.ONE));
     }
 
     /**

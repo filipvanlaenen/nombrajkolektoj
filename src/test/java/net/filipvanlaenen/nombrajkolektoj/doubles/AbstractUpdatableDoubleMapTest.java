@@ -17,6 +17,10 @@ public class AbstractUpdatableDoubleMapTest {
      */
     private static final Double THREE = 3D;
     /**
+     * The magic number four.
+     */
+    private static final Double FOUR = 4D;
+    /**
      * The magic number minus one.
      */
     private static final Double MINUS_ONE = -1D;
@@ -214,6 +218,35 @@ public class AbstractUpdatableDoubleMapTest {
         UpdatableDoubleMap<String> map12 = createMap12();
         map12.multiply("one", 2D);
         assertEquals(2D, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        map12.multiply(2D);
+        assertEquals(2D, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertTrue(map12.multiply(2D));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertFalse(map12.multiply(1D));
     }
 
     /**

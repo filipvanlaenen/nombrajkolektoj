@@ -17,6 +17,10 @@ public class AbstractUpdatableShortMapTest {
      */
     private static final Short THREE = (short) 3;
     /**
+     * The magic number four.
+     */
+    private static final Short FOUR = (short) 4;
+    /**
      * The magic number minus one.
      */
     private static final Short MINUS_ONE = -(short) 1;
@@ -214,6 +218,35 @@ public class AbstractUpdatableShortMapTest {
         UpdatableShortMap<String> map12 = createMap12();
         map12.multiply("one", (short) 2);
         assertEquals((short) 2, map12.get("one"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> updates all the values.
+     */
+    @Test
+    public void multiplyShouldUpdateAllValues() {
+        UpdatableShortMap<String> map12 = createMap12();
+        map12.multiply((short) 2);
+        assertEquals((short) 2, map12.get("one"));
+        assertEquals(FOUR, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableShortMap<String> map12 = createMap12();
+        assertTrue(map12.multiply((short) 2));
+    }
+
+    /**
+     * Verifies that <code>multiply</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void multiplyShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableShortMap<String> map12 = createMap12();
+        assertFalse(map12.multiply((short) 1));
     }
 
     /**

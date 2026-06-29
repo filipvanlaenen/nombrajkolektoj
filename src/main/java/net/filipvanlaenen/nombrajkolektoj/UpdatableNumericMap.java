@@ -71,6 +71,15 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
     boolean multiply(N multiplicand) throws IllegalArgumentException;
 
     /**
+     * negates all the values in the map and returns whether any of the values were changed. Ignores <code>null</code>
+     * values.
+     *
+     * @return True if any of the values in the map was changed.
+     * @throws IllegalArgumentException Thrown if the map would contain duplicate values when they're not allowed.
+     */
+    boolean negate() throws IllegalArgumentException;
+
+    /**
      * Negates the value for the key in the map and returns the value that was previously mapped to the key. Throws an
      * exception if the map doesn't contain an entry with the key or its value is <code>null</code>.
      *

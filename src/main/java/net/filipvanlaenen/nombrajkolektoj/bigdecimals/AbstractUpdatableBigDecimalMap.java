@@ -97,6 +97,20 @@ abstract class AbstractUpdatableBigDecimalMap<K> extends AbstractBigDecimalMap<K
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<BigDecimal> originalValues = getAll(key);
+            ModifiableBigDecimalCollection newValues = ModifiableBigDecimalCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public BigDecimal negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

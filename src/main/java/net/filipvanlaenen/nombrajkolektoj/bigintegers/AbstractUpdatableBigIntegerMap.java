@@ -97,6 +97,20 @@ abstract class AbstractUpdatableBigIntegerMap<K> extends AbstractBigIntegerMap<K
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<BigInteger> originalValues = getAll(key);
+            ModifiableBigIntegerCollection newValues = ModifiableBigIntegerCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public BigInteger negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

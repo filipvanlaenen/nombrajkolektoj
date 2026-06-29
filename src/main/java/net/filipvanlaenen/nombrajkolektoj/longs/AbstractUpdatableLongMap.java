@@ -95,6 +95,20 @@ abstract class AbstractUpdatableLongMap<K> extends AbstractLongMap<K> implements
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Long> originalValues = getAll(key);
+            ModifiableLongCollection newValues = ModifiableLongCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Long negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

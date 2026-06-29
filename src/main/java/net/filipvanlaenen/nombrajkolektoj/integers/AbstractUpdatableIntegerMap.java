@@ -95,6 +95,20 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Integer> originalValues = getAll(key);
+            ModifiableIntegerCollection newValues = ModifiableIntegerCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Integer negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

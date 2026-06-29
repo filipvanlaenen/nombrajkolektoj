@@ -287,6 +287,35 @@ public class AbstractUpdatableShortMapTest {
     }
 
     /**
+     * Verifies that <code>negate</code> updates all the values.
+     */
+    @Test
+    public void negateShouldUpdateAllValues() {
+        UpdatableShortMap<String> map12 = createMap12();
+        map12.negate();
+        assertEquals(MINUS_ONE, map12.get("one"));
+        assertEquals(MINUS_TWO, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>negate</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableShortMap<String> map12 = createMap12();
+        assertTrue(map12.negate());
+    }
+
+    /**
+     * Verifies that <code>negate</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableShortMap<String> map = UpdatableShortMap.of("one", (short) 0, "two", (short) 0);
+        assertFalse(map.negate());
+    }
+
+    /**
      * Verifies that <code>subtract</code> throws an exception when called with an absent key.
      */
     @Test

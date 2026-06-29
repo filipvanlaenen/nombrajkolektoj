@@ -95,6 +95,20 @@ abstract class AbstractUpdatableDoubleMap<K> extends AbstractDoubleMap<K> implem
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Double> originalValues = getAll(key);
+            ModifiableDoubleCollection newValues = ModifiableDoubleCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Double negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

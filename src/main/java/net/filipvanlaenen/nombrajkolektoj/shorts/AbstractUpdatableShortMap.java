@@ -95,6 +95,20 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
     }
 
     @Override
+    public boolean negate() throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Short> originalValues = getAll(key);
+            ModifiableShortCollection newValues = ModifiableShortCollection.of(originalValues);
+            if (newValues.negate()) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Short negate(final K key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

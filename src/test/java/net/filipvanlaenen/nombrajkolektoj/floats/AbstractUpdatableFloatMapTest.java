@@ -287,6 +287,35 @@ public class AbstractUpdatableFloatMapTest {
     }
 
     /**
+     * Verifies that <code>negate</code> updates all the values.
+     */
+    @Test
+    public void negateShouldUpdateAllValues() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        map12.negate();
+        assertEquals(MINUS_ONE, map12.get("one"));
+        assertEquals(MINUS_TWO, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>negate</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void negateShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableFloatMap<String> map12 = createMap12();
+        assertTrue(map12.negate());
+    }
+
+    /**
+     * Verifies that <code>negate</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void negateShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableFloatMap<String> map = UpdatableFloatMap.of("one", 0F, "two", 0F);
+        assertFalse(map.negate());
+    }
+
+    /**
      * Verifies that <code>subtract</code> throws an exception when called with an absent key.
      */
     @Test

@@ -123,6 +123,20 @@ abstract class AbstractUpdatableIntegerMap<K> extends AbstractIntegerMap<K> impl
     }
 
     @Override
+    public boolean subtract(final Integer subtrahend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Integer> originalValues = getAll(key);
+            ModifiableIntegerCollection newValues = ModifiableIntegerCollection.of(originalValues);
+            if (newValues.subtract(subtrahend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Integer subtract(final K key, final Integer subtrahend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

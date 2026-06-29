@@ -353,4 +353,34 @@ public class AbstractUpdatableDoubleMapTest {
         map12.subtract("one", 2D);
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> updates all the values.
+     */
+    @Test
+    public void subtractShouldUpdateAllValues() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        map12.subtract(1D);
+        assertEquals(0D, map12.get("one"));
+        assertEquals(1D, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertTrue(map12.subtract(1D));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableDoubleMap<String> map12 = createMap12();
+        assertFalse(map12.subtract(0D));
+    }
+
 }

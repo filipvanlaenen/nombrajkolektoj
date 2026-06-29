@@ -353,4 +353,34 @@ public class AbstractUpdatableByteMapTest {
         map12.subtract("one", (byte) 2);
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> updates all the values.
+     */
+    @Test
+    public void subtractShouldUpdateAllValues() {
+        UpdatableByteMap<String> map12 = createMap12();
+        map12.subtract((byte) 1);
+        assertEquals((byte) 0, map12.get("one"));
+        assertEquals((byte) 1, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableByteMap<String> map12 = createMap12();
+        assertTrue(map12.subtract((byte) 1));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableByteMap<String> map12 = createMap12();
+        assertFalse(map12.subtract((byte) 0));
+    }
+
 }

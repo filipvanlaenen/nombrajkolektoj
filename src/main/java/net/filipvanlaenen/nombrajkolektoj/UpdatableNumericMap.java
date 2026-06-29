@@ -98,4 +98,14 @@ public interface UpdatableNumericMap<K, N extends Number> extends NumericMap<K, 
      * @return The value the key was mapped to previously.
      */
     N subtract(K key, N subtrahend) throws IllegalArgumentException;
+
+    /**
+     * Subtracts all the values in the map with the subtrahend and returns whether any of the values were changed.
+     * Ignores <code>null</code> values.
+     *
+     * @param subtrahend The number by which the values should be subtracted.
+     * @return True if any of the values in the map was changed.
+     * @throws IllegalArgumentException Thrown if the map would contain duplicate values when they're not allowed.
+     */
+    boolean subtract(N subtrahend) throws IllegalArgumentException;
 }

@@ -123,6 +123,20 @@ abstract class AbstractUpdatableShortMap<K> extends AbstractShortMap<K> implemen
     }
 
     @Override
+    public boolean subtract(final Short subtrahend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Short> originalValues = getAll(key);
+            ModifiableShortCollection newValues = ModifiableShortCollection.of(originalValues);
+            if (newValues.subtract(subtrahend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Short subtract(final K key, final Short subtrahend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

@@ -353,4 +353,34 @@ public class AbstractUpdatableLongMapTest {
         map12.subtract("one", 2L);
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> updates all the values.
+     */
+    @Test
+    public void subtractShouldUpdateAllValues() {
+        UpdatableLongMap<String> map12 = createMap12();
+        map12.subtract(1L);
+        assertEquals(0L, map12.get("one"));
+        assertEquals(1L, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertTrue(map12.subtract(1L));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableLongMap<String> map12 = createMap12();
+        assertFalse(map12.subtract(0L));
+    }
+
 }

@@ -355,4 +355,34 @@ public class AbstractUpdatableBigIntegerMapTest {
         map12.subtract("one", BigInteger.TWO);
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> updates all the values.
+     */
+    @Test
+    public void subtractShouldUpdateAllValues() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        map12.subtract(BigInteger.ONE);
+        assertEquals(BigInteger.ZERO, map12.get("one"));
+        assertEquals(BigInteger.ONE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertTrue(map12.subtract(BigInteger.ONE));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableBigIntegerMap<String> map12 = createMap12();
+        assertFalse(map12.subtract(BigInteger.ZERO));
+    }
+
 }

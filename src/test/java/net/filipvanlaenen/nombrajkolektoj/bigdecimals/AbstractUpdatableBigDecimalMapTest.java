@@ -355,4 +355,34 @@ public class AbstractUpdatableBigDecimalMapTest {
         map12.subtract("one", BigDecimal.valueOf(2L));
         assertEquals(MINUS_ONE, map12.get("one"));
     }
+
+    /**
+     * Verifies that <code>subtract</code> updates all the values.
+     */
+    @Test
+    public void subtractShouldUpdateAllValues() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        map12.subtract(BigDecimal.ONE);
+        assertEquals(BigDecimal.ZERO, map12.get("one"));
+        assertEquals(BigDecimal.ONE, map12.get("two"));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>true</code> when at least one value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnTrueWhenAValuesHasChanged() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        assertTrue(map12.subtract(BigDecimal.ONE));
+    }
+
+    /**
+     * Verifies that <code>subtract</code> returns <code>false</code> when no value has been changed.
+     */
+    @Test
+    public void subtractShouldReturnFalseWhenNoValueHasChanged() {
+        UpdatableBigDecimalMap<String> map12 = createMap12();
+        assertFalse(map12.subtract(BigDecimal.ZERO));
+    }
+
 }

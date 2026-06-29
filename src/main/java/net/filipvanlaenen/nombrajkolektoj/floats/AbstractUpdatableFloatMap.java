@@ -123,6 +123,20 @@ abstract class AbstractUpdatableFloatMap<K> extends AbstractFloatMap<K> implemen
     }
 
     @Override
+    public boolean subtract(final Float subtrahend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Float> originalValues = getAll(key);
+            ModifiableFloatCollection newValues = ModifiableFloatCollection.of(originalValues);
+            if (newValues.subtract(subtrahend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Float subtract(final K key, final Float subtrahend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

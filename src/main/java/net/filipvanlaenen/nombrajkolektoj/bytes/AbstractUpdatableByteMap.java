@@ -123,6 +123,20 @@ abstract class AbstractUpdatableByteMap<K> extends AbstractByteMap<K> implements
     }
 
     @Override
+    public boolean subtract(final Byte subtrahend) throws IllegalArgumentException {
+        boolean result = false;
+        for (K key : getKeys()) {
+            NumericCollection<Byte> originalValues = getAll(key);
+            ModifiableByteCollection newValues = ModifiableByteCollection.of(originalValues);
+            if (newValues.subtract(subtrahend)) {
+                updateValuesForKey(key, originalValues, newValues);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Byte subtract(final K key, final Byte subtrahend) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException("Map doesn't contain an entry with the key " + key + ".");

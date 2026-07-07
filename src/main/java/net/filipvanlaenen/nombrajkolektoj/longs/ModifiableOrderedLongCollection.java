@@ -1,14 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -16,13 +12,20 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
  * interface for longs and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableOrderedLongCollection extends AbstractModifiableOrderedLongCollection
-        implements ModifiableOrderedNumericCollection<Long> {
+public interface ModifiableOrderedLongCollection
+        extends ModifiableOrderedNumericCollection<Long>, ModifiableLongCollection, OrderedLongCollection {
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedLongCollection {
+    public static final class ArrayCollection extends ModifiableOrderedLongCollectionDecorator {
+        private ModifiableOrderedArrayCollection<Long> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -30,7 +33,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param numbers The longs of the collection.
          */
         public ArrayCollection(final Long... numbers) {
-            super(new ModifiableOrderedArrayCollection<Long>(numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Long>(numbers);
         }
 
         /**
@@ -40,7 +43,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param numbers            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableOrderedArrayCollection<Long>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Long>(elementCardinality, numbers);
         }
 
         /**
@@ -50,7 +53,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param source             The ordered collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Long> source) {
-            super(new ModifiableOrderedArrayCollection<Long>(elementCardinality, source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +63,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Long> source) {
-            super(new ModifiableOrderedArrayCollection<Long>(source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Long>(source);
         }
     }
 
@@ -68,7 +71,14 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedLongCollection {
+    public static final class LinkedListCollection extends ModifiableOrderedLongCollectionDecorator {
+        private ModifiableOrderedLinkedListCollection<Long> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection from another ordered collection, with the same longs and the
          * same element cardinality.
@@ -86,8 +96,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param numbers            The longs of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Long>(
-                    elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Long>(elementCardinality, numbers);
         }
 
         /**
@@ -97,7 +106,7 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
          * @param numbers The longs of the collection.
          */
         public LinkedListCollection(final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Long>(numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Long>(numbers);
         }
     }
 
@@ -203,134 +212,4 @@ public abstract class ModifiableOrderedLongCollection extends AbstractModifiable
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
-    /**
-     * The modifiable ordered collection holding the longs.
-     */
-    private final ModifiableOrderedCollection<Long> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the longs as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the longs.
-     */
-    private ModifiableOrderedLongCollection(final ModifiableOrderedCollection<Long> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Long element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Long> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Long> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Long element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Long element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Long getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Long element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Long element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public Long putAt(final int index, final Long element)
-            throws IllegalArgumentException, IndexOutOfBoundsException {
-        return collection.putAt(index, element);
-    }
-
-    @Override
-    public boolean remove(final Long element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Long> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public Long removeAt(final int index) throws IndexOutOfBoundsException {
-        return collection.removeAt(index);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Long> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Long> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Long[] toArray() {
-        return collection.toArray(EmptyArrays.LONGS);
-    }
 }

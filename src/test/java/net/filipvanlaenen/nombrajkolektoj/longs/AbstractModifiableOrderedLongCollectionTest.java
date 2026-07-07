@@ -8,7 +8,7 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
  * Unit tests on the abstract
- * {@link net.filipvanlaenen.nombrajkolektoj.longs.AbstractModifiableOrderedLongCollection} class. The class is
+ * {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableOrderedLongCollectionDecorator} class. The class is
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableOrderedLongCollection}
  * implementation.
  */

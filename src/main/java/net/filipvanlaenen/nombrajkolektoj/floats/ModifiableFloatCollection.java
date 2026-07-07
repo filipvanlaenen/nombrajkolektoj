@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for floats and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableFloatCollection extends AbstractModifiableFloatCollection
-        implements ModifiableNumericCollection<Float> {
+public interface ModifiableFloatCollection extends ModifiableNumericCollection<Float>, FloatCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableFloatCollection {
+    public static final class ArrayCollection extends ModifiableFloatCollectionDecorator {
+        private ModifiableArrayCollection<Float> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same floats and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Float> source) {
-            super(new ModifiableArrayCollection<Float>(source));
+            decoratedCollection = new ModifiableArrayCollection<Float>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers The floats of the collection.
          */
         public ArrayCollection(final Float... numbers) {
-            super(new ModifiableArrayCollection<Float>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Float>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
-            super(new ModifiableArrayCollection<Float>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers            The floats of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableArrayCollection<Float>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Float>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableFloatCollection {
+    public static final class HashCollection extends ModifiableFloatCollectionDecorator {
+        private ModifiableHashCollection<Float> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same floats and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Float> source) {
-            super(new ModifiableHashCollection<Float>(source));
+            decoratedCollection = new ModifiableHashCollection<Float>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers The floats of the collection.
          */
         public HashCollection(final Float... numbers) {
-            super(new ModifiableHashCollection<Float>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Float>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
-            super(new ModifiableHashCollection<Float>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers            The floats of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableHashCollection<Float>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Float>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableFloatCollection {
+    public static final class LinkedListCollection extends ModifiableFloatCollectionDecorator {
+        private ModifiableLinkedListCollection<Float> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same floats and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Float> source) {
-            super(new ModifiableLinkedListCollection<Float>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Float>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers The floats of the collection.
          */
         public LinkedListCollection(final Float... numbers) {
-            super(new ModifiableLinkedListCollection<Float>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Float>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
-            super(new ModifiableLinkedListCollection<Float>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
          * @param numbers            The floats of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableLinkedListCollection<Float>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Float>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableFloatCollection extends AbstractModifiableFloatC
 
     public static ModifiableFloatCollection unionOf(final NumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the floats.
-     */
-    private final ModifiableCollection<Float> collection;
-
-    /**
-     * Private constructor taking a collection with the floats as its parameter.
-     *
-     * @param numbers The collection holding the floats.
-     */
-    private ModifiableFloatCollection(final ModifiableCollection<Float> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Float element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Float> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Float element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Float> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Float> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Float> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Float> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Float[] toArray() {
-        return collection.toArray(EmptyArrays.FLOATS);
     }
 }

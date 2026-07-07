@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for shorts and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableShortCollection extends AbstractModifiableShortCollection
-        implements ModifiableNumericCollection<Short> {
+public interface ModifiableShortCollection extends ModifiableNumericCollection<Short>, ShortCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableShortCollection {
+    public static final class ArrayCollection extends ModifiableShortCollectionDecorator {
+        private ModifiableArrayCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same shorts and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Short> source) {
-            super(new ModifiableArrayCollection<Short>(source));
+            decoratedCollection = new ModifiableArrayCollection<Short>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers The shorts of the collection.
          */
         public ArrayCollection(final Short... numbers) {
-            super(new ModifiableArrayCollection<Short>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Short>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
-            super(new ModifiableArrayCollection<Short>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers            The shorts of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableArrayCollection<Short>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Short>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableShortCollection {
+    public static final class HashCollection extends ModifiableShortCollectionDecorator {
+        private ModifiableHashCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same shorts and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Short> source) {
-            super(new ModifiableHashCollection<Short>(source));
+            decoratedCollection = new ModifiableHashCollection<Short>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers The shorts of the collection.
          */
         public HashCollection(final Short... numbers) {
-            super(new ModifiableHashCollection<Short>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Short>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
-            super(new ModifiableHashCollection<Short>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers            The shorts of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableHashCollection<Short>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Short>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableShortCollection {
+    public static final class LinkedListCollection extends ModifiableShortCollectionDecorator {
+        private ModifiableLinkedListCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same shorts and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Short> source) {
-            super(new ModifiableLinkedListCollection<Short>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Short>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers The shorts of the collection.
          */
         public LinkedListCollection(final Short... numbers) {
-            super(new ModifiableLinkedListCollection<Short>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Short>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
-            super(new ModifiableLinkedListCollection<Short>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
          * @param numbers            The shorts of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableLinkedListCollection<Short>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Short>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableShortCollection extends AbstractModifiableShortC
 
     public static ModifiableShortCollection unionOf(final NumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the shorts.
-     */
-    private final ModifiableCollection<Short> collection;
-
-    /**
-     * Private constructor taking a collection with the shorts as its parameter.
-     *
-     * @param numbers The collection holding the shorts.
-     */
-    private ModifiableShortCollection(final ModifiableCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Short element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Short element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Short> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Short> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Short> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Short[] toArray() {
-        return collection.toArray(EmptyArrays.SHORTS);
     }
 }

@@ -1,8 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -17,13 +15,19 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection} interface for
  * longs and containing inner classes with concrete implementations.
  */
-public abstract class SortedLongCollection extends AbstractSortedLongCollection
-        implements SortedNumericCollection<Long> {
+public interface SortedLongCollection extends SortedNumericCollection<Long>, OrderedLongCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedLongCollection {
+    public static final class ArrayCollection extends SortedLongCollectionDecorator {
+        private SortedArrayCollection<Long> decoratedCollection;
+
+        @Override
+        SortedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same longs and the same element cardinality.
          *
@@ -42,7 +46,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param numbers    The longs of the sorted collection.
          */
         public ArrayCollection(final Comparator<? super Long> comparator, final Long... numbers) {
-            super(new SortedArrayCollection<Long>(comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Long>(comparator, numbers);
         }
 
         /**
@@ -54,8 +58,8 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Long> comparator,
                 final Collection<Long> source) {
-            super(new SortedArrayCollection<Long>(elementCardinality, comparator,
-                    source.toArray(EmptyArrays.LONGS)));
+            decoratedCollection = new SortedArrayCollection<Long>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.LONGS));
         }
 
         /**
@@ -67,7 +71,7 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Long> comparator,
                 final Long... numbers) {
-            super(new SortedArrayCollection<Long>(elementCardinality, comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Long>(elementCardinality, comparator, numbers);
         }
     }
 
@@ -75,7 +79,14 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedLongCollection {
+    public static final class SortedTreeCollection extends SortedLongCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long> decoratedCollection;
+
+        @Override
+        SortedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same longs and the same element cardinality.
          *
@@ -94,7 +105,8 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          * @param numbers    The longs of the sorted collection.
          */
         public SortedTreeCollection(final Comparator<? super Long> comparator, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(comparator, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(comparator, numbers);
         }
 
         /**
@@ -106,8 +118,8 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Long> comparator, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(elementCardinality,
-                    comparator, numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(
+                    elementCardinality, comparator, numbers);
         }
 
         /**
@@ -119,8 +131,8 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Long> comparator, final Collection<Long> source) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(elementCardinality,
-                    comparator, source.toArray(EmptyArrays.LONGS)));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(
+                    elementCardinality, comparator, source.toArray(EmptyArrays.LONGS));
         }
     }
 
@@ -234,104 +246,5 @@ public abstract class SortedLongCollection extends AbstractSortedLongCollection
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
-    }
-
-    /**
-     * The sorted collection holding the longs.
-     */
-    private final SortedCollection<Long> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the longs as its parameter.
-     *
-     * @param collection The sorted collection holding the longs.
-     */
-    private SortedLongCollection(final SortedCollection<Long> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Long element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Long getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Long> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Long getGreaterThan(final Long element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Long getGreaterThanOrEqualTo(final Long element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Long getLessThan(final Long element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Long getLessThanOrEqualTo(final Long element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Long element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Long element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Long[] toArray() {
-        return collection.toArray(EmptyArrays.LONGS);
     }
 }

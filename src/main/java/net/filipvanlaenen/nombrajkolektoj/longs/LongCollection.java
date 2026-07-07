@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for longs
  * and containing inner classes with concrete implementations.
  */
-public abstract class LongCollection extends AbstractLongCollection implements NumericCollection<Long> {
+public interface LongCollection extends NumericCollection<Long> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends LongCollection {
+    public static final class ArrayCollection extends LongCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Long> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same longs and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Long> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param numbers The longs of the collection.
          */
         public ArrayCollection(final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param numbers            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Long>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Long> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends LongCollection {
+    public static final class HashCollection extends LongCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Long> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same longs and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param numbers The longs of the collection.
          */
         public HashCollection(final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class LongCollection extends AbstractLongCollection implements N
          * @param numbers            The longs of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Long>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Long> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class LongCollection extends AbstractLongCollection implements N
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the longs.
-     */
-    private final Collection<Long> numbers;
-
-    /**
-     * Private constructor taking a collection with the longs as its parameter.
-     *
-     * @param numbers The collection holding the longs.
-     */
-    private LongCollection(final Collection<Long> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Long[] toArray() {
-        return numbers.toArray(EmptyArrays.LONGS);
     }
 }

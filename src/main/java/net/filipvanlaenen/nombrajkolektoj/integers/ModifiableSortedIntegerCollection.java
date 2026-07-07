@@ -1,14 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
+import net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -18,13 +16,20 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
  * interface for integers and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableSortedIntegerCollection extends AbstractModifiableSortedIntegerCollection
-        implements ModifiableSortedNumericCollection<Integer> {
+public interface ModifiableSortedIntegerCollection
+        extends ModifiableSortedNumericCollection<Integer>, SortedIntegerCollection, ModifiableIntegerCollection {
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedIntegerCollection {
+    public static final class SortedTreeCollection extends ModifiableSortedIntegerCollectionDecorator {
+        private ModifiableSortedTreeCollection<Integer> decoratedCollection;
+
+        @Override
+        ModifiableSortedCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable sorted collection from a collection, with the same integers and the same element
          * cardinality.
@@ -45,8 +50,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Integer> comparator, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Integer>(elementCardinality,
-                    comparator, numbers));
+            decoratedCollection = new ModifiableSortedTreeCollection<Integer>(elementCardinality, comparator, numbers);
         }
 
         /**
@@ -70,8 +74,7 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
          * @param numbers    The integers of the sorted collection.
          */
         public SortedTreeCollection(final Comparator<? super Integer> comparator, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Integer>(comparator,
-                    numbers));
+            decoratedCollection = new ModifiableSortedTreeCollection<Integer>(comparator, numbers);
         }
     }
 
@@ -192,144 +195,5 @@ public abstract class ModifiableSortedIntegerCollection extends AbstractModifiab
             }
         }
         return result;
-    }
-
-    /**
-     * The modifiable sorted collection holding the integers.
-     */
-    private final ModifiableSortedCollection<Integer> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the integers as its parameter.
-     *
-     * @param collection The sorted collection holding the integers.
-     */
-    private ModifiableSortedIntegerCollection(final ModifiableSortedCollection<Integer> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Integer element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Integer element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Integer> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Integer getGreaterThan(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Integer getGreaterThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Integer getLessThan(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Integer getLessThanOrEqualTo(final Integer element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Integer element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Integer element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public boolean remove(final Integer element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Integer> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public Integer removeAt(final int index) throws IndexOutOfBoundsException {
-        return collection.removeAt(index);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Integer> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Integer> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Integer[] toArray() {
-        return collection.toArray(EmptyArrays.INTEGERS);
     }
 }

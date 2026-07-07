@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for integers and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableIntegerCollection extends AbstractModifiableIntegerCollection
-        implements ModifiableNumericCollection<Integer> {
+public interface ModifiableIntegerCollection extends ModifiableNumericCollection<Integer>, IntegerCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableIntegerCollection {
+    public static final class ArrayCollection extends ModifiableIntegerCollectionDecorator {
+        private ModifiableArrayCollection<Integer> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same integers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Integer> source) {
-            super(new ModifiableArrayCollection<Integer>(source));
+            decoratedCollection = new ModifiableArrayCollection<Integer>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers The integers of the collection.
          */
         public ArrayCollection(final Integer... numbers) {
-            super(new ModifiableArrayCollection<Integer>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Integer>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
-            super(new ModifiableArrayCollection<Integer>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers            The integers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new ModifiableArrayCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Integer>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableIntegerCollection {
+    public static final class HashCollection extends ModifiableIntegerCollectionDecorator {
+        private ModifiableHashCollection<Integer> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same integers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Integer> source) {
-            super(new ModifiableHashCollection<Integer>(source));
+            decoratedCollection = new ModifiableHashCollection<Integer>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers The integers of the collection.
          */
         public HashCollection(final Integer... numbers) {
-            super(new ModifiableHashCollection<Integer>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Integer>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
-            super(new ModifiableHashCollection<Integer>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers            The integers of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new ModifiableHashCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Integer>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableIntegerCollection {
+    public static final class LinkedListCollection extends ModifiableIntegerCollectionDecorator {
+        private ModifiableLinkedListCollection<Integer> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same integers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Integer> source) {
-            super(new ModifiableLinkedListCollection<Integer>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Integer>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers The integers of the collection.
          */
         public LinkedListCollection(final Integer... numbers) {
-            super(new ModifiableLinkedListCollection<Integer>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Integer>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
-            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
          * @param numbers            The integers of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new ModifiableLinkedListCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Integer>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableIntegerCollection extends AbstractModifiableInte
 
     public static ModifiableIntegerCollection unionOf(final NumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the integers.
-     */
-    private final ModifiableCollection<Integer> collection;
-
-    /**
-     * Private constructor taking a collection with the integers as its parameter.
-     *
-     * @param numbers The collection holding the integers.
-     */
-    private ModifiableIntegerCollection(final ModifiableCollection<Integer> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Integer element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Integer element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Integer> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Integer> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Integer> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Integer[] toArray() {
-        return collection.toArray(EmptyArrays.INTEGERS);
     }
 }

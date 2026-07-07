@@ -1,8 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -17,13 +15,19 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection} interface for
  * bytes and containing inner classes with concrete implementations.
  */
-public abstract class SortedByteCollection extends AbstractSortedByteCollection
-        implements SortedNumericCollection<Byte> {
+public interface SortedByteCollection extends SortedNumericCollection<Byte>, OrderedByteCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedByteCollection {
+    public static final class ArrayCollection extends SortedByteCollectionDecorator {
+        private SortedArrayCollection<Byte> decoratedCollection;
+
+        @Override
+        SortedCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same bytes and the same element cardinality.
          *
@@ -42,7 +46,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param numbers    The bytes of the sorted collection.
          */
         public ArrayCollection(final Comparator<? super Byte> comparator, final Byte... numbers) {
-            super(new SortedArrayCollection<Byte>(comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Byte>(comparator, numbers);
         }
 
         /**
@@ -54,8 +58,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Byte> comparator,
                 final Collection<Byte> source) {
-            super(new SortedArrayCollection<Byte>(elementCardinality, comparator,
-                    source.toArray(EmptyArrays.BYTES)));
+            decoratedCollection = new SortedArrayCollection<Byte>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.BYTES));
         }
 
         /**
@@ -67,7 +71,7 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Byte> comparator,
                 final Byte... numbers) {
-            super(new SortedArrayCollection<Byte>(elementCardinality, comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Byte>(elementCardinality, comparator, numbers);
         }
     }
 
@@ -75,7 +79,14 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedByteCollection {
+    public static final class SortedTreeCollection extends SortedByteCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte> decoratedCollection;
+
+        @Override
+        SortedCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same bytes and the same element cardinality.
          *
@@ -94,7 +105,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          * @param numbers    The bytes of the sorted collection.
          */
         public SortedTreeCollection(final Comparator<? super Byte> comparator, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(comparator, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(comparator, numbers);
         }
 
         /**
@@ -106,8 +118,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Byte> comparator, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(elementCardinality,
-                    comparator, numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(
+                    elementCardinality, comparator, numbers);
         }
 
         /**
@@ -119,8 +131,8 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Byte> comparator, final Collection<Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(elementCardinality,
-                    comparator, source.toArray(EmptyArrays.BYTES)));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(
+                    elementCardinality, comparator, source.toArray(EmptyArrays.BYTES));
         }
     }
 
@@ -234,104 +246,5 @@ public abstract class SortedByteCollection extends AbstractSortedByteCollection
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
-    }
-
-    /**
-     * The sorted collection holding the bytes.
-     */
-    private final SortedCollection<Byte> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the bytes as its parameter.
-     *
-     * @param collection The sorted collection holding the bytes.
-     */
-    private SortedByteCollection(final SortedCollection<Byte> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Byte element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Byte getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Byte> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Byte getGreaterThan(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Byte getGreaterThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Byte getLessThan(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Byte getLessThanOrEqualTo(final Byte element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Byte element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Byte element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Byte> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Byte[] toArray() {
-        return collection.toArray(EmptyArrays.BYTES);
     }
 }

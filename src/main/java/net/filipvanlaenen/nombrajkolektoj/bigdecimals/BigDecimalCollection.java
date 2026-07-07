@@ -2,29 +2,27 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigDecimals
  * and containing inner classes with concrete implementations.
  */
-public abstract class BigDecimalCollection extends AbstractBigDecimalCollection implements NumericCollection<BigDecimal> {
+public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends BigDecimalCollection {
+    public static final class ArrayCollection extends BigDecimalCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(source);
         }
 
         /**
@@ -34,7 +32,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param numbers The BigDecimals of the collection.
          */
         public ArrayCollection(final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(numbers);
         }
 
         /**
@@ -44,7 +42,8 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, source);
         }
 
         /**
@@ -54,21 +53,29 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param numbers            The BigDecimals of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends BigDecimalCollection {
+    public static final class HashCollection extends BigDecimalCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(source);
         }
 
         /**
@@ -78,7 +85,7 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param numbers The BigDecimals of the collection.
          */
         public HashCollection(final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(numbers);
         }
 
         /**
@@ -88,7 +95,8 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(elementCardinality, source);
         }
 
         /**
@@ -98,7 +106,13 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
          * @param numbers            The BigDecimals of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -199,59 +213,5 @@ public abstract class BigDecimalCollection extends AbstractBigDecimalCollection 
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the BigDecimals.
-     */
-    private final Collection<BigDecimal> numbers;
-
-    /**
-     * Private constructor taking a collection with the BigDecimals as its parameter.
-     *
-     * @param numbers The collection holding the BigDecimals.
-     */
-    private BigDecimalCollection(final Collection<BigDecimal> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<BigDecimal> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public BigDecimal[] toArray() {
-        return numbers.toArray(EmptyArrays.BIG_DECIMALS);
     }
 }

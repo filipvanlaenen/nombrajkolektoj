@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import java.math.BigDecimal;
+
 import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 
 /**

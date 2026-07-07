@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.doubles;
+package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -7,91 +7,91 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.AbstractDoubleCollection} class. The
- * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} implementation.
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollectionDecorator} class. The
+ * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} implementation.
  */
-public class AbstractDoubleCollectionTest {
+public class IntegerCollectionDecoratorTest {
     /**
      * The magic number three.
      */
-    private static final double THREE = 3D;
+    private static final int THREE = 3;
     /**
      * The magic number four.
      */
-    private static final double FOUR = 4D;
+    private static final int FOUR = 4;
     /**
      * The magic number six.
      */
-    private static final double SIX = 6D;
+    private static final int SIX = 6;
     /**
      * The magic number ten.
      */
-    private static final double TEN = 10D;
+    private static final int TEN = 10;
     /**
      * The magic number twenty-four.
      */
-    private static final double TWENTY_FOUR = 24D;
+    private static final int TWENTY_FOUR = 24;
     /**
-     * Collection with the doubles 1, 2, 3 and 4.
+     * Collection with the integers 1, 2, 3 and 4.
      */
-    private static final DoubleCollection COLLECTION1234 = DoubleCollection.of(1D, 2D, THREE, FOUR);
+    private static final IntegerCollection COLLECTION1234 = IntegerCollection.of(1, 2, THREE, FOUR);
     /**
-     * Collection with the doubles 1, 2 and 3 and <code>null</code>.
+     * Collection with the integers 1, 2 and 3 and <code>null</code>.
      */
-    private static final DoubleCollection COLLECTION123NULL = DoubleCollection.of(1D, 2D, THREE, null);
+    private static final IntegerCollection COLLECTION123NULL = IntegerCollection.of(1, 2, THREE, null);
     /**
      * Collection with <code>null</code>.
      */
-    private static final DoubleCollection COLLECTION_NULL = DoubleCollection.of(new Double[] {null});
+    private static final IntegerCollection COLLECTION_NULL = IntegerCollection.of(new Integer[] {null});
 
     /**
-     * Verifies that <code>max</code> returns the largest double in the collection.
+     * Verifies that <code>max</code> returns the largest int in the collection.
      */
     @Test
-    public void maxShouldReturnTheLargestDouble() {
+    public void maxShouldReturnTheLargestInteger() {
         assertEquals(FOUR, COLLECTION1234.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest double in the collection.
+     * Verifies that <code>min</code> returns the smallest int in the collection.
      */
     @Test
-    public void minShouldReturnTheSmallestDouble() {
-        assertEquals(1D, COLLECTION1234.min());
+    public void minShouldReturnTheSmallestInteger() {
+        assertEquals(1, COLLECTION1234.min());
     }
 
     /**
-     * Verifies that <code>product</code> returns the product of the doubles in the collection.
+     * Verifies that <code>product</code> returns the product of the integers in the collection.
      */
     @Test
-    public void productShouldReturnTheProductOfTheDoubles() {
+    public void productShouldReturnTheProductOfTheIntegers() {
         assertEquals(TWENTY_FOUR, COLLECTION1234.product());
     }
 
     /**
-     * Verifies that <code>sum</code> returns the sum of the doubles in the collection.
+     * Verifies that <code>sum</code> returns the sum of the integers in the collection.
      */
     @Test
-    public void sumShouldReturnTheSumOfTheDoubles() {
+    public void sumShouldReturnTheSumOfTheIntegers() {
         assertEquals(TEN, COLLECTION1234.sum());
     }
 
     /**
-     * Verifies that <code>max</code> returns the largest double in the collection even when there are <code>null</code>
+     * Verifies that <code>max</code> returns the largest int in the collection even when there are <code>null</code>
      * elements in the collection.
      */
     @Test
-    public void maxShouldIgnoreNullAndReturnTheLargestDouble() {
+    public void maxShouldIgnoreNullAndReturnTheLargestInteger() {
         assertEquals(THREE, COLLECTION123NULL.max());
     }
 
     /**
-     * Verifies that <code>min</code> returns the smallest double in the collection even when there are
+     * Verifies that <code>min</code> returns the smallest int in the collection even when there are
      * <code>null</code> elements in the collection.
      */
     @Test
-    public void minShouldIgnoreNullAndReturnTheSmallestDouble() {
-        assertEquals(1D, COLLECTION123NULL.min());
+    public void minShouldIgnoreNullAndReturnTheSmallestInteger() {
+        assertEquals(1, COLLECTION123NULL.min());
     }
 
     /**
@@ -133,7 +133,7 @@ public class AbstractDoubleCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionContainsOnlyNull() {
-        assertEquals(1D, COLLECTION_NULL.product());
+        assertEquals(1, COLLECTION_NULL.product());
     }
 
     /**
@@ -141,7 +141,7 @@ public class AbstractDoubleCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionContainsOnlyNull() {
-        assertEquals(0D, COLLECTION_NULL.sum());
+        assertEquals(0, COLLECTION_NULL.sum());
     }
 
     /**
@@ -150,7 +150,7 @@ public class AbstractDoubleCollectionTest {
     @Test
     public void maxShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> DoubleCollection.empty().max());
+                assertThrows(IndexOutOfBoundsException.class, () -> IntegerCollection.empty().max());
         assertEquals("Cannot return a maximum for an empty collection.", exception.getMessage());
     }
 
@@ -160,7 +160,7 @@ public class AbstractDoubleCollectionTest {
     @Test
     public void minShouldThrowExceptionWhenCalledOnAnEmptyCollection() {
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> DoubleCollection.empty().min());
+                assertThrows(IndexOutOfBoundsException.class, () -> IntegerCollection.empty().min());
         assertEquals("Cannot return a minimum for an empty collection.", exception.getMessage());
     }
 
@@ -169,7 +169,7 @@ public class AbstractDoubleCollectionTest {
      */
     @Test
     public void productShouldReturnOneIfTheCollectionIsEmpty() {
-        assertEquals(1D, DoubleCollection.empty().product());
+        assertEquals(1, IntegerCollection.empty().product());
     }
 
     /**
@@ -177,6 +177,6 @@ public class AbstractDoubleCollectionTest {
      */
     @Test
     public void sumShouldReturnZeroIfTheCollectionIsEmpty() {
-        assertEquals(0D, DoubleCollection.empty().sum());
+        assertEquals(0, IntegerCollection.empty().sum());
     }
 }

@@ -2,29 +2,27 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigIntegers
  * and containing inner classes with concrete implementations.
  */
-public abstract class BigIntegerCollection extends AbstractBigIntegerCollection implements NumericCollection<BigInteger> {
+public interface BigIntegerCollection extends NumericCollection<BigInteger> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends BigIntegerCollection {
+    public static final class ArrayCollection extends BigIntegerCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(source);
         }
 
         /**
@@ -34,7 +32,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param numbers The BigIntegers of the collection.
          */
         public ArrayCollection(final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(numbers);
         }
 
         /**
@@ -44,7 +42,8 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -54,21 +53,29 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param numbers            The BigIntegers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends BigIntegerCollection {
+    public static final class HashCollection extends BigIntegerCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(source);
         }
 
         /**
@@ -78,7 +85,7 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param numbers The BigIntegers of the collection.
          */
         public HashCollection(final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(numbers);
         }
 
         /**
@@ -88,7 +95,8 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -98,7 +106,13 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
          * @param numbers            The BigIntegers of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -199,59 +213,5 @@ public abstract class BigIntegerCollection extends AbstractBigIntegerCollection 
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the BigIntegers.
-     */
-    private final Collection<BigInteger> numbers;
-
-    /**
-     * Private constructor taking a collection with the BigIntegers as its parameter.
-     *
-     * @param numbers The collection holding the BigIntegers.
-     */
-    private BigIntegerCollection(final Collection<BigInteger> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<BigInteger> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public BigInteger[] toArray() {
-        return numbers.toArray(EmptyArrays.BIG_INTEGERS);
     }
 }

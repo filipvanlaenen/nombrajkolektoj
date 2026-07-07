@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for shorts
  * and containing inner classes with concrete implementations.
  */
-public abstract class ShortCollection extends AbstractShortCollection implements NumericCollection<Short> {
+public interface ShortCollection extends NumericCollection<Short> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends ShortCollection {
+    public static final class ArrayCollection extends ShortCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Short> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same shorts and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Short> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param numbers The shorts of the collection.
          */
         public ArrayCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param numbers            The shorts of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Short>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Short> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends ShortCollection {
+    public static final class HashCollection extends ShortCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Short> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same shorts and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Short> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param numbers The shorts of the collection.
          */
         public HashCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class ShortCollection extends AbstractShortCollection implements
          * @param numbers            The shorts of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Short>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Short> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class ShortCollection extends AbstractShortCollection implements
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the shorts.
-     */
-    private final Collection<Short> numbers;
-
-    /**
-     * Private constructor taking a collection with the shorts as its parameter.
-     *
-     * @param numbers The collection holding the shorts.
-     */
-    private ShortCollection(final Collection<Short> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Short[] toArray() {
-        return numbers.toArray(EmptyArrays.SHORTS);
     }
 }

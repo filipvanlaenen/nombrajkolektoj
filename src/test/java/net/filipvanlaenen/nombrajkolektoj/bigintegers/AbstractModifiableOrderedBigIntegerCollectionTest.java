@@ -10,7 +10,7 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
  * Unit tests on the abstract
- * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.AbstractModifiableOrderedBigIntegerCollection} class. The class is
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableOrderedBigIntegerCollectionDecorator} class. The class is
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableOrderedBigIntegerCollection}
  * implementation.
  */

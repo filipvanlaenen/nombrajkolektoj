@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for doubles
  * and containing inner classes with concrete implementations.
  */
-public abstract class DoubleCollection extends AbstractDoubleCollection implements NumericCollection<Double> {
+public interface DoubleCollection extends NumericCollection<Double> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends DoubleCollection {
+    public static final class ArrayCollection extends DoubleCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Double> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same doubles and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Double> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param numbers The doubles of the collection.
          */
         public ArrayCollection(final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param numbers            The doubles of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Double>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Double> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends DoubleCollection {
+    public static final class HashCollection extends DoubleCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Double> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same doubles and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param numbers The doubles of the collection.
          */
         public HashCollection(final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
          * @param numbers            The doubles of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Double>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Double> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class DoubleCollection extends AbstractDoubleCollection implemen
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the doubles.
-     */
-    private final Collection<Double> numbers;
-
-    /**
-     * Private constructor taking a collection with the doubles as its parameter.
-     *
-     * @param numbers The collection holding the doubles.
-     */
-    private DoubleCollection(final Collection<Double> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Double> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Double[] toArray() {
-        return numbers.toArray(EmptyArrays.DOUBLES);
     }
 }

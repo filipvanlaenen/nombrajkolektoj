@@ -1,11 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -14,13 +11,19 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
  * longs and containing inner classes with concrete implementations.
  */
-public abstract class OrderedLongCollection extends AbstractOrderedLongCollection
-        implements OrderedNumericCollection<Long> {
+public interface OrderedLongCollection extends OrderedNumericCollection<Long>, LongCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends OrderedLongCollection {
+    public static final class ArrayCollection extends OrderedLongCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long> decoratedCollection;
+
+        @Override
+        OrderedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs an ordered collection with the given longs. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -28,7 +31,7 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
          * @param numbers The longs of the ordered collection.
          */
         public ArrayCollection(final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(numbers);
         }
 
         /**
@@ -38,7 +41,8 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
          * @param numbers            The longs of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, numbers);
         }
 
         /**
@@ -282,79 +286,5 @@ public abstract class OrderedLongCollection extends AbstractOrderedLongCollectio
      */
     public static OrderedLongCollection unionOf(final OrderedNumericCollection<Long>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The ordered collection holding the longs.
-     */
-    private final OrderedCollection<Long> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the longs as its parameter.
-     *
-     * @param numbers The ordered collection holding the longs.
-     */
-    private OrderedLongCollection(final OrderedCollection<Long> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Long element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Long getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Long element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Long element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Long[] toArray() {
-        return collection.toArray(EmptyArrays.LONGS);
     }
 }

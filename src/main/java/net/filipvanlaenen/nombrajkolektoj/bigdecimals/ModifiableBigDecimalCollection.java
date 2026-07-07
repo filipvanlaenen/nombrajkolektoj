@@ -2,12 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -19,20 +14,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for BigDecimals and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableBigDecimalCollection extends AbstractModifiableBigDecimalCollection
-        implements ModifiableNumericCollection<BigDecimal> {
+public interface ModifiableBigDecimalCollection extends ModifiableNumericCollection<BigDecimal>, BigDecimalCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableBigDecimalCollection {
+    public static final class ArrayCollection extends ModifiableBigDecimalCollectionDecorator {
+        private ModifiableArrayCollection<BigDecimal> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigDecimal> source) {
-            super(new ModifiableArrayCollection<BigDecimal>(source));
+            decoratedCollection = new ModifiableArrayCollection<BigDecimal>(source);
         }
 
         /**
@@ -42,7 +43,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers The BigDecimals of the collection.
          */
         public ArrayCollection(final BigDecimal... numbers) {
-            super(new ModifiableArrayCollection<BigDecimal>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<BigDecimal>(numbers);
         }
 
         /**
@@ -52,7 +53,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
-            super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<BigDecimal>(elementCardinality, source);
         }
 
         /**
@@ -62,7 +63,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers            The BigDecimals of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new ModifiableArrayCollection<BigDecimal>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<BigDecimal>(elementCardinality, numbers);
         }
     }
 
@@ -70,14 +71,21 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableBigDecimalCollection {
+    public static final class HashCollection extends ModifiableBigDecimalCollectionDecorator {
+        private ModifiableHashCollection<BigDecimal> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<BigDecimal> source) {
-            super(new ModifiableHashCollection<BigDecimal>(source));
+            decoratedCollection = new ModifiableHashCollection<BigDecimal>(source);
         }
 
         /**
@@ -87,7 +95,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers The BigDecimals of the collection.
          */
         public HashCollection(final BigDecimal... numbers) {
-            super(new ModifiableHashCollection<BigDecimal>(numbers));
+            decoratedCollection = new ModifiableHashCollection<BigDecimal>(numbers);
         }
 
         /**
@@ -97,7 +105,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
-            super(new ModifiableHashCollection<BigDecimal>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<BigDecimal>(elementCardinality, source);
         }
 
         /**
@@ -107,7 +115,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers            The BigDecimals of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new ModifiableHashCollection<BigDecimal>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<BigDecimal>(elementCardinality, numbers);
         }
     }
 
@@ -115,14 +123,21 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableBigDecimalCollection {
+    public static final class LinkedListCollection extends ModifiableBigDecimalCollectionDecorator {
+        private ModifiableLinkedListCollection<BigDecimal> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<BigDecimal> source) {
-            super(new ModifiableLinkedListCollection<BigDecimal>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<BigDecimal>(source);
         }
 
         /**
@@ -132,7 +147,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers The BigDecimals of the collection.
          */
         public LinkedListCollection(final BigDecimal... numbers) {
-            super(new ModifiableLinkedListCollection<BigDecimal>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<BigDecimal>(numbers);
         }
 
         /**
@@ -142,7 +157,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
-            super(new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, source);
         }
 
         /**
@@ -152,7 +167,7 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
          * @param numbers            The BigDecimals of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
-            super(new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<BigDecimal>(elementCardinality, numbers);
         }
     }
 
@@ -255,94 +270,5 @@ public abstract class ModifiableBigDecimalCollection extends AbstractModifiableB
 
     public static ModifiableBigDecimalCollection unionOf(final NumericCollection<BigDecimal>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the BigDecimals.
-     */
-    private final ModifiableCollection<BigDecimal> collection;
-
-    /**
-     * Private constructor taking a collection with the BigDecimals as its parameter.
-     *
-     * @param numbers The collection holding the BigDecimals.
-     */
-    private ModifiableBigDecimalCollection(final ModifiableCollection<BigDecimal> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final BigDecimal element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final BigDecimal element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super BigDecimal> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends BigDecimal> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<BigDecimal> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public BigDecimal[] toArray() {
-        return collection.toArray(EmptyArrays.BIG_DECIMALS);
     }
 }

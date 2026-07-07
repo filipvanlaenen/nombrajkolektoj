@@ -1,11 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import java.util.Iterator;
-import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -14,13 +11,19 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
  * doubles and containing inner classes with concrete implementations.
  */
-public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleCollection
-        implements OrderedNumericCollection<Double> {
+public interface OrderedDoubleCollection extends OrderedNumericCollection<Double>, DoubleCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends OrderedDoubleCollection {
+    public static final class ArrayCollection extends OrderedDoubleCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double> decoratedCollection;
+
+        @Override
+        OrderedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs an ordered collection with the given doubles. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -28,7 +31,7 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
          * @param numbers The doubles of the ordered collection.
          */
         public ArrayCollection(final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers);
         }
 
         /**
@@ -38,7 +41,8 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
          * @param numbers            The doubles of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, numbers);
         }
 
         /**
@@ -282,79 +286,5 @@ public abstract class OrderedDoubleCollection extends AbstractOrderedDoubleColle
      */
     public static OrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The ordered collection holding the doubles.
-     */
-    private final OrderedCollection<Double> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the doubles as its parameter.
-     *
-     * @param numbers The ordered collection holding the doubles.
-     */
-    private OrderedDoubleCollection(final OrderedCollection<Double> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Double element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Double> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Double[] toArray() {
-        return collection.toArray(EmptyArrays.DOUBLES);
     }
 }

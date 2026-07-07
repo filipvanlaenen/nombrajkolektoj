@@ -1,14 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -16,13 +12,20 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
  * interface for shorts and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableOrderedShortCollection extends AbstractModifiableOrderedShortCollection
-        implements ModifiableOrderedNumericCollection<Short> {
+public interface ModifiableOrderedShortCollection
+        extends ModifiableOrderedNumericCollection<Short>, ModifiableShortCollection, OrderedShortCollection {
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedShortCollection {
+    public static final class ArrayCollection extends ModifiableOrderedShortCollectionDecorator {
+        private ModifiableOrderedArrayCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -30,7 +33,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param numbers The shorts of the collection.
          */
         public ArrayCollection(final Short... numbers) {
-            super(new ModifiableOrderedArrayCollection<Short>(numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Short>(numbers);
         }
 
         /**
@@ -40,7 +43,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param numbers            The shorts of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new ModifiableOrderedArrayCollection<Short>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Short>(elementCardinality, numbers);
         }
 
         /**
@@ -50,7 +53,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param source             The ordered collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Short> source) {
-            super(new ModifiableOrderedArrayCollection<Short>(elementCardinality, source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +63,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Short> source) {
-            super(new ModifiableOrderedArrayCollection<Short>(source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Short>(source);
         }
     }
 
@@ -68,7 +71,14 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedShortCollection {
+    public static final class LinkedListCollection extends ModifiableOrderedShortCollectionDecorator {
+        private ModifiableOrderedLinkedListCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection from another ordered collection, with the same shorts and the
          * same element cardinality.
@@ -86,8 +96,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param numbers            The shorts of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Short>(
-                    elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Short>(elementCardinality, numbers);
         }
 
         /**
@@ -97,7 +106,7 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
          * @param numbers The shorts of the collection.
          */
         public LinkedListCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Short>(numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Short>(numbers);
         }
     }
 
@@ -203,134 +212,4 @@ public abstract class ModifiableOrderedShortCollection extends AbstractModifiabl
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
-    /**
-     * The modifiable ordered collection holding the shorts.
-     */
-    private final ModifiableOrderedCollection<Short> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the shorts as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the shorts.
-     */
-    private ModifiableOrderedShortCollection(final ModifiableOrderedCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Short element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Short> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Short element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public Short putAt(final int index, final Short element)
-            throws IllegalArgumentException, IndexOutOfBoundsException {
-        return collection.putAt(index, element);
-    }
-
-    @Override
-    public boolean remove(final Short element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Short> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public Short removeAt(final int index) throws IndexOutOfBoundsException {
-        return collection.removeAt(index);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Short> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Short> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Short[] toArray() {
-        return collection.toArray(EmptyArrays.SHORTS);
-    }
 }

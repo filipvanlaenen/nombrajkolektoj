@@ -1,13 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
+import java.util.function.Predicate;
+
+import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
  * An abstract class implementing the methods defined in the
  * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for doubles.
  */
-abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollection
-        implements ModifiableNumericCollection<Double> {
+abstract class ModifiableDoubleCollectionDecorator extends DoubleCollectionDecorator
+        implements ModifiableDoubleCollection {
     @Override
     public boolean augment(final Double addend) throws IllegalArgumentException {
         int n = size();
@@ -116,5 +119,43 @@ abstract class AbstractModifiableDoubleCollection extends AbstractDoubleCollecti
         }
         putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
         return true;
+    }
+
+    @Override
+    abstract ModifiableCollection<Double> getDecoratedCollection();
+
+    @Override
+    public boolean add(final Double element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Double> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
+    @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
+    public boolean remove(final Double element) {
+        return getDecoratedCollection().remove(element);
+    }
+
+    @Override
+    public boolean removeAll(final Collection<? extends Double> otherCollection) {
+        return getDecoratedCollection().removeAll(otherCollection);
+    }
+
+    @Override
+    public boolean removeIf(final Predicate<? super Double> predicate) {
+        return getDecoratedCollection().removeIf(predicate);
+    }
+
+    @Override
+    public boolean retainAll(final Collection<? extends Double> otherCollection) {
+        return getDecoratedCollection().retainAll(otherCollection);
     }
 }

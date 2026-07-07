@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for bytes and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableByteCollection extends AbstractModifiableByteCollection
-        implements ModifiableNumericCollection<Byte> {
+public interface ModifiableByteCollection extends ModifiableNumericCollection<Byte>, ByteCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableByteCollection {
+    public static final class ArrayCollection extends ModifiableByteCollectionDecorator {
+        private ModifiableArrayCollection<Byte> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same bytes and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Byte> source) {
-            super(new ModifiableArrayCollection<Byte>(source));
+            decoratedCollection = new ModifiableArrayCollection<Byte>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers The bytes of the collection.
          */
         public ArrayCollection(final Byte... numbers) {
-            super(new ModifiableArrayCollection<Byte>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Byte>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
-            super(new ModifiableArrayCollection<Byte>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers            The bytes of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new ModifiableArrayCollection<Byte>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Byte>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableByteCollection {
+    public static final class HashCollection extends ModifiableByteCollectionDecorator {
+        private ModifiableHashCollection<Byte> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same bytes and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Byte> source) {
-            super(new ModifiableHashCollection<Byte>(source));
+            decoratedCollection = new ModifiableHashCollection<Byte>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers The bytes of the collection.
          */
         public HashCollection(final Byte... numbers) {
-            super(new ModifiableHashCollection<Byte>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Byte>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
-            super(new ModifiableHashCollection<Byte>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers            The bytes of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new ModifiableHashCollection<Byte>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Byte>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableByteCollection {
+    public static final class LinkedListCollection extends ModifiableByteCollectionDecorator {
+        private ModifiableLinkedListCollection<Byte> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same bytes and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Byte> source) {
-            super(new ModifiableLinkedListCollection<Byte>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Byte>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers The bytes of the collection.
          */
         public LinkedListCollection(final Byte... numbers) {
-            super(new ModifiableLinkedListCollection<Byte>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Byte>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
-            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
          * @param numbers            The bytes of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new ModifiableLinkedListCollection<Byte>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Byte>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableByteCollection extends AbstractModifiableByteCol
 
     public static ModifiableByteCollection unionOf(final NumericCollection<Byte>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the bytes.
-     */
-    private final ModifiableCollection<Byte> collection;
-
-    /**
-     * Private constructor taking a collection with the bytes as its parameter.
-     *
-     * @param numbers The collection holding the bytes.
-     */
-    private ModifiableByteCollection(final ModifiableCollection<Byte> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Byte element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Byte> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Byte element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Byte> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Byte> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Byte> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Byte> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Byte[] toArray() {
-        return collection.toArray(EmptyArrays.BYTES);
     }
 }

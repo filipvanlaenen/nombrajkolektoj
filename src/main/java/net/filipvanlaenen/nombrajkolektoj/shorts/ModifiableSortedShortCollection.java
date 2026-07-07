@@ -1,14 +1,12 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableSortedCollection;
 import net.filipvanlaenen.kolektoj.Range;
+import net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -18,13 +16,20 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableSortedNumericCollection}
  * interface for shorts and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableSortedShortCollection extends AbstractModifiableSortedShortCollection
-        implements ModifiableSortedNumericCollection<Short> {
+public interface ModifiableSortedShortCollection
+        extends ModifiableSortedNumericCollection<Short>, SortedShortCollection, ModifiableShortCollection {
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedShortCollection {
+    public static final class SortedTreeCollection extends ModifiableSortedShortCollectionDecorator {
+        private ModifiableSortedTreeCollection<Short> decoratedCollection;
+
+        @Override
+        ModifiableSortedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable sorted collection from a collection, with the same shorts and the same element
          * cardinality.
@@ -45,8 +50,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Short> comparator, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Short>(elementCardinality,
-                    comparator, numbers));
+            decoratedCollection = new ModifiableSortedTreeCollection<Short>(elementCardinality, comparator, numbers);
         }
 
         /**
@@ -70,8 +74,7 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
          * @param numbers    The shorts of the sorted collection.
          */
         public SortedTreeCollection(final Comparator<? super Short> comparator, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.ModifiableSortedTreeCollection<Short>(comparator,
-                    numbers));
+            decoratedCollection = new ModifiableSortedTreeCollection<Short>(comparator, numbers);
         }
     }
 
@@ -192,144 +195,5 @@ public abstract class ModifiableSortedShortCollection extends AbstractModifiable
             }
         }
         return result;
-    }
-
-    /**
-     * The modifiable sorted collection holding the shorts.
-     */
-    private final ModifiableSortedCollection<Short> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the shorts as its parameter.
-     *
-     * @param collection The sorted collection holding the shorts.
-     */
-    private ModifiableSortedShortCollection(final ModifiableSortedCollection<Short> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean add(final Short element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Short> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Short getGreaterThan(final Short element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Short getGreaterThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Short getLessThan(final Short element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Short getLessThanOrEqualTo(final Short element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public boolean remove(final Short element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Short> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public Short removeAt(final int index) throws IndexOutOfBoundsException {
-        return collection.removeAt(index);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Short> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Short> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Short[] toArray() {
-        return collection.toArray(EmptyArrays.SHORTS);
     }
 }

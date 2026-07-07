@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for integers
  * and containing inner classes with concrete implementations.
  */
-public abstract class IntegerCollection extends AbstractIntegerCollection implements NumericCollection<Integer> {
+public interface IntegerCollection extends NumericCollection<Integer> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends IntegerCollection {
+    public static final class ArrayCollection extends IntegerCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same integers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param numbers The integers of the collection.
          */
         public ArrayCollection(final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param numbers            The integers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends IntegerCollection {
+    public static final class HashCollection extends IntegerCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Integer> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same integers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param numbers The integers of the collection.
          */
         public HashCollection(final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
          * @param numbers            The integers of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Integer>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class IntegerCollection extends AbstractIntegerCollection implem
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the integers.
-     */
-    private final Collection<Integer> numbers;
-
-    /**
-     * Private constructor taking a collection with the integers as its parameter.
-     *
-     * @param numbers The collection holding the integers.
-     */
-    private IntegerCollection(final Collection<Integer> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Integer[] toArray() {
-        return numbers.toArray(EmptyArrays.INTEGERS);
     }
 }

@@ -1,14 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -16,13 +12,20 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
  * interface for floats and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableOrderedFloatCollection extends AbstractModifiableOrderedFloatCollection
-        implements ModifiableOrderedNumericCollection<Float> {
+public interface ModifiableOrderedFloatCollection
+        extends ModifiableOrderedNumericCollection<Float>, ModifiableFloatCollection, OrderedFloatCollection {
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedFloatCollection {
+    public static final class ArrayCollection extends ModifiableOrderedFloatCollectionDecorator {
+        private ModifiableOrderedArrayCollection<Float> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection with the given floats. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -30,7 +33,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param numbers The floats of the collection.
          */
         public ArrayCollection(final Float... numbers) {
-            super(new ModifiableOrderedArrayCollection<Float>(numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Float>(numbers);
         }
 
         /**
@@ -40,7 +43,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param numbers            The floats of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new ModifiableOrderedArrayCollection<Float>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Float>(elementCardinality, numbers);
         }
 
         /**
@@ -50,7 +53,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param source             The ordered collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final OrderedCollection<Float> source) {
-            super(new ModifiableOrderedArrayCollection<Float>(elementCardinality, source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +63,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Float> source) {
-            super(new ModifiableOrderedArrayCollection<Float>(source));
+            decoratedCollection = new ModifiableOrderedArrayCollection<Float>(source);
         }
     }
 
@@ -68,7 +71,14 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedFloatCollection {
+    public static final class LinkedListCollection extends ModifiableOrderedFloatCollectionDecorator {
+        private ModifiableOrderedLinkedListCollection<Float> decoratedCollection;
+
+        @Override
+        ModifiableOrderedCollection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a modifiable ordered collection from another ordered collection, with the same floats and the
          * same element cardinality.
@@ -86,8 +96,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param numbers            The floats of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Float>(
-                    elementCardinality, numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Float>(elementCardinality, numbers);
         }
 
         /**
@@ -97,7 +106,7 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
          * @param numbers The floats of the collection.
          */
         public LinkedListCollection(final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection<Float>(numbers));
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Float>(numbers);
         }
     }
 
@@ -203,134 +212,4 @@ public abstract class ModifiableOrderedFloatCollection extends AbstractModifiabl
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
-    /**
-     * The modifiable ordered collection holding the floats.
-     */
-    private final ModifiableOrderedCollection<Float> collection;
-
-    /**
-     * Private constructor taking a modifiable ordered collection with the floats as its parameter.
-     *
-     * @param numbers The modifiable ordered collection holding the floats.
-     */
-    private ModifiableOrderedFloatCollection(final ModifiableOrderedCollection<Float> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Float element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Float> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Float> otherCollection)
-            throws IndexOutOfBoundsException {
-        return collection.addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Float element) throws IndexOutOfBoundsException {
-        return collection.addAt(index, element);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Float element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Float getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Float element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Float element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public Float putAt(final int index, final Float element)
-            throws IllegalArgumentException, IndexOutOfBoundsException {
-        return collection.putAt(index, element);
-    }
-
-    @Override
-    public boolean remove(final Float element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Float> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public Float removeAt(final int index) throws IndexOutOfBoundsException {
-        return collection.removeAt(index);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Float> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Float> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Float> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Float[] toArray() {
-        return collection.toArray(EmptyArrays.FLOATS);
-    }
 }

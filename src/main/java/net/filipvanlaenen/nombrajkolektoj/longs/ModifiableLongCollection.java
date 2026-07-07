@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for longs and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableLongCollection extends AbstractModifiableLongCollection
-        implements ModifiableNumericCollection<Long> {
+public interface ModifiableLongCollection extends ModifiableNumericCollection<Long>, LongCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableLongCollection {
+    public static final class ArrayCollection extends ModifiableLongCollectionDecorator {
+        private ModifiableArrayCollection<Long> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same longs and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Long> source) {
-            super(new ModifiableArrayCollection<Long>(source));
+            decoratedCollection = new ModifiableArrayCollection<Long>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers The longs of the collection.
          */
         public ArrayCollection(final Long... numbers) {
-            super(new ModifiableArrayCollection<Long>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Long>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
-            super(new ModifiableArrayCollection<Long>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers            The longs of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableArrayCollection<Long>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Long>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableLongCollection {
+    public static final class HashCollection extends ModifiableLongCollectionDecorator {
+        private ModifiableHashCollection<Long> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same longs and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Long> source) {
-            super(new ModifiableHashCollection<Long>(source));
+            decoratedCollection = new ModifiableHashCollection<Long>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers The longs of the collection.
          */
         public HashCollection(final Long... numbers) {
-            super(new ModifiableHashCollection<Long>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Long>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
-            super(new ModifiableHashCollection<Long>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers            The longs of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableHashCollection<Long>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Long>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableLongCollection {
+    public static final class LinkedListCollection extends ModifiableLongCollectionDecorator {
+        private ModifiableLinkedListCollection<Long> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same longs and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Long> source) {
-            super(new ModifiableLinkedListCollection<Long>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Long>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers The longs of the collection.
          */
         public LinkedListCollection(final Long... numbers) {
-            super(new ModifiableLinkedListCollection<Long>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Long>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
-            super(new ModifiableLinkedListCollection<Long>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Long>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
          * @param numbers            The longs of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            super(new ModifiableLinkedListCollection<Long>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Long>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableLongCollection extends AbstractModifiableLongCol
 
     public static ModifiableLongCollection unionOf(final NumericCollection<Long>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the longs.
-     */
-    private final ModifiableCollection<Long> collection;
-
-    /**
-     * Private constructor taking a collection with the longs as its parameter.
-     *
-     * @param numbers The collection holding the longs.
-     */
-    private ModifiableLongCollection(final ModifiableCollection<Long> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Long element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Long> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Long element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Long element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Long> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Long> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Long> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Long[] toArray() {
-        return collection.toArray(EmptyArrays.LONGS);
     }
 }

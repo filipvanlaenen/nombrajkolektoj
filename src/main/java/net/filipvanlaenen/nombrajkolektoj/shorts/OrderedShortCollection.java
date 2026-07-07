@@ -1,11 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -14,13 +11,19 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
  * shorts and containing inner classes with concrete implementations.
  */
-public abstract class OrderedShortCollection extends AbstractOrderedShortCollection
-        implements OrderedNumericCollection<Short> {
+public interface OrderedShortCollection extends OrderedNumericCollection<Short>, ShortCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends OrderedShortCollection {
+    public static final class ArrayCollection extends OrderedShortCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short> decoratedCollection;
+
+        @Override
+        OrderedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs an ordered collection with the given shorts. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -28,7 +31,7 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
          * @param numbers The shorts of the ordered collection.
          */
         public ArrayCollection(final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers);
         }
 
         /**
@@ -38,7 +41,8 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
          * @param numbers            The shorts of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, numbers);
         }
 
         /**
@@ -282,79 +286,5 @@ public abstract class OrderedShortCollection extends AbstractOrderedShortCollect
      */
     public static OrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The ordered collection holding the shorts.
-     */
-    private final OrderedCollection<Short> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the shorts as its parameter.
-     *
-     * @param numbers The ordered collection holding the shorts.
-     */
-    private OrderedShortCollection(final OrderedCollection<Short> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Short element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Short[] toArray() {
-        return collection.toArray(EmptyArrays.SHORTS);
     }
 }

@@ -1,33 +1,34 @@
-package net.filipvanlaenen.nombrajkolektoj.doubles;
+package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 
 import java.util.Objects;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection} for doubles.
+ * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection} for integers.
  */
-abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifiableDoubleCollection
-        implements ModifiableOrderedNumericCollection<Double> {
+abstract class ModifiableOrderedIntegerCollectionDecorator extends ModifiableIntegerCollectionDecorator
+        implements ModifiableOrderedIntegerCollection {
     @Override
-    public Double augment(final int index, final Double addend)
+    public Integer augment(final int index, final Integer addend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot augment an element at a position beyond the size of the collection.");
         }
-        Double originalValue = getAt(index);
+        Integer originalValue = getAt(index);
         if (originalValue == null && addend == null) {
             return null;
         }
         if (originalValue == null || addend == null) {
             throw new NullPointerException("Cannot augment a null value with a number.");
         }
-        Double result = originalValue + addend;
+        Integer result = originalValue + addend;
         if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
                 && !Objects.equals(originalValue, result)) {
             throw new IllegalArgumentException(
@@ -38,22 +39,22 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public boolean augment(final OrderedNumericCollection<Double> addends)
+    public boolean augment(final OrderedNumericCollection<Integer> addends)
             throws IllegalArgumentException, NullPointerException {
         int n = size();
         if (n != addends.size()) {
             throw new IllegalArgumentException("Cannot augment a collection with a collection of a different size.");
         }
-        Double[] results = this.toArray();
+        Integer[] results = this.toArray();
         boolean changed = false;
         for (int i = 0; i < n; i++) {
-            Double originalValue = results[i];
-            Double addend = addends.getAt(i);
+            Integer originalValue = results[i];
+            Integer addend = addends.getAt(i);
             if (originalValue == null ^ addend == null) {
                 throw new NullPointerException(
                         "Cannot augment a collection with a collection when null values don't match.");
             }
-            if (originalValue != null && addend != 0D) {
+            if (originalValue != null && addend != 0) {
                 results[i] = originalValue + addend;
                 changed = true;
             }
@@ -66,20 +67,20 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public Double multiply(final int index, final Double multiplicand)
+    public Integer multiply(final int index, final Integer multiplicand)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot multiply an element at a position beyond the size of the collection.");
         }
-        Double originalValue = getAt(index);
+        Integer originalValue = getAt(index);
         if (originalValue == null && multiplicand == null) {
             return null;
         }
         if (originalValue == null || multiplicand == null) {
             throw new NullPointerException("Cannot multiply a null value with a number.");
         }
-        Double result = originalValue * multiplicand;
+        Integer result = originalValue * multiplicand;
         if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
                 && !Objects.equals(originalValue, result)) {
             throw new IllegalArgumentException(
@@ -90,22 +91,22 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public boolean multiply(final OrderedNumericCollection<Double> multiplicands)
+    public boolean multiply(final OrderedNumericCollection<Integer> multiplicands)
             throws IllegalArgumentException, NullPointerException {
         int n = size();
         if (n != multiplicands.size()) {
             throw new IllegalArgumentException("Cannot multiply a collection with a collection of a different size.");
         }
-        Double[] results = this.toArray();
+        Integer[] results = this.toArray();
         boolean changed = false;
         for (int i = 0; i < n; i++) {
-            Double originalValue = results[i];
-            Double multiplicand = multiplicands.getAt(i);
+            Integer originalValue = results[i];
+            Integer multiplicand = multiplicands.getAt(i);
             if (originalValue == null ^ multiplicand == null) {
                 throw new NullPointerException(
                         "Cannot multiply a collection with a collection when null values don't match.");
             }
-            if (originalValue != null && originalValue != 0D && multiplicand != 1D) {
+            if (originalValue != null && originalValue != 0 && multiplicand != 1) {
                 results[i] = originalValue * multiplicand;
                 changed = true;
             }
@@ -118,16 +119,16 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public Double negate(final int index) throws IllegalArgumentException, IndexOutOfBoundsException {
+    public Integer negate(final int index) throws IllegalArgumentException, IndexOutOfBoundsException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot negate an element at a position beyond the size of the collection.");
         }
-        Double originalValue = getAt(index);
+        Integer originalValue = getAt(index);
         if (originalValue == null) {
             return null;
         }
-        Double result = -originalValue;
+        Integer result = -originalValue;
         if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
                 && !Objects.equals(originalValue, result)) {
             throw new IllegalArgumentException(
@@ -138,20 +139,20 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public Double subtract(final int index, final Double subtrahend)
+    public Integer subtract(final int index, final Integer subtrahend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(
                     "Cannot subtract an element at a position beyond the size of the collection.");
         }
-        Double originalValue = getAt(index);
+        Integer originalValue = getAt(index);
         if (originalValue == null && subtrahend == null) {
             return null;
         }
         if (originalValue == null || subtrahend == null) {
             throw new NullPointerException("Cannot subtract a null value from a number.");
         }
-        Double result = originalValue - subtrahend;
+        Integer result = originalValue - subtrahend;
         if (getElementCardinality() == DISTINCT_ELEMENTS && contains(result)
                 && !Objects.equals(originalValue, result)) {
             throw new IllegalArgumentException(
@@ -162,22 +163,22 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
     }
 
     @Override
-    public boolean subtract(final OrderedNumericCollection<Double> subtrahends)
+    public boolean subtract(final OrderedNumericCollection<Integer> subtrahends)
             throws IllegalArgumentException, NullPointerException {
         int n = size();
         if (n != subtrahends.size()) {
             throw new IllegalArgumentException("Cannot subtract a collection from a collection of a different size.");
         }
-        Double[] results = this.toArray();
+        Integer[] results = this.toArray();
         boolean changed = false;
         for (int i = 0; i < n; i++) {
-            Double originalValue = results[i];
-            Double subtrahend = subtrahends.getAt(i);
+            Integer originalValue = results[i];
+            Integer subtrahend = subtrahends.getAt(i);
             if (originalValue == null ^ subtrahend == null) {
                 throw new NullPointerException(
                         "Cannot subtract a collection from a collection when null values don't match.");
             }
-            if (originalValue != null && subtrahend != 0D) {
+            if (originalValue != null && subtrahend != 0) {
                 results[i] = originalValue - subtrahend;
                 changed = true;
             }
@@ -187,5 +188,50 @@ abstract class AbstractModifiableOrderedDoubleCollection extends AbstractModifia
         }
         putResults(results, "Cannot subtract the subtrahends due to the cardinality constraint.");
         return true;
+    }
+
+    @Override
+    abstract ModifiableOrderedCollection<Integer> getDecoratedCollection();
+
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Integer> otherCollection)
+            throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Integer element) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAt(index, element);
+    }
+
+    @Override
+    public Integer putAt(final int index, final Integer element)
+            throws IllegalArgumentException, IndexOutOfBoundsException {
+        return getDecoratedCollection().putAt(index, element);
+    }
+
+    @Override
+    public Integer removeAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().removeAt(index);
+    }
+
+    @Override
+    public int firstIndexOf(final Integer element) {
+        return getDecoratedCollection().firstIndexOf(element);
+    }
+
+    @Override
+    public Integer getAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().getAt(index);
+    }
+
+    @Override
+    public int indexOf(final Integer element) {
+        return getDecoratedCollection().indexOf(element);
+    }
+
+    @Override
+    public int lastIndexOf(final Integer element) {
+        return getDecoratedCollection().lastIndexOf(element);
     }
 }

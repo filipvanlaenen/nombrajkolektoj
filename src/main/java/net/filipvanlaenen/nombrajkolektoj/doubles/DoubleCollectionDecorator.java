@@ -1,12 +1,16 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+import java.util.Iterator;
+import java.util.Spliterator;
+
+import net.filipvanlaenen.kolektoj.Collection;
+import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
  * An abstract class implementing the methods defined in the
  * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for doubles.
  */
-abstract class AbstractDoubleCollection implements NumericCollection<Double> {
+abstract class DoubleCollectionDecorator implements DoubleCollection {
     @Override
     public Double max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -59,6 +63,45 @@ abstract class AbstractDoubleCollection implements NumericCollection<Double> {
         return sum;
     }
 
+    abstract Collection<Double> getDecoratedCollection();
+
     @Override
-    public abstract Double[] toArray();
+    public boolean contains(final Double element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Double get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
+    @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Double> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
+    public Double[] toArray() {
+        return getDecoratedCollection().toArray(EmptyArrays.DOUBLES);
+    }
 }

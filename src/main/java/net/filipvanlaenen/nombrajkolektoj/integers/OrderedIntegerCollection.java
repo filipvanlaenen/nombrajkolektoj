@@ -1,11 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import java.util.Iterator;
-import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
@@ -14,13 +11,19 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
  * integers and containing inner classes with concrete implementations.
  */
-public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCollection
-        implements OrderedNumericCollection<Integer> {
+public interface OrderedIntegerCollection extends OrderedNumericCollection<Integer>, IntegerCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends OrderedIntegerCollection {
+    public static final class ArrayCollection extends OrderedIntegerCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer> decoratedCollection;
+
+        @Override
+        OrderedCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs an ordered collection with the given integers. The element cardinality is defaulted to
          * <code>DUPLICATE_ELEMENTS</code>.
@@ -28,7 +31,7 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
          * @param numbers The integers of the ordered collection.
          */
         public ArrayCollection(final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers);
         }
 
         /**
@@ -38,7 +41,8 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
          * @param numbers            The integers of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(elementCardinality, numbers);
         }
 
         /**
@@ -282,79 +286,5 @@ public abstract class OrderedIntegerCollection extends AbstractOrderedIntegerCol
      */
     public static OrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The ordered collection holding the integers.
-     */
-    private final OrderedCollection<Integer> collection;
-
-    /**
-     * Private constructor taking an ordered collection with the integers as its parameter.
-     *
-     * @param numbers The ordered collection holding the integers.
-     */
-    private OrderedIntegerCollection(final OrderedCollection<Integer> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean contains(final Integer element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Integer element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Integer getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public int indexOf(final Integer element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Integer element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Integer[] toArray() {
-        return collection.toArray(EmptyArrays.INTEGERS);
     }
 }

@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for floats
  * and containing inner classes with concrete implementations.
  */
-public abstract class FloatCollection extends AbstractFloatCollection implements NumericCollection<Float> {
+public interface FloatCollection extends NumericCollection<Float> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends FloatCollection {
+    public static final class ArrayCollection extends FloatCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Float> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same floats and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Float> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param numbers The floats of the collection.
          */
         public ArrayCollection(final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param numbers            The floats of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Float>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Float> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends FloatCollection {
+    public static final class HashCollection extends FloatCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Float> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same floats and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Float> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param numbers The floats of the collection.
          */
         public HashCollection(final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
          * @param numbers            The floats of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Float>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Float> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class FloatCollection extends AbstractFloatCollection implements
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the floats.
-     */
-    private final Collection<Float> numbers;
-
-    /**
-     * Private constructor taking a collection with the floats as its parameter.
-     *
-     * @param numbers The collection holding the floats.
-     */
-    private FloatCollection(final Collection<Float> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Float element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Float> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Float[] toArray() {
-        return numbers.toArray(EmptyArrays.FLOATS);
     }
 }

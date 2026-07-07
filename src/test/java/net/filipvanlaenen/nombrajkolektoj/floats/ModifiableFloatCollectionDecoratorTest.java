@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.doubles;
+package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,55 +8,55 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.AbstractModifiableDoubleCollection}
- * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection}
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollectionDecorator}
+ * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection}
  * implementation.
  */
-public class AbstractModifiableDoubleCollectionTest {
+public class ModifiableFloatCollectionDecoratorTest {
     /**
      * The magic number minus four.
      */
-    private static final double MINUS_FOUR = -4D;
+    private static final float MINUS_FOUR = -4F;
     /**
      * The magic number minus three.
      */
-    private static final double MINUS_THREE = -3D;
+    private static final float MINUS_THREE = -3F;
     /**
      * The magic number minus two.
      */
-    private static final double MINUS_TWO = -2D;
+    private static final float MINUS_TWO = -2F;
     /**
      * The magic number minus one.
      */
-    private static final double MINUS_ONE = -1D;
+    private static final float MINUS_ONE = -1F;
     /**
      * The magic number three.
      */
-    private static final double THREE = 3D;
+    private static final float THREE = 3F;
     /**
      * The magic number four.
      */
-    private static final double FOUR = 4D;
+    private static final float FOUR = 4F;
     /**
      * The magic number five.
      */
-    private static final double FIVE = 5D;
+    private static final float FIVE = 5F;
     /**
      * The magic number six.
      */
-    private static final double SIX = 6D;
+    private static final float SIX = 6F;
     /**
      * The magic number eight.
      */
-    private static final double EIGHT = 8D;
+    private static final float EIGHT = 8F;
 
     /**
      * Creates an empty collection.
      *
      * @return An empty collection.
      */
-    private ModifiableDoubleCollection createEmptyCollection() {
-        return ModifiableDoubleCollection.empty();
+    private ModifiableFloatCollection createEmptyCollection() {
+        return ModifiableFloatCollection.empty();
     }
 
     /**
@@ -64,8 +64,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableDoubleCollection createCollection1234() {
-        return ModifiableDoubleCollection.of(1D, 2D, THREE, FOUR);
+    private ModifiableFloatCollection createCollection1234() {
+        return ModifiableFloatCollection.of(1F, 2F, THREE, FOUR);
     }
 
     /**
@@ -73,8 +73,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with the numbers 1, 2 and 3 and <code>null</code>.
      */
-    private ModifiableDoubleCollection createCollection123Null() {
-        return ModifiableDoubleCollection.of(1D, 2D, THREE, null);
+    private ModifiableFloatCollection createCollection123Null() {
+        return ModifiableFloatCollection.of(1F, 2F, THREE, null);
     }
 
     /**
@@ -82,8 +82,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and 8.
      */
-    private ModifiableDoubleCollection createCollection2468() {
-        return ModifiableDoubleCollection.of(2D, FOUR, SIX, EIGHT);
+    private ModifiableFloatCollection createCollection2468() {
+        return ModifiableFloatCollection.of(2F, FOUR, SIX, EIGHT);
     }
 
     /**
@@ -91,8 +91,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with the numbers 2, 4 and 6 and <code>null</code>.
      */
-    private ModifiableDoubleCollection createCollection246Null() {
-        return ModifiableDoubleCollection.of(2D, FOUR, SIX, null);
+    private ModifiableFloatCollection createCollection246Null() {
+        return ModifiableFloatCollection.of(2F, FOUR, SIX, null);
     }
 
     /**
@@ -100,8 +100,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with the number 0.
      */
-    private ModifiableDoubleCollection createCollection0() {
-        return ModifiableDoubleCollection.of(0D);
+    private ModifiableFloatCollection createCollection0() {
+        return ModifiableFloatCollection.of(0F);
     }
 
     /**
@@ -109,8 +109,8 @@ public class AbstractModifiableDoubleCollectionTest {
      *
      * @return A collection with <code>null</code>.
      */
-    private ModifiableDoubleCollection createCollectionNull() {
-        return ModifiableDoubleCollection.of(new Double[] {null});
+    private ModifiableFloatCollection createCollectionNull() {
+        return ModifiableFloatCollection.of(new Float[] {null});
     }
 
     /**
@@ -118,7 +118,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldReturnTrueWhenOneIsAddedToACollectionOfNumbers() {
-        assertTrue(createCollection1234().augment(1D));
+        assertTrue(createCollection1234().augment(1F));
     }
 
     /**
@@ -127,7 +127,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldReturnTrueWhenOneIsAddedToACollectionOfNumbersWithNull() {
-        assertTrue(createCollection123Null().augment(1D));
+        assertTrue(createCollection123Null().augment(1F));
     }
 
     /**
@@ -135,7 +135,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(1D));
+        assertFalse(createEmptyCollection().augment(1F));
     }
 
     /**
@@ -143,7 +143,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenZeroIsAddedToACollectionOfNumbers() {
-        assertFalse(createCollection1234().augment(0D));
+        assertFalse(createCollection1234().augment(0F));
     }
 
     /**
@@ -151,7 +151,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().augment(1D));
+        assertFalse(createCollectionNull().augment(1F));
     }
 
     /**
@@ -159,9 +159,9 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldAugmentAllNumbersCorrectly() {
-        ModifiableDoubleCollection collection = createCollection1234();
-        collection.augment(1D);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(2D, THREE, FOUR, FIVE)));
+        ModifiableFloatCollection collection = createCollection1234();
+        collection.augment(1F);
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(2F, THREE, FOUR, FIVE)));
     }
 
     /**
@@ -170,9 +170,9 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void augmentShouldAugmentAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableDoubleCollection collection = createCollection123Null();
-        collection.augment(1D);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(2D, THREE, FOUR, null)));
+        ModifiableFloatCollection collection = createCollection123Null();
+        collection.augment(1F);
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(2F, THREE, FOUR, null)));
     }
 
     /**
@@ -180,7 +180,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnTrueWhenACollectionOfNumbersIsDividedByTwo() {
-        assertTrue(createCollection1234().divide(2D));
+        assertTrue(createCollection1234().divide(2F));
     }
 
     /**
@@ -189,7 +189,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnTrueWhenACollectionOfNumbersWithNullIsDividedByTwo() {
-        assertTrue(createCollection123Null().divide(2D));
+        assertTrue(createCollection123Null().divide(2F));
     }
 
     /**
@@ -197,7 +197,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide(2D));
+        assertFalse(createEmptyCollection().divide(2F));
     }
 
     /**
@@ -205,7 +205,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnFalseWhenACollectionOfNumbersIsDividedByOne() {
-        assertFalse(createCollection1234().divide(1D));
+        assertFalse(createCollection1234().divide(1F));
     }
 
     /**
@@ -213,7 +213,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionContainsZeroOnly() {
-        assertFalse(createCollection0().divide(2D));
+        assertFalse(createCollection0().divide(2F));
     }
 
     /**
@@ -221,7 +221,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().divide(2D));
+        assertFalse(createCollectionNull().divide(2F));
     }
 
     /**
@@ -229,8 +229,8 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldDivideAllNumbersCorrectly() {
-        ModifiableDoubleCollection collection = createCollection2468();
-        collection.divide(2D);
+        ModifiableFloatCollection collection = createCollection2468();
+        collection.divide(2F);
         assertTrue(collection.containsSame(createCollection1234()));
     }
 
@@ -239,8 +239,8 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldDivideAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableDoubleCollection collection = createCollection246Null();
-        collection.divide(2D);
+        ModifiableFloatCollection collection = createCollection246Null();
+        collection.divide(2F);
         assertTrue(collection.containsSame(createCollection123Null()));
     }
 
@@ -249,10 +249,10 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void divideShouldHandleIntermediateDuplicates() {
-        ModifiableDoubleCollection collection =
-                ModifiableDoubleCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1D, MINUS_ONE);
+        ModifiableFloatCollection collection =
+                ModifiableFloatCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1F, MINUS_ONE);
         collection.divide(MINUS_ONE);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(1D, MINUS_ONE)));
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(1F, MINUS_ONE)));
     }
 
     /**
@@ -260,7 +260,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnTrueWhenACollectionOfNumbersIsMultipliedByTwo() {
-        assertTrue(createCollection1234().multiply(2D));
+        assertTrue(createCollection1234().multiply(2F));
     }
 
     /**
@@ -269,7 +269,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnTrueWhenACollectionOfNumbersWithNullIsMultipliedByTwo() {
-        assertTrue(createCollection123Null().multiply(2D));
+        assertTrue(createCollection123Null().multiply(2F));
     }
 
     /**
@@ -277,7 +277,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(2D));
+        assertFalse(createEmptyCollection().multiply(2F));
     }
 
     /**
@@ -285,7 +285,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenACollectionOfNumbersIsMultipliedByOne() {
-        assertFalse(createCollection1234().multiply(1D));
+        assertFalse(createCollection1234().multiply(1F));
     }
 
     /**
@@ -293,7 +293,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionContainsZeroOnly() {
-        assertFalse(createCollection0().multiply(2D));
+        assertFalse(createCollection0().multiply(2F));
     }
 
     /**
@@ -301,7 +301,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().multiply(2D));
+        assertFalse(createCollectionNull().multiply(2F));
     }
 
     /**
@@ -309,8 +309,8 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldMultiplyAllNumbersCorrectly() {
-        ModifiableDoubleCollection collection = createCollection1234();
-        collection.multiply(2D);
+        ModifiableFloatCollection collection = createCollection1234();
+        collection.multiply(2F);
         assertTrue(collection.containsSame(createCollection2468()));
     }
 
@@ -320,8 +320,8 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldMultiplyAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableDoubleCollection collection = createCollection123Null();
-        collection.multiply(2D);
+        ModifiableFloatCollection collection = createCollection123Null();
+        collection.multiply(2F);
         assertTrue(collection.containsSame(createCollection246Null()));
     }
 
@@ -330,10 +330,10 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void multiplyShouldHandleIntermediateDuplicates() {
-        ModifiableDoubleCollection collection =
-                ModifiableDoubleCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1D, MINUS_ONE);
+        ModifiableFloatCollection collection =
+                ModifiableFloatCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1F, MINUS_ONE);
         collection.multiply(MINUS_ONE);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(1D, MINUS_ONE)));
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(1F, MINUS_ONE)));
     }
 
     /**
@@ -382,10 +382,10 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void negateShouldNegateAllNumbersCorrectly() {
-        ModifiableDoubleCollection collection = createCollection1234();
+        ModifiableFloatCollection collection = createCollection1234();
         collection.negate();
         assertTrue(
-                collection.containsSame(ModifiableDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+                collection.containsSame(ModifiableFloatCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -393,9 +393,9 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void negateShouldNegateAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableDoubleCollection collection = createCollection123Null();
+        ModifiableFloatCollection collection = createCollection123Null();
         collection.negate();
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, null)));
     }
 
     /**
@@ -403,7 +403,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldReturnTrueWhenOneIsAddedToACollectionOfNumbers() {
-        assertTrue(createCollection1234().subtract(1D));
+        assertTrue(createCollection1234().subtract(1F));
     }
 
     /**
@@ -412,7 +412,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldReturnTrueWhenOneIsSubtractedFromACollectionOfNumbersWithNull() {
-        assertTrue(createCollection123Null().subtract(1D));
+        assertTrue(createCollection123Null().subtract(1F));
     }
 
     /**
@@ -420,7 +420,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract(1D));
+        assertFalse(createEmptyCollection().subtract(1F));
     }
 
     /**
@@ -428,7 +428,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenZeroIsSubractedFromACollectionOfNumbers() {
-        assertFalse(createCollection1234().subtract(0D));
+        assertFalse(createCollection1234().subtract(0F));
     }
 
     /**
@@ -436,7 +436,7 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionContainsNullOnly() {
-        assertFalse(createCollectionNull().subtract(1D));
+        assertFalse(createCollectionNull().subtract(1F));
     }
 
     /**
@@ -444,9 +444,9 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldSubractAllNumbersCorrectly() {
-        ModifiableDoubleCollection collection = createCollection1234();
-        collection.subtract(1D);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(0D, 1D, 2D, THREE)));
+        ModifiableFloatCollection collection = createCollection1234();
+        collection.subtract(1F);
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(0F, 1F, 2F, THREE)));
     }
 
     /**
@@ -455,9 +455,9 @@ public class AbstractModifiableDoubleCollectionTest {
      */
     @Test
     public void subtractShouldSubtractAllNumbersCorrectlyWhenNullIsPresent() {
-        ModifiableDoubleCollection collection = createCollection123Null();
-        collection.subtract(1D);
-        assertTrue(collection.containsSame(ModifiableDoubleCollection.of(0D, 1D, 2D, null)));
+        ModifiableFloatCollection collection = createCollection123Null();
+        collection.subtract(1F);
+        assertTrue(collection.containsSame(ModifiableFloatCollection.of(0F, 1F, 2F, null)));
     }
 
 }

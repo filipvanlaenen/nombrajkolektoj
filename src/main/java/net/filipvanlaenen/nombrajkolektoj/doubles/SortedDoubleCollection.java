@@ -1,8 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
@@ -17,13 +15,19 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection} interface for
  * doubles and containing inner classes with concrete implementations.
  */
-public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollection
-        implements SortedNumericCollection<Double> {
+public interface SortedDoubleCollection extends SortedNumericCollection<Double>, OrderedDoubleCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedDoubleCollection {
+    public static final class ArrayCollection extends SortedDoubleCollectionDecorator {
+        private SortedArrayCollection<Double> decoratedCollection;
+
+        @Override
+        SortedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same doubles and the same element cardinality.
          *
@@ -42,7 +46,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param numbers    The doubles of the sorted collection.
          */
         public ArrayCollection(final Comparator<? super Double> comparator, final Double... numbers) {
-            super(new SortedArrayCollection<Double>(comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Double>(comparator, numbers);
         }
 
         /**
@@ -54,8 +58,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
                 final Collection<Double> source) {
-            super(new SortedArrayCollection<Double>(elementCardinality, comparator,
-                    source.toArray(EmptyArrays.DOUBLES)));
+            decoratedCollection = new SortedArrayCollection<Double>(elementCardinality, comparator,
+                    source.toArray(EmptyArrays.DOUBLES));
         }
 
         /**
@@ -67,7 +71,7 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Comparator<? super Double> comparator,
                 final Double... numbers) {
-            super(new SortedArrayCollection<Double>(elementCardinality, comparator, numbers));
+            decoratedCollection = new SortedArrayCollection<Double>(elementCardinality, comparator, numbers);
         }
     }
 
@@ -75,7 +79,14 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedDoubleCollection {
+    public static final class SortedTreeCollection extends SortedDoubleCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double> decoratedCollection;
+
+        @Override
+        SortedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a sorted collection from a collection, with the same doubles and the same element cardinality.
          *
@@ -94,7 +105,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          * @param numbers    The doubles of the sorted collection.
          */
         public SortedTreeCollection(final Comparator<? super Double> comparator, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(comparator, numbers);
         }
 
         /**
@@ -106,8 +118,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Double> comparator, final Double... numbers) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(elementCardinality,
-                    comparator, numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(
+                    elementCardinality, comparator, numbers);
         }
 
         /**
@@ -119,8 +131,8 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
          */
         public SortedTreeCollection(final ElementCardinality elementCardinality,
                 final Comparator<? super Double> comparator, final Collection<Double> source) {
-            super(new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(elementCardinality,
-                    comparator, source.toArray(EmptyArrays.DOUBLES)));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(
+                    elementCardinality, comparator, source.toArray(EmptyArrays.DOUBLES));
         }
     }
 
@@ -234,104 +246,5 @@ public abstract class SortedDoubleCollection extends AbstractSortedDoubleCollect
             }
         }
         return new ArrayCollection(collection.getComparator(), slice);
-    }
-
-    /**
-     * The sorted collection holding the doubles.
-     */
-    private final SortedCollection<Double> collection;
-
-    /**
-     * Private constructor taking a sorted collection with the doubles as its parameter.
-     *
-     * @param collection The sorted collection holding the doubles.
-     */
-    private SortedDoubleCollection(final SortedCollection<Double> collection) {
-        this.collection = collection;
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public int firstIndexOf(final Double element) {
-        return collection.firstIndexOf(element);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public Double getAt(final int index) throws IndexOutOfBoundsException {
-        return collection.getAt(index);
-    }
-
-    @Override
-    public Comparator<? super Double> getComparator() {
-        return collection.getComparator();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Double getGreaterThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThan(element);
-    }
-
-    @Override
-    public Double getGreaterThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getGreaterThanOrEqualTo(element);
-    }
-
-    @Override
-    public Double getLessThan(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThan(element);
-    }
-
-    @Override
-    public Double getLessThanOrEqualTo(final Double element) throws IndexOutOfBoundsException {
-        return collection.getLessThanOrEqualTo(element);
-    }
-
-    @Override
-    public int indexOf(final Double element) {
-        return collection.indexOf(element);
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public int lastIndexOf(final Double element) {
-        return collection.lastIndexOf(element);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Double> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Double[] toArray() {
-        return collection.toArray(EmptyArrays.DOUBLES);
     }
 }

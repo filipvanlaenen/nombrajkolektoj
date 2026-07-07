@@ -1,28 +1,26 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for bytes
  * and containing inner classes with concrete implementations.
  */
-public abstract class ByteCollection extends AbstractByteCollection implements NumericCollection<Byte> {
+public interface ByteCollection extends NumericCollection<Byte> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends ByteCollection {
+    public static final class ArrayCollection extends ByteCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same bytes and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(source);
         }
 
         /**
@@ -32,7 +30,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param numbers The bytes of the collection.
          */
         public ArrayCollection(final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(numbers);
         }
 
         /**
@@ -42,7 +40,8 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -52,21 +51,29 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param numbers            The bytes of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends ByteCollection {
+    public static final class HashCollection extends ByteCollectionDecorator {
+        private net.filipvanlaenen.kolektoj.hash.HashCollection<Byte> decoratedCollection;
+
         /**
          * Constructs a collection from another collection, with the same bytes and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(source));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(source);
         }
 
         /**
@@ -76,7 +83,7 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param numbers The bytes of the collection.
          */
         public HashCollection(final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(numbers));
+            decoratedCollection = new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(numbers);
         }
 
         /**
@@ -86,7 +93,8 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, source));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -96,7 +104,13 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
          * @param numbers            The bytes of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, numbers));
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.hash.HashCollection<Byte>(elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
         }
     }
 
@@ -197,59 +211,5 @@ public abstract class ByteCollection extends AbstractByteCollection implements N
             result.addAll(collection);
         }
         return new ArrayCollection(result);
-    }
-
-    /**
-     * The collection holding the bytes.
-     */
-    private final Collection<Byte> numbers;
-
-    /**
-     * Private constructor taking a collection with the bytes as its parameter.
-     *
-     * @param numbers The collection holding the bytes.
-     */
-    private ByteCollection(final Collection<Byte> numbers) {
-        this.numbers = numbers;
-    }
-
-    @Override
-    public boolean contains(final Byte element) {
-        return numbers.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return numbers.containsAll(collection);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return numbers.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return numbers.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return numbers.iterator();
-    }
-
-    @Override
-    public int size() {
-        return numbers.size();
-    }
-
-    @Override
-    public Spliterator<Byte> spliterator() {
-        return numbers.spliterator();
-    }
-
-    @Override
-    public Byte[] toArray() {
-        return numbers.toArray(EmptyArrays.BYTES);
     }
 }

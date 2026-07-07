@@ -1,11 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -17,20 +12,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for doubles and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubleCollection
-        implements ModifiableNumericCollection<Double> {
+public interface ModifiableDoubleCollection extends ModifiableNumericCollection<Double>, DoubleCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableDoubleCollection {
+    public static final class ArrayCollection extends ModifiableDoubleCollectionDecorator {
+        private ModifiableArrayCollection<Double> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same doubles and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<Double> source) {
-            super(new ModifiableArrayCollection<Double>(source));
+            decoratedCollection = new ModifiableArrayCollection<Double>(source);
         }
 
         /**
@@ -40,7 +41,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers The doubles of the collection.
          */
         public ArrayCollection(final Double... numbers) {
-            super(new ModifiableArrayCollection<Double>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<Double>(numbers);
         }
 
         /**
@@ -50,7 +51,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
-            super(new ModifiableArrayCollection<Double>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<Double>(elementCardinality, source);
         }
 
         /**
@@ -60,7 +61,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers            The doubles of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new ModifiableArrayCollection<Double>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<Double>(elementCardinality, numbers);
         }
     }
 
@@ -68,14 +69,21 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableDoubleCollection {
+    public static final class HashCollection extends ModifiableDoubleCollectionDecorator {
+        private ModifiableHashCollection<Double> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same doubles and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<Double> source) {
-            super(new ModifiableHashCollection<Double>(source));
+            decoratedCollection = new ModifiableHashCollection<Double>(source);
         }
 
         /**
@@ -85,7 +93,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers The doubles of the collection.
          */
         public HashCollection(final Double... numbers) {
-            super(new ModifiableHashCollection<Double>(numbers));
+            decoratedCollection = new ModifiableHashCollection<Double>(numbers);
         }
 
         /**
@@ -95,7 +103,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
-            super(new ModifiableHashCollection<Double>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<Double>(elementCardinality, source);
         }
 
         /**
@@ -105,7 +113,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers            The doubles of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new ModifiableHashCollection<Double>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<Double>(elementCardinality, numbers);
         }
     }
 
@@ -113,14 +121,21 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableDoubleCollection {
+    public static final class LinkedListCollection extends ModifiableDoubleCollectionDecorator {
+        private ModifiableLinkedListCollection<Double> decoratedCollection;
+
+        @Override
+        ModifiableCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same doubles and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<Double> source) {
-            super(new ModifiableLinkedListCollection<Double>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<Double>(source);
         }
 
         /**
@@ -130,7 +145,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers The doubles of the collection.
          */
         public LinkedListCollection(final Double... numbers) {
-            super(new ModifiableLinkedListCollection<Double>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Double>(numbers);
         }
 
         /**
@@ -140,7 +155,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
-            super(new ModifiableLinkedListCollection<Double>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<Double>(elementCardinality, source);
         }
 
         /**
@@ -150,7 +165,7 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
          * @param numbers            The doubles of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            super(new ModifiableLinkedListCollection<Double>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<Double>(elementCardinality, numbers);
         }
     }
 
@@ -253,94 +268,5 @@ public abstract class ModifiableDoubleCollection extends AbstractModifiableDoubl
 
     public static ModifiableDoubleCollection unionOf(final NumericCollection<Double>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the doubles.
-     */
-    private final ModifiableCollection<Double> collection;
-
-    /**
-     * Private constructor taking a collection with the doubles as its parameter.
-     *
-     * @param numbers The collection holding the doubles.
-     */
-    private ModifiableDoubleCollection(final ModifiableCollection<Double> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final Double element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Double> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final Double element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public Double get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Double> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final Double element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends Double> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super Double> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends Double> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<Double> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public Double[] toArray() {
-        return collection.toArray(EmptyArrays.DOUBLES);
     }
 }

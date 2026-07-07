@@ -2,12 +2,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection;
 import net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection;
@@ -19,20 +14,26 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * for BigIntegers and containing inner classes with concrete implementations.
  */
-public abstract class ModifiableBigIntegerCollection extends AbstractModifiableBigIntegerCollection
-        implements ModifiableNumericCollection<BigInteger> {
+public interface ModifiableBigIntegerCollection extends ModifiableNumericCollection<BigInteger>, BigIntegerCollection {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class ArrayCollection extends ModifiableBigIntegerCollection {
+    public static final class ArrayCollection extends ModifiableBigIntegerCollectionDecorator {
+        private ModifiableArrayCollection<BigInteger> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public ArrayCollection(final Collection<BigInteger> source) {
-            super(new ModifiableArrayCollection<BigInteger>(source));
+            decoratedCollection = new ModifiableArrayCollection<BigInteger>(source);
         }
 
         /**
@@ -42,7 +43,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers The BigIntegers of the collection.
          */
         public ArrayCollection(final BigInteger... numbers) {
-            super(new ModifiableArrayCollection<BigInteger>(numbers));
+            decoratedCollection = new ModifiableArrayCollection<BigInteger>(numbers);
         }
 
         /**
@@ -52,7 +53,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
-            super(new ModifiableArrayCollection<BigInteger>(elementCardinality, source));
+            decoratedCollection = new ModifiableArrayCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -62,7 +63,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers            The BigIntegers of the collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new ModifiableArrayCollection<BigInteger>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableArrayCollection<BigInteger>(elementCardinality, numbers);
         }
     }
 
@@ -70,14 +71,21 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
      * interface.
      */
-    public static final class HashCollection extends ModifiableBigIntegerCollection {
+    public static final class HashCollection extends ModifiableBigIntegerCollectionDecorator {
+        private ModifiableHashCollection<BigInteger> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public HashCollection(final Collection<BigInteger> source) {
-            super(new ModifiableHashCollection<BigInteger>(source));
+            decoratedCollection = new ModifiableHashCollection<BigInteger>(source);
         }
 
         /**
@@ -87,7 +95,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers The BigIntegers of the collection.
          */
         public HashCollection(final BigInteger... numbers) {
-            super(new ModifiableHashCollection<BigInteger>(numbers));
+            decoratedCollection = new ModifiableHashCollection<BigInteger>(numbers);
         }
 
         /**
@@ -97,7 +105,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public HashCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
-            super(new ModifiableHashCollection<BigInteger>(elementCardinality, source));
+            decoratedCollection = new ModifiableHashCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -107,7 +115,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers            The BigIntegers of the collection.
          */
         public HashCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new ModifiableHashCollection<BigInteger>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableHashCollection<BigInteger>(elementCardinality, numbers);
         }
     }
 
@@ -115,14 +123,21 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
      * Inner class using a linked list backed implementation of the
      * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
      */
-    public static final class LinkedListCollection extends ModifiableBigIntegerCollection {
+    public static final class LinkedListCollection extends ModifiableBigIntegerCollectionDecorator {
+        private ModifiableLinkedListCollection<BigInteger> decoratedCollection;
+
+        @Override
+        ModifiableCollection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
         /**
          * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
          *
          * @param source The collection to create a new collection from.
          */
         public LinkedListCollection(final Collection<BigInteger> source) {
-            super(new ModifiableLinkedListCollection<BigInteger>(source));
+            decoratedCollection = new ModifiableLinkedListCollection<BigInteger>(source);
         }
 
         /**
@@ -132,7 +147,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers The BigIntegers of the collection.
          */
         public LinkedListCollection(final BigInteger... numbers) {
-            super(new ModifiableLinkedListCollection<BigInteger>(numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<BigInteger>(numbers);
         }
 
         /**
@@ -142,7 +157,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param source             The collection to create a new collection from.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
-            super(new ModifiableLinkedListCollection<BigInteger>(elementCardinality, source));
+            decoratedCollection = new ModifiableLinkedListCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -152,7 +167,7 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
          * @param numbers            The BigIntegers of the collection.
          */
         public LinkedListCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            super(new ModifiableLinkedListCollection<BigInteger>(elementCardinality, numbers));
+            decoratedCollection = new ModifiableLinkedListCollection<BigInteger>(elementCardinality, numbers);
         }
     }
 
@@ -255,94 +270,5 @@ public abstract class ModifiableBigIntegerCollection extends AbstractModifiableB
 
     public static ModifiableBigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
-     * The modifiable collection holding the BigIntegers.
-     */
-    private final ModifiableCollection<BigInteger> collection;
-
-    /**
-     * Private constructor taking a collection with the BigIntegers as its parameter.
-     *
-     * @param numbers The collection holding the BigIntegers.
-     */
-    private ModifiableBigIntegerCollection(final ModifiableCollection<BigInteger> numbers) {
-        this.collection = numbers;
-    }
-
-    @Override
-    public boolean add(final BigInteger element) {
-        return collection.add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigInteger> otherCollection) {
-        return collection.addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        collection.clear();
-    }
-
-    @Override
-    public boolean contains(final BigInteger element) {
-        return collection.contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> otherCollection) {
-        return collection.containsAll(otherCollection);
-    }
-
-    @Override
-    public BigInteger get() throws IndexOutOfBoundsException {
-        return collection.get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return collection.getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigInteger> iterator() {
-        return collection.iterator();
-    }
-
-    @Override
-    public boolean remove(final BigInteger element) {
-        return collection.remove(element);
-    }
-
-    @Override
-    public boolean removeAll(final Collection<? extends BigInteger> otherCollection) {
-        return collection.removeAll(otherCollection);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<? super BigInteger> predicate) {
-        return collection.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Collection<? extends BigInteger> otherCollection) {
-        return collection.retainAll(otherCollection);
-    }
-
-    @Override
-    public int size() {
-        return collection.size();
-    }
-
-    @Override
-    public Spliterator<BigInteger> spliterator() {
-        return collection.spliterator();
-    }
-
-    @Override
-    public BigInteger[] toArray() {
-        return collection.toArray(EmptyArrays.BIG_INTEGERS);
     }
 }

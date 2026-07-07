@@ -9,10 +9,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for BigDecimals.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} interface.
  */
 abstract class BigDecimalCollectionDecorator implements BigDecimalCollection {
+    @Override
+    public boolean contains(final BigDecimal element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public BigDecimal get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<BigDecimal> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<BigDecimal> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public BigDecimal max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -55,6 +87,16 @@ abstract class BigDecimalCollectionDecorator implements BigDecimalCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<BigDecimal> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public BigDecimal sum() {
         BigDecimal sum = BigDecimal.ZERO;
         for (BigDecimal n : this) {
@@ -63,43 +105,6 @@ abstract class BigDecimalCollectionDecorator implements BigDecimalCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<BigDecimal> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final BigDecimal element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public BigDecimal get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<BigDecimal> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<BigDecimal> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

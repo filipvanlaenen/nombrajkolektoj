@@ -1,8 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +14,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class IntegerCollectionTestBase<T extends NumericCollection<Integer>> {
+public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollection<Integer>> {
     /**
-     * The int three.
+     * The magic number three.
      */
-    private static final Integer INTEGER_THREE = 3;
+    private static final int THREE = 3;
+    /**
+     * Collection with the integers 1, 2 and 3.
+     */
+    private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
     /**
      * Creates an empty integers collection.
@@ -63,34 +67,52 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
     protected abstract T createIntegerCollection(NumericCollection<Integer> source);
 
     /**
-     * Verifies that a integers collection with a specific element cardinality receives that element cardinality.
+     * Verifies that an empty integers collection is empty.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnAIntegerCollectionWithTheElementCardinality() {
-        assertEquals(DISTINCT_ELEMENTS, createIntegerCollection(DISTINCT_ELEMENTS, 1).getElementCardinality());
+    public void isEmptyShouldReturnTrueForAnEmptyIntegerCollection() {
+        assertTrue(createEmptyIntegerCollection().isEmpty());
     }
 
     /**
-     * Verifies that a integers collection created from another collection has the same element cardinality and integers.
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionShouldReturnAIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
-        IntegerCollection source = IntegerCollection.of(DISTINCT_ELEMENTS, 1);
-        T actual = createIntegerCollection(source);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertEquals(1, actual.size());
-        assertTrue(actual.contains(1));
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(1));
+        assertFalse(collection123.contains(0));
     }
 
     /**
-     * Verifies that a integers collection created from another collection has the provided element cardinality.
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionAndElementCardinalityShouldReturnAIntegerCollectionWithTheProvidedElementCardinality() {
-        IntegerCollection source = IntegerCollection.of(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE);
-        T actual = createIntegerCollection(DISTINCT_ELEMENTS, source);
-        IntegerCollection expected = IntegerCollection.of(1, 2, INTEGER_THREE);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertTrue(actual.containsSame(expected));
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createIntegerCollection(1)));
+        assertFalse(collection123.containsAll(createIntegerCollection(0)));
+    }
+
+    /**
+     * Verifies that the <code>get</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that the <code>spliterator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void spliteratorShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.spliterator().estimateSize());
+    }
+
+    /**
+     * Verifies that the <code>toArray</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void toArrayShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.toArray().length);
     }
 }

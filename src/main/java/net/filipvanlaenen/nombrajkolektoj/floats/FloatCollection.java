@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for floats
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for floats and
+ * containing inner classes with concrete implementations.
  */
 public interface FloatCollection extends NumericCollection<Float> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends FloatCollectionDecorator {
+    final class ArrayCollection extends FloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Float> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface FloatCollection extends NumericCollection<Float> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends FloatCollectionDecorator {
+    final class HashCollection extends FloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Float> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      *
      * @return A new empty floats collection.
      */
-    public static FloatCollection empty() {
+    static FloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @param collections The floats collections from which to calculate the intersection.
      * @return A new floats collection containing all the elements present in each of the provided floats collections.
      */
-    public static FloatCollection intersectionOf(final NumericCollection<Float>... collections) {
+    static FloatCollection intersectionOf(final NumericCollection<Float>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @param numbers The floats for the new floats collection.
      * @return A new floats collection with the specified floats.
      */
-    public static FloatCollection of(final Float... numbers) {
+    static FloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @param numbers            The floats for the new floats collection.
      * @return A new floats collection with the specified element cardinality and the floats.
      */
-    public static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    static FloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @return A new floats collection with the specified element cardinality cloned from the provided floats
      *         collection.
      */
-    public static FloatCollection of(final ElementCardinality elementCardinality,
+    static FloatCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Float> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @param collection The original floats collection.
      * @return A new floats collection cloned from the provided floats collection.
      */
-    public static FloatCollection of(final NumericCollection<Float> collection) {
+    static FloatCollection of(final NumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @param collections The floats collections from which to copy all the elements.
      * @return A new floats collection containing all the elements from the provided floats collections.
      */
-    public static FloatCollection unionOf(final NumericCollection<Float>... collections) {
+    static FloatCollection unionOf(final NumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface FloatCollection extends NumericCollection<Float> {
      * @return A new floats collection with the specified element cardinality containing all the elements from the
      *         provided floats collections.
      */
-    public static FloatCollection unionOf(final ElementCardinality elementCardinality,
+    static FloatCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Float>... collections) {
         ModifiableFloatCollection result = ModifiableFloatCollection.of(elementCardinality);
         for (NumericCollection<Float> collection : collections) {

@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} implementation.
  */
-public class IntegerCollectionDecoratorTest {
+public class IntegerCollectionDecoratorTest extends IntegerCollectionDecoratorTestBase<IntegerCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class IntegerCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final IntegerCollection COLLECTION_NULL = IntegerCollection.of(new Integer[] {null});
+
+    @Override
+    protected IntegerCollection createEmptyIntegerCollection() {
+        return IntegerCollection.empty();
+    }
+
+    @Override
+    protected IntegerCollection createIntegerCollection(final Integer... numbers) {
+        return IntegerCollection.of(numbers);
+    }
+
+    @Override
+    protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final Integer... numbers) {
+        return IntegerCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Integer> source) {
+        return IntegerCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected IntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+        return IntegerCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest int in the collection.

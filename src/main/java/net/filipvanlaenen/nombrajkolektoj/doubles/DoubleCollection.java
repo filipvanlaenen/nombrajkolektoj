@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for doubles
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for doubles and
+ * containing inner classes with concrete implementations.
  */
 public interface DoubleCollection extends NumericCollection<Double> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends DoubleCollectionDecorator {
+    final class ArrayCollection extends DoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Double> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface DoubleCollection extends NumericCollection<Double> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends DoubleCollectionDecorator {
+    final class HashCollection extends DoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Double> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      *
      * @return A new empty doubles collection.
      */
-    public static DoubleCollection empty() {
+    static DoubleCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @param collections The doubles collections from which to calculate the intersection.
      * @return A new doubles collection containing all the elements present in each of the provided doubles collections.
      */
-    public static DoubleCollection intersectionOf(final NumericCollection<Double>... collections) {
+    static DoubleCollection intersectionOf(final NumericCollection<Double>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @param numbers The doubles for the new doubles collection.
      * @return A new doubles collection with the specified doubles.
      */
-    public static DoubleCollection of(final Double... numbers) {
+    static DoubleCollection of(final Double... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @param numbers            The doubles for the new doubles collection.
      * @return A new doubles collection with the specified element cardinality and the doubles.
      */
-    public static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+    static DoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @return A new doubles collection with the specified element cardinality cloned from the provided doubles
      *         collection.
      */
-    public static DoubleCollection of(final ElementCardinality elementCardinality,
+    static DoubleCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Double> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @param collection The original doubles collection.
      * @return A new doubles collection cloned from the provided doubles collection.
      */
-    public static DoubleCollection of(final NumericCollection<Double> collection) {
+    static DoubleCollection of(final NumericCollection<Double> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @param collections The doubles collections from which to copy all the elements.
      * @return A new doubles collection containing all the elements from the provided doubles collections.
      */
-    public static DoubleCollection unionOf(final NumericCollection<Double>... collections) {
+    static DoubleCollection unionOf(final NumericCollection<Double>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
      * @return A new doubles collection with the specified element cardinality containing all the elements from the
      *         provided doubles collections.
      */
-    public static DoubleCollection unionOf(final ElementCardinality elementCardinality,
+    static DoubleCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Double>... collections) {
         ModifiableDoubleCollection result = ModifiableDoubleCollection.of(elementCardinality);
         for (NumericCollection<Double> collection : collections) {

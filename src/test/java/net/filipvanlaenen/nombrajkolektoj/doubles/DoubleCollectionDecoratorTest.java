@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} implementation.
  */
-public class DoubleCollectionDecoratorTest {
+public class DoubleCollectionDecoratorTest extends DoubleCollectionDecoratorTestBase<DoubleCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class DoubleCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final DoubleCollection COLLECTION_NULL = DoubleCollection.of(new Double[] {null});
+
+    @Override
+    protected DoubleCollection createEmptyDoubleCollection() {
+        return DoubleCollection.empty();
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final Double... numbers) {
+        return DoubleCollection.of(numbers);
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return DoubleCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Double> source) {
+        return DoubleCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+        return DoubleCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest double in the collection.

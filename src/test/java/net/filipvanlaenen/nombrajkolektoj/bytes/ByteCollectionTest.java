@@ -19,11 +19,27 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final NumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final NumericCollection<Byte> collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final NumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final NumericCollection<Byte> collection123 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAByteCollection() {
+        assertTrue(new ByteCollection.ArrayCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAByteCollection() {
+        assertTrue(new ByteCollection.HashCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
 
     @Override
     protected ByteCollection createEmptyByteCollection() {
@@ -73,7 +89,7 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createByteCollection((byte) 1, (byte) 2)
+        assertTrue(ByteCollection.of((byte) 1, (byte) 2)
                 .containsSame(ByteCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE)
+        assertTrue(ByteCollection.of((byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE)
                 .containsSame(ByteCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, BYTE_THREE)
+        assertTrue(ByteCollection.of((byte) 0, (byte) 1, (byte) 2, BYTE_THREE)
                 .containsSame(ByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

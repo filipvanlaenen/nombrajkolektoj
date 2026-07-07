@@ -19,11 +19,27 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final NumericCollection<Float> collection012 = createFloatCollection(0F, 1F, 2F);
+    private final NumericCollection<Float> collection012 = FloatCollection.of(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
+    private final NumericCollection<Float> collection123 = FloatCollection.of(1F, 2F, 3F);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAFloatCollection() {
+        assertTrue(new FloatCollection.ArrayCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAFloatCollection() {
+        assertTrue(new FloatCollection.HashCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
 
     @Override
     protected FloatCollection createEmptyFloatCollection() {
@@ -73,7 +89,7 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createFloatCollection(1F, 2F)
+        assertTrue(FloatCollection.of(1F, 2F)
                 .containsSame(FloatCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createFloatCollection(0F, 1F, 2F, 1F, 2F, FLOAT_THREE)
+        assertTrue(FloatCollection.of(0F, 1F, 2F, 1F, 2F, FLOAT_THREE)
                 .containsSame(FloatCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createFloatCollection(0F, 1F, 2F, FLOAT_THREE)
+        assertTrue(FloatCollection.of(0F, 1F, 2F, FLOAT_THREE)
                 .containsSame(FloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

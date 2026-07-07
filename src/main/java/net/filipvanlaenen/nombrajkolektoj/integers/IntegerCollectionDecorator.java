@@ -7,10 +7,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for integers.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} interface.
  */
 abstract class IntegerCollectionDecorator implements IntegerCollection {
+    @Override
+    public boolean contains(final Integer element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Integer get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<Integer> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public Integer max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -53,6 +85,16 @@ abstract class IntegerCollectionDecorator implements IntegerCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Integer> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public Integer sum() {
         Integer sum = 0;
         for (Integer n : this) {
@@ -61,43 +103,6 @@ abstract class IntegerCollectionDecorator implements IntegerCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<Integer> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final Integer element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public Integer get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} implementation.
  */
-public class ByteCollectionDecoratorTest {
+public class ByteCollectionDecoratorTest extends ByteCollectionDecoratorTestBase<ByteCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class ByteCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final ByteCollection COLLECTION_NULL = ByteCollection.of(new Byte[] {null});
+
+    @Override
+    protected ByteCollection createEmptyByteCollection() {
+        return ByteCollection.empty();
+    }
+
+    @Override
+    protected ByteCollection createByteCollection(final Byte... numbers) {
+        return ByteCollection.of(numbers);
+    }
+
+    @Override
+    protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return ByteCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Byte> source) {
+        return ByteCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ByteCollection createByteCollection(final NumericCollection<Byte> source) {
+        return ByteCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest byte in the collection.

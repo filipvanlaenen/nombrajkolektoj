@@ -21,11 +21,27 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final NumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final NumericCollection<BigInteger> collection012 = BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final NumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final NumericCollection<BigInteger> collection123 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new BigIntegerCollection.ArrayCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new BigIntegerCollection.HashCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
 
     @Override
     protected BigIntegerCollection createEmptyBigIntegerCollection() {
@@ -75,7 +91,7 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO)
+        assertTrue(BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO)
                 .containsSame(BigIntegerCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -116,7 +132,7 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+        assertTrue(BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
                 .containsSame(BigIntegerCollection.unionOf(collection012, collection123)));
     }
 
@@ -125,7 +141,7 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+        assertTrue(BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
                 .containsSame(BigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

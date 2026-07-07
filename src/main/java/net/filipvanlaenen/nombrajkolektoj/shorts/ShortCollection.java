@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for shorts
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for shorts and
+ * containing inner classes with concrete implementations.
  */
 public interface ShortCollection extends NumericCollection<Short> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends ShortCollectionDecorator {
+    final class ArrayCollection extends ShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Short> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface ShortCollection extends NumericCollection<Short> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends ShortCollectionDecorator {
+    final class HashCollection extends ShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Short> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      *
      * @return A new empty shorts collection.
      */
-    public static ShortCollection empty() {
+    static ShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @param collections The shorts collections from which to calculate the intersection.
      * @return A new shorts collection containing all the elements present in each of the provided shorts collections.
      */
-    public static ShortCollection intersectionOf(final NumericCollection<Short>... collections) {
+    static ShortCollection intersectionOf(final NumericCollection<Short>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @param numbers The shorts for the new shorts collection.
      * @return A new shorts collection with the specified shorts.
      */
-    public static ShortCollection of(final Short... numbers) {
+    static ShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @param numbers            The shorts for the new shorts collection.
      * @return A new shorts collection with the specified element cardinality and the shorts.
      */
-    public static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    static ShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @return A new shorts collection with the specified element cardinality cloned from the provided shorts
      *         collection.
      */
-    public static ShortCollection of(final ElementCardinality elementCardinality,
+    static ShortCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Short> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @param collection The original shorts collection.
      * @return A new shorts collection cloned from the provided shorts collection.
      */
-    public static ShortCollection of(final NumericCollection<Short> collection) {
+    static ShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @param collections The shorts collections from which to copy all the elements.
      * @return A new shorts collection containing all the elements from the provided shorts collections.
      */
-    public static ShortCollection unionOf(final NumericCollection<Short>... collections) {
+    static ShortCollection unionOf(final NumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface ShortCollection extends NumericCollection<Short> {
      * @return A new shorts collection with the specified element cardinality containing all the elements from the
      *         provided shorts collections.
      */
-    public static ShortCollection unionOf(final ElementCardinality elementCardinality,
+    static ShortCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Short>... collections) {
         ModifiableShortCollection result = ModifiableShortCollection.of(elementCardinality);
         for (NumericCollection<Short> collection : collections) {

@@ -19,11 +19,27 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final NumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    private final NumericCollection<Integer> collection012 = IntegerCollection.of(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
+    private final NumericCollection<Integer> collection123 = IntegerCollection.of(1, 2, 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new IntegerCollection.ArrayCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new IntegerCollection.HashCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
 
     @Override
     protected IntegerCollection createEmptyIntegerCollection() {
@@ -73,7 +89,7 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createIntegerCollection(1, 2)
+        assertTrue(IntegerCollection.of(1, 2)
                 .containsSame(IntegerCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createIntegerCollection(0, 1, 2, 1, 2, INTEGER_THREE)
+        assertTrue(IntegerCollection.of(0, 1, 2, 1, 2, INTEGER_THREE)
                 .containsSame(IntegerCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createIntegerCollection(0, 1, 2, INTEGER_THREE)
+        assertTrue(IntegerCollection.of(0, 1, 2, INTEGER_THREE)
                 .containsSame(IntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

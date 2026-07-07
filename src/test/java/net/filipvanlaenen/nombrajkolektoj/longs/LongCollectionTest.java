@@ -19,11 +19,27 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final NumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
+    private final NumericCollection<Long> collection012 = LongCollection.of(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
+    private final NumericCollection<Long> collection123 = LongCollection.of(1L, 2L, 3L);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateALongCollection() {
+        assertTrue(new LongCollection.ArrayCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateALongCollection() {
+        assertTrue(new LongCollection.HashCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
 
     @Override
     protected LongCollection createEmptyLongCollection() {
@@ -73,7 +89,7 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createLongCollection(1L, 2L)
+        assertTrue(LongCollection.of(1L, 2L)
                 .containsSame(LongCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createLongCollection(0L, 1L, 2L, 1L, 2L, LONG_THREE)
+        assertTrue(LongCollection.of(0L, 1L, 2L, 1L, 2L, LONG_THREE)
                 .containsSame(LongCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createLongCollection(0L, 1L, 2L, LONG_THREE)
+        assertTrue(LongCollection.of(0L, 1L, 2L, LONG_THREE)
                 .containsSame(LongCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

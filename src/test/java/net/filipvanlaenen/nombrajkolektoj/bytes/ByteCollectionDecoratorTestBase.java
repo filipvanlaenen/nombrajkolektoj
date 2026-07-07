@@ -1,8 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +14,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> {
+public abstract class ByteCollectionDecoratorTestBase<T extends NumericCollection<Byte>> {
     /**
-     * The byte three.
+     * The magic number three.
      */
-    private static final Byte BYTE_THREE = (byte) 3;
+    private static final int THREE = 3;
+    /**
+     * Collection with the bytes 1, 2 and 3.
+     */
+    private final NumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     /**
      * Creates an empty bytes collection.
@@ -63,34 +67,52 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
     protected abstract T createByteCollection(NumericCollection<Byte> source);
 
     /**
-     * Verifies that a bytes collection with a specific element cardinality receives that element cardinality.
+     * Verifies that an empty bytes collection is empty.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnAByteCollectionWithTheElementCardinality() {
-        assertEquals(DISTINCT_ELEMENTS, createByteCollection(DISTINCT_ELEMENTS, (byte) 1).getElementCardinality());
+    public void isEmptyShouldReturnTrueForAnEmptyByteCollection() {
+        assertTrue(createEmptyByteCollection().isEmpty());
     }
 
     /**
-     * Verifies that a bytes collection created from another collection has the same element cardinality and bytes.
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionShouldReturnAByteCollectionWithTheSameElementCardinalityAndBytes() {
-        ByteCollection source = ByteCollection.of(DISTINCT_ELEMENTS, (byte) 1);
-        T actual = createByteCollection(source);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertEquals(1, actual.size());
-        assertTrue(actual.contains((byte) 1));
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains((byte) 1));
+        assertFalse(collection123.contains((byte) 0));
     }
 
     /**
-     * Verifies that a bytes collection created from another collection has the provided element cardinality.
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionAndElementCardinalityShouldReturnAByteCollectionWithTheProvidedElementCardinality() {
-        ByteCollection source = ByteCollection.of(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE);
-        T actual = createByteCollection(DISTINCT_ELEMENTS, source);
-        ByteCollection expected = ByteCollection.of((byte) 1, (byte) 2, BYTE_THREE);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertTrue(actual.containsSame(expected));
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createByteCollection((byte) 1)));
+        assertFalse(collection123.containsAll(createByteCollection((byte) 0)));
+    }
+
+    /**
+     * Verifies that the <code>get</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that the <code>spliterator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void spliteratorShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.spliterator().estimateSize());
+    }
+
+    /**
+     * Verifies that the <code>toArray</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void toArrayShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.toArray().length);
     }
 }

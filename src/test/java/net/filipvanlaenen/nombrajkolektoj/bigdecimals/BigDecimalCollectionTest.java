@@ -21,11 +21,27 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final NumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final NumericCollection<BigDecimal> collection012 = BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final NumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final NumericCollection<BigDecimal> collection123 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new BigDecimalCollection.ArrayCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new BigDecimalCollection.HashCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
 
     @Override
     protected BigDecimalCollection createEmptyBigDecimalCollection() {
@@ -75,7 +91,7 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L))
+        assertTrue(BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))
                 .containsSame(BigDecimalCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -116,7 +132,7 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+        assertTrue(BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
                 .containsSame(BigDecimalCollection.unionOf(collection012, collection123)));
     }
 
@@ -125,7 +141,7 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+        assertTrue(BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
                 .containsSame(BigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

@@ -7,10 +7,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for shorts.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} interface.
  */
 abstract class ShortCollectionDecorator implements ShortCollection {
+    @Override
+    public boolean contains(final Short element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Short get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<Short> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Short> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public Short max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -53,6 +85,16 @@ abstract class ShortCollectionDecorator implements ShortCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Short> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public Short sum() {
         Short sum = (short) 0;
         for (Short n : this) {
@@ -61,43 +103,6 @@ abstract class ShortCollectionDecorator implements ShortCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<Short> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final Short element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public Short get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Short> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<Short> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

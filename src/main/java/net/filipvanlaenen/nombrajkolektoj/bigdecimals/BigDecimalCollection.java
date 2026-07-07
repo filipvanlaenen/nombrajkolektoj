@@ -6,14 +6,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigDecimals
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigDecimals and
+ * containing inner classes with concrete implementations.
  */
 public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends BigDecimalCollectionDecorator {
+    final class ArrayCollection extends BigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<BigDecimal> decoratedCollection;
 
         /**
@@ -66,7 +69,10 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends BigDecimalCollectionDecorator {
+    final class HashCollection extends BigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<BigDecimal> decoratedCollection;
 
         /**
@@ -121,7 +127,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      *
      * @return A new empty BigDecimals collection.
      */
-    public static BigDecimalCollection empty() {
+    static BigDecimalCollection empty() {
         return new ArrayCollection();
     }
 
@@ -131,7 +137,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @param collections The BigDecimals collections from which to calculate the intersection.
      * @return A new BigDecimals collection containing all the elements present in each of the provided BigDecimals collections.
      */
-    public static BigDecimalCollection intersectionOf(final NumericCollection<BigDecimal>... collections) {
+    static BigDecimalCollection intersectionOf(final NumericCollection<BigDecimal>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -148,7 +154,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @param numbers The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified BigDecimals.
      */
-    public static BigDecimalCollection of(final BigDecimal... numbers) {
+    static BigDecimalCollection of(final BigDecimal... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -159,7 +165,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @param numbers            The BigDecimals for the new BigDecimals collection.
      * @return A new BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    public static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+    static BigDecimalCollection of(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -172,7 +178,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @return A new BigDecimals collection with the specified element cardinality cloned from the provided BigDecimals
      *         collection.
      */
-    public static BigDecimalCollection of(final ElementCardinality elementCardinality,
+    static BigDecimalCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -183,7 +189,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @param collection The original BigDecimals collection.
      * @return A new BigDecimals collection cloned from the provided BigDecimals collection.
      */
-    public static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
+    static BigDecimalCollection of(final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -193,7 +199,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @param collections The BigDecimals collections from which to copy all the elements.
      * @return A new BigDecimals collection containing all the elements from the provided BigDecimals collections.
      */
-    public static BigDecimalCollection unionOf(final NumericCollection<BigDecimal>... collections) {
+    static BigDecimalCollection unionOf(final NumericCollection<BigDecimal>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -206,7 +212,7 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
      * @return A new BigDecimals collection with the specified element cardinality containing all the elements from the
      *         provided BigDecimals collections.
      */
-    public static BigDecimalCollection unionOf(final ElementCardinality elementCardinality,
+    static BigDecimalCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<BigDecimal>... collections) {
         ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(elementCardinality);
         for (NumericCollection<BigDecimal> collection : collections) {

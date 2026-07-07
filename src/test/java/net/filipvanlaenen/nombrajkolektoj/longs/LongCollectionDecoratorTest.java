@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} implementation.
  */
-public class LongCollectionDecoratorTest {
+public class LongCollectionDecoratorTest extends LongCollectionDecoratorTestBase<LongCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class LongCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final LongCollection COLLECTION_NULL = LongCollection.of(new Long[] {null});
+
+    @Override
+    protected LongCollection createEmptyLongCollection() {
+        return LongCollection.empty();
+    }
+
+    @Override
+    protected LongCollection createLongCollection(final Long... numbers) {
+        return LongCollection.of(numbers);
+    }
+
+    @Override
+    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final Long... numbers) {
+        return LongCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Long> source) {
+        return LongCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected LongCollection createLongCollection(final NumericCollection<Long> source) {
+        return LongCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest long in the collection.

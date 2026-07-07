@@ -19,11 +19,27 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final NumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final NumericCollection<Double> collection012 = DoubleCollection.of(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final NumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final NumericCollection<Double> collection123 = DoubleCollection.of(1D, 2D, 3D);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateADoubleCollection() {
+        assertTrue(new DoubleCollection.ArrayCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateADoubleCollection() {
+        assertTrue(new DoubleCollection.HashCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
 
     @Override
     protected DoubleCollection createEmptyDoubleCollection() {
@@ -73,7 +89,7 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createDoubleCollection(1D, 2D)
+        assertTrue(DoubleCollection.of(1D, 2D)
                 .containsSame(DoubleCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createDoubleCollection(0D, 1D, 2D, 1D, 2D, DOUBLE_THREE)
+        assertTrue(DoubleCollection.of(0D, 1D, 2D, 1D, 2D, DOUBLE_THREE)
                 .containsSame(DoubleCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createDoubleCollection(0D, 1D, 2D, DOUBLE_THREE)
+        assertTrue(DoubleCollection.of(0D, 1D, 2D, DOUBLE_THREE)
                 .containsSame(DoubleCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

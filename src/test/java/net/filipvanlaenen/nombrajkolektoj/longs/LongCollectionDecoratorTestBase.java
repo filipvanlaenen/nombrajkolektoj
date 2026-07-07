@@ -1,8 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +14,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> {
+public abstract class LongCollectionDecoratorTestBase<T extends NumericCollection<Long>> {
     /**
-     * The long three.
+     * The magic number three.
      */
-    private static final Long LONG_THREE = 3L;
+    private static final int THREE = 3;
+    /**
+     * Collection with the longs 1, 2 and 3.
+     */
+    private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
 
     /**
      * Creates an empty longs collection.
@@ -63,34 +67,52 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
     protected abstract T createLongCollection(NumericCollection<Long> source);
 
     /**
-     * Verifies that a longs collection with a specific element cardinality receives that element cardinality.
+     * Verifies that an empty longs collection is empty.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnALongCollectionWithTheElementCardinality() {
-        assertEquals(DISTINCT_ELEMENTS, createLongCollection(DISTINCT_ELEMENTS, 1L).getElementCardinality());
+    public void isEmptyShouldReturnTrueForAnEmptyLongCollection() {
+        assertTrue(createEmptyLongCollection().isEmpty());
     }
 
     /**
-     * Verifies that a longs collection created from another collection has the same element cardinality and longs.
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionShouldReturnALongCollectionWithTheSameElementCardinalityAndLongs() {
-        LongCollection source = LongCollection.of(DISTINCT_ELEMENTS, 1L);
-        T actual = createLongCollection(source);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertEquals(1, actual.size());
-        assertTrue(actual.contains(1L));
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(1L));
+        assertFalse(collection123.contains(0L));
     }
 
     /**
-     * Verifies that a longs collection created from another collection has the provided element cardinality.
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionAndElementCardinalityShouldReturnALongCollectionWithTheProvidedElementCardinality() {
-        LongCollection source = LongCollection.of(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE);
-        T actual = createLongCollection(DISTINCT_ELEMENTS, source);
-        LongCollection expected = LongCollection.of(1L, 2L, LONG_THREE);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertTrue(actual.containsSame(expected));
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createLongCollection(1L)));
+        assertFalse(collection123.containsAll(createLongCollection(0L)));
+    }
+
+    /**
+     * Verifies that the <code>get</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that the <code>spliterator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void spliteratorShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.spliterator().estimateSize());
+    }
+
+    /**
+     * Verifies that the <code>toArray</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void toArrayShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.toArray().length);
     }
 }

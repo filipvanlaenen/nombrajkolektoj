@@ -8,11 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} implementation.
  */
-public class BigIntegerCollectionDecoratorTest {
+public class BigIntegerCollectionDecoratorTest extends BigIntegerCollectionDecoratorTestBase<BigIntegerCollection> {
     /**
      * The magic number three.
      */
@@ -45,6 +48,33 @@ public class BigIntegerCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final BigIntegerCollection COLLECTION_NULL = BigIntegerCollection.of(new BigInteger[] {null});
+
+    @Override
+    protected BigIntegerCollection createEmptyBigIntegerCollection() {
+        return BigIntegerCollection.empty();
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return BigIntegerCollection.of(numbers);
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final BigInteger... numbers) {
+        return BigIntegerCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<BigInteger> source) {
+        return BigIntegerCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+        return BigIntegerCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest BigInteger in the collection.

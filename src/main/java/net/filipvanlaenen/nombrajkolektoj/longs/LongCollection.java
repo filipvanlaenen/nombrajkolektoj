@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for longs
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for longs and
+ * containing inner classes with concrete implementations.
  */
 public interface LongCollection extends NumericCollection<Long> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends LongCollectionDecorator {
+    final class ArrayCollection extends LongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Long> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface LongCollection extends NumericCollection<Long> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends LongCollectionDecorator {
+    final class HashCollection extends LongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Long> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface LongCollection extends NumericCollection<Long> {
      *
      * @return A new empty longs collection.
      */
-    public static LongCollection empty() {
+    static LongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @param collections The longs collections from which to calculate the intersection.
      * @return A new longs collection containing all the elements present in each of the provided longs collections.
      */
-    public static LongCollection intersectionOf(final NumericCollection<Long>... collections) {
+    static LongCollection intersectionOf(final NumericCollection<Long>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @param numbers The longs for the new longs collection.
      * @return A new longs collection with the specified longs.
      */
-    public static LongCollection of(final Long... numbers) {
+    static LongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @param numbers            The longs for the new longs collection.
      * @return A new longs collection with the specified element cardinality and the longs.
      */
-    public static LongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    static LongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @return A new longs collection with the specified element cardinality cloned from the provided longs
      *         collection.
      */
-    public static LongCollection of(final ElementCardinality elementCardinality,
+    static LongCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Long> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @param collection The original longs collection.
      * @return A new longs collection cloned from the provided longs collection.
      */
-    public static LongCollection of(final NumericCollection<Long> collection) {
+    static LongCollection of(final NumericCollection<Long> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @param collections The longs collections from which to copy all the elements.
      * @return A new longs collection containing all the elements from the provided longs collections.
      */
-    public static LongCollection unionOf(final NumericCollection<Long>... collections) {
+    static LongCollection unionOf(final NumericCollection<Long>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface LongCollection extends NumericCollection<Long> {
      * @return A new longs collection with the specified element cardinality containing all the elements from the
      *         provided longs collections.
      */
-    public static LongCollection unionOf(final ElementCardinality elementCardinality,
+    static LongCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Long>... collections) {
         ModifiableLongCollection result = ModifiableLongCollection.of(elementCardinality);
         for (NumericCollection<Long> collection : collections) {

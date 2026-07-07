@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for integers
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for integers and
+ * containing inner classes with concrete implementations.
  */
 public interface IntegerCollection extends NumericCollection<Integer> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends IntegerCollectionDecorator {
+    final class ArrayCollection extends IntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Integer> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface IntegerCollection extends NumericCollection<Integer> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends IntegerCollectionDecorator {
+    final class HashCollection extends IntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Integer> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      *
      * @return A new empty integers collection.
      */
-    public static IntegerCollection empty() {
+    static IntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @param collections The integers collections from which to calculate the intersection.
      * @return A new integers collection containing all the elements present in each of the provided integers collections.
      */
-    public static IntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
+    static IntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @param numbers The integers for the new integers collection.
      * @return A new integers collection with the specified integers.
      */
-    public static IntegerCollection of(final Integer... numbers) {
+    static IntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @param numbers            The integers for the new integers collection.
      * @return A new integers collection with the specified element cardinality and the integers.
      */
-    public static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    static IntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @return A new integers collection with the specified element cardinality cloned from the provided integers
      *         collection.
      */
-    public static IntegerCollection of(final ElementCardinality elementCardinality,
+    static IntegerCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Integer> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @param collection The original integers collection.
      * @return A new integers collection cloned from the provided integers collection.
      */
-    public static IntegerCollection of(final NumericCollection<Integer> collection) {
+    static IntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @param collections The integers collections from which to copy all the elements.
      * @return A new integers collection containing all the elements from the provided integers collections.
      */
-    public static IntegerCollection unionOf(final NumericCollection<Integer>... collections) {
+    static IntegerCollection unionOf(final NumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface IntegerCollection extends NumericCollection<Integer> {
      * @return A new integers collection with the specified element cardinality containing all the elements from the
      *         provided integers collections.
      */
-    public static IntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static IntegerCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Integer>... collections) {
         ModifiableIntegerCollection result = ModifiableIntegerCollection.of(elementCardinality);
         for (NumericCollection<Integer> collection : collections) {

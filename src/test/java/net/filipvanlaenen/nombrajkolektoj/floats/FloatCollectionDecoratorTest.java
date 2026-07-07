@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} implementation.
  */
-public class FloatCollectionDecoratorTest {
+public class FloatCollectionDecoratorTest extends FloatCollectionDecoratorTestBase<FloatCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class FloatCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final FloatCollection COLLECTION_NULL = FloatCollection.of(new Float[] {null});
+
+    @Override
+    protected FloatCollection createEmptyFloatCollection() {
+        return FloatCollection.empty();
+    }
+
+    @Override
+    protected FloatCollection createFloatCollection(final Float... numbers) {
+        return FloatCollection.of(numbers);
+    }
+
+    @Override
+    protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final Float... numbers) {
+        return FloatCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Float> source) {
+        return FloatCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
+        return FloatCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest float in the collection.

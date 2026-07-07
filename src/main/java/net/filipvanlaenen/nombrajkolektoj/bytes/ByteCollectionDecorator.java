@@ -7,10 +7,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for bytes.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} interface.
  */
 abstract class ByteCollectionDecorator implements ByteCollection {
+    @Override
+    public boolean contains(final Byte element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Byte get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<Byte> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Byte> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public Byte max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -53,6 +85,16 @@ abstract class ByteCollectionDecorator implements ByteCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Byte> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public Byte sum() {
         Byte sum = (byte) 0;
         for (Byte n : this) {
@@ -61,43 +103,6 @@ abstract class ByteCollectionDecorator implements ByteCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<Byte> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final Byte element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public Byte get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<Byte> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

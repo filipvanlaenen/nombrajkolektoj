@@ -19,11 +19,27 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final NumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final NumericCollection<Short> collection012 = ShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final NumericCollection<Short> collection123 = ShortCollection.of((short) 1, (short) 2, (short) 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAShortCollection() {
+        assertTrue(new ShortCollection.ArrayCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAShortCollection() {
+        assertTrue(new ShortCollection.HashCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
 
     @Override
     protected ShortCollection createEmptyShortCollection() {
@@ -73,7 +89,7 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createShortCollection((short) 1, (short) 2)
+        assertTrue(ShortCollection.of((short) 1, (short) 2)
                 .containsSame(ShortCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -114,7 +130,7 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE)
+        assertTrue(ShortCollection.of((short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE)
                 .containsSame(ShortCollection.unionOf(collection012, collection123)));
     }
 
@@ -123,7 +139,7 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, SHORT_THREE)
+        assertTrue(ShortCollection.of((short) 0, (short) 1, (short) 2, SHORT_THREE)
                 .containsSame(ShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 }

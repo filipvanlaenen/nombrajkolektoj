@@ -4,14 +4,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for bytes
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for bytes and
+ * containing inner classes with concrete implementations.
  */
 public interface ByteCollection extends NumericCollection<Byte> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends ByteCollectionDecorator {
+    final class ArrayCollection extends ByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<Byte> decoratedCollection;
 
         /**
@@ -64,7 +67,10 @@ public interface ByteCollection extends NumericCollection<Byte> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends ByteCollectionDecorator {
+    final class HashCollection extends ByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<Byte> decoratedCollection;
 
         /**
@@ -119,7 +125,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      *
      * @return A new empty bytes collection.
      */
-    public static ByteCollection empty() {
+    static ByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -129,7 +135,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @param collections The bytes collections from which to calculate the intersection.
      * @return A new bytes collection containing all the elements present in each of the provided bytes collections.
      */
-    public static ByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
+    static ByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -146,7 +152,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @param numbers The bytes for the new bytes collection.
      * @return A new bytes collection with the specified bytes.
      */
-    public static ByteCollection of(final Byte... numbers) {
+    static ByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -157,7 +163,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @param numbers            The bytes for the new bytes collection.
      * @return A new bytes collection with the specified element cardinality and the bytes.
      */
-    public static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    static ByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -170,7 +176,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @return A new bytes collection with the specified element cardinality cloned from the provided bytes
      *         collection.
      */
-    public static ByteCollection of(final ElementCardinality elementCardinality,
+    static ByteCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Byte> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -181,7 +187,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @param collection The original bytes collection.
      * @return A new bytes collection cloned from the provided bytes collection.
      */
-    public static ByteCollection of(final NumericCollection<Byte> collection) {
+    static ByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -191,7 +197,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @param collections The bytes collections from which to copy all the elements.
      * @return A new bytes collection containing all the elements from the provided bytes collections.
      */
-    public static ByteCollection unionOf(final NumericCollection<Byte>... collections) {
+    static ByteCollection unionOf(final NumericCollection<Byte>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -204,7 +210,7 @@ public interface ByteCollection extends NumericCollection<Byte> {
      * @return A new bytes collection with the specified element cardinality containing all the elements from the
      *         provided bytes collections.
      */
-    public static ByteCollection unionOf(final ElementCardinality elementCardinality,
+    static ByteCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Byte>... collections) {
         ModifiableByteCollection result = ModifiableByteCollection.of(elementCardinality);
         for (NumericCollection<Byte> collection : collections) {

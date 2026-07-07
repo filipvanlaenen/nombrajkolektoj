@@ -2,9 +2,9 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +16,15 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<BigInteger>> {
+public abstract class BigIntegerCollectionDecoratorTestBase<T extends NumericCollection<BigInteger>> {
     /**
-     * The BigInteger three.
+     * The magic number three.
      */
-    private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
+    private static final int THREE = 3;
+    /**
+     * Collection with the BigIntegers 1, 2 and 3.
+     */
+    private final NumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     /**
      * Creates an empty BigIntegers collection.
@@ -65,34 +69,52 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
     protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
 
     /**
-     * Verifies that a BigIntegers collection with a specific element cardinality receives that element cardinality.
+     * Verifies that an empty BigIntegers collection is empty.
      */
     @Test
-    public void ofWithElementCardinalityShouldReturnABigIntegerCollectionWithTheElementCardinality() {
-        assertEquals(DISTINCT_ELEMENTS, createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE).getElementCardinality());
+    public void isEmptyShouldReturnTrueForAnEmptyBigIntegerCollection() {
+        assertTrue(createEmptyBigIntegerCollection().isEmpty());
     }
 
     /**
-     * Verifies that a BigIntegers collection created from another collection has the same element cardinality and BigIntegers.
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionShouldReturnABigIntegerCollectionWithTheSameElementCardinalityAndBigIntegers() {
-        BigIntegerCollection source = BigIntegerCollection.of(DISTINCT_ELEMENTS, BigInteger.ONE);
-        T actual = createBigIntegerCollection(source);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertEquals(1, actual.size());
-        assertTrue(actual.contains(BigInteger.ONE));
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(BigInteger.ONE));
+        assertFalse(collection123.contains(BigInteger.ZERO));
     }
 
     /**
-     * Verifies that a BigIntegers collection created from another collection has the provided element cardinality.
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void ofWithCollectionAndElementCardinalityShouldReturnABigIntegerCollectionWithTheProvidedElementCardinality() {
-        BigIntegerCollection source = BigIntegerCollection.of(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE);
-        T actual = createBigIntegerCollection(DISTINCT_ELEMENTS, source);
-        BigIntegerCollection expected = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
-        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
-        assertTrue(actual.containsSame(expected));
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createBigIntegerCollection(BigInteger.ONE)));
+        assertFalse(collection123.containsAll(createBigIntegerCollection(BigInteger.ZERO)));
+    }
+
+    /**
+     * Verifies that the <code>get</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that the <code>spliterator</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void spliteratorShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.spliterator().estimateSize());
+    }
+
+    /**
+     * Verifies that the <code>toArray</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void toArrayShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(THREE, collection123.toArray().length);
     }
 }

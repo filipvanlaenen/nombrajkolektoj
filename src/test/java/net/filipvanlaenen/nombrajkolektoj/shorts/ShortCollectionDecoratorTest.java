@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} implementation.
  */
-public class ShortCollectionDecoratorTest {
+public class ShortCollectionDecoratorTest extends ShortCollectionDecoratorTestBase<ShortCollection> {
     /**
      * The magic number three.
      */
@@ -43,6 +46,33 @@ public class ShortCollectionDecoratorTest {
      * Collection with <code>null</code>.
      */
     private static final ShortCollection COLLECTION_NULL = ShortCollection.of(new Short[] {null});
+
+    @Override
+    protected ShortCollection createEmptyShortCollection() {
+        return ShortCollection.empty();
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final Short... numbers) {
+        return ShortCollection.of(numbers);
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return ShortCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final NumericCollection<Short> source) {
+        return ShortCollection.of(elementCardinality, source);
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final NumericCollection<Short> source) {
+        return ShortCollection.of(source);
+    }
 
     /**
      * Verifies that <code>max</code> returns the largest short in the collection.

@@ -7,10 +7,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for floats.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} interface.
  */
 abstract class FloatCollectionDecorator implements FloatCollection {
+    @Override
+    public boolean contains(final Float element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Float get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<Float> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Float> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public Float max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -53,6 +85,16 @@ abstract class FloatCollectionDecorator implements FloatCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Float> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public Float sum() {
         Float sum = 0F;
         for (Float n : this) {
@@ -61,43 +103,6 @@ abstract class FloatCollectionDecorator implements FloatCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<Float> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final Float element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public Float get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Float> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<Float> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

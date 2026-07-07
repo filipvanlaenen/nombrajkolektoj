@@ -6,14 +6,17 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigIntegers
- * and containing inner classes with concrete implementations.
+ * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for BigIntegers and
+ * containing inner classes with concrete implementations.
  */
 public interface BigIntegerCollection extends NumericCollection<BigInteger> {
     /**
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class ArrayCollection extends BigIntegerCollectionDecorator {
+    final class ArrayCollection extends BigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.array.ArrayCollection<BigInteger> decoratedCollection;
 
         /**
@@ -66,7 +69,10 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
     /**
      * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
      */
-    public static final class HashCollection extends BigIntegerCollectionDecorator {
+    final class HashCollection extends BigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.hash.HashCollection<BigInteger> decoratedCollection;
 
         /**
@@ -121,7 +127,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      *
      * @return A new empty BigIntegers collection.
      */
-    public static BigIntegerCollection empty() {
+    static BigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -131,7 +137,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @param collections The BigIntegers collections from which to calculate the intersection.
      * @return A new BigIntegers collection containing all the elements present in each of the provided BigIntegers collections.
      */
-    public static BigIntegerCollection intersectionOf(final NumericCollection<BigInteger>... collections) {
+    static BigIntegerCollection intersectionOf(final NumericCollection<BigInteger>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -148,7 +154,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @param numbers The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified BigIntegers.
      */
-    public static BigIntegerCollection of(final BigInteger... numbers) {
+    static BigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -159,7 +165,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @param numbers            The BigIntegers for the new BigIntegers collection.
      * @return A new BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    static BigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -172,7 +178,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @return A new BigIntegers collection with the specified element cardinality cloned from the provided BigIntegers
      *         collection.
      */
-    public static BigIntegerCollection of(final ElementCardinality elementCardinality,
+    static BigIntegerCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -183,7 +189,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @param collection The original BigIntegers collection.
      * @return A new BigIntegers collection cloned from the provided BigIntegers collection.
      */
-    public static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
+    static BigIntegerCollection of(final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -193,7 +199,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @param collections The BigIntegers collections from which to copy all the elements.
      * @return A new BigIntegers collection containing all the elements from the provided BigIntegers collections.
      */
-    public static BigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
+    static BigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 
@@ -206,7 +212,7 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
      * @return A new BigIntegers collection with the specified element cardinality containing all the elements from the
      *         provided BigIntegers collections.
      */
-    public static BigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static BigIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<BigInteger>... collections) {
         ModifiableBigIntegerCollection result = ModifiableBigIntegerCollection.of(elementCardinality);
         for (NumericCollection<BigInteger> collection : collections) {

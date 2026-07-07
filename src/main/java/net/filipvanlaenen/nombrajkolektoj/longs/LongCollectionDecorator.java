@@ -7,10 +7,42 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} for longs.
+ * An abstract decorator class implementing the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} interface.
  */
 abstract class LongCollectionDecorator implements LongCollection {
+    @Override
+    public boolean contains(final Long element) {
+        return getDecoratedCollection().contains(element);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> collection) {
+        return getDecoratedCollection().containsAll(collection);
+    }
+
+    @Override
+    public Long get() throws IndexOutOfBoundsException {
+        return getDecoratedCollection().get();
+    }
+
+    /**
+     * Returns the internal decorated collection.
+     *
+     * @return The internal decorated collection
+     */
+    abstract Collection<Long> getDecoratedCollection();
+
+    @Override
+    public ElementCardinality getElementCardinality() {
+        return getDecoratedCollection().getElementCardinality();
+    }
+
+    @Override
+    public Iterator<Long> iterator() {
+        return getDecoratedCollection().iterator();
+    }
+
     @Override
     public Long max() throws IndexOutOfBoundsException {
         if (size() == 0) {
@@ -53,6 +85,16 @@ abstract class LongCollectionDecorator implements LongCollection {
     }
 
     @Override
+    public int size() {
+        return getDecoratedCollection().size();
+    }
+
+    @Override
+    public Spliterator<Long> spliterator() {
+        return getDecoratedCollection().spliterator();
+    }
+
+    @Override
     public Long sum() {
         Long sum = 0L;
         for (Long n : this) {
@@ -61,43 +103,6 @@ abstract class LongCollectionDecorator implements LongCollection {
             }
         }
         return sum;
-    }
-
-    abstract Collection<Long> getDecoratedCollection();
-
-    @Override
-    public boolean contains(final Long element) {
-        return getDecoratedCollection().contains(element);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return getDecoratedCollection().containsAll(collection);
-    }
-
-    @Override
-    public Long get() throws IndexOutOfBoundsException {
-        return getDecoratedCollection().get();
-    }
-
-    @Override
-    public ElementCardinality getElementCardinality() {
-        return getDecoratedCollection().getElementCardinality();
-    }
-
-    @Override
-    public Iterator<Long> iterator() {
-        return getDecoratedCollection().iterator();
-    }
-
-    @Override
-    public int size() {
-        return getDecoratedCollection().size();
-    }
-
-    @Override
-    public Spliterator<Long> spliterator() {
-        return getDecoratedCollection().spliterator();
     }
 
     @Override

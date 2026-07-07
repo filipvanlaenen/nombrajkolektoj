@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.shorts;
+package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,27 +8,27 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
  * Unit tests on the abstract
- * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableOrderedShortCollectionDecorator} class. The class is
- * tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableOrderedShortCollection}
+ * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollectionDecorator} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection}
  * implementation.
  */
-public class AbstractModifiableOrderedShortCollectionTest {
+public class ModifiableOrderedIntegerCollectionDecoratorTest {
     /**
      * The magic number minus four.
      */
-    private static final short MINUS_FOUR = -(short) 4;
+    private static final int MINUS_FOUR = -4;
     /**
      * The magic number minus three.
      */
-    private static final short MINUS_THREE = -(short) 3;
+    private static final int MINUS_THREE = -3;
     /**
      * The magic number minus two.
      */
-    private static final short MINUS_TWO = -(short) 2;
+    private static final int MINUS_TWO = -2;
     /**
      * The magic number minus one.
      */
-    private static final short MINUS_ONE = -(short) 1;
+    private static final int MINUS_ONE = -1;
     /**
      * The magic number three.
      */
@@ -40,43 +40,43 @@ public class AbstractModifiableOrderedShortCollectionTest {
     /**
      * The magic number three.
      */
-    private static final short SHORT_THREE = (short) 3;
+    private static final int INTEGER_THREE = 3;
     /**
      * The magic number four.
      */
-    private static final short SHORT_FOUR = (short) 4;
+    private static final int INTEGER_FOUR = 4;
     /**
      * The magic number five.
      */
-    private static final short SHORT_FIVE = (short) 5;
+    private static final int INTEGER_FIVE = 5;
     /**
      * The magic number six.
      */
-    private static final short SHORT_SIX = (short) 6;
+    private static final int INTEGER_SIX = 6;
     /**
      * The magic number seven.
      */
-    private static final short SHORT_SEVEN = (short) 7;
+    private static final int INTEGER_SEVEN = 7;
     /**
      * The magic number eight.
      */
-    private static final short SHORT_EIGHT = (short) 8;
+    private static final int INTEGER_EIGHT = 8;
     /**
      * The magic number nine.
      */
-    private static final short SHORT_NINE = (short) 9;
+    private static final int INTEGER_NINE = 9;
     /**
      * The magic number sixteen.
      */
-    private static final short SHORT_SIXTEEN = (short) 16;
+    private static final int INTEGER_SIXTEEN = 16;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
      *
      * @return A collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedShortCollection createCollection1234() {
-        return ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, SHORT_FOUR);
+    private ModifiableOrderedIntegerCollection createCollection1234() {
+        return ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, INTEGER_FOUR);
     }
 
     /**
@@ -84,9 +84,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      *
      * @return A distinct collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedShortCollection createDistinctCollection1234() {
-        return ModifiableOrderedShortCollection.of(ElementCardinality.DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE,
-                SHORT_FOUR);
+    private ModifiableOrderedIntegerCollection createDistinctCollection1234() {
+        return ModifiableOrderedIntegerCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE,
+                INTEGER_FOUR);
     }
 
     /**
@@ -94,8 +94,8 @@ public class AbstractModifiableOrderedShortCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and 8.
      */
-    private ModifiableOrderedShortCollection createCollection2468() {
-        return ModifiableOrderedShortCollection.of((short) 2, SHORT_FOUR, SHORT_SIX, SHORT_EIGHT);
+    private ModifiableOrderedIntegerCollection createCollection2468() {
+        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, INTEGER_EIGHT);
     }
 
     /**
@@ -103,8 +103,8 @@ public class AbstractModifiableOrderedShortCollectionTest {
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
-    private ModifiableOrderedShortCollection createCollection123Null() {
-        return ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null);
+    private ModifiableOrderedIntegerCollection createCollection123Null() {
+        return ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null);
     }
 
     /**
@@ -112,8 +112,8 @@ public class AbstractModifiableOrderedShortCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
      */
-    private ModifiableOrderedShortCollection createCollection246Null() {
-        return ModifiableOrderedShortCollection.of((short) 2, SHORT_FOUR, SHORT_SIX, null);
+    private ModifiableOrderedIntegerCollection createCollection246Null() {
+        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, null);
     }
 
     /**
@@ -121,7 +121,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldReturnOriginal() {
-        assertEquals((short) 2, createCollection1234().augment(1, SHORT_FIVE));
+        assertEquals(2, createCollection1234().augment(1, INTEGER_FIVE));
     }
 
     /**
@@ -138,10 +138,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldAugmentNumberCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
-        collection.augment(1, SHORT_FIVE);
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        collection.augment(1, INTEGER_FIVE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_SEVEN, SHORT_THREE, SHORT_FOUR)));
+                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_SEVEN, INTEGER_THREE, INTEGER_FOUR)));
     }
 
     /**
@@ -149,9 +149,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.augment(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
     }
 
     /**
@@ -159,7 +159,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.augment(1, null));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
@@ -170,9 +170,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.augment(THREE, SHORT_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.augment(THREE, INTEGER_FIVE));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
@@ -181,9 +181,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, SHORT_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, INTEGER_FIVE));
         assertEquals("Cannot augment an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -193,9 +193,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedShortCollection collection = createDistinctCollection1234();
+        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, (short) 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, 1));
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -222,7 +222,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().augment(ModifiableOrderedShortCollection.of((short) 0, (short) 0, (short) 0, null)));
+        assertFalse(createCollection123Null().augment(ModifiableOrderedIntegerCollection.of(0, 0, 0, null)));
     }
 
     /**
@@ -230,7 +230,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         collection.augment(createCollection1234());
         assertTrue(collection.containsSame(createCollection2468()));
     }
@@ -240,7 +240,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
         assertTrue(collection.containsSame(createCollection246Null()));
     }
@@ -250,9 +250,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.augment(ModifiableOrderedShortCollection.of((short) 1, (short) 2)));
+                () -> collection.augment(ModifiableOrderedIntegerCollection.of(1, 2)));
         assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -261,9 +261,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.augment(ModifiableOrderedShortCollection.of((short) 1, null, (short) 2, SHORT_THREE)));
+                () -> collection.augment(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -273,7 +273,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldReturnOriginal() {
-        assertEquals((short) 2, createCollection1234().multiply(1, SHORT_FIVE));
+        assertEquals(2, createCollection1234().multiply(1, INTEGER_FIVE));
     }
 
     /**
@@ -290,10 +290,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
-        collection.multiply(1, SHORT_THREE);
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        collection.multiply(1, INTEGER_THREE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_SIX, SHORT_THREE, SHORT_FOUR)));
+                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_SIX, INTEGER_THREE, INTEGER_FOUR)));
     }
 
     /**
@@ -301,9 +301,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.multiply(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
     }
 
     /**
@@ -311,7 +311,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.multiply(1, null));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
@@ -322,9 +322,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, SHORT_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, INTEGER_FIVE));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
 
@@ -333,9 +333,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, SHORT_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, INTEGER_FIVE));
         assertEquals("Cannot multiply an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -345,9 +345,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedShortCollection collection = createDistinctCollection1234();
+        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, (short) 2));
+                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -374,7 +374,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().multiply(ModifiableOrderedShortCollection.of((short) 1, (short) 1, (short) 1, null)));
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedIntegerCollection.of(1, 1, 1, null)));
     }
 
     /**
@@ -382,10 +382,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         collection.multiply(createCollection1234());
         assertTrue(collection
-                .containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_FOUR, SHORT_NINE, SHORT_SIXTEEN)));
+                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_FOUR, INTEGER_NINE, INTEGER_SIXTEEN)));
     }
 
     /**
@@ -394,9 +394,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.multiply(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, SHORT_FOUR, SHORT_NINE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_FOUR, INTEGER_NINE, null)));
     }
 
     /**
@@ -404,9 +404,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.multiply(ModifiableOrderedShortCollection.of((short) 1, (short) 2)));
+                () -> collection.multiply(ModifiableOrderedIntegerCollection.of(1, 2)));
         assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -415,9 +415,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.multiply(ModifiableOrderedShortCollection.of((short) 1, null, (short) 2, SHORT_THREE)));
+                () -> collection.multiply(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
         assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -427,7 +427,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateWithIndexShouldReturnOriginal() {
-        assertEquals((short) 2, createCollection1234().negate(1));
+        assertEquals(2, createCollection1234().negate(1));
     }
 
     /**
@@ -444,10 +444,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateWithIndexShouldNegateNumberCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         collection.negate(1);
         assertTrue(collection
-                .containsSame(ModifiableOrderedShortCollection.of((short) 1, MINUS_TWO, SHORT_THREE, SHORT_FOUR)));
+                .containsSame(ModifiableOrderedIntegerCollection.of(1, MINUS_TWO, INTEGER_THREE, INTEGER_FOUR)));
     }
 
     /**
@@ -455,9 +455,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.negate(THREE);
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
     }
 
     /**
@@ -465,7 +465,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
                 assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
         assertEquals("Cannot negate an element at a position beyond the size of the collection.",
@@ -477,8 +477,8 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection
-                .of(ElementCardinality.DISTINCT_ELEMENTS, (short) 1, (short) 2, MINUS_TWO, SHORT_THREE);
+        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, 1, 2, MINUS_TWO, INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
@@ -506,7 +506,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(ModifiableOrderedShortCollection.of((short) 0, (short) 0, (short) 0, null).negate());
+        assertFalse(ModifiableOrderedIntegerCollection.of(0, 0, 0, null).negate());
     }
 
     /**
@@ -514,10 +514,10 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void negateShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         collection.negate();
         assertTrue(collection
-                .containsSame(ModifiableOrderedShortCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+                .containsSame(ModifiableOrderedIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -525,7 +525,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldReturnOriginal() {
-        assertEquals((short) 2, createCollection1234().subtract(1, SHORT_FIVE));
+        assertEquals(2, createCollection1234().subtract(1, INTEGER_FIVE));
     }
 
     /**
@@ -542,9 +542,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldSubtractNumberCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
-        collection.subtract(1, (short) 2);
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 0, SHORT_THREE, SHORT_FOUR)));
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        collection.subtract(1, 2);
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 0, INTEGER_THREE, INTEGER_FOUR)));
     }
 
     /**
@@ -552,9 +552,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         collection.subtract(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
     }
 
     /**
@@ -562,7 +562,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
@@ -573,9 +573,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, SHORT_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, INTEGER_FIVE));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
 
@@ -584,9 +584,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, SHORT_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, INTEGER_FIVE));
         assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -596,9 +596,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedShortCollection collection = createDistinctCollection1234();
+        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, (short) 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, 1));
         assertEquals(
                 "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -625,7 +625,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().subtract(ModifiableOrderedShortCollection.of((short) 0, (short) 0, (short) 0, null)));
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedIntegerCollection.of(0, 0, 0, null)));
     }
 
     /**
@@ -633,7 +633,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
-        ModifiableOrderedShortCollection collection = createCollection2468();
+        ModifiableOrderedIntegerCollection collection = createCollection2468();
         collection.subtract(createCollection1234());
         assertTrue(collection.containsSame(createCollection1234()));
     }
@@ -644,7 +644,7 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedShortCollection collection = createCollection246Null();
+        ModifiableOrderedIntegerCollection collection = createCollection246Null();
         collection.subtract(createCollection123Null());
         assertTrue(collection.containsSame(createCollection123Null()));
     }
@@ -654,9 +654,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedShortCollection collection = createCollection1234();
+        ModifiableOrderedIntegerCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.subtract(ModifiableOrderedShortCollection.of((short) 1, (short) 2)));
+                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, 2)));
         assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
     }
 
@@ -665,9 +665,9 @@ public class AbstractModifiableOrderedShortCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedShortCollection collection = createCollection123Null();
+        ModifiableOrderedIntegerCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.subtract(ModifiableOrderedShortCollection.of((short) 1, null, (short) 2, SHORT_THREE)));
+                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
         assertEquals("Cannot subtract a collection from a collection when null values don't match.",
                 exception.getMessage());
     }

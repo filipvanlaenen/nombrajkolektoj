@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.bytes;
+package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,27 +8,27 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
  * Unit tests on the abstract
- * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableOrderedByteCollectionDecorator} class. The class is
- * tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableOrderedByteCollection}
+ * {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollectionDecorator} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollection}
  * implementation.
  */
-public class AbstractModifiableOrderedByteCollectionTest {
+public class ModifiableOrderedDoubleCollectionDecoratorTest {
     /**
      * The magic number minus four.
      */
-    private static final byte MINUS_FOUR = -(byte) 4;
+    private static final double MINUS_FOUR = -4D;
     /**
      * The magic number minus three.
      */
-    private static final byte MINUS_THREE = -(byte) 3;
+    private static final double MINUS_THREE = -3D;
     /**
      * The magic number minus two.
      */
-    private static final byte MINUS_TWO = -(byte) 2;
+    private static final double MINUS_TWO = -2D;
     /**
      * The magic number minus one.
      */
-    private static final byte MINUS_ONE = -(byte) 1;
+    private static final double MINUS_ONE = -1D;
     /**
      * The magic number three.
      */
@@ -40,43 +40,43 @@ public class AbstractModifiableOrderedByteCollectionTest {
     /**
      * The magic number three.
      */
-    private static final byte BYTE_THREE = (byte) 3;
+    private static final double DOUBLE_THREE = 3D;
     /**
      * The magic number four.
      */
-    private static final byte BYTE_FOUR = (byte) 4;
+    private static final double DOUBLE_FOUR = 4D;
     /**
      * The magic number five.
      */
-    private static final byte BYTE_FIVE = (byte) 5;
+    private static final double DOUBLE_FIVE = 5D;
     /**
      * The magic number six.
      */
-    private static final byte BYTE_SIX = (byte) 6;
+    private static final double DOUBLE_SIX = 6D;
     /**
      * The magic number seven.
      */
-    private static final byte BYTE_SEVEN = (byte) 7;
+    private static final double DOUBLE_SEVEN = 7D;
     /**
      * The magic number eight.
      */
-    private static final byte BYTE_EIGHT = (byte) 8;
+    private static final double DOUBLE_EIGHT = 8D;
     /**
      * The magic number nine.
      */
-    private static final byte BYTE_NINE = (byte) 9;
+    private static final double DOUBLE_NINE = 9D;
     /**
      * The magic number sixteen.
      */
-    private static final byte BYTE_SIXTEEN = (byte) 16;
+    private static final double DOUBLE_SIXTEEN = 16D;
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
      *
      * @return A collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedByteCollection createCollection1234() {
-        return ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, BYTE_FOUR);
+    private ModifiableOrderedDoubleCollection createCollection1234() {
+        return ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, DOUBLE_FOUR);
     }
 
     /**
@@ -84,9 +84,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      *
      * @return A distinct collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedByteCollection createDistinctCollection1234() {
-        return ModifiableOrderedByteCollection.of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE,
-                BYTE_FOUR);
+    private ModifiableOrderedDoubleCollection createDistinctCollection1234() {
+        return ModifiableOrderedDoubleCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1D, 2D, DOUBLE_THREE,
+                DOUBLE_FOUR);
     }
 
     /**
@@ -94,8 +94,8 @@ public class AbstractModifiableOrderedByteCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and 8.
      */
-    private ModifiableOrderedByteCollection createCollection2468() {
-        return ModifiableOrderedByteCollection.of((byte) 2, BYTE_FOUR, BYTE_SIX, BYTE_EIGHT);
+    private ModifiableOrderedDoubleCollection createCollection2468() {
+        return ModifiableOrderedDoubleCollection.of(2D, DOUBLE_FOUR, DOUBLE_SIX, DOUBLE_EIGHT);
     }
 
     /**
@@ -103,8 +103,8 @@ public class AbstractModifiableOrderedByteCollectionTest {
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
-    private ModifiableOrderedByteCollection createCollection123Null() {
-        return ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null);
+    private ModifiableOrderedDoubleCollection createCollection123Null() {
+        return ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, null);
     }
 
     /**
@@ -112,8 +112,8 @@ public class AbstractModifiableOrderedByteCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
      */
-    private ModifiableOrderedByteCollection createCollection246Null() {
-        return ModifiableOrderedByteCollection.of((byte) 2, BYTE_FOUR, BYTE_SIX, null);
+    private ModifiableOrderedDoubleCollection createCollection246Null() {
+        return ModifiableOrderedDoubleCollection.of(2D, DOUBLE_FOUR, DOUBLE_SIX, null);
     }
 
     /**
@@ -121,7 +121,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldReturnOriginal() {
-        assertEquals((byte) 2, createCollection1234().augment(1, BYTE_FIVE));
+        assertEquals(2D, createCollection1234().augment(1, DOUBLE_FIVE));
     }
 
     /**
@@ -138,10 +138,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldAugmentNumberCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
-        collection.augment(1, BYTE_FIVE);
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        collection.augment(1, DOUBLE_FIVE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedByteCollection.of((byte) 1, BYTE_SEVEN, BYTE_THREE, BYTE_FOUR)));
+                .containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_SEVEN, DOUBLE_THREE, DOUBLE_FOUR)));
     }
 
     /**
@@ -149,9 +149,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.augment(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, null)));
     }
 
     /**
@@ -159,7 +159,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.augment(1, null));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
@@ -170,9 +170,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.augment(THREE, BYTE_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.augment(THREE, DOUBLE_FIVE));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
@@ -181,9 +181,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, BYTE_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, DOUBLE_FIVE));
         assertEquals("Cannot augment an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -193,9 +193,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedByteCollection collection = createDistinctCollection1234();
+        ModifiableOrderedDoubleCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, (byte) 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, 1D));
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -222,7 +222,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().augment(ModifiableOrderedByteCollection.of((byte) 0, (byte) 0, (byte) 0, null)));
+        assertFalse(createCollection123Null().augment(ModifiableOrderedDoubleCollection.of(0D, 0D, 0D, null)));
     }
 
     /**
@@ -230,7 +230,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         collection.augment(createCollection1234());
         assertTrue(collection.containsSame(createCollection2468()));
     }
@@ -240,7 +240,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
         assertTrue(collection.containsSame(createCollection246Null()));
     }
@@ -250,9 +250,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.augment(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2)));
+                () -> collection.augment(ModifiableOrderedDoubleCollection.of(1D, 2D)));
         assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -261,9 +261,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.augment(ModifiableOrderedByteCollection.of((byte) 1, null, (byte) 2, BYTE_THREE)));
+                () -> collection.augment(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -273,7 +273,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldReturnOriginal() {
-        assertEquals((byte) 2, createCollection1234().multiply(1, BYTE_FIVE));
+        assertEquals(2D, createCollection1234().multiply(1, DOUBLE_FIVE));
     }
 
     /**
@@ -290,10 +290,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
-        collection.multiply(1, BYTE_THREE);
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        collection.multiply(1, DOUBLE_THREE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedByteCollection.of((byte) 1, BYTE_SIX, BYTE_THREE, BYTE_FOUR)));
+                .containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_SIX, DOUBLE_THREE, DOUBLE_FOUR)));
     }
 
     /**
@@ -301,9 +301,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.multiply(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, null)));
     }
 
     /**
@@ -311,7 +311,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.multiply(1, null));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
@@ -322,9 +322,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, BYTE_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, DOUBLE_FIVE));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
 
@@ -333,9 +333,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, BYTE_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, DOUBLE_FIVE));
         assertEquals("Cannot multiply an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -345,9 +345,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedByteCollection collection = createDistinctCollection1234();
+        ModifiableOrderedDoubleCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, (byte) 2));
+                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2D));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -374,7 +374,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().multiply(ModifiableOrderedByteCollection.of((byte) 1, (byte) 1, (byte) 1, null)));
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedDoubleCollection.of(1D, 1D, 1D, null)));
     }
 
     /**
@@ -382,10 +382,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         collection.multiply(createCollection1234());
         assertTrue(collection
-                .containsSame(ModifiableOrderedByteCollection.of((byte) 1, BYTE_FOUR, BYTE_NINE, BYTE_SIXTEEN)));
+                .containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_FOUR, DOUBLE_NINE, DOUBLE_SIXTEEN)));
     }
 
     /**
@@ -394,9 +394,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.multiply(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, BYTE_FOUR, BYTE_NINE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, DOUBLE_FOUR, DOUBLE_NINE, null)));
     }
 
     /**
@@ -404,9 +404,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.multiply(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2)));
+                () -> collection.multiply(ModifiableOrderedDoubleCollection.of(1D, 2D)));
         assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -415,9 +415,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.multiply(ModifiableOrderedByteCollection.of((byte) 1, null, (byte) 2, BYTE_THREE)));
+                () -> collection.multiply(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
         assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -427,7 +427,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateWithIndexShouldReturnOriginal() {
-        assertEquals((byte) 2, createCollection1234().negate(1));
+        assertEquals(2D, createCollection1234().negate(1));
     }
 
     /**
@@ -444,10 +444,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateWithIndexShouldNegateNumberCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         collection.negate(1);
         assertTrue(collection
-                .containsSame(ModifiableOrderedByteCollection.of((byte) 1, MINUS_TWO, BYTE_THREE, BYTE_FOUR)));
+                .containsSame(ModifiableOrderedDoubleCollection.of(1D, MINUS_TWO, DOUBLE_THREE, DOUBLE_FOUR)));
     }
 
     /**
@@ -455,9 +455,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.negate(THREE);
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, null)));
     }
 
     /**
@@ -465,7 +465,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
                 assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
         assertEquals("Cannot negate an element at a position beyond the size of the collection.",
@@ -477,8 +477,8 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection
-                .of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, (byte) 2, MINUS_TWO, BYTE_THREE);
+        ModifiableOrderedDoubleCollection collection = ModifiableOrderedDoubleCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, 1D, 2D, MINUS_TWO, DOUBLE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
@@ -506,7 +506,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(ModifiableOrderedByteCollection.of((byte) 0, (byte) 0, (byte) 0, null).negate());
+        assertFalse(ModifiableOrderedDoubleCollection.of(0D, 0D, 0D, null).negate());
     }
 
     /**
@@ -514,10 +514,10 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void negateShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         collection.negate();
         assertTrue(collection
-                .containsSame(ModifiableOrderedByteCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+                .containsSame(ModifiableOrderedDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -525,7 +525,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldReturnOriginal() {
-        assertEquals((byte) 2, createCollection1234().subtract(1, BYTE_FIVE));
+        assertEquals(2D, createCollection1234().subtract(1, DOUBLE_FIVE));
     }
 
     /**
@@ -542,9 +542,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldSubtractNumberCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
-        collection.subtract(1, (byte) 2);
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 0, BYTE_THREE, BYTE_FOUR)));
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
+        collection.subtract(1, 2D);
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, 0D, DOUBLE_THREE, DOUBLE_FOUR)));
     }
 
     /**
@@ -552,9 +552,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         collection.subtract(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE, null)));
     }
 
     /**
@@ -562,7 +562,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
@@ -573,9 +573,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, BYTE_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, DOUBLE_FIVE));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
 
@@ -584,9 +584,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, BYTE_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, DOUBLE_FIVE));
         assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -596,9 +596,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedByteCollection collection = createDistinctCollection1234();
+        ModifiableOrderedDoubleCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, (byte) 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, 1D));
         assertEquals(
                 "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -625,7 +625,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().subtract(ModifiableOrderedByteCollection.of((byte) 0, (byte) 0, (byte) 0, null)));
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedDoubleCollection.of(0D, 0D, 0D, null)));
     }
 
     /**
@@ -633,7 +633,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
-        ModifiableOrderedByteCollection collection = createCollection2468();
+        ModifiableOrderedDoubleCollection collection = createCollection2468();
         collection.subtract(createCollection1234());
         assertTrue(collection.containsSame(createCollection1234()));
     }
@@ -644,7 +644,7 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedByteCollection collection = createCollection246Null();
+        ModifiableOrderedDoubleCollection collection = createCollection246Null();
         collection.subtract(createCollection123Null());
         assertTrue(collection.containsSame(createCollection123Null()));
     }
@@ -654,9 +654,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedByteCollection collection = createCollection1234();
+        ModifiableOrderedDoubleCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.subtract(ModifiableOrderedByteCollection.of((byte) 1, (byte) 2)));
+                () -> collection.subtract(ModifiableOrderedDoubleCollection.of(1D, 2D)));
         assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
     }
 
@@ -665,9 +665,9 @@ public class AbstractModifiableOrderedByteCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedByteCollection collection = createCollection123Null();
+        ModifiableOrderedDoubleCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.subtract(ModifiableOrderedByteCollection.of((byte) 1, null, (byte) 2, BYTE_THREE)));
+                () -> collection.subtract(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
         assertEquals("Cannot subtract a collection from a collection when null values don't match.",
                 exception.getMessage());
     }

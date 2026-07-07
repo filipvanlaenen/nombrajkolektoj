@@ -1,4 +1,6 @@
-package net.filipvanlaenen.nombrajkolektoj.integers;
+package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,27 +10,27 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
  * Unit tests on the abstract
- * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollectionDecorator} class. The class is
- * tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection}
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableOrderedBigDecimalCollectionDecorator} class. The class is
+ * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableOrderedBigDecimalCollection}
  * implementation.
  */
-public class AbstractModifiableOrderedIntegerCollectionTest {
+public class ModifiableOrderedBigDecimalCollectionDecoratorTest {
     /**
      * The magic number minus four.
      */
-    private static final int MINUS_FOUR = -4;
+    private static final BigDecimal MINUS_FOUR = BigDecimal.valueOf(-4L);
     /**
      * The magic number minus three.
      */
-    private static final int MINUS_THREE = -3;
+    private static final BigDecimal MINUS_THREE = BigDecimal.valueOf(-3L);
     /**
      * The magic number minus two.
      */
-    private static final int MINUS_TWO = -2;
+    private static final BigDecimal MINUS_TWO = BigDecimal.valueOf(-2L);
     /**
      * The magic number minus one.
      */
-    private static final int MINUS_ONE = -1;
+    private static final BigDecimal MINUS_ONE = BigDecimal.valueOf(-1L);
     /**
      * The magic number three.
      */
@@ -40,43 +42,43 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
     /**
      * The magic number three.
      */
-    private static final int INTEGER_THREE = 3;
+    private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
     /**
      * The magic number four.
      */
-    private static final int INTEGER_FOUR = 4;
+    private static final BigDecimal BIG_DECIMAL_FOUR = BigDecimal.valueOf(4L);
     /**
      * The magic number five.
      */
-    private static final int INTEGER_FIVE = 5;
+    private static final BigDecimal BIG_DECIMAL_FIVE = BigDecimal.valueOf(5L);
     /**
      * The magic number six.
      */
-    private static final int INTEGER_SIX = 6;
+    private static final BigDecimal BIG_DECIMAL_SIX = BigDecimal.valueOf(6L);
     /**
      * The magic number seven.
      */
-    private static final int INTEGER_SEVEN = 7;
+    private static final BigDecimal BIG_DECIMAL_SEVEN = BigDecimal.valueOf(7L);
     /**
      * The magic number eight.
      */
-    private static final int INTEGER_EIGHT = 8;
+    private static final BigDecimal BIG_DECIMAL_EIGHT = BigDecimal.valueOf(8L);
     /**
      * The magic number nine.
      */
-    private static final int INTEGER_NINE = 9;
+    private static final BigDecimal BIG_DECIMAL_NINE = BigDecimal.valueOf(9L);
     /**
      * The magic number sixteen.
      */
-    private static final int INTEGER_SIXTEEN = 16;
+    private static final BigDecimal BIG_DECIMAL_SIXTEEN = BigDecimal.valueOf(16L);
 
     /**
      * Creates a collection with the numbers 1, 2, 3 and 4.
      *
      * @return A collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedIntegerCollection createCollection1234() {
-        return ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, INTEGER_FOUR);
+    private ModifiableOrderedBigDecimalCollection createCollection1234() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR);
     }
 
     /**
@@ -84,9 +86,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      *
      * @return A distinct collection with the numbers 1, 2, 3 and 4.
      */
-    private ModifiableOrderedIntegerCollection createDistinctCollection1234() {
-        return ModifiableOrderedIntegerCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1, 2, INTEGER_THREE,
-                INTEGER_FOUR);
+    private ModifiableOrderedBigDecimalCollection createDistinctCollection1234() {
+        return ModifiableOrderedBigDecimalCollection.of(ElementCardinality.DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE,
+                BIG_DECIMAL_FOUR);
     }
 
     /**
@@ -94,8 +96,8 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and 8.
      */
-    private ModifiableOrderedIntegerCollection createCollection2468() {
-        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, INTEGER_EIGHT);
+    private ModifiableOrderedBigDecimalCollection createCollection2468() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, BIG_DECIMAL_EIGHT);
     }
 
     /**
@@ -103,8 +105,8 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      *
      * @return A collection with the numbers 1, 2, 3 and <code>null</code>.
      */
-    private ModifiableOrderedIntegerCollection createCollection123Null() {
-        return ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null);
+    private ModifiableOrderedBigDecimalCollection createCollection123Null() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null);
     }
 
     /**
@@ -112,8 +114,8 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      *
      * @return A collection with the numbers 2, 4, 6 and <code>null</code>.
      */
-    private ModifiableOrderedIntegerCollection createCollection246Null() {
-        return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, null);
+    private ModifiableOrderedBigDecimalCollection createCollection246Null() {
+        return ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, null);
     }
 
     /**
@@ -121,7 +123,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldReturnOriginal() {
-        assertEquals(2, createCollection1234().augment(1, INTEGER_FIVE));
+        assertEquals(BigDecimal.valueOf(2L), createCollection1234().augment(1, BIG_DECIMAL_FIVE));
     }
 
     /**
@@ -138,10 +140,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldAugmentNumberCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
-        collection.augment(1, INTEGER_FIVE);
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.augment(1, BIG_DECIMAL_FIVE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_SEVEN, INTEGER_THREE, INTEGER_FOUR)));
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_SEVEN, BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR)));
     }
 
     /**
@@ -149,9 +151,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.augment(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null)));
     }
 
     /**
@@ -159,7 +161,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.augment(1, null));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
@@ -170,9 +172,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.augment(THREE, INTEGER_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.augment(THREE, BIG_DECIMAL_FIVE));
         assertEquals("Cannot augment a null value with a number.", exception.getMessage());
     }
 
@@ -181,9 +183,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, INTEGER_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.augment(FOUR, BIG_DECIMAL_FIVE));
         assertEquals("Cannot augment an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -193,9 +195,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.augment(1, BigDecimal.ONE));
         assertEquals(
                 "Cannot augment the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -222,7 +224,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().augment(ModifiableOrderedIntegerCollection.of(0, 0, 0, null)));
+        assertFalse(createCollection123Null().augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null)));
     }
 
     /**
@@ -230,7 +232,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         collection.augment(createCollection1234());
         assertTrue(collection.containsSame(createCollection2468()));
     }
@@ -240,7 +242,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithCollectionShouldAugmentCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.augment(createCollection123Null());
         assertTrue(collection.containsSame(createCollection246Null()));
     }
@@ -250,9 +252,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.augment(ModifiableOrderedIntegerCollection.of(1, 2)));
+                () -> collection.augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
         assertEquals("Cannot augment a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -261,9 +263,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void augmentWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.augment(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
+                () -> collection.augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -273,7 +275,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldReturnOriginal() {
-        assertEquals(2, createCollection1234().multiply(1, INTEGER_FIVE));
+        assertEquals(BigDecimal.valueOf(2L), createCollection1234().multiply(1, BIG_DECIMAL_FIVE));
     }
 
     /**
@@ -290,10 +292,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldMultiplyNumberCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
-        collection.multiply(1, INTEGER_THREE);
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.multiply(1, BIG_DECIMAL_THREE);
         assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_SIX, INTEGER_THREE, INTEGER_FOUR)));
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_SIX, BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR)));
     }
 
     /**
@@ -301,9 +303,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.multiply(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null)));
     }
 
     /**
@@ -311,7 +313,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.multiply(1, null));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
@@ -322,9 +324,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, INTEGER_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.multiply(THREE, BIG_DECIMAL_FIVE));
         assertEquals("Cannot multiply a null value with a number.", exception.getMessage());
     }
 
@@ -333,9 +335,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, INTEGER_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.multiply(FOUR, BIG_DECIMAL_FIVE));
         assertEquals("Cannot multiply an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -345,9 +347,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, 2));
+                assertThrows(IllegalArgumentException.class, () -> collection.multiply(1, BigDecimal.valueOf(2L)));
         assertEquals(
                 "Cannot multiply the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -374,7 +376,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().multiply(ModifiableOrderedIntegerCollection.of(1, 1, 1, null)));
+        assertFalse(createCollection123Null().multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, null)));
     }
 
     /**
@@ -382,10 +384,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         collection.multiply(createCollection1234());
         assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_FOUR, INTEGER_NINE, INTEGER_SIXTEEN)));
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_FOUR, BIG_DECIMAL_NINE, BIG_DECIMAL_SIXTEEN)));
     }
 
     /**
@@ -394,9 +396,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithCollectionShouldMultiplyCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.multiply(createCollection123Null());
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, INTEGER_FOUR, INTEGER_NINE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BIG_DECIMAL_FOUR, BIG_DECIMAL_NINE, null)));
     }
 
     /**
@@ -404,9 +406,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.multiply(ModifiableOrderedIntegerCollection.of(1, 2)));
+                () -> collection.multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
         assertEquals("Cannot multiply a collection with a collection of a different size.", exception.getMessage());
     }
 
@@ -415,9 +417,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void multiplyWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.multiply(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
+                () -> collection.multiply(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
         assertEquals("Cannot multiply a collection with a collection when null values don't match.",
                 exception.getMessage());
     }
@@ -427,7 +429,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateWithIndexShouldReturnOriginal() {
-        assertEquals(2, createCollection1234().negate(1));
+        assertEquals(BigDecimal.valueOf(2L), createCollection1234().negate(1));
     }
 
     /**
@@ -444,10 +446,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateWithIndexShouldNegateNumberCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         collection.negate(1);
         assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(1, MINUS_TWO, INTEGER_THREE, INTEGER_FOUR)));
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, MINUS_TWO, BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR)));
     }
 
     /**
@@ -455,9 +457,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateWithIndexShouldLeaveCollectionUnchangedWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.negate(THREE);
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null)));
     }
 
     /**
@@ -465,7 +467,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
                 assertThrows(IndexOutOfBoundsException.class, () -> collection.negate(FOUR));
         assertEquals("Cannot negate an element at a position beyond the size of the collection.",
@@ -477,8 +479,8 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection
-                .of(ElementCardinality.DISTINCT_ELEMENTS, 1, 2, MINUS_TWO, INTEGER_THREE);
+        ModifiableOrderedBigDecimalCollection collection = ModifiableOrderedBigDecimalCollection
+                .of(ElementCardinality.DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), MINUS_TWO, BIG_DECIMAL_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",
@@ -506,7 +508,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(ModifiableOrderedIntegerCollection.of(0, 0, 0, null).negate());
+        assertFalse(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null).negate());
     }
 
     /**
@@ -514,10 +516,10 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void negateShouldAugmentCollectionCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         collection.negate();
         assertTrue(collection
-                .containsSame(ModifiableOrderedIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+                .containsSame(ModifiableOrderedBigDecimalCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
     }
 
     /**
@@ -525,7 +527,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldReturnOriginal() {
-        assertEquals(2, createCollection1234().subtract(1, INTEGER_FIVE));
+        assertEquals(BigDecimal.valueOf(2L), createCollection1234().subtract(1, BIG_DECIMAL_FIVE));
     }
 
     /**
@@ -542,9 +544,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldSubtractNumberCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
-        collection.subtract(1, 2);
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 0, INTEGER_THREE, INTEGER_FOUR)));
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
+        collection.subtract(1, BigDecimal.valueOf(2L));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.ZERO, BIG_DECIMAL_THREE, BIG_DECIMAL_FOUR)));
     }
 
     /**
@@ -552,9 +554,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldLeaveCollectionUnchangedForMatchingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         collection.subtract(THREE, null);
-        assertTrue(collection.containsSame(ModifiableOrderedIntegerCollection.of(1, 2, INTEGER_THREE, null)));
+        assertTrue(collection.containsSame(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, null)));
     }
 
     /**
@@ -562,7 +564,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         NullPointerException exception = assertThrows(NullPointerException.class, () -> collection.subtract(1, null));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
@@ -573,9 +575,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithIndexHoldingNull() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, INTEGER_FIVE));
+                assertThrows(NullPointerException.class, () -> collection.subtract(THREE, BIG_DECIMAL_FIVE));
         assertEquals("Cannot subtract a null value from a number.", exception.getMessage());
     }
 
@@ -584,9 +586,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionWhenCalledWithTooLargeIndex() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         IndexOutOfBoundsException exception =
-                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, INTEGER_FIVE));
+                assertThrows(IndexOutOfBoundsException.class, () -> collection.subtract(FOUR, BIG_DECIMAL_FIVE));
         assertEquals("Cannot subtract an element at a position beyond the size of the collection.",
                 exception.getMessage());
     }
@@ -596,9 +598,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedIntegerCollection collection = createDistinctCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createDistinctCollection1234();
         IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, 1));
+                assertThrows(IllegalArgumentException.class, () -> collection.subtract(1, BigDecimal.ONE));
         assertEquals(
                 "Cannot subtract the element at the position into a duplicate element due to the cardinality constraint.",
                 exception.getMessage());
@@ -625,7 +627,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldReturnFalseWhenNoChangeDetected() {
-        assertFalse(createCollection123Null().subtract(ModifiableOrderedIntegerCollection.of(0, 0, 0, null)));
+        assertFalse(createCollection123Null().subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null)));
     }
 
     /**
@@ -633,7 +635,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectly() {
-        ModifiableOrderedIntegerCollection collection = createCollection2468();
+        ModifiableOrderedBigDecimalCollection collection = createCollection2468();
         collection.subtract(createCollection1234());
         assertTrue(collection.containsSame(createCollection1234()));
     }
@@ -644,7 +646,7 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithCollectionShouldSubtractCollectionCorrectlyWithMatchingNullValues() {
-        ModifiableOrderedIntegerCollection collection = createCollection246Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection246Null();
         collection.subtract(createCollection123Null());
         assertTrue(collection.containsSame(createCollection123Null()));
     }
@@ -654,9 +656,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenSizeDiffers() {
-        ModifiableOrderedIntegerCollection collection = createCollection1234();
+        ModifiableOrderedBigDecimalCollection collection = createCollection1234();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, 2)));
+                () -> collection.subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))));
         assertEquals("Cannot subtract a collection from a collection of a different size.", exception.getMessage());
     }
 
@@ -665,9 +667,9 @@ public class AbstractModifiableOrderedIntegerCollectionTest {
      */
     @Test
     public void subtractWithCallectionShouldThrowExceptionWhenNullValuesDoNotMatch() {
-        ModifiableOrderedIntegerCollection collection = createCollection123Null();
+        ModifiableOrderedBigDecimalCollection collection = createCollection123Null();
         NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> collection.subtract(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
+                () -> collection.subtract(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
         assertEquals("Cannot subtract a collection from a collection when null values don't match.",
                 exception.getMessage());
     }

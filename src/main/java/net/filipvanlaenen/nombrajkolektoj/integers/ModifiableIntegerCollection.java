@@ -9,15 +9,27 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
- * for integers and containing inner classes with concrete implementations.
+ * A modifiable numeric collection containing integers. In addition to the functionality of modifiable collections in
+ * general and integers collections, it supports augmenting, subtracting, multiplying and dividing the collection with a
+ * number, and negating it.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * binding the type parameter to Integer. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
+ * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */
 public interface ModifiableIntegerCollection extends ModifiableNumericCollection<Integer>, IntegerCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing integers and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection}.
      */
-    public static final class ArrayCollection extends ModifiableIntegerCollectionDecorator {
+    final class ArrayCollection extends ModifiableIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableArrayCollection<Integer> decoratedCollection;
 
         @Override
@@ -66,10 +78,14 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing integers and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}.
      */
-    public static final class HashCollection extends ModifiableIntegerCollectionDecorator {
+    final class HashCollection extends ModifiableIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableHashCollection<Integer> decoratedCollection;
 
         @Override
@@ -118,10 +134,14 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
     }
 
     /**
-     * Inner class using a linked list backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     * A modifiable numeric collection containing integers and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}.
      */
-    public static final class LinkedListCollection extends ModifiableIntegerCollectionDecorator {
+    final class LinkedListCollection extends ModifiableIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableLinkedListCollection<Integer> decoratedCollection;
 
         @Override
@@ -174,7 +194,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      *
      * @return A new empty modifiable integers collection.
      */
-    public static ModifiableIntegerCollection empty() {
+    static ModifiableIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -186,8 +206,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @return A new modifiable integers collection containing all the elements present in each of the provided integers
      *         collections.
      */
-
-    public static ModifiableIntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
+    static ModifiableIntegerCollection intersectionOf(final NumericCollection<Integer>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -204,7 +223,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @param numbers The integers for the new modifiable integers collection.
      * @return A new modifiable integers collection with the specified integers.
      */
-    public static ModifiableIntegerCollection of(final Integer... numbers) {
+    static ModifiableIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -215,7 +234,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @param numbers            The integers for the new modifiable integers collection.
      * @return A new modifiable integers collection with the specified element cardinality and the integers.
      */
-    public static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    static ModifiableIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -226,7 +245,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @param collection         The original integers collection.
      * @return A new modifiable integers collection with the specified element cardinality and the integers.
      */
-    public static ModifiableIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableIntegerCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Integer> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -237,7 +256,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @param collection The original integers collection.
      * @return A new modifiable integers collection cloned from the provided integers collection.
      */
-    public static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
+    static ModifiableIntegerCollection of(final NumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -250,7 +269,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @return A new modifiable integers collection with the specified element cardinality containing all the elements
      *         from the provided integers collections.
      */
-    public static ModifiableIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Integer>... collections) {
         ModifiableIntegerCollection result = ModifiableIntegerCollection.of(elementCardinality);
         for (NumericCollection<Integer> collection : collections) {
@@ -265,8 +284,7 @@ public interface ModifiableIntegerCollection extends ModifiableNumericCollection
      * @param collections The integers collections from which to copy all the elements.
      * @return A new modifiable integers collection containing all the elements from the provided integers collections.
      */
-
-    public static ModifiableIntegerCollection unionOf(final NumericCollection<Integer>... collections) {
+    static ModifiableIntegerCollection unionOf(final NumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

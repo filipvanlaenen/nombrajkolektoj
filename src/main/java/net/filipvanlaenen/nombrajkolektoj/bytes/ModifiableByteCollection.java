@@ -9,15 +9,27 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
- * for bytes and containing inner classes with concrete implementations.
+ * A modifiable numeric collection containing bytes. In addition to the functionality of modifiable collections in
+ * general and bytes collections, it supports augmenting, subtracting, multiplying and dividing the collection with a
+ * number, and negating it.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * binding the type parameter to Byte. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
+ * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */
 public interface ModifiableByteCollection extends ModifiableNumericCollection<Byte>, ByteCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing bytes and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection}.
      */
-    public static final class ArrayCollection extends ModifiableByteCollectionDecorator {
+    final class ArrayCollection extends ModifiableByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableArrayCollection<Byte> decoratedCollection;
 
         @Override
@@ -66,10 +78,14 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing bytes and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}.
      */
-    public static final class HashCollection extends ModifiableByteCollectionDecorator {
+    final class HashCollection extends ModifiableByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableHashCollection<Byte> decoratedCollection;
 
         @Override
@@ -118,10 +134,14 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
     }
 
     /**
-     * Inner class using a linked list backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     * A modifiable numeric collection containing bytes and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}.
      */
-    public static final class LinkedListCollection extends ModifiableByteCollectionDecorator {
+    final class LinkedListCollection extends ModifiableByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableLinkedListCollection<Byte> decoratedCollection;
 
         @Override
@@ -174,7 +194,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      *
      * @return A new empty modifiable bytes collection.
      */
-    public static ModifiableByteCollection empty() {
+    static ModifiableByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -186,8 +206,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @return A new modifiable bytes collection containing all the elements present in each of the provided bytes
      *         collections.
      */
-
-    public static ModifiableByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
+    static ModifiableByteCollection intersectionOf(final NumericCollection<Byte>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -204,7 +223,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @param numbers The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified bytes.
      */
-    public static ModifiableByteCollection of(final Byte... numbers) {
+    static ModifiableByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -215,7 +234,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @param numbers            The bytes for the new modifiable bytes collection.
      * @return A new modifiable bytes collection with the specified element cardinality and the bytes.
      */
-    public static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    static ModifiableByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -226,7 +245,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @param collection         The original bytes collection.
      * @return A new modifiable bytes collection with the specified element cardinality and the bytes.
      */
-    public static ModifiableByteCollection of(final ElementCardinality elementCardinality,
+    static ModifiableByteCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Byte> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -237,7 +256,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @param collection The original bytes collection.
      * @return A new modifiable bytes collection cloned from the provided bytes collection.
      */
-    public static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
+    static ModifiableByteCollection of(final NumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -250,7 +269,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @return A new modifiable bytes collection with the specified element cardinality containing all the elements
      *         from the provided bytes collections.
      */
-    public static ModifiableByteCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableByteCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Byte>... collections) {
         ModifiableByteCollection result = ModifiableByteCollection.of(elementCardinality);
         for (NumericCollection<Byte> collection : collections) {
@@ -265,8 +284,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      * @param collections The bytes collections from which to copy all the elements.
      * @return A new modifiable bytes collection containing all the elements from the provided bytes collections.
      */
-
-    public static ModifiableByteCollection unionOf(final NumericCollection<Byte>... collections) {
+    static ModifiableByteCollection unionOf(final NumericCollection<Byte>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

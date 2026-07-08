@@ -6,11 +6,21 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for integers.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} interface.
  */
 abstract class ModifiableIntegerCollectionDecorator extends IntegerCollectionDecorator
         implements ModifiableIntegerCollection {
+    @Override
+    public boolean add(final Integer element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Integer> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
     @Override
     public boolean augment(final Integer addend) throws IllegalArgumentException {
         int n = size();
@@ -31,6 +41,11 @@ abstract class ModifiableIntegerCollectionDecorator extends IntegerCollectionDec
     }
 
     @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
     public boolean divide(final Integer divisor) throws IllegalArgumentException {
         int n = size();
         Integer[] results = this.toArray();
@@ -48,6 +63,9 @@ abstract class ModifiableIntegerCollectionDecorator extends IntegerCollectionDec
         putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
         return true;
     }
+
+    @Override
+    abstract ModifiableCollection<Integer> getDecoratedCollection();
 
     @Override
     public boolean multiply(final Integer multiplicand) throws IllegalArgumentException {
@@ -103,43 +121,6 @@ abstract class ModifiableIntegerCollectionDecorator extends IntegerCollectionDec
     }
 
     @Override
-    public boolean subtract(final Integer subtrahend) throws IllegalArgumentException {
-        int n = size();
-        Integer[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < n; i++) {
-            Integer originalValue = results[i];
-            if (originalValue != null && subtrahend != 0) {
-                results[i] = originalValue - subtrahend;
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
-        return true;
-    }
-
-    @Override
-    abstract ModifiableCollection<Integer> getDecoratedCollection();
-
-    @Override
-    public boolean add(final Integer element) {
-        return getDecoratedCollection().add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Integer> otherCollection) {
-        return getDecoratedCollection().addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        getDecoratedCollection().clear();
-    }
-
-    @Override
     public boolean remove(final Integer element) {
         return getDecoratedCollection().remove(element);
     }
@@ -157,5 +138,24 @@ abstract class ModifiableIntegerCollectionDecorator extends IntegerCollectionDec
     @Override
     public boolean retainAll(final Collection<? extends Integer> otherCollection) {
         return getDecoratedCollection().retainAll(otherCollection);
+    }
+
+    @Override
+    public boolean subtract(final Integer subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Integer[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Integer originalValue = results[i];
+            if (originalValue != null && subtrahend != 0) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
     }
 }

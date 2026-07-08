@@ -6,11 +6,21 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for bytes.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} interface.
  */
 abstract class ModifiableByteCollectionDecorator extends ByteCollectionDecorator
         implements ModifiableByteCollection {
+    @Override
+    public boolean add(final Byte element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Byte> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
     @Override
     public boolean augment(final Byte addend) throws IllegalArgumentException {
         int n = size();
@@ -31,6 +41,11 @@ abstract class ModifiableByteCollectionDecorator extends ByteCollectionDecorator
     }
 
     @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
     public boolean divide(final Byte divisor) throws IllegalArgumentException {
         int n = size();
         Byte[] results = this.toArray();
@@ -48,6 +63,9 @@ abstract class ModifiableByteCollectionDecorator extends ByteCollectionDecorator
         putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
         return true;
     }
+
+    @Override
+    abstract ModifiableCollection<Byte> getDecoratedCollection();
 
     @Override
     public boolean multiply(final Byte multiplicand) throws IllegalArgumentException {
@@ -103,43 +121,6 @@ abstract class ModifiableByteCollectionDecorator extends ByteCollectionDecorator
     }
 
     @Override
-    public boolean subtract(final Byte subtrahend) throws IllegalArgumentException {
-        int n = size();
-        Byte[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < n; i++) {
-            Byte originalValue = results[i];
-            if (originalValue != null && subtrahend != (byte) 0) {
-                results[i] = (byte) (originalValue - subtrahend);
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
-        return true;
-    }
-
-    @Override
-    abstract ModifiableCollection<Byte> getDecoratedCollection();
-
-    @Override
-    public boolean add(final Byte element) {
-        return getDecoratedCollection().add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Byte> otherCollection) {
-        return getDecoratedCollection().addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        getDecoratedCollection().clear();
-    }
-
-    @Override
     public boolean remove(final Byte element) {
         return getDecoratedCollection().remove(element);
     }
@@ -157,5 +138,24 @@ abstract class ModifiableByteCollectionDecorator extends ByteCollectionDecorator
     @Override
     public boolean retainAll(final Collection<? extends Byte> otherCollection) {
         return getDecoratedCollection().retainAll(otherCollection);
+    }
+
+    @Override
+    public boolean subtract(final Byte subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Byte[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Byte originalValue = results[i];
+            if (originalValue != null && subtrahend != (byte) 0) {
+                results[i] = (byte) (originalValue - subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
     }
 }

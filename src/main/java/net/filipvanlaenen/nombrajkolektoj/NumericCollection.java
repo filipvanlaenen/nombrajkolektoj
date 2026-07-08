@@ -3,9 +3,10 @@ package net.filipvanlaenen.nombrajkolektoj;
 import net.filipvanlaenen.kolektoj.Collection;
 
 /**
- * Interface defining the signature for all numeric collections.
+ * A numeric collection. In addition to the functionality of collections in general, it supports calculating the sum and
+ * the product of the numbers it contains, and finding their maximum and the minimum.
  *
- * @param <N> The element type.
+ * @param <N> The numeric element type.
  */
 public interface NumericCollection<N extends Number> extends Collection<N> {
     /**

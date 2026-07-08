@@ -6,11 +6,21 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for floats.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} interface.
  */
 abstract class ModifiableFloatCollectionDecorator extends FloatCollectionDecorator
         implements ModifiableFloatCollection {
+    @Override
+    public boolean add(final Float element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Float> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
     @Override
     public boolean augment(final Float addend) throws IllegalArgumentException {
         int n = size();
@@ -31,6 +41,11 @@ abstract class ModifiableFloatCollectionDecorator extends FloatCollectionDecorat
     }
 
     @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
     public boolean divide(final Float divisor) throws IllegalArgumentException {
         int n = size();
         Float[] results = this.toArray();
@@ -48,6 +63,9 @@ abstract class ModifiableFloatCollectionDecorator extends FloatCollectionDecorat
         putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
         return true;
     }
+
+    @Override
+    abstract ModifiableCollection<Float> getDecoratedCollection();
 
     @Override
     public boolean multiply(final Float multiplicand) throws IllegalArgumentException {
@@ -103,43 +121,6 @@ abstract class ModifiableFloatCollectionDecorator extends FloatCollectionDecorat
     }
 
     @Override
-    public boolean subtract(final Float subtrahend) throws IllegalArgumentException {
-        int n = size();
-        Float[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < n; i++) {
-            Float originalValue = results[i];
-            if (originalValue != null && subtrahend != 0F) {
-                results[i] = originalValue - subtrahend;
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
-        return true;
-    }
-
-    @Override
-    abstract ModifiableCollection<Float> getDecoratedCollection();
-
-    @Override
-    public boolean add(final Float element) {
-        return getDecoratedCollection().add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Float> otherCollection) {
-        return getDecoratedCollection().addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        getDecoratedCollection().clear();
-    }
-
-    @Override
     public boolean remove(final Float element) {
         return getDecoratedCollection().remove(element);
     }
@@ -157,5 +138,24 @@ abstract class ModifiableFloatCollectionDecorator extends FloatCollectionDecorat
     @Override
     public boolean retainAll(final Collection<? extends Float> otherCollection) {
         return getDecoratedCollection().retainAll(otherCollection);
+    }
+
+    @Override
+    public boolean subtract(final Float subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Float[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Float originalValue = results[i];
+            if (originalValue != null && subtrahend != 0F) {
+                results[i] = originalValue - subtrahend;
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
     }
 }

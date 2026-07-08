@@ -9,15 +9,27 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
- * for floats and containing inner classes with concrete implementations.
+ * A modifiable numeric collection containing floats. In addition to the functionality of modifiable collections in
+ * general and floats collections, it supports augmenting, subtracting, multiplying and dividing the collection with a
+ * number, and negating it.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * binding the type parameter to Float. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
+ * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */
 public interface ModifiableFloatCollection extends ModifiableNumericCollection<Float>, FloatCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing floats and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection}.
      */
-    public static final class ArrayCollection extends ModifiableFloatCollectionDecorator {
+    final class ArrayCollection extends ModifiableFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableArrayCollection<Float> decoratedCollection;
 
         @Override
@@ -66,10 +78,14 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing floats and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}.
      */
-    public static final class HashCollection extends ModifiableFloatCollectionDecorator {
+    final class HashCollection extends ModifiableFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableHashCollection<Float> decoratedCollection;
 
         @Override
@@ -118,10 +134,14 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
     }
 
     /**
-     * Inner class using a linked list backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     * A modifiable numeric collection containing floats and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}.
      */
-    public static final class LinkedListCollection extends ModifiableFloatCollectionDecorator {
+    final class LinkedListCollection extends ModifiableFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableLinkedListCollection<Float> decoratedCollection;
 
         @Override
@@ -174,7 +194,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      *
      * @return A new empty modifiable floats collection.
      */
-    public static ModifiableFloatCollection empty() {
+    static ModifiableFloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -186,8 +206,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @return A new modifiable floats collection containing all the elements present in each of the provided floats
      *         collections.
      */
-
-    public static ModifiableFloatCollection intersectionOf(final NumericCollection<Float>... collections) {
+    static ModifiableFloatCollection intersectionOf(final NumericCollection<Float>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -204,7 +223,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @param numbers The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified floats.
      */
-    public static ModifiableFloatCollection of(final Float... numbers) {
+    static ModifiableFloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -215,7 +234,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @param numbers            The floats for the new modifiable floats collection.
      * @return A new modifiable floats collection with the specified element cardinality and the floats.
      */
-    public static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    static ModifiableFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -226,7 +245,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @param collection         The original floats collection.
      * @return A new modifiable floats collection with the specified element cardinality and the floats.
      */
-    public static ModifiableFloatCollection of(final ElementCardinality elementCardinality,
+    static ModifiableFloatCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Float> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -237,7 +256,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @param collection The original floats collection.
      * @return A new modifiable floats collection cloned from the provided floats collection.
      */
-    public static ModifiableFloatCollection of(final NumericCollection<Float> collection) {
+    static ModifiableFloatCollection of(final NumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -250,7 +269,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @return A new modifiable floats collection with the specified element cardinality containing all the elements
      *         from the provided floats collections.
      */
-    public static ModifiableFloatCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableFloatCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Float>... collections) {
         ModifiableFloatCollection result = ModifiableFloatCollection.of(elementCardinality);
         for (NumericCollection<Float> collection : collections) {
@@ -265,8 +284,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      * @param collections The floats collections from which to copy all the elements.
      * @return A new modifiable floats collection containing all the elements from the provided floats collections.
      */
-
-    public static ModifiableFloatCollection unionOf(final NumericCollection<Float>... collections) {
+    static ModifiableFloatCollection unionOf(final NumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

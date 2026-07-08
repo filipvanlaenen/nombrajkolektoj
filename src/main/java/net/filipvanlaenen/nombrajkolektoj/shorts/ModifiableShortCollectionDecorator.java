@@ -6,11 +6,21 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for shorts.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} interface.
  */
 abstract class ModifiableShortCollectionDecorator extends ShortCollectionDecorator
         implements ModifiableShortCollection {
+    @Override
+    public boolean add(final Short element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Short> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
     @Override
     public boolean augment(final Short addend) throws IllegalArgumentException {
         int n = size();
@@ -31,6 +41,11 @@ abstract class ModifiableShortCollectionDecorator extends ShortCollectionDecorat
     }
 
     @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
     public boolean divide(final Short divisor) throws IllegalArgumentException {
         int n = size();
         Short[] results = this.toArray();
@@ -48,6 +63,9 @@ abstract class ModifiableShortCollectionDecorator extends ShortCollectionDecorat
         putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
         return true;
     }
+
+    @Override
+    abstract ModifiableCollection<Short> getDecoratedCollection();
 
     @Override
     public boolean multiply(final Short multiplicand) throws IllegalArgumentException {
@@ -103,43 +121,6 @@ abstract class ModifiableShortCollectionDecorator extends ShortCollectionDecorat
     }
 
     @Override
-    public boolean subtract(final Short subtrahend) throws IllegalArgumentException {
-        int n = size();
-        Short[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < n; i++) {
-            Short originalValue = results[i];
-            if (originalValue != null && subtrahend != (short) 0) {
-                results[i] = (short) (originalValue - subtrahend);
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
-        return true;
-    }
-
-    @Override
-    abstract ModifiableCollection<Short> getDecoratedCollection();
-
-    @Override
-    public boolean add(final Short element) {
-        return getDecoratedCollection().add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Short> otherCollection) {
-        return getDecoratedCollection().addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        getDecoratedCollection().clear();
-    }
-
-    @Override
     public boolean remove(final Short element) {
         return getDecoratedCollection().remove(element);
     }
@@ -157,5 +138,24 @@ abstract class ModifiableShortCollectionDecorator extends ShortCollectionDecorat
     @Override
     public boolean retainAll(final Collection<? extends Short> otherCollection) {
         return getDecoratedCollection().retainAll(otherCollection);
+    }
+
+    @Override
+    public boolean subtract(final Short subtrahend) throws IllegalArgumentException {
+        int n = size();
+        Short[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            Short originalValue = results[i];
+            if (originalValue != null && subtrahend != (short) 0) {
+                results[i] = (short) (originalValue - subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
     }
 }

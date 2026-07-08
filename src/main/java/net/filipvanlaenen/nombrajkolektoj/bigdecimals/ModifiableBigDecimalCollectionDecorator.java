@@ -8,11 +8,21 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} for BigDecimals.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection} interface.
  */
 abstract class ModifiableBigDecimalCollectionDecorator extends BigDecimalCollectionDecorator
         implements ModifiableBigDecimalCollection {
+    @Override
+    public boolean add(final BigDecimal element) {
+        return getDecoratedCollection().add(element);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
+        return getDecoratedCollection().addAll(otherCollection);
+    }
+
     @Override
     public boolean augment(final BigDecimal addend) throws IllegalArgumentException {
         int n = size();
@@ -33,6 +43,11 @@ abstract class ModifiableBigDecimalCollectionDecorator extends BigDecimalCollect
     }
 
     @Override
+    public void clear() {
+        getDecoratedCollection().clear();
+    }
+
+    @Override
     public boolean divide(final BigDecimal divisor) throws IllegalArgumentException {
         int n = size();
         BigDecimal[] results = this.toArray();
@@ -50,6 +65,9 @@ abstract class ModifiableBigDecimalCollectionDecorator extends BigDecimalCollect
         putResults(results, "Cannot divide by the divisor due to the cardinality constraint.");
         return true;
     }
+
+    @Override
+    abstract ModifiableCollection<BigDecimal> getDecoratedCollection();
 
     @Override
     public boolean multiply(final BigDecimal multiplicand) throws IllegalArgumentException {
@@ -105,43 +123,6 @@ abstract class ModifiableBigDecimalCollectionDecorator extends BigDecimalCollect
     }
 
     @Override
-    public boolean subtract(final BigDecimal subtrahend) throws IllegalArgumentException {
-        int n = size();
-        BigDecimal[] results = this.toArray();
-        boolean changed = false;
-        for (int i = 0; i < n; i++) {
-            BigDecimal originalValue = results[i];
-            if (originalValue != null && subtrahend != BigDecimal.ZERO) {
-                results[i] = originalValue.subtract(subtrahend);
-                changed = true;
-            }
-        }
-        if (!changed) {
-            return false;
-        }
-        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
-        return true;
-    }
-
-    @Override
-    abstract ModifiableCollection<BigDecimal> getDecoratedCollection();
-
-    @Override
-    public boolean add(final BigDecimal element) {
-        return getDecoratedCollection().add(element);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends BigDecimal> otherCollection) {
-        return getDecoratedCollection().addAll(otherCollection);
-    }
-
-    @Override
-    public void clear() {
-        getDecoratedCollection().clear();
-    }
-
-    @Override
     public boolean remove(final BigDecimal element) {
         return getDecoratedCollection().remove(element);
     }
@@ -159,5 +140,24 @@ abstract class ModifiableBigDecimalCollectionDecorator extends BigDecimalCollect
     @Override
     public boolean retainAll(final Collection<? extends BigDecimal> otherCollection) {
         return getDecoratedCollection().retainAll(otherCollection);
+    }
+
+    @Override
+    public boolean subtract(final BigDecimal subtrahend) throws IllegalArgumentException {
+        int n = size();
+        BigDecimal[] results = this.toArray();
+        boolean changed = false;
+        for (int i = 0; i < n; i++) {
+            BigDecimal originalValue = results[i];
+            if (originalValue != null && subtrahend != BigDecimal.ZERO) {
+                results[i] = originalValue.subtract(subtrahend);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return false;
+        }
+        putResults(results, "Cannot subtract the subtrahend due to the cardinality constraint.");
+        return true;
     }
 }

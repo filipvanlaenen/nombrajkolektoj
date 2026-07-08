@@ -3,9 +3,11 @@ package net.filipvanlaenen.nombrajkolektoj;
 import net.filipvanlaenen.kolektoj.ModifiableCollection;
 
 /**
- * Interface defining the signature for all modifiable numeric collections.
+ * A modifiable numeric collection. In addition to the functionality of modifiable collections in general and numeric
+ * collections, it supports augmenting, subtracting, multiplying and dividing the collection with a number, and negating
+ * it.
  *
- * @param <N> The element type.
+ * @param <N> The numeric element type.
  */
 public interface ModifiableNumericCollection<N extends Number> extends NumericCollection<N>, ModifiableCollection<N> {
     /**

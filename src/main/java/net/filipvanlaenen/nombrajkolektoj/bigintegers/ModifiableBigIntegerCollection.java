@@ -11,15 +11,27 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
- * for BigIntegers and containing inner classes with concrete implementations.
+ * A modifiable numeric collection containing BigIntegers. In addition to the functionality of modifiable collections in
+ * general and BigIntegers collections, it supports augmenting, subtracting, multiplying and dividing the collection with a
+ * number, and negating it.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * binding the type parameter to BigInteger. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
+ * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */
 public interface ModifiableBigIntegerCollection extends ModifiableNumericCollection<BigInteger>, BigIntegerCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing BigIntegers and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection}.
      */
-    public static final class ArrayCollection extends ModifiableBigIntegerCollectionDecorator {
+    final class ArrayCollection extends ModifiableBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableArrayCollection<BigInteger> decoratedCollection;
 
         @Override
@@ -68,10 +80,14 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing BigIntegers and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}.
      */
-    public static final class HashCollection extends ModifiableBigIntegerCollectionDecorator {
+    final class HashCollection extends ModifiableBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableHashCollection<BigInteger> decoratedCollection;
 
         @Override
@@ -120,10 +136,14 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
     }
 
     /**
-     * Inner class using a linked list backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     * A modifiable numeric collection containing BigIntegers and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}.
      */
-    public static final class LinkedListCollection extends ModifiableBigIntegerCollectionDecorator {
+    final class LinkedListCollection extends ModifiableBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableLinkedListCollection<BigInteger> decoratedCollection;
 
         @Override
@@ -176,7 +196,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      *
      * @return A new empty modifiable BigIntegers collection.
      */
-    public static ModifiableBigIntegerCollection empty() {
+    static ModifiableBigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -188,8 +208,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @return A new modifiable BigIntegers collection containing all the elements present in each of the provided BigIntegers
      *         collections.
      */
-
-    public static ModifiableBigIntegerCollection intersectionOf(final NumericCollection<BigInteger>... collections) {
+    static ModifiableBigIntegerCollection intersectionOf(final NumericCollection<BigInteger>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -206,7 +225,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @param numbers The BigIntegers for the new modifiable BigIntegers collection.
      * @return A new modifiable BigIntegers collection with the specified BigIntegers.
      */
-    public static ModifiableBigIntegerCollection of(final BigInteger... numbers) {
+    static ModifiableBigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -217,7 +236,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @param numbers            The BigIntegers for the new modifiable BigIntegers collection.
      * @return A new modifiable BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -228,7 +247,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @param collection         The original BigIntegers collection.
      * @return A new modifiable BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableBigIntegerCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -239,7 +258,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @param collection The original BigIntegers collection.
      * @return A new modifiable BigIntegers collection cloned from the provided BigIntegers collection.
      */
-    public static ModifiableBigIntegerCollection of(final NumericCollection<BigInteger> collection) {
+    static ModifiableBigIntegerCollection of(final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -252,7 +271,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @return A new modifiable BigIntegers collection with the specified element cardinality containing all the elements
      *         from the provided BigIntegers collections.
      */
-    public static ModifiableBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<BigInteger>... collections) {
         ModifiableBigIntegerCollection result = ModifiableBigIntegerCollection.of(elementCardinality);
         for (NumericCollection<BigInteger> collection : collections) {
@@ -267,8 +286,7 @@ public interface ModifiableBigIntegerCollection extends ModifiableNumericCollect
      * @param collections The BigIntegers collections from which to copy all the elements.
      * @return A new modifiable BigIntegers collection containing all the elements from the provided BigIntegers collections.
      */
-
-    public static ModifiableBigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
+    static ModifiableBigIntegerCollection unionOf(final NumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

@@ -9,15 +9,27 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
- * for shorts and containing inner classes with concrete implementations.
+ * A modifiable numeric collection containing shorts. In addition to the functionality of modifiable collections in
+ * general and shorts collections, it supports augmenting, subtracting, multiplying and dividing the collection with a
+ * number, and negating it.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
+ * binding the type parameter to Short. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
+ * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */
 public interface ModifiableShortCollection extends ModifiableNumericCollection<Short>, ShortCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing shorts and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ModifiableArrayCollection}.
      */
-    public static final class ArrayCollection extends ModifiableShortCollectionDecorator {
+    final class ArrayCollection extends ModifiableShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableArrayCollection<Short> decoratedCollection;
 
         @Override
@@ -66,10 +78,14 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableCollection}
-     * interface.
+     * A modifiable numeric collection containing shorts and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}.
      */
-    public static final class HashCollection extends ModifiableShortCollectionDecorator {
+    final class HashCollection extends ModifiableShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableHashCollection<Short> decoratedCollection;
 
         @Override
@@ -118,10 +134,14 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
     }
 
     /**
-     * Inner class using a linked list backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.ModifiableCollection} interface.
+     * A modifiable numeric collection containing shorts and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}.
      */
-    public static final class LinkedListCollection extends ModifiableShortCollectionDecorator {
+    final class LinkedListCollection extends ModifiableShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableLinkedListCollection<Short> decoratedCollection;
 
         @Override
@@ -174,7 +194,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      *
      * @return A new empty modifiable shorts collection.
      */
-    public static ModifiableShortCollection empty() {
+    static ModifiableShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -186,8 +206,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @return A new modifiable shorts collection containing all the elements present in each of the provided shorts
      *         collections.
      */
-
-    public static ModifiableShortCollection intersectionOf(final NumericCollection<Short>... collections) {
+    static ModifiableShortCollection intersectionOf(final NumericCollection<Short>... collections) {
         if (collections.length == 0) {
             return empty();
         }
@@ -204,7 +223,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @param numbers The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified shorts.
      */
-    public static ModifiableShortCollection of(final Short... numbers) {
+    static ModifiableShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -215,7 +234,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @param numbers            The shorts for the new modifiable shorts collection.
      * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
      */
-    public static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    static ModifiableShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -226,7 +245,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @param collection         The original shorts collection.
      * @return A new modifiable shorts collection with the specified element cardinality and the shorts.
      */
-    public static ModifiableShortCollection of(final ElementCardinality elementCardinality,
+    static ModifiableShortCollection of(final ElementCardinality elementCardinality,
             final NumericCollection<Short> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -237,7 +256,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @param collection The original shorts collection.
      * @return A new modifiable shorts collection cloned from the provided shorts collection.
      */
-    public static ModifiableShortCollection of(final NumericCollection<Short> collection) {
+    static ModifiableShortCollection of(final NumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -250,7 +269,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @return A new modifiable shorts collection with the specified element cardinality containing all the elements
      *         from the provided shorts collections.
      */
-    public static ModifiableShortCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableShortCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Short>... collections) {
         ModifiableShortCollection result = ModifiableShortCollection.of(elementCardinality);
         for (NumericCollection<Short> collection : collections) {
@@ -265,8 +284,7 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * @param collections The shorts collections from which to copy all the elements.
      * @return A new modifiable shorts collection containing all the elements from the provided shorts collections.
      */
-
-    public static ModifiableShortCollection unionOf(final NumericCollection<Short>... collections) {
+    static ModifiableShortCollection unionOf(final NumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

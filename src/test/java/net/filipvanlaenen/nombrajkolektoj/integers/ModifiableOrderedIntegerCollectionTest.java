@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedIntegerCollectionTest
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final ModifiableOrderedIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
+    private final ModifiableOrderedIntegerCollection collection012 = ModifiableOrderedIntegerCollection.of(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final ModifiableOrderedIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
+    private final ModifiableOrderedIntegerCollection collection123 = ModifiableOrderedIntegerCollection.of(1, 2, 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAIntegerCollection() {
+        assertTrue(
+                new ModifiableOrderedIntegerCollection.ArrayCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new ModifiableOrderedIntegerCollection.LinkedListCollection(1, 2, INTEGER_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final ModifiableOrderedIntegerCollection source) {
         return ModifiableOrderedIntegerCollection
                 .of(OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
-    }
-
-    protected ModifiableOrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
-        return ModifiableOrderedIntegerCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedIntegerCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
-        assertTrue(collection.addAllAt(1, createIntegerCollection(2)));
-        assertFalse(collection.addAllAt(1, createIntegerCollection(2)));
-        assertEquals(2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
-        assertTrue(collection.addAt(1, 2));
-        assertFalse(collection.addAt(1, 2));
-        assertEquals(2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).firstIndexOf(2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createIntegerCollection(1, 2, INTEGER_THREE).indexOf(2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).lastIndexOf(2));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedIntegerCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedIntegerCollectionTest
         ModifiableOrderedIntegerCollection actual = ModifiableOrderedIntegerCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Integer[] {2, INTEGER_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
-        assertEquals(INTEGER_THREE, collection.putAt(1, 2));
-        assertEquals(2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedIntegerCollectionTest
         assertArrayEquals(new Integer[] {0, 1, 2, INTEGER_THREE},
                 ModifiableOrderedIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

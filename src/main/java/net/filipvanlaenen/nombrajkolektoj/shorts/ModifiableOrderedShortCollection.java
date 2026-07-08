@@ -9,8 +9,16 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
- * interface for shorts and containing inner classes with concrete implementations.
+ * A modifiable ordered numeric collection containing shorts. In addition to the functionality of modifiable ordered
+ * collections in general and modifiable and ordered shorts collections, it supports augmenting, subtracting,
+ * multiplying and dividing the collection with a short at a specific position, or with an ordered shorts collection
+ * of the same size, and negating it at a specific position.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
+ * interface binding the type parameter to Short. It contains two nested classes implementing this interface, one
+ * backed by an {@link net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection}, and factory methods mirroring
+ * the factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}.
  */
 public interface ModifiableOrderedShortCollection
         extends ModifiableOrderedNumericCollection<Short>, ModifiableShortCollection, OrderedShortCollection {
@@ -18,7 +26,10 @@ public interface ModifiableOrderedShortCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedShortCollectionDecorator {
+    final class ArrayCollection extends ModifiableOrderedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedArrayCollection<Short> decoratedCollection;
 
         @Override
@@ -71,7 +82,10 @@ public interface ModifiableOrderedShortCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedShortCollectionDecorator {
+    final class LinkedListCollection extends ModifiableOrderedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedLinkedListCollection<Short> decoratedCollection;
 
         @Override
@@ -80,13 +94,24 @@ public interface ModifiableOrderedShortCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same shorts and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The shorts of the collection.
          */
-        public LinkedListCollection(final OrderedCollection<Short> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
+        public LinkedListCollection(final Short... numbers) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Short>(numbers);
+        }
+
+        /**
+         * Constructs a modifiable ordered collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Short> source) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Short>(elementCardinality, source);
         }
 
         /**
@@ -100,13 +125,13 @@ public interface ModifiableOrderedShortCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given shorts. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection from another ordered collection, with the same shorts and the
+         * same element cardinality.
          *
-         * @param numbers The shorts of the collection.
+         * @param source The ordered collection to create a new collection from.
          */
-        public LinkedListCollection(final Short... numbers) {
-            decoratedCollection = new ModifiableOrderedLinkedListCollection<Short>(numbers);
+        public LinkedListCollection(final OrderedCollection<Short> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
         }
     }
 
@@ -115,7 +140,7 @@ public interface ModifiableOrderedShortCollection
      *
      * @return A new empty modifiable shorts collection.
      */
-    public static ModifiableOrderedShortCollection empty() {
+    static ModifiableOrderedShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -125,7 +150,7 @@ public interface ModifiableOrderedShortCollection
      * @param numbers The shorts for the new modifiable ordered shorts collection.
      * @return A new modifiable ordered shorts collection with the specified shorts.
      */
-    public static ModifiableOrderedShortCollection of(final Short... numbers) {
+    static ModifiableOrderedShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -136,8 +161,7 @@ public interface ModifiableOrderedShortCollection
      * @param numbers            The shorts for the new modifiable ordered shorts collection.
      * @return A new modifiable ordered shorts collection with the specified element cardinality and the shorts.
      */
-    public static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
-            final Short... numbers) {
+    static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -148,7 +172,7 @@ public interface ModifiableOrderedShortCollection
      * @param collection         The original ordered shorts collection.
      * @return A new modifiable ordered shorts collection with the specified element cardinality and the shorts.
      */
-    public static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
+    static ModifiableOrderedShortCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -159,7 +183,7 @@ public interface ModifiableOrderedShortCollection
      * @param collection The original ordered shorts collection.
      * @return A new modifiable ordered shorts collection cloned from the provided ordered shorts collection.
      */
-    public static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
+    static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -173,8 +197,8 @@ public interface ModifiableOrderedShortCollection
      * @return A new modifiable ordered shorts collection cloned from a range in the provided ordered shorts
      *         collection.
      */
-    public static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection,
-            final int fromIndex, final int toIndex) {
+    static ModifiableOrderedShortCollection of(final OrderedNumericCollection<Short> collection, final int fromIndex,
+            final int toIndex) {
         ModifiableOrderedShortCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));
@@ -191,7 +215,7 @@ public interface ModifiableOrderedShortCollection
      * @return A new modifiable ordered shorts collection with the specified element cardinality containing all the
      *         elements from the provided ordered shorts collections.
      */
-    public static ModifiableOrderedShortCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableOrderedShortCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Short>... collections) {
         ModifiableOrderedShortCollection result = ModifiableOrderedShortCollection.of(elementCardinality);
         for (OrderedNumericCollection<Short> collection : collections) {
@@ -208,8 +232,7 @@ public interface ModifiableOrderedShortCollection
      * @return A new modifiable ordered shorts collection containing all the elements from the provided ordered shorts
      *         collections.
      */
-    public static ModifiableOrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
+    static ModifiableOrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
-
 }

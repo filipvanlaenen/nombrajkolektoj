@@ -1,5 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollection}
  * implementation.
  */
-public class ModifiableOrderedDoubleCollectionDecoratorTest {
+public final class ModifiableOrderedDoubleCollectionDecoratorTest
+        extends ModifiableDoubleCollectionDecoratorTestBase<ModifiableOrderedDoubleCollection> {
     /**
      * The magic number minus four.
      */
@@ -114,6 +117,44 @@ public class ModifiableOrderedDoubleCollectionDecoratorTest {
      */
     private ModifiableOrderedDoubleCollection createCollection246Null() {
         return ModifiableOrderedDoubleCollection.of(2D, DOUBLE_FOUR, DOUBLE_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedDoubleCollection createEmptyDoubleCollection() {
+        return ModifiableOrderedDoubleCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableOrderedDoubleCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return ModifiableOrderedDoubleCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
+        assertTrue(collection.addAllAt(1, createDoubleCollection(2D)));
+        assertFalse(collection.addAllAt(1, createDoubleCollection(2D)));
+        assertEquals(2D, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
+        assertTrue(collection.addAt(1, 2D));
+        assertFalse(collection.addAt(1, 2D));
+        assertEquals(2D, collection.getAt(1));
     }
 
     /**
@@ -266,6 +307,38 @@ public class ModifiableOrderedDoubleCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedDoubleCollection.of(1D, null, 2D, DOUBLE_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).firstIndexOf(2D));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createDoubleCollection(1D, 2D, DOUBLE_THREE).indexOf(2D));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).lastIndexOf(2D));
     }
 
     /**
@@ -518,6 +591,24 @@ public class ModifiableOrderedDoubleCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedDoubleCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
+        assertEquals(DOUBLE_THREE, collection.putAt(1, 2D));
+        assertEquals(2D, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).removeAt(1));
     }
 
     /**

@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedLongCollectionTest
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final ModifiableOrderedLongCollection collection012 = createLongCollection(0L, 1L, 2L);
+    private final ModifiableOrderedLongCollection collection012 = ModifiableOrderedLongCollection.of(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final ModifiableOrderedLongCollection collection123 = createLongCollection(1L, 2L, 3L);
+    private final ModifiableOrderedLongCollection collection123 = ModifiableOrderedLongCollection.of(1L, 2L, 3L);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateALongCollection() {
+        assertTrue(
+                new ModifiableOrderedLongCollection.ArrayCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateALongCollection() {
+        assertTrue(new ModifiableOrderedLongCollection.LinkedListCollection(1L, 2L, LONG_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedLongCollection createLongCollection(final ModifiableOrderedLongCollection source) {
         return ModifiableOrderedLongCollection
                 .of(OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
-    }
-
-    protected ModifiableOrderedLongCollection createLongCollection(final Long... numbers) {
-        return ModifiableOrderedLongCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedLongCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
-        assertTrue(collection.addAllAt(1, createLongCollection(2L)));
-        assertFalse(collection.addAllAt(1, createLongCollection(2L)));
-        assertEquals(2L, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
-        assertTrue(collection.addAt(1, 2L));
-        assertFalse(collection.addAt(1, 2L));
-        assertEquals(2L, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).firstIndexOf(2L));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createLongCollection(1L, 2L, LONG_THREE).indexOf(2L));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).lastIndexOf(2L));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedLongCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedLongCollectionTest
         ModifiableOrderedLongCollection actual = ModifiableOrderedLongCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Long[] {2L, LONG_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
-        assertEquals(LONG_THREE, collection.putAt(1, 2L));
-        assertEquals(2L, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedLongCollectionTest
         assertArrayEquals(new Long[] {0L, 1L, 2L, LONG_THREE},
                 ModifiableOrderedLongCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

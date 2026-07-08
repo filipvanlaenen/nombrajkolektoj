@@ -11,8 +11,16 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
- * interface for BigIntegers and containing inner classes with concrete implementations.
+ * A modifiable ordered numeric collection containing BigIntegers. In addition to the functionality of modifiable ordered
+ * collections in general and modifiable and ordered BigIntegers collections, it supports augmenting, subtracting,
+ * multiplying and dividing the collection with a BigInteger at a specific position, or with an ordered BigIntegers collection
+ * of the same size, and negating it at a specific position.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
+ * interface binding the type parameter to BigInteger. It contains two nested classes implementing this interface, one
+ * backed by an {@link net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection}, and factory methods mirroring
+ * the factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}.
  */
 public interface ModifiableOrderedBigIntegerCollection
         extends ModifiableOrderedNumericCollection<BigInteger>, ModifiableBigIntegerCollection, OrderedBigIntegerCollection {
@@ -20,7 +28,10 @@ public interface ModifiableOrderedBigIntegerCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedBigIntegerCollectionDecorator {
+    final class ArrayCollection extends ModifiableOrderedBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedArrayCollection<BigInteger> decoratedCollection;
 
         @Override
@@ -73,7 +84,10 @@ public interface ModifiableOrderedBigIntegerCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedBigIntegerCollectionDecorator {
+    final class LinkedListCollection extends ModifiableOrderedBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedLinkedListCollection<BigInteger> decoratedCollection;
 
         @Override
@@ -82,13 +96,24 @@ public interface ModifiableOrderedBigIntegerCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same BigIntegers and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The BigIntegers of the collection.
          */
-        public LinkedListCollection(final OrderedCollection<BigInteger> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
+        public LinkedListCollection(final BigInteger... numbers) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<BigInteger>(numbers);
+        }
+
+        /**
+         * Constructs a modifiable ordered collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<BigInteger> source) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<BigInteger>(elementCardinality, source);
         }
 
         /**
@@ -102,13 +127,13 @@ public interface ModifiableOrderedBigIntegerCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given BigIntegers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection from another ordered collection, with the same BigIntegers and the
+         * same element cardinality.
          *
-         * @param numbers The BigIntegers of the collection.
+         * @param source The ordered collection to create a new collection from.
          */
-        public LinkedListCollection(final BigInteger... numbers) {
-            decoratedCollection = new ModifiableOrderedLinkedListCollection<BigInteger>(numbers);
+        public LinkedListCollection(final OrderedCollection<BigInteger> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
         }
     }
 
@@ -117,7 +142,7 @@ public interface ModifiableOrderedBigIntegerCollection
      *
      * @return A new empty modifiable BigIntegers collection.
      */
-    public static ModifiableOrderedBigIntegerCollection empty() {
+    static ModifiableOrderedBigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -127,7 +152,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @param numbers The BigIntegers for the new modifiable ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection with the specified BigIntegers.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final BigInteger... numbers) {
+    static ModifiableOrderedBigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -138,8 +163,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @param numbers            The BigIntegers for the new modifiable ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
-            final BigInteger... numbers) {
+    static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -150,7 +174,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @param collection         The original ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableOrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -161,7 +185,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @param collection The original ordered BigIntegers collection.
      * @return A new modifiable ordered BigIntegers collection cloned from the provided ordered BigIntegers collection.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection) {
+    static ModifiableOrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -175,8 +199,8 @@ public interface ModifiableOrderedBigIntegerCollection
      * @return A new modifiable ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers
      *         collection.
      */
-    public static ModifiableOrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection,
-            final int fromIndex, final int toIndex) {
+    static ModifiableOrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection, final int fromIndex,
+            final int toIndex) {
         ModifiableOrderedBigIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));
@@ -193,7 +217,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @return A new modifiable ordered BigIntegers collection with the specified element cardinality containing all the
      *         elements from the provided ordered BigIntegers collections.
      */
-    public static ModifiableOrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableOrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigInteger>... collections) {
         ModifiableOrderedBigIntegerCollection result = ModifiableOrderedBigIntegerCollection.of(elementCardinality);
         for (OrderedNumericCollection<BigInteger> collection : collections) {
@@ -210,8 +234,7 @@ public interface ModifiableOrderedBigIntegerCollection
      * @return A new modifiable ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers
      *         collections.
      */
-    public static ModifiableOrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
+    static ModifiableOrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
-
 }

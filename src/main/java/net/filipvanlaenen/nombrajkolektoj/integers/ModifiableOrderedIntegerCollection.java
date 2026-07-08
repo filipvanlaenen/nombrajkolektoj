@@ -9,8 +9,16 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
- * interface for integers and containing inner classes with concrete implementations.
+ * A modifiable ordered numeric collection containing integers. In addition to the functionality of modifiable ordered
+ * collections in general and modifiable and ordered integers collections, it supports augmenting, subtracting,
+ * multiplying and dividing the collection with a int at a specific position, or with an ordered integers collection
+ * of the same size, and negating it at a specific position.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
+ * interface binding the type parameter to Integer. It contains two nested classes implementing this interface, one
+ * backed by an {@link net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection}, and factory methods mirroring
+ * the factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}.
  */
 public interface ModifiableOrderedIntegerCollection
         extends ModifiableOrderedNumericCollection<Integer>, ModifiableIntegerCollection, OrderedIntegerCollection {
@@ -18,7 +26,10 @@ public interface ModifiableOrderedIntegerCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedIntegerCollectionDecorator {
+    final class ArrayCollection extends ModifiableOrderedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedArrayCollection<Integer> decoratedCollection;
 
         @Override
@@ -71,7 +82,10 @@ public interface ModifiableOrderedIntegerCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedIntegerCollectionDecorator {
+    final class LinkedListCollection extends ModifiableOrderedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedLinkedListCollection<Integer> decoratedCollection;
 
         @Override
@@ -80,13 +94,24 @@ public interface ModifiableOrderedIntegerCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same integers and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The integers of the collection.
          */
-        public LinkedListCollection(final OrderedCollection<Integer> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
+        public LinkedListCollection(final Integer... numbers) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Integer>(numbers);
+        }
+
+        /**
+         * Constructs a modifiable ordered collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Integer> source) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Integer>(elementCardinality, source);
         }
 
         /**
@@ -100,13 +125,13 @@ public interface ModifiableOrderedIntegerCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given integers. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection from another ordered collection, with the same integers and the
+         * same element cardinality.
          *
-         * @param numbers The integers of the collection.
+         * @param source The ordered collection to create a new collection from.
          */
-        public LinkedListCollection(final Integer... numbers) {
-            decoratedCollection = new ModifiableOrderedLinkedListCollection<Integer>(numbers);
+        public LinkedListCollection(final OrderedCollection<Integer> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
         }
     }
 
@@ -115,7 +140,7 @@ public interface ModifiableOrderedIntegerCollection
      *
      * @return A new empty modifiable integers collection.
      */
-    public static ModifiableOrderedIntegerCollection empty() {
+    static ModifiableOrderedIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -125,7 +150,7 @@ public interface ModifiableOrderedIntegerCollection
      * @param numbers The integers for the new modifiable ordered integers collection.
      * @return A new modifiable ordered integers collection with the specified integers.
      */
-    public static ModifiableOrderedIntegerCollection of(final Integer... numbers) {
+    static ModifiableOrderedIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -136,8 +161,7 @@ public interface ModifiableOrderedIntegerCollection
      * @param numbers            The integers for the new modifiable ordered integers collection.
      * @return A new modifiable ordered integers collection with the specified element cardinality and the integers.
      */
-    public static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
-            final Integer... numbers) {
+    static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -148,7 +172,7 @@ public interface ModifiableOrderedIntegerCollection
      * @param collection         The original ordered integers collection.
      * @return A new modifiable ordered integers collection with the specified element cardinality and the integers.
      */
-    public static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableOrderedIntegerCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -159,7 +183,7 @@ public interface ModifiableOrderedIntegerCollection
      * @param collection The original ordered integers collection.
      * @return A new modifiable ordered integers collection cloned from the provided ordered integers collection.
      */
-    public static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
+    static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -173,8 +197,8 @@ public interface ModifiableOrderedIntegerCollection
      * @return A new modifiable ordered integers collection cloned from a range in the provided ordered integers
      *         collection.
      */
-    public static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection,
-            final int fromIndex, final int toIndex) {
+    static ModifiableOrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection, final int fromIndex,
+            final int toIndex) {
         ModifiableOrderedIntegerCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));
@@ -191,7 +215,7 @@ public interface ModifiableOrderedIntegerCollection
      * @return A new modifiable ordered integers collection with the specified element cardinality containing all the
      *         elements from the provided ordered integers collections.
      */
-    public static ModifiableOrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableOrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Integer>... collections) {
         ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(elementCardinality);
         for (OrderedNumericCollection<Integer> collection : collections) {
@@ -208,8 +232,7 @@ public interface ModifiableOrderedIntegerCollection
      * @return A new modifiable ordered integers collection containing all the elements from the provided ordered integers
      *         collections.
      */
-    public static ModifiableOrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
+    static ModifiableOrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
-
 }

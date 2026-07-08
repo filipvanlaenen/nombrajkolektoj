@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedDoubleCollectionTest
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final ModifiableOrderedDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final ModifiableOrderedDoubleCollection collection012 = ModifiableOrderedDoubleCollection.of(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final ModifiableOrderedDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final ModifiableOrderedDoubleCollection collection123 = ModifiableOrderedDoubleCollection.of(1D, 2D, 3D);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateADoubleCollection() {
+        assertTrue(
+                new ModifiableOrderedDoubleCollection.ArrayCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateADoubleCollection() {
+        assertTrue(new ModifiableOrderedDoubleCollection.LinkedListCollection(1D, 2D, DOUBLE_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final ModifiableOrderedDoubleCollection source) {
         return ModifiableOrderedDoubleCollection
                 .of(OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
-    }
-
-    protected ModifiableOrderedDoubleCollection createDoubleCollection(final Double... numbers) {
-        return ModifiableOrderedDoubleCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedDoubleCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
-        assertTrue(collection.addAllAt(1, createDoubleCollection(2D)));
-        assertFalse(collection.addAllAt(1, createDoubleCollection(2D)));
-        assertEquals(2D, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
-        assertTrue(collection.addAt(1, 2D));
-        assertFalse(collection.addAt(1, 2D));
-        assertEquals(2D, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).firstIndexOf(2D));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createDoubleCollection(1D, 2D, DOUBLE_THREE).indexOf(2D));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE).lastIndexOf(2D));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedDoubleCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedDoubleCollectionTest
         ModifiableOrderedDoubleCollection actual = ModifiableOrderedDoubleCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Double[] {2D, DOUBLE_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedDoubleCollection collection = createDoubleCollection(DISTINCT_ELEMENTS, 1D, DOUBLE_THREE);
-        assertEquals(DOUBLE_THREE, collection.putAt(1, 2D));
-        assertEquals(2D, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createDoubleCollection(1D, 2D, DOUBLE_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedDoubleCollectionTest
         assertArrayEquals(new Double[] {0D, 1D, 2D, DOUBLE_THREE},
                 ModifiableOrderedDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

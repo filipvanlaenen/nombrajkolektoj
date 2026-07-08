@@ -9,8 +9,16 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
- * interface for floats and containing inner classes with concrete implementations.
+ * A modifiable ordered numeric collection containing floats. In addition to the functionality of modifiable ordered
+ * collections in general and modifiable and ordered floats collections, it supports augmenting, subtracting,
+ * multiplying and dividing the collection with a float at a specific position, or with an ordered floats collection
+ * of the same size, and negating it at a specific position.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
+ * interface binding the type parameter to Float. It contains two nested classes implementing this interface, one
+ * backed by an {@link net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection}, and factory methods mirroring
+ * the factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}.
  */
 public interface ModifiableOrderedFloatCollection
         extends ModifiableOrderedNumericCollection<Float>, ModifiableFloatCollection, OrderedFloatCollection {
@@ -18,7 +26,10 @@ public interface ModifiableOrderedFloatCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedFloatCollectionDecorator {
+    final class ArrayCollection extends ModifiableOrderedFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedArrayCollection<Float> decoratedCollection;
 
         @Override
@@ -71,7 +82,10 @@ public interface ModifiableOrderedFloatCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedFloatCollectionDecorator {
+    final class LinkedListCollection extends ModifiableOrderedFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedLinkedListCollection<Float> decoratedCollection;
 
         @Override
@@ -80,13 +94,24 @@ public interface ModifiableOrderedFloatCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same floats and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The floats of the collection.
          */
-        public LinkedListCollection(final OrderedCollection<Float> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+        public LinkedListCollection(final Float... numbers) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Float>(numbers);
+        }
+
+        /**
+         * Constructs a modifiable ordered collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Float> source) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Float>(elementCardinality, source);
         }
 
         /**
@@ -100,13 +125,13 @@ public interface ModifiableOrderedFloatCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given floats. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection from another ordered collection, with the same floats and the
+         * same element cardinality.
          *
-         * @param numbers The floats of the collection.
+         * @param source The ordered collection to create a new collection from.
          */
-        public LinkedListCollection(final Float... numbers) {
-            decoratedCollection = new ModifiableOrderedLinkedListCollection<Float>(numbers);
+        public LinkedListCollection(final OrderedCollection<Float> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
         }
     }
 
@@ -115,7 +140,7 @@ public interface ModifiableOrderedFloatCollection
      *
      * @return A new empty modifiable floats collection.
      */
-    public static ModifiableOrderedFloatCollection empty() {
+    static ModifiableOrderedFloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -125,7 +150,7 @@ public interface ModifiableOrderedFloatCollection
      * @param numbers The floats for the new modifiable ordered floats collection.
      * @return A new modifiable ordered floats collection with the specified floats.
      */
-    public static ModifiableOrderedFloatCollection of(final Float... numbers) {
+    static ModifiableOrderedFloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -136,8 +161,7 @@ public interface ModifiableOrderedFloatCollection
      * @param numbers            The floats for the new modifiable ordered floats collection.
      * @return A new modifiable ordered floats collection with the specified element cardinality and the floats.
      */
-    public static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
-            final Float... numbers) {
+    static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -148,7 +172,7 @@ public interface ModifiableOrderedFloatCollection
      * @param collection         The original ordered floats collection.
      * @return A new modifiable ordered floats collection with the specified element cardinality and the floats.
      */
-    public static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
+    static ModifiableOrderedFloatCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -159,7 +183,7 @@ public interface ModifiableOrderedFloatCollection
      * @param collection The original ordered floats collection.
      * @return A new modifiable ordered floats collection cloned from the provided ordered floats collection.
      */
-    public static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
+    static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -173,8 +197,8 @@ public interface ModifiableOrderedFloatCollection
      * @return A new modifiable ordered floats collection cloned from a range in the provided ordered floats
      *         collection.
      */
-    public static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection,
-            final int fromIndex, final int toIndex) {
+    static ModifiableOrderedFloatCollection of(final OrderedNumericCollection<Float> collection, final int fromIndex,
+            final int toIndex) {
         ModifiableOrderedFloatCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));
@@ -191,7 +215,7 @@ public interface ModifiableOrderedFloatCollection
      * @return A new modifiable ordered floats collection with the specified element cardinality containing all the
      *         elements from the provided ordered floats collections.
      */
-    public static ModifiableOrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableOrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Float>... collections) {
         ModifiableOrderedFloatCollection result = ModifiableOrderedFloatCollection.of(elementCardinality);
         for (OrderedNumericCollection<Float> collection : collections) {
@@ -208,8 +232,7 @@ public interface ModifiableOrderedFloatCollection
      * @return A new modifiable ordered floats collection containing all the elements from the provided ordered floats
      *         collections.
      */
-    public static ModifiableOrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
+    static ModifiableOrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
-
 }

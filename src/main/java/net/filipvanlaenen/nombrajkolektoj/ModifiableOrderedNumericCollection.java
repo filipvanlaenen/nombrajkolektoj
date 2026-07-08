@@ -3,9 +3,12 @@ package net.filipvanlaenen.nombrajkolektoj;
 import net.filipvanlaenen.kolektoj.ModifiableOrderedCollection;
 
 /**
- * Interface defining the signature for all modifiable ordered numeric collections.
+ * A modifiable ordered numeric collection. In addition to the functionality of modifiable ordered collections in
+ * general and modifiable and ordered numeric collections, it supports augmenting, subtracting, multiplying and dividing
+ * the collection with a number at a specific position, or with an ordered numeric collection of the same size, and
+ * negating it at a specific position.
  *
- * @param <N> The element type.
+ * @param <N> The numeric element type.
  */
 public interface ModifiableOrderedNumericCollection<N extends Number>
         extends ModifiableNumericCollection<N>, OrderedNumericCollection<N>, ModifiableOrderedCollection<N> {

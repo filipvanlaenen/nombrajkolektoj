@@ -1,5 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection}
  * implementation.
  */
-public class ModifiableOrderedIntegerCollectionDecoratorTest {
+public final class ModifiableOrderedIntegerCollectionDecoratorTest
+        extends ModifiableIntegerCollectionDecoratorTestBase<ModifiableOrderedIntegerCollection> {
     /**
      * The magic number minus four.
      */
@@ -114,6 +117,44 @@ public class ModifiableOrderedIntegerCollectionDecoratorTest {
      */
     private ModifiableOrderedIntegerCollection createCollection246Null() {
         return ModifiableOrderedIntegerCollection.of(2, INTEGER_FOUR, INTEGER_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedIntegerCollection createEmptyIntegerCollection() {
+        return ModifiableOrderedIntegerCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return ModifiableOrderedIntegerCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
+            final Integer... numbers) {
+        return ModifiableOrderedIntegerCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertTrue(collection.addAllAt(1, createIntegerCollection(2)));
+        assertFalse(collection.addAllAt(1, createIntegerCollection(2)));
+        assertEquals(2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertTrue(collection.addAt(1, 2));
+        assertFalse(collection.addAt(1, 2));
+        assertEquals(2, collection.getAt(1));
     }
 
     /**
@@ -266,6 +307,38 @@ public class ModifiableOrderedIntegerCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedIntegerCollection.of(1, null, 2, INTEGER_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).firstIndexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createIntegerCollection(1, 2, INTEGER_THREE).indexOf(2));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE).lastIndexOf(2));
     }
 
     /**
@@ -518,6 +591,24 @@ public class ModifiableOrderedIntegerCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedIntegerCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedIntegerCollection collection = createIntegerCollection(DISTINCT_ELEMENTS, 1, INTEGER_THREE);
+        assertEquals(INTEGER_THREE, collection.putAt(1, 2));
+        assertEquals(2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createIntegerCollection(1, 2, INTEGER_THREE).removeAt(1));
     }
 
     /**

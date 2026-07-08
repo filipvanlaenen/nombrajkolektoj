@@ -3,10 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -38,20 +36,34 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final ModifiableOrderedBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final ModifiableOrderedBigIntegerCollection collection012 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final ModifiableOrderedBigIntegerCollection collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final ModifiableOrderedBigIntegerCollection collection123 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(
+                new ModifiableOrderedBigIntegerCollection.ArrayCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new ModifiableOrderedBigIntegerCollection.LinkedListCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final ModifiableOrderedBigIntegerCollection source) {
         return ModifiableOrderedBigIntegerCollection
                 .of(OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
-    }
-
-    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return ModifiableOrderedBigIntegerCollection.of(numbers);
     }
 
     @Override
@@ -68,57 +80,11 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
-        assertTrue(collection.addAllAt(1, createBigIntegerCollection(BigInteger.TWO)));
-        assertFalse(collection.addAllAt(1, createBigIntegerCollection(BigInteger.TWO)));
-        assertEquals(BigInteger.TWO, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
-        assertTrue(collection.addAt(1, BigInteger.TWO));
-        assertFalse(collection.addAt(1, BigInteger.TWO));
-        assertEquals(BigInteger.TWO, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).firstIndexOf(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).indexOf(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).lastIndexOf(BigInteger.TWO));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedBigIntegerCollection.empty().isEmpty());
     }
 
     /**
@@ -132,24 +98,6 @@ public final class ModifiableOrderedBigIntegerCollectionTest
         ModifiableOrderedBigIntegerCollection actual = ModifiableOrderedBigIntegerCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new BigInteger[] {BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedBigIntegerCollection collection = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE, BIG_INTEGER_THREE);
-        assertEquals(BIG_INTEGER_THREE, collection.putAt(1, BigInteger.TWO));
-        assertEquals(BigInteger.TWO, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).removeAt(1));
     }
 
     /**
@@ -202,5 +150,4 @@ public final class ModifiableOrderedBigIntegerCollectionTest
         assertArrayEquals(new BigInteger[] {BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE},
                 ModifiableOrderedBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

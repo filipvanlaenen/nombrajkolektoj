@@ -9,11 +9,22 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection} for shorts.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableOrderedNumericCollection} interface.
  */
 abstract class ModifiableOrderedShortCollectionDecorator extends ModifiableShortCollectionDecorator
         implements ModifiableOrderedShortCollection {
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends Short> otherCollection)
+            throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final Short element) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAt(index, element);
+    }
+
     @Override
     public Short augment(final int index, final Short addend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
@@ -64,6 +75,29 @@ abstract class ModifiableOrderedShortCollectionDecorator extends ModifiableShort
         }
         putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
+    }
+
+    @Override
+    public int firstIndexOf(final Short element) {
+        return getDecoratedCollection().firstIndexOf(element);
+    }
+
+    @Override
+    public Short getAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().getAt(index);
+    }
+
+    @Override
+    abstract ModifiableOrderedCollection<Short> getDecoratedCollection();
+
+    @Override
+    public int indexOf(final Short element) {
+        return getDecoratedCollection().indexOf(element);
+    }
+
+    @Override
+    public int lastIndexOf(final Short element) {
+        return getDecoratedCollection().lastIndexOf(element);
     }
 
     @Override
@@ -139,6 +173,17 @@ abstract class ModifiableOrderedShortCollectionDecorator extends ModifiableShort
     }
 
     @Override
+    public Short putAt(final int index, final Short element)
+            throws IllegalArgumentException, IndexOutOfBoundsException {
+        return getDecoratedCollection().putAt(index, element);
+    }
+
+    @Override
+    public Short removeAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().removeAt(index);
+    }
+
+    @Override
     public Short subtract(final int index, final Short subtrahend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
@@ -188,50 +233,5 @@ abstract class ModifiableOrderedShortCollectionDecorator extends ModifiableShort
         }
         putResults(results, "Cannot subtract the subtrahends due to the cardinality constraint.");
         return true;
-    }
-
-    @Override
-    abstract ModifiableOrderedCollection<Short> getDecoratedCollection();
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends Short> otherCollection)
-            throws IndexOutOfBoundsException {
-        return getDecoratedCollection().addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final Short element) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().addAt(index, element);
-    }
-
-    @Override
-    public Short putAt(final int index, final Short element)
-            throws IllegalArgumentException, IndexOutOfBoundsException {
-        return getDecoratedCollection().putAt(index, element);
-    }
-
-    @Override
-    public Short removeAt(final int index) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().removeAt(index);
-    }
-
-    @Override
-    public int firstIndexOf(final Short element) {
-        return getDecoratedCollection().firstIndexOf(element);
-    }
-
-    @Override
-    public Short getAt(final int index) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().getAt(index);
-    }
-
-    @Override
-    public int indexOf(final Short element) {
-        return getDecoratedCollection().indexOf(element);
-    }
-
-    @Override
-    public int lastIndexOf(final Short element) {
-        return getDecoratedCollection().lastIndexOf(element);
     }
 }

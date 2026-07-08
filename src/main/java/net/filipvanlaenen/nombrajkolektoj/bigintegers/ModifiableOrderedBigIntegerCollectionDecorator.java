@@ -11,11 +11,22 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection} for BigIntegers.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableOrderedNumericCollection} interface.
  */
 abstract class ModifiableOrderedBigIntegerCollectionDecorator extends ModifiableBigIntegerCollectionDecorator
         implements ModifiableOrderedBigIntegerCollection {
+    @Override
+    public boolean addAllAt(final int index, final OrderedCollection<? extends BigInteger> otherCollection)
+            throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAllAt(index, otherCollection);
+    }
+
+    @Override
+    public boolean addAt(final int index, final BigInteger element) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().addAt(index, element);
+    }
+
     @Override
     public BigInteger augment(final int index, final BigInteger addend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
@@ -66,6 +77,29 @@ abstract class ModifiableOrderedBigIntegerCollectionDecorator extends Modifiable
         }
         putResults(results, "Cannot augment with the addends due to the cardinality constraint.");
         return true;
+    }
+
+    @Override
+    public int firstIndexOf(final BigInteger element) {
+        return getDecoratedCollection().firstIndexOf(element);
+    }
+
+    @Override
+    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().getAt(index);
+    }
+
+    @Override
+    abstract ModifiableOrderedCollection<BigInteger> getDecoratedCollection();
+
+    @Override
+    public int indexOf(final BigInteger element) {
+        return getDecoratedCollection().indexOf(element);
+    }
+
+    @Override
+    public int lastIndexOf(final BigInteger element) {
+        return getDecoratedCollection().lastIndexOf(element);
     }
 
     @Override
@@ -141,6 +175,17 @@ abstract class ModifiableOrderedBigIntegerCollectionDecorator extends Modifiable
     }
 
     @Override
+    public BigInteger putAt(final int index, final BigInteger element)
+            throws IllegalArgumentException, IndexOutOfBoundsException {
+        return getDecoratedCollection().putAt(index, element);
+    }
+
+    @Override
+    public BigInteger removeAt(final int index) throws IndexOutOfBoundsException {
+        return getDecoratedCollection().removeAt(index);
+    }
+
+    @Override
     public BigInteger subtract(final int index, final BigInteger subtrahend)
             throws IllegalArgumentException, IndexOutOfBoundsException, NullPointerException {
         if (index >= size()) {
@@ -190,50 +235,5 @@ abstract class ModifiableOrderedBigIntegerCollectionDecorator extends Modifiable
         }
         putResults(results, "Cannot subtract the subtrahends due to the cardinality constraint.");
         return true;
-    }
-
-    @Override
-    abstract ModifiableOrderedCollection<BigInteger> getDecoratedCollection();
-
-    @Override
-    public boolean addAllAt(final int index, final OrderedCollection<? extends BigInteger> otherCollection)
-            throws IndexOutOfBoundsException {
-        return getDecoratedCollection().addAllAt(index, otherCollection);
-    }
-
-    @Override
-    public boolean addAt(final int index, final BigInteger element) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().addAt(index, element);
-    }
-
-    @Override
-    public BigInteger putAt(final int index, final BigInteger element)
-            throws IllegalArgumentException, IndexOutOfBoundsException {
-        return getDecoratedCollection().putAt(index, element);
-    }
-
-    @Override
-    public BigInteger removeAt(final int index) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().removeAt(index);
-    }
-
-    @Override
-    public int firstIndexOf(final BigInteger element) {
-        return getDecoratedCollection().firstIndexOf(element);
-    }
-
-    @Override
-    public BigInteger getAt(final int index) throws IndexOutOfBoundsException {
-        return getDecoratedCollection().getAt(index);
-    }
-
-    @Override
-    public int indexOf(final BigInteger element) {
-        return getDecoratedCollection().indexOf(element);
-    }
-
-    @Override
-    public int lastIndexOf(final BigInteger element) {
-        return getDecoratedCollection().lastIndexOf(element);
     }
 }

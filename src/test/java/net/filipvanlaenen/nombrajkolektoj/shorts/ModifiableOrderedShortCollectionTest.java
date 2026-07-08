@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final ModifiableOrderedShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final ModifiableOrderedShortCollection collection012 = ModifiableOrderedShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final ModifiableOrderedShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final ModifiableOrderedShortCollection collection123 = ModifiableOrderedShortCollection.of((short) 1, (short) 2, (short) 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAShortCollection() {
+        assertTrue(
+                new ModifiableOrderedShortCollection.ArrayCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAShortCollection() {
+        assertTrue(new ModifiableOrderedShortCollection.LinkedListCollection((short) 1, (short) 2, SHORT_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedShortCollection createShortCollection(final ModifiableOrderedShortCollection source) {
         return ModifiableOrderedShortCollection
                 .of(OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
-    }
-
-    protected ModifiableOrderedShortCollection createShortCollection(final Short... numbers) {
-        return ModifiableOrderedShortCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedShortCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
-        assertTrue(collection.addAllAt(1, createShortCollection((short) 2)));
-        assertFalse(collection.addAllAt(1, createShortCollection((short) 2)));
-        assertEquals((short) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
-        assertTrue(collection.addAt(1, (short) 2));
-        assertFalse(collection.addAt(1, (short) 2));
-        assertEquals((short) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).firstIndexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createShortCollection((short) 1, (short) 2, SHORT_THREE).indexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedShortCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedShortCollectionTest
         ModifiableOrderedShortCollection actual = ModifiableOrderedShortCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Short[] {(short) 2, SHORT_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedShortCollection collection = createShortCollection(DISTINCT_ELEMENTS, (short) 1, SHORT_THREE);
-        assertEquals(SHORT_THREE, collection.putAt(1, (short) 2));
-        assertEquals((short) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedShortCollectionTest
         assertArrayEquals(new Short[] {(short) 0, (short) 1, (short) 2, SHORT_THREE},
                 ModifiableOrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

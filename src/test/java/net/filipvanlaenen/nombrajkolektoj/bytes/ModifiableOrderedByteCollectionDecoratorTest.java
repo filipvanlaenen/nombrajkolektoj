@@ -1,5 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableOrderedByteCollection}
  * implementation.
  */
-public class ModifiableOrderedByteCollectionDecoratorTest {
+public final class ModifiableOrderedByteCollectionDecoratorTest
+        extends ModifiableByteCollectionDecoratorTestBase<ModifiableOrderedByteCollection> {
     /**
      * The magic number minus four.
      */
@@ -114,6 +117,44 @@ public class ModifiableOrderedByteCollectionDecoratorTest {
      */
     private ModifiableOrderedByteCollection createCollection246Null() {
         return ModifiableOrderedByteCollection.of((byte) 2, BYTE_FOUR, BYTE_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedByteCollection createEmptyByteCollection() {
+        return ModifiableOrderedByteCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableOrderedByteCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return ModifiableOrderedByteCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertTrue(collection.addAllAt(1, createByteCollection((byte) 2)));
+        assertFalse(collection.addAllAt(1, createByteCollection((byte) 2)));
+        assertEquals((byte) 2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertTrue(collection.addAt(1, (byte) 2));
+        assertFalse(collection.addAt(1, (byte) 2));
+        assertEquals((byte) 2, collection.getAt(1));
     }
 
     /**
@@ -266,6 +307,38 @@ public class ModifiableOrderedByteCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedByteCollection.of((byte) 1, null, (byte) 2, BYTE_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).firstIndexOf((byte) 2));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).indexOf((byte) 2));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
     }
 
     /**
@@ -518,6 +591,24 @@ public class ModifiableOrderedByteCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedByteCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
+        assertEquals(BYTE_THREE, collection.putAt(1, (byte) 2));
+        assertEquals((byte) 2, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).removeAt(1));
     }
 
     /**

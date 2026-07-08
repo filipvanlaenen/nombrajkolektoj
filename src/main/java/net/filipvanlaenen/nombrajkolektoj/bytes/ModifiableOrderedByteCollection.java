@@ -9,8 +9,16 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
- * interface for bytes and containing inner classes with concrete implementations.
+ * A modifiable ordered numeric collection containing bytes. In addition to the functionality of modifiable ordered
+ * collections in general and modifiable and ordered bytes collections, it supports augmenting, subtracting,
+ * multiplying and dividing the collection with a byte at a specific position, or with an ordered bytes collection
+ * of the same size, and negating it at a specific position.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection}
+ * interface binding the type parameter to Byte. It contains two nested classes implementing this interface, one
+ * backed by an {@link net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection}, and factory methods mirroring
+ * the factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}.
  */
 public interface ModifiableOrderedByteCollection
         extends ModifiableOrderedNumericCollection<Byte>, ModifiableByteCollection, OrderedByteCollection {
@@ -18,7 +26,10 @@ public interface ModifiableOrderedByteCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by an array.
      */
-    public static final class ArrayCollection extends ModifiableOrderedByteCollectionDecorator {
+    final class ArrayCollection extends ModifiableOrderedByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedArrayCollection<Byte> decoratedCollection;
 
         @Override
@@ -71,7 +82,10 @@ public interface ModifiableOrderedByteCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableOrderedCollection}
      * interface backed by a linked list.
      */
-    public static final class LinkedListCollection extends ModifiableOrderedByteCollectionDecorator {
+    final class LinkedListCollection extends ModifiableOrderedByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableOrderedLinkedListCollection<Byte> decoratedCollection;
 
         @Override
@@ -80,13 +94,24 @@ public interface ModifiableOrderedByteCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection from another ordered collection, with the same bytes and the
-         * same element cardinality.
+         * Constructs a modifiable ordered collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
          *
-         * @param source The ordered collection to create a new collection from.
+         * @param numbers The bytes of the collection.
          */
-        public LinkedListCollection(final OrderedCollection<Byte> source) {
-            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
+        public LinkedListCollection(final Byte... numbers) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Byte>(numbers);
+        }
+
+        /**
+         * Constructs a modifiable ordered collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Byte> source) {
+            decoratedCollection = new ModifiableOrderedLinkedListCollection<Byte>(elementCardinality, source);
         }
 
         /**
@@ -100,13 +125,13 @@ public interface ModifiableOrderedByteCollection
         }
 
         /**
-         * Constructs a modifiable ordered collection with the given bytes. The element cardinality is defaulted to
-         * <code>DUPLICATE_ELEMENTS</code>.
+         * Constructs a modifiable ordered collection from another ordered collection, with the same bytes and the
+         * same element cardinality.
          *
-         * @param numbers The bytes of the collection.
+         * @param source The ordered collection to create a new collection from.
          */
-        public LinkedListCollection(final Byte... numbers) {
-            decoratedCollection = new ModifiableOrderedLinkedListCollection<Byte>(numbers);
+        public LinkedListCollection(final OrderedCollection<Byte> source) {
+            this(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
         }
     }
 
@@ -115,7 +140,7 @@ public interface ModifiableOrderedByteCollection
      *
      * @return A new empty modifiable bytes collection.
      */
-    public static ModifiableOrderedByteCollection empty() {
+    static ModifiableOrderedByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -125,7 +150,7 @@ public interface ModifiableOrderedByteCollection
      * @param numbers The bytes for the new modifiable ordered bytes collection.
      * @return A new modifiable ordered bytes collection with the specified bytes.
      */
-    public static ModifiableOrderedByteCollection of(final Byte... numbers) {
+    static ModifiableOrderedByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -136,8 +161,7 @@ public interface ModifiableOrderedByteCollection
      * @param numbers            The bytes for the new modifiable ordered bytes collection.
      * @return A new modifiable ordered bytes collection with the specified element cardinality and the bytes.
      */
-    public static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
-            final Byte... numbers) {
+    static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -148,7 +172,7 @@ public interface ModifiableOrderedByteCollection
      * @param collection         The original ordered bytes collection.
      * @return A new modifiable ordered bytes collection with the specified element cardinality and the bytes.
      */
-    public static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
+    static ModifiableOrderedByteCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -159,7 +183,7 @@ public interface ModifiableOrderedByteCollection
      * @param collection The original ordered bytes collection.
      * @return A new modifiable ordered bytes collection cloned from the provided ordered bytes collection.
      */
-    public static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
+    static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -173,8 +197,8 @@ public interface ModifiableOrderedByteCollection
      * @return A new modifiable ordered bytes collection cloned from a range in the provided ordered bytes
      *         collection.
      */
-    public static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection,
-            final int fromIndex, final int toIndex) {
+    static ModifiableOrderedByteCollection of(final OrderedNumericCollection<Byte> collection, final int fromIndex,
+            final int toIndex) {
         ModifiableOrderedByteCollection result = new ArrayCollection(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
             result.addLast(collection.getAt(i));
@@ -191,7 +215,7 @@ public interface ModifiableOrderedByteCollection
      * @return A new modifiable ordered bytes collection with the specified element cardinality containing all the
      *         elements from the provided ordered bytes collections.
      */
-    public static ModifiableOrderedByteCollection unionOf(final ElementCardinality elementCardinality,
+    static ModifiableOrderedByteCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Byte>... collections) {
         ModifiableOrderedByteCollection result = ModifiableOrderedByteCollection.of(elementCardinality);
         for (OrderedNumericCollection<Byte> collection : collections) {
@@ -208,8 +232,7 @@ public interface ModifiableOrderedByteCollection
      * @return A new modifiable ordered bytes collection containing all the elements from the provided ordered bytes
      *         collections.
      */
-    public static ModifiableOrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
+    static ModifiableOrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
-
 }

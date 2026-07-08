@@ -1,5 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableOrderedLongCollection}
  * implementation.
  */
-public class ModifiableOrderedLongCollectionDecoratorTest {
+public final class ModifiableOrderedLongCollectionDecoratorTest
+        extends ModifiableLongCollectionDecoratorTestBase<ModifiableOrderedLongCollection> {
     /**
      * The magic number minus four.
      */
@@ -114,6 +117,44 @@ public class ModifiableOrderedLongCollectionDecoratorTest {
      */
     private ModifiableOrderedLongCollection createCollection246Null() {
         return ModifiableOrderedLongCollection.of(2L, LONG_FOUR, LONG_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedLongCollection createEmptyLongCollection() {
+        return ModifiableOrderedLongCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedLongCollection createLongCollection(final Long... numbers) {
+        return ModifiableOrderedLongCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final Long... numbers) {
+        return ModifiableOrderedLongCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertTrue(collection.addAllAt(1, createLongCollection(2L)));
+        assertFalse(collection.addAllAt(1, createLongCollection(2L)));
+        assertEquals(2L, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertTrue(collection.addAt(1, 2L));
+        assertFalse(collection.addAt(1, 2L));
+        assertEquals(2L, collection.getAt(1));
     }
 
     /**
@@ -266,6 +307,38 @@ public class ModifiableOrderedLongCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedLongCollection.of(1L, null, 2L, LONG_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).firstIndexOf(2L));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createLongCollection(1L, 2L, LONG_THREE).indexOf(2L));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).lastIndexOf(2L));
     }
 
     /**
@@ -518,6 +591,24 @@ public class ModifiableOrderedLongCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedLongCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedLongCollection collection = createLongCollection(DISTINCT_ELEMENTS, 1L, LONG_THREE);
+        assertEquals(LONG_THREE, collection.putAt(1, 2L));
+        assertEquals(2L, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).removeAt(1));
     }
 
     /**

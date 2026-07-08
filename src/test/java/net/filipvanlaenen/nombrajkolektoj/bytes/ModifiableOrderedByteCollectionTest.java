@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedByteCollectionTest
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final ModifiableOrderedByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final ModifiableOrderedByteCollection collection012 = ModifiableOrderedByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final ModifiableOrderedByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final ModifiableOrderedByteCollection collection123 = ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, (byte) 3);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAByteCollection() {
+        assertTrue(
+                new ModifiableOrderedByteCollection.ArrayCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAByteCollection() {
+        assertTrue(new ModifiableOrderedByteCollection.LinkedListCollection((byte) 1, (byte) 2, BYTE_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedByteCollection createByteCollection(final ModifiableOrderedByteCollection source) {
         return ModifiableOrderedByteCollection
                 .of(OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
-    }
-
-    protected ModifiableOrderedByteCollection createByteCollection(final Byte... numbers) {
-        return ModifiableOrderedByteCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedByteCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
-        assertTrue(collection.addAllAt(1, createByteCollection((byte) 2)));
-        assertFalse(collection.addAllAt(1, createByteCollection((byte) 2)));
-        assertEquals((byte) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
-        assertTrue(collection.addAt(1, (byte) 2));
-        assertFalse(collection.addAt(1, (byte) 2));
-        assertEquals((byte) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).firstIndexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).indexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedByteCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedByteCollectionTest
         ModifiableOrderedByteCollection actual = ModifiableOrderedByteCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Byte[] {(byte) 2, BYTE_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedByteCollection collection = createByteCollection(DISTINCT_ELEMENTS, (byte) 1, BYTE_THREE);
-        assertEquals(BYTE_THREE, collection.putAt(1, (byte) 2));
-        assertEquals((byte) 2, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedByteCollectionTest
         assertArrayEquals(new Byte[] {(byte) 0, (byte) 1, (byte) 2, BYTE_THREE},
                 ModifiableOrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

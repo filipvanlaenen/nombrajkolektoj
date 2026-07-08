@@ -1,10 +1,8 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,20 +34,34 @@ public final class ModifiableOrderedFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final ModifiableOrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
+    private final ModifiableOrderedFloatCollection collection012 = ModifiableOrderedFloatCollection.of(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final ModifiableOrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
+    private final ModifiableOrderedFloatCollection collection123 = ModifiableOrderedFloatCollection.of(1F, 2F, 3F);
+
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAFloatCollection() {
+        assertTrue(
+                new ModifiableOrderedFloatCollection.ArrayCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAFloatCollection() {
+        assertTrue(new ModifiableOrderedFloatCollection.LinkedListCollection(1F, 2F, FLOAT_THREE)
+                .containsAll(collection123));
+    }
 
     @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final ModifiableOrderedFloatCollection source) {
         return ModifiableOrderedFloatCollection
                 .of(OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
-    }
-
-    protected ModifiableOrderedFloatCollection createFloatCollection(final Float... numbers) {
-        return ModifiableOrderedFloatCollection.of(numbers);
     }
 
     @Override
@@ -66,57 +78,11 @@ public final class ModifiableOrderedFloatCollectionTest
     }
 
     /**
-     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
-        assertTrue(collection.addAllAt(1, createFloatCollection(2F)));
-        assertFalse(collection.addAllAt(1, createFloatCollection(2F)));
-        assertEquals(2F, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
-        assertTrue(collection.addAt(1, 2F));
-        assertFalse(collection.addAt(1, 2F));
-        assertEquals(2F, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).firstIndexOf(2F));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createFloatCollection(1F, 2F, FLOAT_THREE).indexOf(2F));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).lastIndexOf(2F));
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableOrderedFloatCollection.empty().isEmpty());
     }
 
     /**
@@ -130,24 +96,6 @@ public final class ModifiableOrderedFloatCollectionTest
         ModifiableOrderedFloatCollection actual = ModifiableOrderedFloatCollection.of(source, 1, THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertArrayEquals(new Float[] {2F, FLOAT_THREE}, actual.toArray());
-    }
-
-    /**
-     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
-        assertEquals(FLOAT_THREE, collection.putAt(1, 2F));
-        assertEquals(2F, collection.getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).removeAt(1));
     }
 
     /**
@@ -200,5 +148,4 @@ public final class ModifiableOrderedFloatCollectionTest
         assertArrayEquals(new Float[] {0F, 1F, 2F, FLOAT_THREE},
                 ModifiableOrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
-
 }

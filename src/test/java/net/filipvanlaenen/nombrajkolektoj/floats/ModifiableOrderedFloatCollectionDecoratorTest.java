@@ -1,5 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableOrderedFloatCollection}
  * implementation.
  */
-public class ModifiableOrderedFloatCollectionDecoratorTest {
+public final class ModifiableOrderedFloatCollectionDecoratorTest
+        extends ModifiableFloatCollectionDecoratorTestBase<ModifiableOrderedFloatCollection> {
     /**
      * The magic number minus four.
      */
@@ -114,6 +117,44 @@ public class ModifiableOrderedFloatCollectionDecoratorTest {
      */
     private ModifiableOrderedFloatCollection createCollection246Null() {
         return ModifiableOrderedFloatCollection.of(2F, FLOAT_FOUR, FLOAT_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedFloatCollection createEmptyFloatCollection() {
+        return ModifiableOrderedFloatCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedFloatCollection createFloatCollection(final Float... numbers) {
+        return ModifiableOrderedFloatCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final Float... numbers) {
+        return ModifiableOrderedFloatCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertTrue(collection.addAllAt(1, createFloatCollection(2F)));
+        assertFalse(collection.addAllAt(1, createFloatCollection(2F)));
+        assertEquals(2F, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertTrue(collection.addAt(1, 2F));
+        assertFalse(collection.addAt(1, 2F));
+        assertEquals(2F, collection.getAt(1));
     }
 
     /**
@@ -266,6 +307,38 @@ public class ModifiableOrderedFloatCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedFloatCollection.of(1F, null, 2F, FLOAT_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).firstIndexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createFloatCollection(1F, 2F, FLOAT_THREE).indexOf(2F));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createFloatCollection(DUPLICATE_ELEMENTS, 1F, 2F, 2F, FLOAT_THREE).lastIndexOf(2F));
     }
 
     /**
@@ -518,6 +591,24 @@ public class ModifiableOrderedFloatCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedFloatCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedFloatCollection collection = createFloatCollection(DISTINCT_ELEMENTS, 1F, FLOAT_THREE);
+        assertEquals(FLOAT_THREE, collection.putAt(1, 2F));
+        assertEquals(2F, collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2F, createFloatCollection(1F, 2F, FLOAT_THREE).removeAt(1));
     }
 
     /**

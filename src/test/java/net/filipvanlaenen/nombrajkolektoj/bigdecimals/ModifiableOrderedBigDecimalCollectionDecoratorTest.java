@@ -2,6 +2,8 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableOrderedBigDecimalCollection}
  * implementation.
  */
-public class ModifiableOrderedBigDecimalCollectionDecoratorTest {
+public final class ModifiableOrderedBigDecimalCollectionDecoratorTest
+        extends ModifiableBigDecimalCollectionDecoratorTestBase<ModifiableOrderedBigDecimalCollection> {
     /**
      * The magic number minus four.
      */
@@ -116,6 +119,44 @@ public class ModifiableOrderedBigDecimalCollectionDecoratorTest {
      */
     private ModifiableOrderedBigDecimalCollection createCollection246Null() {
         return ModifiableOrderedBigDecimalCollection.of(BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX, null);
+    }
+
+    @Override
+    protected ModifiableOrderedBigDecimalCollection createEmptyBigDecimalCollection() {
+        return ModifiableOrderedBigDecimalCollection.empty();
+    }
+
+    @Override
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
+        return ModifiableOrderedBigDecimalCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
+            final BigDecimal... numbers) {
+        return ModifiableOrderedBigDecimalCollection.of(elementCardinality, numbers);
+    }
+
+    /**
+     * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAllAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertTrue(collection.addAllAt(1, createBigDecimalCollection(BigDecimal.valueOf(2L))));
+        assertFalse(collection.addAllAt(1, createBigDecimalCollection(BigDecimal.valueOf(2L))));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>addAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void addAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertTrue(collection.addAt(1, BigDecimal.valueOf(2L)));
+        assertFalse(collection.addAt(1, BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
     }
 
     /**
@@ -268,6 +309,38 @@ public class ModifiableOrderedBigDecimalCollectionDecoratorTest {
                 () -> collection.augment(ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, null, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)));
         assertEquals("Cannot augment a collection with a collection when null values don't match.",
                 exception.getMessage());
+    }
+
+    /**
+     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).firstIndexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(1, createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).indexOf(BigDecimal.valueOf(2L)));
+    }
+
+    /**
+     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(2, createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).lastIndexOf(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -520,6 +593,24 @@ public class ModifiableOrderedBigDecimalCollectionDecoratorTest {
         collection.negate();
         assertTrue(collection
                 .containsSame(ModifiableOrderedBigDecimalCollection.of(MINUS_ONE, MINUS_TWO, MINUS_THREE, MINUS_FOUR)));
+    }
+
+    /**
+     * Verifies that the <code>putAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void putAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        ModifiableOrderedBigDecimalCollection collection = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BIG_DECIMAL_THREE);
+        assertEquals(BIG_DECIMAL_THREE, collection.putAt(1, BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L), collection.getAt(1));
+    }
+
+    /**
+     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(BigDecimal.valueOf(2L), createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).removeAt(1));
     }
 
     /**

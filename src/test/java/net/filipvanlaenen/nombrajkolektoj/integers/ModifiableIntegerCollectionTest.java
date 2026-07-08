@@ -19,14 +19,35 @@ public final class ModifiableIntegerCollectionTest
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final ModifiableIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
+    private final ModifiableIntegerCollection collection012 = ModifiableIntegerCollection.of(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final ModifiableIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
+    private final ModifiableIntegerCollection collection123 = ModifiableIntegerCollection.of(1, 2, 3);
 
-    protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
-        return ModifiableIntegerCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new ModifiableIntegerCollection.ArrayCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new ModifiableIntegerCollection.HashCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAIntegerCollection() {
+        assertTrue(
+                new ModifiableIntegerCollection.LinkedListCollection(1, 2, INTEGER_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableIntegerCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createIntegerCollection(1, 2)
+        assertTrue(ModifiableIntegerCollection.of(1, 2)
                 .containsSame(ModifiableIntegerCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableIntegerCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createIntegerCollection(0, 1, 2, 1, 2, INTEGER_THREE)
+        assertTrue(ModifiableIntegerCollection.of(0, 1, 2, 1, 2, INTEGER_THREE)
                 .containsSame(ModifiableIntegerCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableIntegerCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createIntegerCollection(0, 1, 2, INTEGER_THREE)
+        assertTrue(ModifiableIntegerCollection.of(0, 1, 2, INTEGER_THREE)
                 .containsSame(ModifiableIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

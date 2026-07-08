@@ -21,14 +21,35 @@ public final class ModifiableBigIntegerCollectionTest
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final ModifiableBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final ModifiableBigIntegerCollection collection012 = ModifiableBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final ModifiableBigIntegerCollection collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final ModifiableBigIntegerCollection collection123 = ModifiableBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
-    protected ModifiableBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return ModifiableBigIntegerCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new ModifiableBigIntegerCollection.ArrayCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new ModifiableBigIntegerCollection.HashCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(
+                new ModifiableBigIntegerCollection.LinkedListCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
     }
 
     @Override
@@ -69,7 +90,7 @@ public final class ModifiableBigIntegerCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO)
+        assertTrue(ModifiableBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO)
                 .containsSame(ModifiableBigIntegerCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -110,7 +131,7 @@ public final class ModifiableBigIntegerCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+        assertTrue(ModifiableBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
                 .containsSame(ModifiableBigIntegerCollection.unionOf(collection012, collection123)));
     }
 
@@ -119,7 +140,7 @@ public final class ModifiableBigIntegerCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+        assertTrue(ModifiableBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
                 .containsSame(ModifiableBigIntegerCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

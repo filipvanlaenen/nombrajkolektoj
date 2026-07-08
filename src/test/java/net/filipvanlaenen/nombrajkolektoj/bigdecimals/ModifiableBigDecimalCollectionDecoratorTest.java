@@ -14,7 +14,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection}
  * implementation.
  */
-public class ModifiableBigDecimalCollectionDecoratorTest {
+public final class ModifiableBigDecimalCollectionDecoratorTest
+        extends ModifiableBigDecimalCollectionDecoratorTestBase<ModifiableBigDecimalCollection> {
     /**
      * The magic number minus four.
      */
@@ -52,12 +53,19 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     private static final BigDecimal EIGHT = BigDecimal.valueOf(8L);
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableBigDecimalCollection createEmptyCollection() {
+    @Override
+    protected ModifiableBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
+        return ModifiableBigDecimalCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
+            final BigDecimal... numbers) {
+        return ModifiableBigDecimalCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableBigDecimalCollection createEmptyBigDecimalCollection() {
         return ModifiableBigDecimalCollection.empty();
     }
 
@@ -137,7 +145,7 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(BigDecimal.ONE));
+        assertFalse(createEmptyBigDecimalCollection().augment(BigDecimal.ONE));
     }
 
     /**
@@ -199,7 +207,7 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide(BigDecimal.valueOf(2L)));
+        assertFalse(createEmptyBigDecimalCollection().divide(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -279,7 +287,7 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(BigDecimal.valueOf(2L)));
+        assertFalse(createEmptyBigDecimalCollection().multiply(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -360,7 +368,7 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyBigDecimalCollection().negate());
     }
 
     /**
@@ -422,7 +430,7 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract(BigDecimal.ONE));
+        assertFalse(createEmptyBigDecimalCollection().subtract(BigDecimal.ONE));
     }
 
     /**
@@ -461,5 +469,4 @@ public class ModifiableBigDecimalCollectionDecoratorTest {
         collection.subtract(BigDecimal.ONE);
         assertTrue(collection.containsSame(ModifiableBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), null)));
     }
-
 }

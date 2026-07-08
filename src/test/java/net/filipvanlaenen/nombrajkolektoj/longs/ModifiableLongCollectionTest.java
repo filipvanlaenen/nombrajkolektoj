@@ -19,14 +19,35 @@ public final class ModifiableLongCollectionTest
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final ModifiableLongCollection collection012 = createLongCollection(0L, 1L, 2L);
+    private final ModifiableLongCollection collection012 = ModifiableLongCollection.of(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final ModifiableLongCollection collection123 = createLongCollection(1L, 2L, 3L);
+    private final ModifiableLongCollection collection123 = ModifiableLongCollection.of(1L, 2L, 3L);
 
-    protected ModifiableLongCollection createLongCollection(final Long... numbers) {
-        return ModifiableLongCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateALongCollection() {
+        assertTrue(new ModifiableLongCollection.ArrayCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateALongCollection() {
+        assertTrue(new ModifiableLongCollection.HashCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateALongCollection() {
+        assertTrue(
+                new ModifiableLongCollection.LinkedListCollection(1L, 2L, LONG_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableLongCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createLongCollection(1L, 2L)
+        assertTrue(ModifiableLongCollection.of(1L, 2L)
                 .containsSame(ModifiableLongCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableLongCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createLongCollection(0L, 1L, 2L, 1L, 2L, LONG_THREE)
+        assertTrue(ModifiableLongCollection.of(0L, 1L, 2L, 1L, 2L, LONG_THREE)
                 .containsSame(ModifiableLongCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableLongCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createLongCollection(0L, 1L, 2L, LONG_THREE)
+        assertTrue(ModifiableLongCollection.of(0L, 1L, 2L, LONG_THREE)
                 .containsSame(ModifiableLongCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

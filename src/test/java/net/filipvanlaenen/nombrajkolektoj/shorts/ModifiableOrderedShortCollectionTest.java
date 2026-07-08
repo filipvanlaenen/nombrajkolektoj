@@ -48,7 +48,6 @@ public final class ModifiableOrderedShortCollectionTest
                 .of(OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }
 
-    @Override
     protected ModifiableOrderedShortCollection createShortCollection(final Short... numbers) {
         return ModifiableOrderedShortCollection.of(numbers);
     }

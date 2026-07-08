@@ -12,7 +12,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection}
  * implementation.
  */
-public class ModifiableLongCollectionDecoratorTest {
+public final class ModifiableLongCollectionDecoratorTest
+        extends ModifiableLongCollectionDecoratorTestBase<ModifiableLongCollection> {
     /**
      * The magic number minus four.
      */
@@ -50,12 +51,19 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     private static final long EIGHT = 8L;
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableLongCollection createEmptyCollection() {
+    @Override
+    protected ModifiableLongCollection createLongCollection(final Long... numbers) {
+        return ModifiableLongCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableLongCollection createLongCollection(final ElementCardinality elementCardinality,
+            final Long... numbers) {
+        return ModifiableLongCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableLongCollection createEmptyLongCollection() {
         return ModifiableLongCollection.empty();
     }
 
@@ -135,7 +143,7 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(1L));
+        assertFalse(createEmptyLongCollection().augment(1L));
     }
 
     /**
@@ -197,7 +205,7 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide(2L));
+        assertFalse(createEmptyLongCollection().divide(2L));
     }
 
     /**
@@ -277,7 +285,7 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(2L));
+        assertFalse(createEmptyLongCollection().multiply(2L));
     }
 
     /**
@@ -358,7 +366,7 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyLongCollection().negate());
     }
 
     /**
@@ -420,7 +428,7 @@ public class ModifiableLongCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract(1L));
+        assertFalse(createEmptyLongCollection().subtract(1L));
     }
 
     /**
@@ -459,5 +467,4 @@ public class ModifiableLongCollectionDecoratorTest {
         collection.subtract(1L);
         assertTrue(collection.containsSame(ModifiableLongCollection.of(0L, 1L, 2L, null)));
     }
-
 }

@@ -12,7 +12,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection}
  * implementation.
  */
-public class ModifiableDoubleCollectionDecoratorTest {
+public final class ModifiableDoubleCollectionDecoratorTest
+        extends ModifiableDoubleCollectionDecoratorTestBase<ModifiableDoubleCollection> {
     /**
      * The magic number minus four.
      */
@@ -50,12 +51,19 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     private static final double EIGHT = 8D;
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableDoubleCollection createEmptyCollection() {
+    @Override
+    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableDoubleCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return ModifiableDoubleCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableDoubleCollection createEmptyDoubleCollection() {
         return ModifiableDoubleCollection.empty();
     }
 
@@ -135,7 +143,7 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(1D));
+        assertFalse(createEmptyDoubleCollection().augment(1D));
     }
 
     /**
@@ -197,7 +205,7 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide(2D));
+        assertFalse(createEmptyDoubleCollection().divide(2D));
     }
 
     /**
@@ -277,7 +285,7 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(2D));
+        assertFalse(createEmptyDoubleCollection().multiply(2D));
     }
 
     /**
@@ -358,7 +366,7 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyDoubleCollection().negate());
     }
 
     /**
@@ -420,7 +428,7 @@ public class ModifiableDoubleCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract(1D));
+        assertFalse(createEmptyDoubleCollection().subtract(1D));
     }
 
     /**
@@ -459,5 +467,4 @@ public class ModifiableDoubleCollectionDecoratorTest {
         collection.subtract(1D);
         assertTrue(collection.containsSame(ModifiableDoubleCollection.of(0D, 1D, 2D, null)));
     }
-
 }

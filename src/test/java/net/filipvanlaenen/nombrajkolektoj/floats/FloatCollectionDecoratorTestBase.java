@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollection<Float>> {
+public abstract class FloatCollectionDecoratorTestBase<T extends FloatCollection> {
     /**
      * The magic number three.
      */
@@ -23,7 +22,7 @@ public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollecti
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
+    private final T collection123 = createFloatCollection(1F, 2F, 3F);
 
     /**
      * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.

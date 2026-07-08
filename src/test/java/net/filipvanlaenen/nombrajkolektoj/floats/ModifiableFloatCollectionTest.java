@@ -19,14 +19,35 @@ public final class ModifiableFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final ModifiableFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
+    private final ModifiableFloatCollection collection012 = ModifiableFloatCollection.of(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final ModifiableFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
+    private final ModifiableFloatCollection collection123 = ModifiableFloatCollection.of(1F, 2F, 3F);
 
-    protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
-        return ModifiableFloatCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAFloatCollection() {
+        assertTrue(new ModifiableFloatCollection.ArrayCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAFloatCollection() {
+        assertTrue(new ModifiableFloatCollection.HashCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAFloatCollection() {
+        assertTrue(
+                new ModifiableFloatCollection.LinkedListCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableFloatCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createFloatCollection(1F, 2F)
+        assertTrue(ModifiableFloatCollection.of(1F, 2F)
                 .containsSame(ModifiableFloatCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createFloatCollection(0F, 1F, 2F, 1F, 2F, FLOAT_THREE)
+        assertTrue(ModifiableFloatCollection.of(0F, 1F, 2F, 1F, 2F, FLOAT_THREE)
                 .containsSame(ModifiableFloatCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createFloatCollection(0F, 1F, 2F, FLOAT_THREE)
+        assertTrue(ModifiableFloatCollection.of(0F, 1F, 2F, FLOAT_THREE)
                 .containsSame(ModifiableFloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

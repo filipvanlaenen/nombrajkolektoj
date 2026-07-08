@@ -19,14 +19,35 @@ public final class ModifiableByteCollectionTest
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final ModifiableByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final ModifiableByteCollection collection012 = ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final ModifiableByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final ModifiableByteCollection collection123 = ModifiableByteCollection.of((byte) 1, (byte) 2, (byte) 3);
 
-    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
-        return ModifiableByteCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAByteCollection() {
+        assertTrue(new ModifiableByteCollection.ArrayCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAByteCollection() {
+        assertTrue(new ModifiableByteCollection.HashCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAByteCollection() {
+        assertTrue(
+                new ModifiableByteCollection.LinkedListCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableByteCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createByteCollection((byte) 1, (byte) 2)
+        assertTrue(ModifiableByteCollection.of((byte) 1, (byte) 2)
                 .containsSame(ModifiableByteCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableByteCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE)
+        assertTrue(ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE)
                 .containsSame(ModifiableByteCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableByteCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createByteCollection((byte) 0, (byte) 1, (byte) 2, BYTE_THREE)
+        assertTrue(ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2, BYTE_THREE)
                 .containsSame(ModifiableByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

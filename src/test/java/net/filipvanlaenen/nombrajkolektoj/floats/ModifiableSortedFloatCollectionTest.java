@@ -19,7 +19,6 @@ public final class ModifiableSortedFloatCollectionTest
      */
     private static final Float FLOAT_THREE = 3F;
 
-    @Override
     protected ModifiableSortedFloatCollection createFloatCollection(final Float... numbers) {
         return ModifiableSortedFloatCollection.of(Comparator.naturalOrder(), numbers);
     }

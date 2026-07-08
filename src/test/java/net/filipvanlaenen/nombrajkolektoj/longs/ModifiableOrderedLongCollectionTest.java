@@ -48,7 +48,6 @@ public final class ModifiableOrderedLongCollectionTest
                 .of(OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }
 
-    @Override
     protected ModifiableOrderedLongCollection createLongCollection(final Long... numbers) {
         return ModifiableOrderedLongCollection.of(numbers);
     }

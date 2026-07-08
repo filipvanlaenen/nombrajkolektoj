@@ -12,7 +12,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection}
  * implementation.
  */
-public class ModifiableShortCollectionDecoratorTest {
+public final class ModifiableShortCollectionDecoratorTest
+        extends ModifiableShortCollectionDecoratorTestBase<ModifiableShortCollection> {
     /**
      * The magic number minus four.
      */
@@ -50,12 +51,19 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     private static final short EIGHT = (short) 8;
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableShortCollection createEmptyCollection() {
+    @Override
+    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
+        return ModifiableShortCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return ModifiableShortCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableShortCollection createEmptyShortCollection() {
         return ModifiableShortCollection.empty();
     }
 
@@ -135,7 +143,7 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment((short) 1));
+        assertFalse(createEmptyShortCollection().augment((short) 1));
     }
 
     /**
@@ -197,7 +205,7 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide((short) 2));
+        assertFalse(createEmptyShortCollection().divide((short) 2));
     }
 
     /**
@@ -277,7 +285,7 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply((short) 2));
+        assertFalse(createEmptyShortCollection().multiply((short) 2));
     }
 
     /**
@@ -358,7 +366,7 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyShortCollection().negate());
     }
 
     /**
@@ -420,7 +428,7 @@ public class ModifiableShortCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract((short) 1));
+        assertFalse(createEmptyShortCollection().subtract((short) 1));
     }
 
     /**
@@ -459,5 +467,4 @@ public class ModifiableShortCollectionDecoratorTest {
         collection.subtract((short) 1);
         assertTrue(collection.containsSame(ModifiableShortCollection.of((short) 0, (short) 1, (short) 2, null)));
     }
-
 }

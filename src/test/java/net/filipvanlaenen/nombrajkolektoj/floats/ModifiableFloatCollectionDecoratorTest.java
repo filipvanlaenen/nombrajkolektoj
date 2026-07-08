@@ -12,7 +12,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection}
  * implementation.
  */
-public class ModifiableFloatCollectionDecoratorTest {
+public final class ModifiableFloatCollectionDecoratorTest
+        extends ModifiableFloatCollectionDecoratorTestBase<ModifiableFloatCollection> {
     /**
      * The magic number minus four.
      */
@@ -50,12 +51,19 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     private static final float EIGHT = 8F;
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableFloatCollection createEmptyCollection() {
+    @Override
+    protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
+        return ModifiableFloatCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
+            final Float... numbers) {
+        return ModifiableFloatCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableFloatCollection createEmptyFloatCollection() {
         return ModifiableFloatCollection.empty();
     }
 
@@ -135,7 +143,7 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment(1F));
+        assertFalse(createEmptyFloatCollection().augment(1F));
     }
 
     /**
@@ -197,7 +205,7 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide(2F));
+        assertFalse(createEmptyFloatCollection().divide(2F));
     }
 
     /**
@@ -277,7 +285,7 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply(2F));
+        assertFalse(createEmptyFloatCollection().multiply(2F));
     }
 
     /**
@@ -358,7 +366,7 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyFloatCollection().negate());
     }
 
     /**
@@ -420,7 +428,7 @@ public class ModifiableFloatCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract(1F));
+        assertFalse(createEmptyFloatCollection().subtract(1F));
     }
 
     /**
@@ -459,5 +467,4 @@ public class ModifiableFloatCollectionDecoratorTest {
         collection.subtract(1F);
         assertTrue(collection.containsSame(ModifiableFloatCollection.of(0F, 1F, 2F, null)));
     }
-
 }

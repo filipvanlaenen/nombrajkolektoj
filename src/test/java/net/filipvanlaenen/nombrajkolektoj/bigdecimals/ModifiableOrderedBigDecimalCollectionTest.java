@@ -50,7 +50,6 @@ public final class ModifiableOrderedBigDecimalCollectionTest
                 .of(OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 
-    @Override
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return ModifiableOrderedBigDecimalCollection.of(numbers);
     }

@@ -50,7 +50,6 @@ public final class ModifiableOrderedBigIntegerCollectionTest
                 .of(OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
     }
 
-    @Override
     protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return ModifiableOrderedBigIntegerCollection.of(numbers);
     }

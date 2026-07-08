@@ -21,14 +21,35 @@ public final class ModifiableBigDecimalCollectionTest
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final ModifiableBigDecimalCollection collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final ModifiableBigDecimalCollection collection012 = ModifiableBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final ModifiableBigDecimalCollection collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final ModifiableBigDecimalCollection collection123 = ModifiableBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
-    protected ModifiableBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
-        return ModifiableBigDecimalCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new ModifiableBigDecimalCollection.ArrayCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new ModifiableBigDecimalCollection.HashCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(
+                new ModifiableBigDecimalCollection.LinkedListCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
     }
 
     @Override
@@ -69,7 +90,7 @@ public final class ModifiableBigDecimalCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L))
+        assertTrue(ModifiableBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))
                 .containsSame(ModifiableBigDecimalCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -110,7 +131,7 @@ public final class ModifiableBigDecimalCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+        assertTrue(ModifiableBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
                 .containsSame(ModifiableBigDecimalCollection.unionOf(collection012, collection123)));
     }
 
@@ -119,7 +140,7 @@ public final class ModifiableBigDecimalCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+        assertTrue(ModifiableBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
                 .containsSame(ModifiableBigDecimalCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

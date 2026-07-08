@@ -19,7 +19,6 @@ public final class ModifiableSortedIntegerCollectionTest
      */
     private static final Integer INTEGER_THREE = 3;
 
-    @Override
     protected ModifiableSortedIntegerCollection createIntegerCollection(final Integer... numbers) {
         return ModifiableSortedIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }

@@ -48,7 +48,6 @@ public final class ModifiableOrderedDoubleCollectionTest
                 .of(OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }
 
-    @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final Double... numbers) {
         return ModifiableOrderedDoubleCollection.of(numbers);
     }

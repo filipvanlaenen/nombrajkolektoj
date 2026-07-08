@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollection<Short>> {
+public abstract class ShortCollectionDecoratorTestBase<T extends ShortCollection> {
     /**
      * The magic number three.
      */
@@ -23,7 +22,7 @@ public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollecti
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final T collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     /**
      * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.

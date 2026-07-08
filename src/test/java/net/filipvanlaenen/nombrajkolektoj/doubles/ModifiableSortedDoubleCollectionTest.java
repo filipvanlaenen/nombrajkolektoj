@@ -19,7 +19,6 @@ public final class ModifiableSortedDoubleCollectionTest
      */
     private static final Double DOUBLE_THREE = 3D;
 
-    @Override
     protected ModifiableSortedDoubleCollection createDoubleCollection(final Double... numbers) {
         return ModifiableSortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
     }

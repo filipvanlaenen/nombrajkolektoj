@@ -12,7 +12,8 @@ import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
  * class. The class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection}
  * implementation.
  */
-public class ModifiableByteCollectionDecoratorTest {
+public final class ModifiableByteCollectionDecoratorTest
+        extends ModifiableByteCollectionDecoratorTestBase<ModifiableByteCollection> {
     /**
      * The magic number minus four.
      */
@@ -50,12 +51,19 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     private static final byte EIGHT = (byte) 8;
 
-    /**
-     * Creates an empty collection.
-     *
-     * @return An empty collection.
-     */
-    private ModifiableByteCollection createEmptyCollection() {
+    @Override
+    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableByteCollection.of(numbers);
+    }
+
+    @Override
+    protected ModifiableByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return ModifiableByteCollection.of(elementCardinality, numbers);
+    }
+
+    @Override
+    protected ModifiableByteCollection createEmptyByteCollection() {
         return ModifiableByteCollection.empty();
     }
 
@@ -135,7 +143,7 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     @Test
     public void augmentShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().augment((byte) 1));
+        assertFalse(createEmptyByteCollection().augment((byte) 1));
     }
 
     /**
@@ -197,7 +205,7 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     @Test
     public void divideShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().divide((byte) 2));
+        assertFalse(createEmptyByteCollection().divide((byte) 2));
     }
 
     /**
@@ -277,7 +285,7 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     @Test
     public void multiplyShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().multiply((byte) 2));
+        assertFalse(createEmptyByteCollection().multiply((byte) 2));
     }
 
     /**
@@ -358,7 +366,7 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     @Test
     public void negateShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().negate());
+        assertFalse(createEmptyByteCollection().negate());
     }
 
     /**
@@ -420,7 +428,7 @@ public class ModifiableByteCollectionDecoratorTest {
      */
     @Test
     public void subtractShouldReturnFalseWhenCollectionIsEmpty() {
-        assertFalse(createEmptyCollection().subtract((byte) 1));
+        assertFalse(createEmptyByteCollection().subtract((byte) 1));
     }
 
     /**
@@ -459,5 +467,4 @@ public class ModifiableByteCollectionDecoratorTest {
         collection.subtract((byte) 1);
         assertTrue(collection.containsSame(ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2, null)));
     }
-
 }

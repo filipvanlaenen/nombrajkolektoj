@@ -19,7 +19,6 @@ public final class ModifiableSortedShortCollectionTest
      */
     private static final Short SHORT_THREE = (short) 3;
 
-    @Override
     protected ModifiableSortedShortCollection createShortCollection(final Short... numbers) {
         return ModifiableSortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }

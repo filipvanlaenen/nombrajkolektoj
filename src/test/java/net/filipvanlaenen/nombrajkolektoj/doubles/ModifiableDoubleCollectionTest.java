@@ -19,14 +19,35 @@ public final class ModifiableDoubleCollectionTest
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final ModifiableDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final ModifiableDoubleCollection collection012 = ModifiableDoubleCollection.of(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final ModifiableDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final ModifiableDoubleCollection collection123 = ModifiableDoubleCollection.of(1D, 2D, 3D);
 
-    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
-        return ModifiableDoubleCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateADoubleCollection() {
+        assertTrue(new ModifiableDoubleCollection.ArrayCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateADoubleCollection() {
+        assertTrue(new ModifiableDoubleCollection.HashCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateADoubleCollection() {
+        assertTrue(
+                new ModifiableDoubleCollection.LinkedListCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableDoubleCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createDoubleCollection(1D, 2D)
+        assertTrue(ModifiableDoubleCollection.of(1D, 2D)
                 .containsSame(ModifiableDoubleCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableDoubleCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createDoubleCollection(0D, 1D, 2D, 1D, 2D, DOUBLE_THREE)
+        assertTrue(ModifiableDoubleCollection.of(0D, 1D, 2D, 1D, 2D, DOUBLE_THREE)
                 .containsSame(ModifiableDoubleCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableDoubleCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createDoubleCollection(0D, 1D, 2D, DOUBLE_THREE)
+        assertTrue(ModifiableDoubleCollection.of(0D, 1D, 2D, DOUBLE_THREE)
                 .containsSame(ModifiableDoubleCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

@@ -19,14 +19,35 @@ public final class ModifiableShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final ModifiableShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final ModifiableShortCollection collection012 = ModifiableShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final ModifiableShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final ModifiableShortCollection collection123 = ModifiableShortCollection.of((short) 1, (short) 2, (short) 3);
 
-    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
-        return ModifiableShortCollection.of(numbers);
+    /**
+     * Verifies that the constructor of the ArrayCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAShortCollection() {
+        assertTrue(new ModifiableShortCollection.ArrayCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the HashCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfHashCollectionShouldCreateAShortCollection() {
+        assertTrue(new ModifiableShortCollection.HashCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAShortCollection() {
+        assertTrue(
+                new ModifiableShortCollection.LinkedListCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
     }
 
     @Override
@@ -67,7 +88,7 @@ public final class ModifiableShortCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(createShortCollection((short) 1, (short) 2)
+        assertTrue(ModifiableShortCollection.of((short) 1, (short) 2)
                 .containsSame(ModifiableShortCollection.intersectionOf(collection012, collection123)));
     }
 
@@ -108,7 +129,7 @@ public final class ModifiableShortCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE)
+        assertTrue(ModifiableShortCollection.of((short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE)
                 .containsSame(ModifiableShortCollection.unionOf(collection012, collection123)));
     }
 
@@ -117,7 +138,7 @@ public final class ModifiableShortCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertTrue(createShortCollection((short) 0, (short) 1, (short) 2, SHORT_THREE)
+        assertTrue(ModifiableShortCollection.of((short) 0, (short) 1, (short) 2, SHORT_THREE)
                 .containsSame(ModifiableShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123)));
     }
 

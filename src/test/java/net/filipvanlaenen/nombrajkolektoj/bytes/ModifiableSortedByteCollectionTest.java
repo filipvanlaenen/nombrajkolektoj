@@ -19,7 +19,6 @@ public final class ModifiableSortedByteCollectionTest
      */
     private static final Byte BYTE_THREE = (byte) 3;
 
-    @Override
     protected ModifiableSortedByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), numbers);
     }

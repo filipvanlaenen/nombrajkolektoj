@@ -10,14 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCollection<BigDecimal>> {
+public abstract class BigDecimalCollectionDecoratorTestBase<T extends BigDecimalCollection> {
     /**
      * The magic number three.
      */
@@ -25,7 +24,7 @@ public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCol
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final NumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final T collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     /**
      * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.

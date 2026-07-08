@@ -48,7 +48,6 @@ public final class ModifiableOrderedIntegerCollectionTest
                 .of(OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }
 
-    @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
         return ModifiableOrderedIntegerCollection.of(numbers);
     }

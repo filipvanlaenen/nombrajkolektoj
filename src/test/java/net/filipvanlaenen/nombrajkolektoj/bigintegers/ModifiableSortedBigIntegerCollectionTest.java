@@ -21,7 +21,6 @@ public final class ModifiableSortedBigIntegerCollectionTest
      */
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
 
-    @Override
     protected ModifiableSortedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return ModifiableSortedBigIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }

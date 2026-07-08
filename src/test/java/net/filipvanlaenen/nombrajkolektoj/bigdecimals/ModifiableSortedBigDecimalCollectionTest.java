@@ -21,7 +21,6 @@ public final class ModifiableSortedBigDecimalCollectionTest
      */
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
 
-    @Override
     protected ModifiableSortedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return ModifiableSortedBigDecimalCollection.of(Comparator.naturalOrder(), numbers);
     }

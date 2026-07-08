@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollection<Integer>> {
+public abstract class IntegerCollectionDecoratorTestBase<T extends IntegerCollection> {
     /**
      * The magic number three.
      */
@@ -23,7 +22,7 @@ public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollec
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
+    private final T collection123 = createIntegerCollection(1, 2, 3);
 
     /**
      * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.

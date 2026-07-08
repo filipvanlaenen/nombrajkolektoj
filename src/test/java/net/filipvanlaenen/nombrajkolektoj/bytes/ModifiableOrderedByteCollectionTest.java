@@ -48,7 +48,6 @@ public final class ModifiableOrderedByteCollectionTest
                 .of(OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }
 
-    @Override
     protected ModifiableOrderedByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableOrderedByteCollection.of(numbers);
     }

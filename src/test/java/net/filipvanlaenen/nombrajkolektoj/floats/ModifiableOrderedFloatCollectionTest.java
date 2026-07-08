@@ -48,7 +48,6 @@ public final class ModifiableOrderedFloatCollectionTest
                 .of(OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }
 
-    @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final Float... numbers) {
         return ModifiableOrderedFloatCollection.of(numbers);
     }

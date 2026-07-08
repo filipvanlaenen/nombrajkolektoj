@@ -19,7 +19,6 @@ public final class ModifiableSortedLongCollectionTest
      */
     private static final Long LONG_THREE = 3L;
 
-    @Override
     protected ModifiableSortedLongCollection createLongCollection(final Long... numbers) {
         return ModifiableSortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }

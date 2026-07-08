@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.floats;
+package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -11,89 +11,76 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} class.
  */
-public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTestBase<OrderedFloatCollection> {
+public final class OrderedShortCollectionDecoratorTest
+        extends OrderedShortCollectionDecoratorTestBase<OrderedShortCollection> {
     /**
-     * The float three.
+     * The short three.
      */
-    private static final Float FLOAT_THREE = 3F;
+    private static final Short SHORT_THREE = (short) 3;
     /**
-     * The float four.
+     * The short four.
      */
-    private static final Float FLOAT_FOUR = 4F;
+    private static final Short SHORT_FOUR = (short) 4;
     /**
-     * The float six.
+     * The short six.
      */
-    private static final Float FLOAT_SIX = 6F;
+    private static final Short SHORT_SIX = (short) 6;
     /**
-     * Array with the floats zero, one and two.
+     * Array with the shorts zero, one and two.
      */
-    private static final Float[] FLOATS012 = new Float[] {0F, 1F, 2F};
+    private static final Short[] SHORTS012 = new Short[] {(short) 0, (short) 1, (short) 2};
     /**
-     * Array with the floats one, two and three.
+     * Array with the shorts one, two and three.
      */
-    private static final Float[] FLOATS123 = new Float[] {1F, 2F, 3F};
+    private static final Short[] SHORTS123 = new Short[] {(short) 1, (short) 2, (short) 3};
     /**
-     * Collection with the floats 0, 1 and 2.
+     * Collection with the shorts 0, 1 and 2.
      */
-    private final OrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
+    private final OrderedShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
     /**
-     * Collection with the floats 1, 2 and 3.
+     * Collection with the shorts 1, 2 and 3.
      */
-    private final OrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
+    private final OrderedShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
-    protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
-        return OrderedFloatCollection.of(numbers);
+    protected OrderedShortCollection createShortCollection(final Short... numbers) {
+        return OrderedShortCollection.of(numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... numbers) {
-        return OrderedFloatCollection.of(elementCardinality, numbers);
+    protected OrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return OrderedShortCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(elementCardinality,
-                OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
+    protected OrderedShortCollection createEmptyShortCollection() {
+        return OrderedShortCollection.empty();
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+    protected OrderedShortCollection createOrderedShortCollection(final Short... numbers) {
+        return OrderedShortCollection.of(numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final ElementCardinality elementCardinality,
-            final Float... numbers) {
-        return OrderedFloatCollection.of(elementCardinality, numbers);
-    }
-
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source);
-    }
-
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source,
-            final int fromIndex, final int toIndex) {
-        return OrderedFloatCollection.of(source, fromIndex, toIndex);
+    protected OrderedShortCollection createOrderedShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return OrderedShortCollection.of(elementCardinality, numbers);
     }
 
     /**
-     * Verifies that the matrix direct product factory method produces a correct ordered floats collection.
+     * Verifies that the matrix direct product factory method produces a correct ordered shorts collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, 2F, FLOAT_THREE);
-        OrderedFloatCollection actual = OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB);
-        assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE, 2F, FLOAT_FOUR, FLOAT_SIX}, actual.toArray());
+        OrderedShortCollection collectionA = createOrderedShortCollection((short) 1, (short) 2);
+        OrderedShortCollection collectionB = createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE);
+        OrderedShortCollection actual = OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB);
+        assertArrayEquals(new Short[] {(short) 1, (short) 2, SHORT_THREE, (short) 2, SHORT_FOUR, SHORT_SIX}, actual.toArray());
     }
 
     /**
@@ -102,14 +89,14 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, null, FLOAT_THREE);
+        OrderedShortCollection collectionA = createOrderedShortCollection((short) 1, (short) 2);
+        OrderedShortCollection collectionB = createOrderedShortCollection((short) 1, null, SHORT_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedShortCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }
@@ -120,7 +107,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 0);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence((short) 0, n -> n, 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -130,8 +117,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 1);
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedShortCollection actual = OrderedShortCollection.createSequence((short) 0, n -> n, 1);
+        assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
     /**
@@ -140,8 +127,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 2);
-        assertArrayEquals(new Float[] {0F, 0F}, actual.toArray());
+        OrderedShortCollection actual = OrderedShortCollection.createSequence((short) 0, n -> n, 2);
+        assertArrayEquals(new Short[] {(short) 0, (short) 0}, actual.toArray());
     }
 
     /**
@@ -150,7 +137,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, n -> false);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence((short) 0, n -> n, n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -160,9 +147,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(0F, n -> n + 1F, n -> !Objects.equals(n, 1F));
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedShortCollection actual =
+                OrderedShortCollection.createSequence((short) 0, n -> (short) (n + 1), n -> !Objects.equals(n, (short) 1));
+        assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
     /**
@@ -171,9 +158,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(0F, n -> n + 1F, n -> !Objects.equals(n, 2F));
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedShortCollection actual =
+                OrderedShortCollection.createSequence((short) 0, n -> (short) (n + 1), n -> !Objects.equals(n, (short) 2));
+        assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 
     /**
@@ -182,7 +169,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 0);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -192,8 +179,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 1);
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 1);
+        assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
     /**
@@ -202,8 +189,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 2);
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], 2);
+        assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 
     /**
@@ -212,7 +199,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> false);
+        OrderedShortCollection actual = OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -222,9 +209,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 1F));
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedShortCollection actual =
+                OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> !Objects.equals(n, (short) 1));
+        assertArrayEquals(new Short[] {(short) 0}, actual.toArray());
     }
 
     /**
@@ -233,9 +220,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 2F));
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedShortCollection actual =
+                OrderedShortCollection.createSequence(i -> SHORTS012[i], n -> !Objects.equals(n, (short) 2));
+        assertArrayEquals(new Short[] {(short) 0, (short) 1}, actual.toArray());
     }
 
     /**
@@ -243,7 +230,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfNoCollectionsShouldBeEmpty() {
-        assertTrue(OrderedFloatCollection.unionOf().isEmpty());
+        assertTrue(OrderedShortCollection.unionOf().isEmpty());
     }
 
     /**
@@ -251,7 +238,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
-        assertTrue(OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+        assertTrue(OrderedShortCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
     }
 
     /**
@@ -259,7 +246,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfOneCollectionsShouldBeItself() {
-        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(collection123).toArray());
+        assertArrayEquals(SHORTS123, OrderedShortCollection.unionOf(collection123).toArray());
     }
 
     /**
@@ -267,7 +254,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
-        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+        assertArrayEquals(SHORTS123, OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
     }
 
     /**
@@ -275,8 +262,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertArrayEquals(new Float[] {0F, 1F, 2F, 1F, 2F, FLOAT_THREE},
-                OrderedFloatCollection.unionOf(collection012, collection123).toArray());
+        assertArrayEquals(new Short[] {(short) 0, (short) 1, (short) 2, (short) 1, (short) 2, SHORT_THREE},
+                OrderedShortCollection.unionOf(collection012, collection123).toArray());
     }
 
     /**
@@ -284,7 +271,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertArrayEquals(new Float[] {0F, 1F, 2F, FLOAT_THREE},
-                OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
+        assertArrayEquals(new Short[] {(short) 0, (short) 1, (short) 2, SHORT_THREE},
+                OrderedShortCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

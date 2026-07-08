@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * integers and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing integers. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and integers collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Integer. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedIntegerCollection extends OrderedNumericCollection<Integer>, IntegerCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing integers and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedIntegerCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer> decoratedCollection;
+    final class ArrayCollection extends OrderedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Integer> decoratedCollection;
 
         @Override
         OrderedCollection<Integer> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
          * @param numbers The integers of the ordered collection.
          */
         public ArrayCollection(final Integer... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Integer>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
          * @param numbers            The integers of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Integer>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Integer>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param numberOfElements The requested number of elements.
      * @return An ordered integers collection holding a sequence of integers.
      */
-    public static OrderedIntegerCollection createSequence(final Integer firstElement,
+    static OrderedIntegerCollection createSequence(final Integer firstElement,
             final Function<? super Integer, Integer> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      *                       sequence.
      * @return An ordered integers collection holding a sequence of integers.
      */
-    public static OrderedIntegerCollection createSequence(final Integer firstElement,
+    static OrderedIntegerCollection createSequence(final Integer firstElement,
             final Function<? super Integer, Integer> generator, final Predicate<? super Integer> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param numberOfElements The requested number of elements.
      * @return An ordered integers collection holding a sequence of integers.
      */
-    public static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
+    static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      *                       sequence.
      * @return An ordered integers collection holding a sequence of integers.
      */
-    public static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
+    static OrderedIntegerCollection createSequence(final Function<Integer, Integer> generator,
             final Predicate<? super Integer> whileCondition) {
         Integer firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      *
      * @return A new empty ordered integers collection.
      */
-    public static OrderedIntegerCollection empty() {
+    static OrderedIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @return The matrix direct product of the two provided ordered integers collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<Integer> collectionA,
+    static OrderedIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<Integer> collectionA,
             final OrderedNumericCollection<Integer> collectionB) throws IllegalArgumentException {
         ModifiableOrderedIntegerCollection collection = ModifiableOrderedIntegerCollection.empty();
         for (Integer a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param numbers The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified integers.
      */
-    public static OrderedIntegerCollection of(final Integer... numbers) {
+    static OrderedIntegerCollection of(final Integer... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param numbers            The integers for the new ordered integers collection.
      * @return A new ordered integers collection with the specified element cardinality and the integers.
      */
-    public static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
+    static OrderedIntegerCollection of(final ElementCardinality elementCardinality, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @return A new ordered integers collection cloned from the provided ordered integers collection with the specified
      *         element cardinality.
      */
-    public static OrderedIntegerCollection of(final ElementCardinality elementCardinality,
+    static OrderedIntegerCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param collection The original ordered integers collection.
      * @return A new ordered integers collection cloned from the provided ordered integers collection.
      */
-    public static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
+    static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @param toIndex    The index of the first element not to be included in the new ordered integers collection.
      * @return A new ordered integers collection cloned from a range in the provided ordered integers collection.
      */
-    public static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection, final int fromIndex,
+    static OrderedIntegerCollection of(final OrderedNumericCollection<Integer> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedIntegerCollection slice =
                 ModifiableOrderedIntegerCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @return A new ordered integers collection with the specified element cardinality containing all the elements from
      *         the provided ordered integers collections.
      */
-    public static OrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Integer>... collections) {
         ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(elementCardinality);
         for (OrderedNumericCollection<Integer> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      * @return A new ordered integers collection containing all the elements from the provided ordered integers
      *         collections.
      */
-    public static OrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
+    static OrderedIntegerCollection unionOf(final OrderedNumericCollection<Integer>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

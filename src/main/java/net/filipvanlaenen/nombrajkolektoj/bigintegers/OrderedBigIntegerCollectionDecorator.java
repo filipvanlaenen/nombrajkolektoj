@@ -5,8 +5,8 @@ import java.math.BigInteger;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for BigIntegers.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} interface.
  */
 abstract class OrderedBigIntegerCollectionDecorator extends BigIntegerCollectionDecorator implements OrderedBigIntegerCollection {
     @Override

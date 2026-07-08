@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for shorts.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} interface.
  */
 abstract class OrderedShortCollectionDecorator extends ShortCollectionDecorator implements OrderedShortCollection {
     @Override

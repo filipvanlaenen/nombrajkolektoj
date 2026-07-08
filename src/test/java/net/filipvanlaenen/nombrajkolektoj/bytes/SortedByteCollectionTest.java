@@ -26,11 +26,6 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     }
 
     @Override
-    protected SortedByteCollection createOrderedByteCollection(final Byte... numbers) {
-        return SortedByteCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedByteCollection createOrderedByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return SortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

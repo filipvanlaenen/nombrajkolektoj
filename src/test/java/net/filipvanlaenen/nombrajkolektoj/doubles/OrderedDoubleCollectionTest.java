@@ -69,11 +69,6 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(final Double... numbers) {
-        return OrderedDoubleCollection.of(numbers);
-    }
-
-    @Override
     protected OrderedDoubleCollection createOrderedDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return OrderedDoubleCollection.of(elementCardinality, numbers);
@@ -95,8 +90,8 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedDoubleCollection collectionA = createOrderedDoubleCollection(1D, 2D);
-        OrderedDoubleCollection collectionB = createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE);
+        OrderedDoubleCollection collectionA = OrderedDoubleCollection.of(1D, 2D);
+        OrderedDoubleCollection collectionB = OrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE);
         OrderedDoubleCollection actual = OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Double[] {1D, 2D, DOUBLE_THREE, 2D, DOUBLE_FOUR, DOUBLE_SIX}, actual.toArray());
     }
@@ -107,8 +102,8 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedDoubleCollection collectionA = createOrderedDoubleCollection(1D, 2D);
-        OrderedDoubleCollection collectionB = createOrderedDoubleCollection(1D, null, DOUBLE_THREE);
+        OrderedDoubleCollection collectionA = OrderedDoubleCollection.of(1D, 2D);
+        OrderedDoubleCollection collectionB = OrderedDoubleCollection.of(1D, null, DOUBLE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

@@ -42,7 +42,8 @@ public abstract class SortedLongCollectionTestBase<T extends SortedLongCollectio
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(LONG_THREE, createOrderedLongCollection(1L, 2L, LONG_THREE).getGreaterThan(2L));
+        assertEquals(LONG_THREE,
+                createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getGreaterThan(2L));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedLongCollectionTestBase<T extends SortedLongCollectio
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createOrderedLongCollection(1L, 2L, LONG_THREE).getGreaterThanOrEqualTo(2L));
+        assertEquals(2L, createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE)
+                .getGreaterThanOrEqualTo(2L));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedLongCollectionTestBase<T extends SortedLongCollectio
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1L, createOrderedLongCollection(1L, 2L, LONG_THREE).getLessThan(2L));
+        assertEquals(1L, createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getLessThan(2L));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedLongCollectionTestBase<T extends SortedLongCollectio
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createOrderedLongCollection(1L, 2L, LONG_THREE).getLessThanOrEqualTo(2L));
+        assertEquals(2L,
+                createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getLessThanOrEqualTo(2L));
     }
 }

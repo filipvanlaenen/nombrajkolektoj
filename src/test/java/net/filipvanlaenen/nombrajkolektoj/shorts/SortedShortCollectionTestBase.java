@@ -42,7 +42,8 @@ public abstract class SortedShortCollectionTestBase<T extends SortedShortCollect
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(SHORT_THREE, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThan((short) 2));
+        assertEquals(SHORT_THREE,
+                createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE).getGreaterThan((short) 2));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedShortCollectionTestBase<T extends SortedShortCollect
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThanOrEqualTo((short) 2));
+        assertEquals((short) 2, createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE)
+                .getGreaterThanOrEqualTo((short) 2));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedShortCollectionTestBase<T extends SortedShortCollect
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 1, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThan((short) 2));
+        assertEquals((short) 1, createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE).getLessThan((short) 2));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedShortCollectionTestBase<T extends SortedShortCollect
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
+        assertEquals((short) 2,
+                createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
     }
 }

@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for doubles.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} interface.
  */
 abstract class OrderedDoubleCollectionDecorator extends DoubleCollectionDecorator implements OrderedDoubleCollection {
     @Override

@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for BigDecimals.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} interface.
  */
 abstract class OrderedBigDecimalCollectionDecorator extends BigDecimalCollectionDecorator implements OrderedBigDecimalCollection {
     @Override

@@ -26,11 +26,6 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     }
 
     @Override
-    protected SortedDoubleCollection createOrderedDoubleCollection(final Double... numbers) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedDoubleCollection createOrderedDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

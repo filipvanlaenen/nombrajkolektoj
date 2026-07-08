@@ -69,11 +69,6 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     @Override
-    protected OrderedShortCollection createOrderedShortCollection(final Short... numbers) {
-        return OrderedShortCollection.of(numbers);
-    }
-
-    @Override
     protected OrderedShortCollection createOrderedShortCollection(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return OrderedShortCollection.of(elementCardinality, numbers);
@@ -95,8 +90,8 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedShortCollection collectionA = createOrderedShortCollection((short) 1, (short) 2);
-        OrderedShortCollection collectionB = createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE);
+        OrderedShortCollection collectionA = OrderedShortCollection.of((short) 1, (short) 2);
+        OrderedShortCollection collectionB = OrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE);
         OrderedShortCollection actual = OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Short[] {(short) 1, (short) 2, SHORT_THREE, (short) 2, SHORT_FOUR, SHORT_SIX}, actual.toArray());
     }
@@ -107,8 +102,8 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedShortCollection collectionA = createOrderedShortCollection((short) 1, (short) 2);
-        OrderedShortCollection collectionB = createOrderedShortCollection((short) 1, null, SHORT_THREE);
+        OrderedShortCollection collectionA = OrderedShortCollection.of((short) 1, (short) 2);
+        OrderedShortCollection collectionB = OrderedShortCollection.of((short) 1, null, SHORT_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

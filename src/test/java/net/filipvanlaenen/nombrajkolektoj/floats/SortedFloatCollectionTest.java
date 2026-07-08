@@ -26,11 +26,6 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     }
 
     @Override
-    protected SortedFloatCollection createOrderedFloatCollection(final Float... numbers) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedFloatCollection createOrderedFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * bytes and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing bytes. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and bytes collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Byte. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, ByteCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing bytes and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedByteCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte> decoratedCollection;
+    final class ArrayCollection extends OrderedByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Byte> decoratedCollection;
 
         @Override
         OrderedCollection<Byte> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
          * @param numbers The bytes of the ordered collection.
          */
         public ArrayCollection(final Byte... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Byte>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
          * @param numbers            The bytes of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Byte>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Byte>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param numberOfElements The requested number of elements.
      * @return An ordered bytes collection holding a sequence of bytes.
      */
-    public static OrderedByteCollection createSequence(final Byte firstElement,
+    static OrderedByteCollection createSequence(final Byte firstElement,
             final Function<? super Byte, Byte> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      *                       sequence.
      * @return An ordered bytes collection holding a sequence of bytes.
      */
-    public static OrderedByteCollection createSequence(final Byte firstElement,
+    static OrderedByteCollection createSequence(final Byte firstElement,
             final Function<? super Byte, Byte> generator, final Predicate<? super Byte> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param numberOfElements The requested number of elements.
      * @return An ordered bytes collection holding a sequence of bytes.
      */
-    public static OrderedByteCollection createSequence(final Function<Integer, Byte> generator,
+    static OrderedByteCollection createSequence(final Function<Integer, Byte> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      *                       sequence.
      * @return An ordered bytes collection holding a sequence of bytes.
      */
-    public static OrderedByteCollection createSequence(final Function<Integer, Byte> generator,
+    static OrderedByteCollection createSequence(final Function<Integer, Byte> generator,
             final Predicate<? super Byte> whileCondition) {
         Byte firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      *
      * @return A new empty ordered bytes collection.
      */
-    public static OrderedByteCollection empty() {
+    static OrderedByteCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @return The matrix direct product of the two provided ordered bytes collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedByteCollection matrixDirectProductOf(final OrderedNumericCollection<Byte> collectionA,
+    static OrderedByteCollection matrixDirectProductOf(final OrderedNumericCollection<Byte> collectionA,
             final OrderedNumericCollection<Byte> collectionB) throws IllegalArgumentException {
         ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection.empty();
         for (Byte a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param numbers The bytes for the new ordered bytes collection.
      * @return A new ordered bytes collection with the specified bytes.
      */
-    public static OrderedByteCollection of(final Byte... numbers) {
+    static OrderedByteCollection of(final Byte... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param numbers            The bytes for the new ordered bytes collection.
      * @return A new ordered bytes collection with the specified element cardinality and the bytes.
      */
-    public static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
+    static OrderedByteCollection of(final ElementCardinality elementCardinality, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @return A new ordered bytes collection cloned from the provided ordered bytes collection with the specified
      *         element cardinality.
      */
-    public static OrderedByteCollection of(final ElementCardinality elementCardinality,
+    static OrderedByteCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param collection The original ordered bytes collection.
      * @return A new ordered bytes collection cloned from the provided ordered bytes collection.
      */
-    public static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
+    static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @param toIndex    The index of the first element not to be included in the new ordered bytes collection.
      * @return A new ordered bytes collection cloned from a range in the provided ordered bytes collection.
      */
-    public static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection, final int fromIndex,
+    static OrderedByteCollection of(final OrderedNumericCollection<Byte> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedByteCollection slice =
                 ModifiableOrderedByteCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @return A new ordered bytes collection with the specified element cardinality containing all the elements from
      *         the provided ordered bytes collections.
      */
-    public static OrderedByteCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedByteCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Byte>... collections) {
         ModifiableOrderedByteCollection result = ModifiableOrderedByteCollection.of(elementCardinality);
         for (OrderedNumericCollection<Byte> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedByteCollection extends OrderedNumericCollection<Byte>, B
      * @return A new ordered bytes collection containing all the elements from the provided ordered bytes
      *         collections.
      */
-    public static OrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
+    static OrderedByteCollection unionOf(final OrderedNumericCollection<Byte>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

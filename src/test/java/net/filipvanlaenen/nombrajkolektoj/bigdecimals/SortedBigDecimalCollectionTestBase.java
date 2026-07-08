@@ -44,7 +44,8 @@ public abstract class SortedBigDecimalCollectionTestBase<T extends SortedBigDeci
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BIG_DECIMAL_THREE, createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getGreaterThan(BigDecimal.valueOf(2L)));
+        assertEquals(BIG_DECIMAL_THREE,
+                createSortedBigDecimalCollection(Comparator.naturalOrder(), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getGreaterThan(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -52,7 +53,8 @@ public abstract class SortedBigDecimalCollectionTestBase<T extends SortedBigDeci
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigDecimal.valueOf(2L), createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getGreaterThanOrEqualTo(BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L), createSortedBigDecimalCollection(Comparator.naturalOrder(), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE)
+                .getGreaterThanOrEqualTo(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -60,7 +62,7 @@ public abstract class SortedBigDecimalCollectionTestBase<T extends SortedBigDeci
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigDecimal.ONE, createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThan(BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.ONE, createSortedBigDecimalCollection(Comparator.naturalOrder(), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThan(BigDecimal.valueOf(2L)));
     }
 
     /**
@@ -68,6 +70,7 @@ public abstract class SortedBigDecimalCollectionTestBase<T extends SortedBigDeci
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigDecimal.valueOf(2L), createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThanOrEqualTo(BigDecimal.valueOf(2L)));
+        assertEquals(BigDecimal.valueOf(2L),
+                createSortedBigDecimalCollection(Comparator.naturalOrder(), BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).getLessThanOrEqualTo(BigDecimal.valueOf(2L)));
     }
 }

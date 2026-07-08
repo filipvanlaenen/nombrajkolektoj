@@ -11,12 +11,12 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
  */
-public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTestBase<OrderedFloatCollection> {
+public final class OrderedFloatCollectionDecoratorTest
+        extends OrderedFloatCollectionDecoratorTestBase<OrderedFloatCollection> {
     /**
      * The float three.
      */
@@ -57,15 +57,13 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(elementCardinality,
-                OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
+    protected OrderedFloatCollection createEmptyFloatCollection() {
+        return OrderedFloatCollection.empty();
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+    protected OrderedFloatCollection createOrderedFloatCollection(final Float... numbers) {
+        return OrderedFloatCollection.of(numbers);
     }
 
     @Override
@@ -74,24 +72,13 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
         return OrderedFloatCollection.of(elementCardinality, numbers);
     }
 
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source);
-    }
-
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source,
-            final int fromIndex, final int toIndex) {
-        return OrderedFloatCollection.of(source, fromIndex, toIndex);
-    }
-
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered floats collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, 2F, FLOAT_THREE);
+        OrderedFloatCollection collectionA = createOrderedFloatCollection(1F, 2F);
+        OrderedFloatCollection collectionB = createOrderedFloatCollection(1F, 2F, FLOAT_THREE);
         OrderedFloatCollection actual = OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE, 2F, FLOAT_FOUR, FLOAT_SIX}, actual.toArray());
     }
@@ -102,8 +89,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, null, FLOAT_THREE);
+        OrderedFloatCollection collectionA = createOrderedFloatCollection(1F, 2F);
+        OrderedFloatCollection collectionB = createOrderedFloatCollection(1F, null, FLOAT_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

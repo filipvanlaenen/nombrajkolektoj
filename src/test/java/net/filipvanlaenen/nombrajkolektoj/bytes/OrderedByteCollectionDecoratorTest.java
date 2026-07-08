@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.floats;
+package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -11,89 +11,76 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
  */
-public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTestBase<OrderedFloatCollection> {
+public final class OrderedByteCollectionDecoratorTest
+        extends OrderedByteCollectionDecoratorTestBase<OrderedByteCollection> {
     /**
-     * The float three.
+     * The byte three.
      */
-    private static final Float FLOAT_THREE = 3F;
+    private static final Byte BYTE_THREE = (byte) 3;
     /**
-     * The float four.
+     * The byte four.
      */
-    private static final Float FLOAT_FOUR = 4F;
+    private static final Byte BYTE_FOUR = (byte) 4;
     /**
-     * The float six.
+     * The byte six.
      */
-    private static final Float FLOAT_SIX = 6F;
+    private static final Byte BYTE_SIX = (byte) 6;
     /**
-     * Array with the floats zero, one and two.
+     * Array with the bytes zero, one and two.
      */
-    private static final Float[] FLOATS012 = new Float[] {0F, 1F, 2F};
+    private static final Byte[] BYTES012 = new Byte[] {(byte) 0, (byte) 1, (byte) 2};
     /**
-     * Array with the floats one, two and three.
+     * Array with the bytes one, two and three.
      */
-    private static final Float[] FLOATS123 = new Float[] {1F, 2F, 3F};
+    private static final Byte[] BYTES123 = new Byte[] {(byte) 1, (byte) 2, (byte) 3};
     /**
-     * Collection with the floats 0, 1 and 2.
+     * Collection with the bytes 0, 1 and 2.
      */
-    private final OrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
+    private final OrderedByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
     /**
-     * Collection with the floats 1, 2 and 3.
+     * Collection with the bytes 1, 2 and 3.
      */
-    private final OrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
+    private final OrderedByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
-    protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
-        return OrderedFloatCollection.of(numbers);
+    protected OrderedByteCollection createByteCollection(final Byte... numbers) {
+        return OrderedByteCollection.of(numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... numbers) {
-        return OrderedFloatCollection.of(elementCardinality, numbers);
+    protected OrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return OrderedByteCollection.of(elementCardinality, numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(elementCardinality,
-                OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
+    protected OrderedByteCollection createEmptyByteCollection() {
+        return OrderedByteCollection.empty();
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
+    protected OrderedByteCollection createOrderedByteCollection(final Byte... numbers) {
+        return OrderedByteCollection.of(numbers);
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final ElementCardinality elementCardinality,
-            final Float... numbers) {
-        return OrderedFloatCollection.of(elementCardinality, numbers);
-    }
-
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source) {
-        return OrderedFloatCollection.of(source);
-    }
-
-    @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source,
-            final int fromIndex, final int toIndex) {
-        return OrderedFloatCollection.of(source, fromIndex, toIndex);
+    protected OrderedByteCollection createOrderedByteCollection(final ElementCardinality elementCardinality,
+            final Byte... numbers) {
+        return OrderedByteCollection.of(elementCardinality, numbers);
     }
 
     /**
-     * Verifies that the matrix direct product factory method produces a correct ordered floats collection.
+     * Verifies that the matrix direct product factory method produces a correct ordered bytes collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, 2F, FLOAT_THREE);
-        OrderedFloatCollection actual = OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB);
-        assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE, 2F, FLOAT_FOUR, FLOAT_SIX}, actual.toArray());
+        OrderedByteCollection collectionA = createOrderedByteCollection((byte) 1, (byte) 2);
+        OrderedByteCollection collectionB = createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE);
+        OrderedByteCollection actual = OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB);
+        assertArrayEquals(new Byte[] {(byte) 1, (byte) 2, BYTE_THREE, (byte) 2, BYTE_FOUR, BYTE_SIX}, actual.toArray());
     }
 
     /**
@@ -102,14 +89,14 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, null, FLOAT_THREE);
+        OrderedByteCollection collectionA = createOrderedByteCollection((byte) 1, (byte) 2);
+        OrderedByteCollection collectionB = createOrderedByteCollection((byte) 1, null, BYTE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedByteCollection.matrixDirectProductOf(collectionB, collectionA));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }
@@ -120,7 +107,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 0);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -130,8 +117,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 1);
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, 1);
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
     /**
@@ -140,8 +127,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, 2);
-        assertArrayEquals(new Float[] {0F, 0F}, actual.toArray());
+        OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, 2);
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 0}, actual.toArray());
     }
 
     /**
@@ -150,7 +137,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(0F, n -> n, n -> false);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence((byte) 0, n -> n, n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -160,9 +147,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(0F, n -> n + 1F, n -> !Objects.equals(n, 1F));
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence((byte) 0, n -> (byte) (n + 1), n -> !Objects.equals(n, (byte) 1));
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
     /**
@@ -171,9 +158,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithWhileConditionShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(0F, n -> n + 1F, n -> !Objects.equals(n, 2F));
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence((byte) 0, n -> (byte) (n + 1), n -> !Objects.equals(n, (byte) 2));
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 
     /**
@@ -182,7 +169,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceAnEmptyCollectionWhenTheNumberOfElementsIsLessThanOne() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 0);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 0);
         assertTrue(actual.isEmpty());
     }
 
@@ -192,8 +179,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 1);
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 1);
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
     /**
@@ -202,8 +189,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithIndexShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], 2);
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], 2);
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 
     /**
@@ -212,7 +199,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionIndexShouldProduceAnEmptyCollection() {
-        OrderedFloatCollection actual = OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> false);
+        OrderedByteCollection actual = OrderedByteCollection.createSequence(i -> BYTES012[i], n -> false);
         assertTrue(actual.isEmpty());
     }
 
@@ -222,9 +209,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithOneElement() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 1F));
-        assertArrayEquals(new Float[] {0F}, actual.toArray());
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence(i -> BYTES012[i], n -> !Objects.equals(n, (byte) 1));
+        assertArrayEquals(new Byte[] {(byte) 0}, actual.toArray());
     }
 
     /**
@@ -233,9 +220,9 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void createSequenceWithGeneratorAndWhileConditionShouldProduceACollectionWithTwoElements() {
-        OrderedFloatCollection actual =
-                OrderedFloatCollection.createSequence(i -> FLOATS012[i], n -> !Objects.equals(n, 2F));
-        assertArrayEquals(new Float[] {0F, 1F}, actual.toArray());
+        OrderedByteCollection actual =
+                OrderedByteCollection.createSequence(i -> BYTES012[i], n -> !Objects.equals(n, (byte) 2));
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1}, actual.toArray());
     }
 
     /**
@@ -243,7 +230,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfNoCollectionsShouldBeEmpty() {
-        assertTrue(OrderedFloatCollection.unionOf().isEmpty());
+        assertTrue(OrderedByteCollection.unionOf().isEmpty());
     }
 
     /**
@@ -251,7 +238,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfNoCollectionsWithElementCardinalityShouldBeEmpty() {
-        assertTrue(OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
+        assertTrue(OrderedByteCollection.unionOf(DISTINCT_ELEMENTS).isEmpty());
     }
 
     /**
@@ -259,7 +246,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfOneCollectionsShouldBeItself() {
-        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(collection123).toArray());
+        assertArrayEquals(BYTES123, OrderedByteCollection.unionOf(collection123).toArray());
     }
 
     /**
@@ -267,7 +254,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfOneCollectionsWithElementCardinalityShouldBeItself() {
-        assertArrayEquals(FLOATS123, OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
+        assertArrayEquals(BYTES123, OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection123).toArray());
     }
 
     /**
@@ -275,8 +262,8 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsShouldContainAllElements() {
-        assertArrayEquals(new Float[] {0F, 1F, 2F, 1F, 2F, FLOAT_THREE},
-                OrderedFloatCollection.unionOf(collection012, collection123).toArray());
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1, (byte) 2, (byte) 1, (byte) 2, BYTE_THREE},
+                OrderedByteCollection.unionOf(collection012, collection123).toArray());
     }
 
     /**
@@ -284,7 +271,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void unionOfTwoCollectionsWithElementCardinalityShouldContainAllDistinctElements() {
-        assertArrayEquals(new Float[] {0F, 1F, 2F, FLOAT_THREE},
-                OrderedFloatCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
+        assertArrayEquals(new Byte[] {(byte) 0, (byte) 1, (byte) 2, BYTE_THREE},
+                OrderedByteCollection.unionOf(DISTINCT_ELEMENTS, collection012, collection123).toArray());
     }
 }

@@ -26,11 +26,6 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createOrderedShortCollection(final Short... numbers) {
-        return SortedShortCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedShortCollection createOrderedShortCollection(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

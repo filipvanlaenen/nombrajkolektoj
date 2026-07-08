@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * doubles and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing doubles. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and doubles collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Double. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedDoubleCollection extends OrderedNumericCollection<Double>, DoubleCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing doubles and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedDoubleCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double> decoratedCollection;
+    final class ArrayCollection extends OrderedDoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Double> decoratedCollection;
 
         @Override
         OrderedCollection<Double> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
          * @param numbers The doubles of the ordered collection.
          */
         public ArrayCollection(final Double... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Double>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
          * @param numbers            The doubles of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Double... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Double>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Double>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param numberOfElements The requested number of elements.
      * @return An ordered doubles collection holding a sequence of doubles.
      */
-    public static OrderedDoubleCollection createSequence(final Double firstElement,
+    static OrderedDoubleCollection createSequence(final Double firstElement,
             final Function<? super Double, Double> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      *                       sequence.
      * @return An ordered doubles collection holding a sequence of doubles.
      */
-    public static OrderedDoubleCollection createSequence(final Double firstElement,
+    static OrderedDoubleCollection createSequence(final Double firstElement,
             final Function<? super Double, Double> generator, final Predicate<? super Double> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param numberOfElements The requested number of elements.
      * @return An ordered doubles collection holding a sequence of doubles.
      */
-    public static OrderedDoubleCollection createSequence(final Function<Integer, Double> generator,
+    static OrderedDoubleCollection createSequence(final Function<Integer, Double> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      *                       sequence.
      * @return An ordered doubles collection holding a sequence of doubles.
      */
-    public static OrderedDoubleCollection createSequence(final Function<Integer, Double> generator,
+    static OrderedDoubleCollection createSequence(final Function<Integer, Double> generator,
             final Predicate<? super Double> whileCondition) {
         Double firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      *
      * @return A new empty ordered doubles collection.
      */
-    public static OrderedDoubleCollection empty() {
+    static OrderedDoubleCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @return The matrix direct product of the two provided ordered doubles collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedDoubleCollection matrixDirectProductOf(final OrderedNumericCollection<Double> collectionA,
+    static OrderedDoubleCollection matrixDirectProductOf(final OrderedNumericCollection<Double> collectionA,
             final OrderedNumericCollection<Double> collectionB) throws IllegalArgumentException {
         ModifiableOrderedDoubleCollection collection = ModifiableOrderedDoubleCollection.empty();
         for (Double a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param numbers The doubles for the new ordered doubles collection.
      * @return A new ordered doubles collection with the specified doubles.
      */
-    public static OrderedDoubleCollection of(final Double... numbers) {
+    static OrderedDoubleCollection of(final Double... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param numbers            The doubles for the new ordered doubles collection.
      * @return A new ordered doubles collection with the specified element cardinality and the doubles.
      */
-    public static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
+    static OrderedDoubleCollection of(final ElementCardinality elementCardinality, final Double... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @return A new ordered doubles collection cloned from the provided ordered doubles collection with the specified
      *         element cardinality.
      */
-    public static OrderedDoubleCollection of(final ElementCardinality elementCardinality,
+    static OrderedDoubleCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Double> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param collection The original ordered doubles collection.
      * @return A new ordered doubles collection cloned from the provided ordered doubles collection.
      */
-    public static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection) {
+    static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @param toIndex    The index of the first element not to be included in the new ordered doubles collection.
      * @return A new ordered doubles collection cloned from a range in the provided ordered doubles collection.
      */
-    public static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection, final int fromIndex,
+    static OrderedDoubleCollection of(final OrderedNumericCollection<Double> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedDoubleCollection slice =
                 ModifiableOrderedDoubleCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @return A new ordered doubles collection with the specified element cardinality containing all the elements from
      *         the provided ordered doubles collections.
      */
-    public static OrderedDoubleCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedDoubleCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Double>... collections) {
         ModifiableOrderedDoubleCollection result = ModifiableOrderedDoubleCollection.of(elementCardinality);
         for (OrderedNumericCollection<Double> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      * @return A new ordered doubles collection containing all the elements from the provided ordered doubles
      *         collections.
      */
-    public static OrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
+    static OrderedDoubleCollection unionOf(final OrderedNumericCollection<Double>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

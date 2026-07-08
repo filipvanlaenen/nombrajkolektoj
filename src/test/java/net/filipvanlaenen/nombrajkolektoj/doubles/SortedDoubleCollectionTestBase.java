@@ -42,7 +42,8 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(DOUBLE_THREE, createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE).getGreaterThan(2D));
+        assertEquals(DOUBLE_THREE,
+                createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getGreaterThan(2D));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE).getGreaterThanOrEqualTo(2D));
+        assertEquals(2D, createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE)
+                .getGreaterThanOrEqualTo(2D));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1D, createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE).getLessThan(2D));
+        assertEquals(1D, createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getLessThan(2D));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createOrderedDoubleCollection(1D, 2D, DOUBLE_THREE).getLessThanOrEqualTo(2D));
+        assertEquals(2D,
+                createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getLessThanOrEqualTo(2D));
     }
 }

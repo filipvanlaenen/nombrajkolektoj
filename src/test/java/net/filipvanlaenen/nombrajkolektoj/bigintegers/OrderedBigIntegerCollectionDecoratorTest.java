@@ -13,12 +13,12 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} class.
  */
-public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerCollectionTestBase<OrderedBigIntegerCollection> {
+public final class OrderedBigIntegerCollectionDecoratorTest
+        extends OrderedBigIntegerCollectionDecoratorTestBase<OrderedBigIntegerCollection> {
     /**
      * The BigInteger three.
      */
@@ -59,15 +59,13 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final OrderedBigIntegerCollection source) {
-        return OrderedBigIntegerCollection.of(elementCardinality,
-                OrderedBigIntegerCollection.of(source.toArray(EmptyArrays.BIG_INTEGERS)));
+    protected OrderedBigIntegerCollection createEmptyBigIntegerCollection() {
+        return OrderedBigIntegerCollection.empty();
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final OrderedBigIntegerCollection source) {
-        return OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final BigInteger... numbers) {
+        return OrderedBigIntegerCollection.of(numbers);
     }
 
     @Override
@@ -76,24 +74,13 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
         return OrderedBigIntegerCollection.of(elementCardinality, numbers);
     }
 
-    @Override
-    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedBigIntegerCollection source) {
-        return OrderedBigIntegerCollection.of(source);
-    }
-
-    @Override
-    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedBigIntegerCollection source,
-            final int fromIndex, final int toIndex) {
-        return OrderedBigIntegerCollection.of(source, fromIndex, toIndex);
-    }
-
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigIntegers collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedBigIntegerCollection collectionA = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO);
-        OrderedBigIntegerCollection collectionB = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        OrderedBigIntegerCollection collectionA = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
+        OrderedBigIntegerCollection collectionB = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
         OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BigInteger.TWO, BIG_INTEGER_FOUR, BIG_INTEGER_SIX}, actual.toArray());
     }
@@ -104,8 +91,8 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedBigIntegerCollection collectionA = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO);
-        OrderedBigIntegerCollection collectionB = OrderedBigIntegerCollection.of(BigInteger.ONE, null, BIG_INTEGER_THREE);
+        OrderedBigIntegerCollection collectionA = createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
+        OrderedBigIntegerCollection collectionB = createOrderedBigIntegerCollection(BigInteger.ONE, null, BIG_INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

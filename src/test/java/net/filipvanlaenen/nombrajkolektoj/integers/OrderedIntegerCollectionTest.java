@@ -69,11 +69,6 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createOrderedIntegerCollection(final Integer... numbers) {
-        return OrderedIntegerCollection.of(numbers);
-    }
-
-    @Override
     protected OrderedIntegerCollection createOrderedIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return OrderedIntegerCollection.of(elementCardinality, numbers);
@@ -95,8 +90,8 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedIntegerCollection collectionA = createOrderedIntegerCollection(1, 2);
-        OrderedIntegerCollection collectionB = createOrderedIntegerCollection(1, 2, INTEGER_THREE);
+        OrderedIntegerCollection collectionA = OrderedIntegerCollection.of(1, 2);
+        OrderedIntegerCollection collectionB = OrderedIntegerCollection.of(1, 2, INTEGER_THREE);
         OrderedIntegerCollection actual = OrderedIntegerCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Integer[] {1, 2, INTEGER_THREE, 2, INTEGER_FOUR, INTEGER_SIX}, actual.toArray());
     }
@@ -107,8 +102,8 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedIntegerCollection collectionA = createOrderedIntegerCollection(1, 2);
-        OrderedIntegerCollection collectionB = createOrderedIntegerCollection(1, null, INTEGER_THREE);
+        OrderedIntegerCollection collectionA = OrderedIntegerCollection.of(1, 2);
+        OrderedIntegerCollection collectionB = OrderedIntegerCollection.of(1, null, INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedIntegerCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

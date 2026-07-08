@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * shorts and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing shorts. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and shorts collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Short. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedShortCollection extends OrderedNumericCollection<Short>, ShortCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing shorts and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedShortCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short> decoratedCollection;
+    final class ArrayCollection extends OrderedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Short> decoratedCollection;
 
         @Override
         OrderedCollection<Short> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
          * @param numbers The shorts of the ordered collection.
          */
         public ArrayCollection(final Short... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Short>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
          * @param numbers            The shorts of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Short... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Short>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Short>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param numberOfElements The requested number of elements.
      * @return An ordered shorts collection holding a sequence of shorts.
      */
-    public static OrderedShortCollection createSequence(final Short firstElement,
+    static OrderedShortCollection createSequence(final Short firstElement,
             final Function<? super Short, Short> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      *                       sequence.
      * @return An ordered shorts collection holding a sequence of shorts.
      */
-    public static OrderedShortCollection createSequence(final Short firstElement,
+    static OrderedShortCollection createSequence(final Short firstElement,
             final Function<? super Short, Short> generator, final Predicate<? super Short> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param numberOfElements The requested number of elements.
      * @return An ordered shorts collection holding a sequence of shorts.
      */
-    public static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
+    static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      *                       sequence.
      * @return An ordered shorts collection holding a sequence of shorts.
      */
-    public static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
+    static OrderedShortCollection createSequence(final Function<Integer, Short> generator,
             final Predicate<? super Short> whileCondition) {
         Short firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      *
      * @return A new empty ordered shorts collection.
      */
-    public static OrderedShortCollection empty() {
+    static OrderedShortCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @return The matrix direct product of the two provided ordered shorts collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedShortCollection matrixDirectProductOf(final OrderedNumericCollection<Short> collectionA,
+    static OrderedShortCollection matrixDirectProductOf(final OrderedNumericCollection<Short> collectionA,
             final OrderedNumericCollection<Short> collectionB) throws IllegalArgumentException {
         ModifiableOrderedShortCollection collection = ModifiableOrderedShortCollection.empty();
         for (Short a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param numbers The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified shorts.
      */
-    public static OrderedShortCollection of(final Short... numbers) {
+    static OrderedShortCollection of(final Short... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param numbers            The shorts for the new ordered shorts collection.
      * @return A new ordered shorts collection with the specified element cardinality and the shorts.
      */
-    public static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
+    static OrderedShortCollection of(final ElementCardinality elementCardinality, final Short... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @return A new ordered shorts collection cloned from the provided ordered shorts collection with the specified
      *         element cardinality.
      */
-    public static OrderedShortCollection of(final ElementCardinality elementCardinality,
+    static OrderedShortCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param collection The original ordered shorts collection.
      * @return A new ordered shorts collection cloned from the provided ordered shorts collection.
      */
-    public static OrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
+    static OrderedShortCollection of(final OrderedNumericCollection<Short> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @param toIndex    The index of the first element not to be included in the new ordered shorts collection.
      * @return A new ordered shorts collection cloned from a range in the provided ordered shorts collection.
      */
-    public static OrderedShortCollection of(final OrderedNumericCollection<Short> collection, final int fromIndex,
+    static OrderedShortCollection of(final OrderedNumericCollection<Short> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedShortCollection slice =
                 ModifiableOrderedShortCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @return A new ordered shorts collection with the specified element cardinality containing all the elements from
      *         the provided ordered shorts collections.
      */
-    public static OrderedShortCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedShortCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Short>... collections) {
         ModifiableOrderedShortCollection result = ModifiableOrderedShortCollection.of(elementCardinality);
         for (OrderedNumericCollection<Short> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
      * @return A new ordered shorts collection containing all the elements from the provided ordered shorts
      *         collections.
      */
-    public static OrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
+    static OrderedShortCollection unionOf(final OrderedNumericCollection<Short>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

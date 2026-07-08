@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * floats and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing floats. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and floats collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Float. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedFloatCollection extends OrderedNumericCollection<Float>, FloatCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing floats and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedFloatCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float> decoratedCollection;
+    final class ArrayCollection extends OrderedFloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Float> decoratedCollection;
 
         @Override
         OrderedCollection<Float> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
          * @param numbers The floats of the ordered collection.
          */
         public ArrayCollection(final Float... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Float>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
          * @param numbers            The floats of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Float... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Float>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Float>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param numberOfElements The requested number of elements.
      * @return An ordered floats collection holding a sequence of floats.
      */
-    public static OrderedFloatCollection createSequence(final Float firstElement,
+    static OrderedFloatCollection createSequence(final Float firstElement,
             final Function<? super Float, Float> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      *                       sequence.
      * @return An ordered floats collection holding a sequence of floats.
      */
-    public static OrderedFloatCollection createSequence(final Float firstElement,
+    static OrderedFloatCollection createSequence(final Float firstElement,
             final Function<? super Float, Float> generator, final Predicate<? super Float> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param numberOfElements The requested number of elements.
      * @return An ordered floats collection holding a sequence of floats.
      */
-    public static OrderedFloatCollection createSequence(final Function<Integer, Float> generator,
+    static OrderedFloatCollection createSequence(final Function<Integer, Float> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      *                       sequence.
      * @return An ordered floats collection holding a sequence of floats.
      */
-    public static OrderedFloatCollection createSequence(final Function<Integer, Float> generator,
+    static OrderedFloatCollection createSequence(final Function<Integer, Float> generator,
             final Predicate<? super Float> whileCondition) {
         Float firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      *
      * @return A new empty ordered floats collection.
      */
-    public static OrderedFloatCollection empty() {
+    static OrderedFloatCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @return The matrix direct product of the two provided ordered floats collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedFloatCollection matrixDirectProductOf(final OrderedNumericCollection<Float> collectionA,
+    static OrderedFloatCollection matrixDirectProductOf(final OrderedNumericCollection<Float> collectionA,
             final OrderedNumericCollection<Float> collectionB) throws IllegalArgumentException {
         ModifiableOrderedFloatCollection collection = ModifiableOrderedFloatCollection.empty();
         for (Float a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param numbers The floats for the new ordered floats collection.
      * @return A new ordered floats collection with the specified floats.
      */
-    public static OrderedFloatCollection of(final Float... numbers) {
+    static OrderedFloatCollection of(final Float... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param numbers            The floats for the new ordered floats collection.
      * @return A new ordered floats collection with the specified element cardinality and the floats.
      */
-    public static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
+    static OrderedFloatCollection of(final ElementCardinality elementCardinality, final Float... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @return A new ordered floats collection cloned from the provided ordered floats collection with the specified
      *         element cardinality.
      */
-    public static OrderedFloatCollection of(final ElementCardinality elementCardinality,
+    static OrderedFloatCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param collection The original ordered floats collection.
      * @return A new ordered floats collection cloned from the provided ordered floats collection.
      */
-    public static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
+    static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @param toIndex    The index of the first element not to be included in the new ordered floats collection.
      * @return A new ordered floats collection cloned from a range in the provided ordered floats collection.
      */
-    public static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection, final int fromIndex,
+    static OrderedFloatCollection of(final OrderedNumericCollection<Float> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedFloatCollection slice =
                 ModifiableOrderedFloatCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @return A new ordered floats collection with the specified element cardinality containing all the elements from
      *         the provided ordered floats collections.
      */
-    public static OrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Float>... collections) {
         ModifiableOrderedFloatCollection result = ModifiableOrderedFloatCollection.of(elementCardinality);
         for (OrderedNumericCollection<Float> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedFloatCollection extends OrderedNumericCollection<Float>,
      * @return A new ordered floats collection containing all the elements from the provided ordered floats
      *         collections.
      */
-    public static OrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
+    static OrderedFloatCollection unionOf(final OrderedNumericCollection<Float>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

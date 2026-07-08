@@ -13,12 +13,12 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} class.
  */
-public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalCollectionTestBase<OrderedBigDecimalCollection> {
+public final class OrderedBigDecimalCollectionDecoratorTest
+        extends OrderedBigDecimalCollectionDecoratorTestBase<OrderedBigDecimalCollection> {
     /**
      * The BigDecimal three.
      */
@@ -59,15 +59,13 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     @Override
-    protected OrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final OrderedBigDecimalCollection source) {
-        return OrderedBigDecimalCollection.of(elementCardinality,
-                OrderedBigDecimalCollection.of(source.toArray(EmptyArrays.BIG_DECIMALS)));
+    protected OrderedBigDecimalCollection createEmptyBigDecimalCollection() {
+        return OrderedBigDecimalCollection.empty();
     }
 
     @Override
-    protected OrderedBigDecimalCollection createBigDecimalCollection(final OrderedBigDecimalCollection source) {
-        return OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
+    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final BigDecimal... numbers) {
+        return OrderedBigDecimalCollection.of(numbers);
     }
 
     @Override
@@ -76,24 +74,13 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
         return OrderedBigDecimalCollection.of(elementCardinality, numbers);
     }
 
-    @Override
-    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedBigDecimalCollection source) {
-        return OrderedBigDecimalCollection.of(source);
-    }
-
-    @Override
-    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedBigDecimalCollection source,
-            final int fromIndex, final int toIndex) {
-        return OrderedBigDecimalCollection.of(source, fromIndex, toIndex);
-    }
-
     /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigDecimals collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedBigDecimalCollection collectionA = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
-        OrderedBigDecimalCollection collectionB = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
+        OrderedBigDecimalCollection collectionA = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
+        OrderedBigDecimalCollection collectionB = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
         OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX}, actual.toArray());
     }
@@ -104,8 +91,8 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedBigDecimalCollection collectionA = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
-        OrderedBigDecimalCollection collectionB = OrderedBigDecimalCollection.of(BigDecimal.ONE, null, BIG_DECIMAL_THREE);
+        OrderedBigDecimalCollection collectionA = createOrderedBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
+        OrderedBigDecimalCollection collectionB = createOrderedBigDecimalCollection(BigDecimal.ONE, null, BIG_DECIMAL_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

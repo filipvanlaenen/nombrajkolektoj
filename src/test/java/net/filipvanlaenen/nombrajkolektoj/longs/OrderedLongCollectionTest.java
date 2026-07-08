@@ -69,11 +69,6 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createOrderedLongCollection(final Long... numbers) {
-        return OrderedLongCollection.of(numbers);
-    }
-
-    @Override
     protected OrderedLongCollection createOrderedLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return OrderedLongCollection.of(elementCardinality, numbers);
@@ -95,8 +90,8 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedLongCollection collectionA = createOrderedLongCollection(1L, 2L);
-        OrderedLongCollection collectionB = createOrderedLongCollection(1L, 2L, LONG_THREE);
+        OrderedLongCollection collectionA = OrderedLongCollection.of(1L, 2L);
+        OrderedLongCollection collectionB = OrderedLongCollection.of(1L, 2L, LONG_THREE);
         OrderedLongCollection actual = OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Long[] {1L, 2L, LONG_THREE, 2L, LONG_FOUR, LONG_SIX}, actual.toArray());
     }
@@ -107,8 +102,8 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedLongCollection collectionA = createOrderedLongCollection(1L, 2L);
-        OrderedLongCollection collectionB = createOrderedLongCollection(1L, null, LONG_THREE);
+        OrderedLongCollection collectionA = OrderedLongCollection.of(1L, 2L);
+        OrderedLongCollection collectionB = OrderedLongCollection.of(1L, null, LONG_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

@@ -1,7 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,14 +31,6 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedByteCollect
     /**
      * Creates an ordered bytes collection containing the provided bytes.
      *
-     * @param numbers The bytes to be included in the ordered bytes collection.
-     * @return An ordered bytes collection containing the provided bytes.
-     */
-    protected abstract T createOrderedByteCollection(Byte... numbers);
-
-    /**
-     * Creates an ordered bytes collection containing the provided bytes.
-     *
      * @param source The bytes to be included in the ordered bytes collection.
      * @return An ordered bytes collection containing the provided bytes.
      */
@@ -63,38 +54,6 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedByteCollect
      * @return An ordered bytes collection containing the provided bytes.
      */
     protected abstract T createOrderedByteCollection(ElementCardinality elementCardinality, Byte... numbers);
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createOrderedByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).firstIndexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).indexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createOrderedByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
-    }
 
     /**
      * Verifies that an ordered bytes collection created from another ordered collection has the same element

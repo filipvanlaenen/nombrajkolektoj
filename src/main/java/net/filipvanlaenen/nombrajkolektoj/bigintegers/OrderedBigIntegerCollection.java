@@ -7,19 +7,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * BigIntegers and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing BigIntegers. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and BigIntegers collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to BigInteger. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedBigIntegerCollection extends OrderedNumericCollection<BigInteger>, BigIntegerCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing BigIntegers and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedBigIntegerCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<BigInteger> decoratedCollection;
+    final class ArrayCollection extends OrderedBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<BigInteger> decoratedCollection;
 
         @Override
         OrderedCollection<BigInteger> getDecoratedCollection() {
@@ -33,7 +44,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
          * @param numbers The BigIntegers of the ordered collection.
          */
         public ArrayCollection(final BigInteger... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<BigInteger>(numbers);
+            decoratedCollection = new OrderedArrayCollection<BigInteger>(numbers);
         }
 
         /**
@@ -43,8 +54,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
          * @param numbers            The BigIntegers of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<BigInteger>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<BigInteger>(elementCardinality, numbers);
         }
 
         /**
@@ -78,7 +88,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param numberOfElements The requested number of elements.
      * @return An ordered BigIntegers collection holding a sequence of BigIntegers.
      */
-    public static OrderedBigIntegerCollection createSequence(final BigInteger firstElement,
+    static OrderedBigIntegerCollection createSequence(final BigInteger firstElement,
             final Function<? super BigInteger, BigInteger> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -102,7 +112,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      *                       sequence.
      * @return An ordered BigIntegers collection holding a sequence of BigIntegers.
      */
-    public static OrderedBigIntegerCollection createSequence(final BigInteger firstElement,
+    static OrderedBigIntegerCollection createSequence(final BigInteger firstElement,
             final Function<? super BigInteger, BigInteger> generator, final Predicate<? super BigInteger> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -124,7 +134,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param numberOfElements The requested number of elements.
      * @return An ordered BigIntegers collection holding a sequence of BigIntegers.
      */
-    public static OrderedBigIntegerCollection createSequence(final Function<Integer, BigInteger> generator,
+    static OrderedBigIntegerCollection createSequence(final Function<Integer, BigInteger> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -145,7 +155,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      *                       sequence.
      * @return An ordered BigIntegers collection holding a sequence of BigIntegers.
      */
-    public static OrderedBigIntegerCollection createSequence(final Function<Integer, BigInteger> generator,
+    static OrderedBigIntegerCollection createSequence(final Function<Integer, BigInteger> generator,
             final Predicate<? super BigInteger> whileCondition) {
         BigInteger firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -166,7 +176,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      *
      * @return A new empty ordered BigIntegers collection.
      */
-    public static OrderedBigIntegerCollection empty() {
+    static OrderedBigIntegerCollection empty() {
         return new ArrayCollection();
     }
 
@@ -178,7 +188,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @return The matrix direct product of the two provided ordered BigIntegers collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedBigIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<BigInteger> collectionA,
+    static OrderedBigIntegerCollection matrixDirectProductOf(final OrderedNumericCollection<BigInteger> collectionA,
             final OrderedNumericCollection<BigInteger> collectionB) throws IllegalArgumentException {
         ModifiableOrderedBigIntegerCollection collection = ModifiableOrderedBigIntegerCollection.empty();
         for (BigInteger a : collectionA) {
@@ -203,7 +213,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param numbers The BigIntegers for the new ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection with the specified BigIntegers.
      */
-    public static OrderedBigIntegerCollection of(final BigInteger... numbers) {
+    static OrderedBigIntegerCollection of(final BigInteger... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -214,7 +224,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param numbers            The BigIntegers for the new ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+    static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -227,7 +237,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @return A new ordered BigIntegers collection cloned from the provided ordered BigIntegers collection with the specified
      *         element cardinality.
      */
-    public static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
+    static OrderedBigIntegerCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -238,7 +248,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param collection The original ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection cloned from the provided ordered BigIntegers collection.
      */
-    public static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection) {
+    static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -250,7 +260,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @param toIndex    The index of the first element not to be included in the new ordered BigIntegers collection.
      * @return A new ordered BigIntegers collection cloned from a range in the provided ordered BigIntegers collection.
      */
-    public static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection, final int fromIndex,
+    static OrderedBigIntegerCollection of(final OrderedNumericCollection<BigInteger> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedBigIntegerCollection slice =
                 ModifiableOrderedBigIntegerCollection.of(collection.getElementCardinality());
@@ -269,7 +279,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @return A new ordered BigIntegers collection with the specified element cardinality containing all the elements from
      *         the provided ordered BigIntegers collections.
      */
-    public static OrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigInteger>... collections) {
         ModifiableOrderedBigIntegerCollection result = ModifiableOrderedBigIntegerCollection.of(elementCardinality);
         for (OrderedNumericCollection<BigInteger> collection : collections) {
@@ -286,7 +296,7 @@ public interface OrderedBigIntegerCollection extends OrderedNumericCollection<Bi
      * @return A new ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers
      *         collections.
      */
-    public static OrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
+    static OrderedBigIntegerCollection unionOf(final OrderedNumericCollection<BigInteger>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

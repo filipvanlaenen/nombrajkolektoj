@@ -5,19 +5,30 @@ import java.util.function.Predicate;
 
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
+import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface for
- * longs and containing inner classes with concrete implementations.
+ * An ordered numeric collection containing longs. It doesn't support any new functionality in addition to the
+ * functionality of ordered collections in general and longs collections but has an extra factory method for the
+ * matrix direct product.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
+ * binding the type parameter to Long. It contains one nested class implementing this interface, backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
+ * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedLongCollection extends OrderedNumericCollection<Long>, LongCollection {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.OrderedCollection}
-     * interface.
+     * An ordered numeric collection containing longs and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}.
      */
-    public static final class ArrayCollection extends OrderedLongCollectionDecorator {
-        private net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long> decoratedCollection;
+    final class ArrayCollection extends OrderedLongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedArrayCollection<Long> decoratedCollection;
 
         @Override
         OrderedCollection<Long> getDecoratedCollection() {
@@ -31,7 +42,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
          * @param numbers The longs of the ordered collection.
          */
         public ArrayCollection(final Long... numbers) {
-            decoratedCollection = new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(numbers);
+            decoratedCollection = new OrderedArrayCollection<Long>(numbers);
         }
 
         /**
@@ -41,8 +52,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
          * @param numbers            The longs of the ordered collection.
          */
         public ArrayCollection(final ElementCardinality elementCardinality, final Long... numbers) {
-            decoratedCollection =
-                    new net.filipvanlaenen.kolektoj.array.OrderedArrayCollection<Long>(elementCardinality, numbers);
+            decoratedCollection = new OrderedArrayCollection<Long>(elementCardinality, numbers);
         }
 
         /**
@@ -76,7 +86,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param numberOfElements The requested number of elements.
      * @return An ordered longs collection holding a sequence of longs.
      */
-    public static OrderedLongCollection createSequence(final Long firstElement,
+    static OrderedLongCollection createSequence(final Long firstElement,
             final Function<? super Long, Long> generator, final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -100,7 +110,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      *                       sequence.
      * @return An ordered longs collection holding a sequence of longs.
      */
-    public static OrderedLongCollection createSequence(final Long firstElement,
+    static OrderedLongCollection createSequence(final Long firstElement,
             final Function<? super Long, Long> generator, final Predicate<? super Long> whileCondition) {
         if (!whileCondition.test(firstElement)) {
             return empty();
@@ -122,7 +132,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param numberOfElements The requested number of elements.
      * @return An ordered longs collection holding a sequence of longs.
      */
-    public static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
+    static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
             final int numberOfElements) {
         if (numberOfElements < 1) {
             return empty();
@@ -143,7 +153,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      *                       sequence.
      * @return An ordered longs collection holding a sequence of longs.
      */
-    public static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
+    static OrderedLongCollection createSequence(final Function<Integer, Long> generator,
             final Predicate<? super Long> whileCondition) {
         Long firstElement = generator.apply(0);
         if (!whileCondition.test(firstElement)) {
@@ -164,7 +174,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      *
      * @return A new empty ordered longs collection.
      */
-    public static OrderedLongCollection empty() {
+    static OrderedLongCollection empty() {
         return new ArrayCollection();
     }
 
@@ -176,7 +186,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @return The matrix direct product of the two provided ordered longs collections.
      * @throws IllegalArgumentException Thrown if one of the collections contains <code>null</code>.
      */
-    public static OrderedLongCollection matrixDirectProductOf(final OrderedNumericCollection<Long> collectionA,
+    static OrderedLongCollection matrixDirectProductOf(final OrderedNumericCollection<Long> collectionA,
             final OrderedNumericCollection<Long> collectionB) throws IllegalArgumentException {
         ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection.empty();
         for (Long a : collectionA) {
@@ -201,7 +211,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param numbers The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified longs.
      */
-    public static OrderedLongCollection of(final Long... numbers) {
+    static OrderedLongCollection of(final Long... numbers) {
         return new ArrayCollection(numbers);
     }
 
@@ -212,7 +222,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param numbers            The longs for the new ordered longs collection.
      * @return A new ordered longs collection with the specified element cardinality and the longs.
      */
-    public static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
+    static OrderedLongCollection of(final ElementCardinality elementCardinality, final Long... numbers) {
         return new ArrayCollection(elementCardinality, numbers);
     }
 
@@ -225,7 +235,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @return A new ordered longs collection cloned from the provided ordered longs collection with the specified
      *         element cardinality.
      */
-    public static OrderedLongCollection of(final ElementCardinality elementCardinality,
+    static OrderedLongCollection of(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Long> collection) {
         return new ArrayCollection(elementCardinality, collection);
     }
@@ -236,7 +246,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param collection The original ordered longs collection.
      * @return A new ordered longs collection cloned from the provided ordered longs collection.
      */
-    public static OrderedLongCollection of(final OrderedNumericCollection<Long> collection) {
+    static OrderedLongCollection of(final OrderedNumericCollection<Long> collection) {
         return new ArrayCollection(collection);
     }
 
@@ -248,7 +258,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @param toIndex    The index of the first element not to be included in the new ordered longs collection.
      * @return A new ordered longs collection cloned from a range in the provided ordered longs collection.
      */
-    public static OrderedLongCollection of(final OrderedNumericCollection<Long> collection, final int fromIndex,
+    static OrderedLongCollection of(final OrderedNumericCollection<Long> collection, final int fromIndex,
             final int toIndex) {
         ModifiableOrderedLongCollection slice =
                 ModifiableOrderedLongCollection.of(collection.getElementCardinality());
@@ -267,7 +277,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @return A new ordered longs collection with the specified element cardinality containing all the elements from
      *         the provided ordered longs collections.
      */
-    public static OrderedLongCollection unionOf(final ElementCardinality elementCardinality,
+    static OrderedLongCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Long>... collections) {
         ModifiableOrderedLongCollection result = ModifiableOrderedLongCollection.of(elementCardinality);
         for (OrderedNumericCollection<Long> collection : collections) {
@@ -284,7 +294,7 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      * @return A new ordered longs collection containing all the elements from the provided ordered longs
      *         collections.
      */
-    public static OrderedLongCollection unionOf(final OrderedNumericCollection<Long>... collections) {
+    static OrderedLongCollection unionOf(final OrderedNumericCollection<Long>... collections) {
         return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

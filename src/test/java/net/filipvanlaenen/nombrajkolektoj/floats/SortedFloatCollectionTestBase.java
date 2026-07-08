@@ -42,7 +42,8 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedFloatCollect
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(FLOAT_THREE, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getGreaterThan(2F));
+        assertEquals(FLOAT_THREE,
+                createSortedFloatCollection(Comparator.naturalOrder(), 1F, 2F, FLOAT_THREE).getGreaterThan(2F));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedFloatCollect
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getGreaterThanOrEqualTo(2F));
+        assertEquals(2F, createSortedFloatCollection(Comparator.naturalOrder(), 1F, 2F, FLOAT_THREE)
+                .getGreaterThanOrEqualTo(2F));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedFloatCollect
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getLessThan(2F));
+        assertEquals(1F, createSortedFloatCollection(Comparator.naturalOrder(), 1F, 2F, FLOAT_THREE).getLessThan(2F));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedFloatCollectionTestBase<T extends SortedFloatCollect
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2F, createOrderedFloatCollection(1F, 2F, FLOAT_THREE).getLessThanOrEqualTo(2F));
+        assertEquals(2F,
+                createSortedFloatCollection(Comparator.naturalOrder(), 1F, 2F, FLOAT_THREE).getLessThanOrEqualTo(2F));
     }
 }

@@ -44,7 +44,8 @@ public abstract class SortedBigIntegerCollectionTestBase<T extends SortedBigInte
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BIG_INTEGER_THREE, createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getGreaterThan(BigInteger.TWO));
+        assertEquals(BIG_INTEGER_THREE,
+                createSortedBigIntegerCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getGreaterThan(BigInteger.TWO));
     }
 
     /**
@@ -52,7 +53,8 @@ public abstract class SortedBigIntegerCollectionTestBase<T extends SortedBigInte
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getGreaterThanOrEqualTo(BigInteger.TWO));
+        assertEquals(BigInteger.TWO, createSortedBigIntegerCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE)
+                .getGreaterThanOrEqualTo(BigInteger.TWO));
     }
 
     /**
@@ -60,7 +62,7 @@ public abstract class SortedBigIntegerCollectionTestBase<T extends SortedBigInte
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.ONE, createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThan(BigInteger.TWO));
+        assertEquals(BigInteger.ONE, createSortedBigIntegerCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThan(BigInteger.TWO));
     }
 
     /**
@@ -68,6 +70,7 @@ public abstract class SortedBigIntegerCollectionTestBase<T extends SortedBigInte
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createOrderedBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThanOrEqualTo(BigInteger.TWO));
+        assertEquals(BigInteger.TWO,
+                createSortedBigIntegerCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThanOrEqualTo(BigInteger.TWO));
     }
 }

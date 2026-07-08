@@ -28,11 +28,6 @@ public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollec
     }
 
     @Override
-    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final BigDecimal... numbers) {
-        return SortedBigDecimalCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return SortedBigDecimalCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

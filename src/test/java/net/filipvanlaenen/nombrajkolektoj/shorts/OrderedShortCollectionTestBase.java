@@ -1,7 +1,6 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,14 +31,6 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedShortColle
     /**
      * Creates an ordered shorts collection containing the provided shorts.
      *
-     * @param numbers The shorts to be included in the ordered shorts collection.
-     * @return An ordered shorts collection containing the provided shorts.
-     */
-    protected abstract T createOrderedShortCollection(Short... numbers);
-
-    /**
-     * Creates an ordered shorts collection containing the provided shorts.
-     *
      * @param source The shorts to be included in the ordered shorts collection.
      * @return An ordered shorts collection containing the provided shorts.
      */
@@ -63,38 +54,6 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedShortColle
      * @return An ordered shorts collection containing the provided shorts.
      */
     protected abstract T createOrderedShortCollection(ElementCardinality elementCardinality, Short... numbers);
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createOrderedShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).firstIndexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createOrderedShortCollection((short) 1, (short) 2, SHORT_THREE).indexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createOrderedShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
-    }
 
     /**
      * Verifies that an ordered shorts collection created from another ordered collection has the same element

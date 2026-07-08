@@ -69,11 +69,6 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createOrderedByteCollection(final Byte... numbers) {
-        return OrderedByteCollection.of(numbers);
-    }
-
-    @Override
     protected OrderedByteCollection createOrderedByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return OrderedByteCollection.of(elementCardinality, numbers);
@@ -95,8 +90,8 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedByteCollection collectionA = createOrderedByteCollection((byte) 1, (byte) 2);
-        OrderedByteCollection collectionB = createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE);
+        OrderedByteCollection collectionA = OrderedByteCollection.of((byte) 1, (byte) 2);
+        OrderedByteCollection collectionB = OrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE);
         OrderedByteCollection actual = OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB);
         assertArrayEquals(new Byte[] {(byte) 1, (byte) 2, BYTE_THREE, (byte) 2, BYTE_FOUR, BYTE_SIX}, actual.toArray());
     }
@@ -107,8 +102,8 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedByteCollection collectionA = createOrderedByteCollection((byte) 1, (byte) 2);
-        OrderedByteCollection collectionB = createOrderedByteCollection((byte) 1, null, BYTE_THREE);
+        OrderedByteCollection collectionA = OrderedByteCollection.of((byte) 1, (byte) 2);
+        OrderedByteCollection collectionB = OrderedByteCollection.of((byte) 1, null, BYTE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",

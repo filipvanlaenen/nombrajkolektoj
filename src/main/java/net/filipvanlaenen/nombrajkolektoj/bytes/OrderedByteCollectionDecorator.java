@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for bytes.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} interface.
  */
 abstract class OrderedByteCollectionDecorator extends ByteCollectionDecorator implements OrderedByteCollection {
     @Override

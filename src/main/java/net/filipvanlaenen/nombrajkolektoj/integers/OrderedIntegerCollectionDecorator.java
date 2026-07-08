@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for integers.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} interface.
  */
 abstract class OrderedIntegerCollectionDecorator extends IntegerCollectionDecorator implements OrderedIntegerCollection {
     @Override

@@ -42,7 +42,8 @@ public abstract class SortedByteCollectionTestBase<T extends SortedByteCollectio
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BYTE_THREE, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).getGreaterThan((byte) 2));
+        assertEquals(BYTE_THREE,
+                createSortedByteCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE).getGreaterThan((byte) 2));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedByteCollectionTestBase<T extends SortedByteCollectio
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).getGreaterThanOrEqualTo((byte) 2));
+        assertEquals((byte) 2, createSortedByteCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE)
+                .getGreaterThanOrEqualTo((byte) 2));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedByteCollectionTestBase<T extends SortedByteCollectio
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 1, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).getLessThan((byte) 2));
+        assertEquals((byte) 1, createSortedByteCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE).getLessThan((byte) 2));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedByteCollectionTestBase<T extends SortedByteCollectio
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createOrderedByteCollection((byte) 1, (byte) 2, BYTE_THREE).getLessThanOrEqualTo((byte) 2));
+        assertEquals((byte) 2,
+                createSortedByteCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE).getLessThanOrEqualTo((byte) 2));
     }
 }

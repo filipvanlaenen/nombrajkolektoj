@@ -3,8 +3,8 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * An abstract class implementing the methods defined in the
- * {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} for longs.
+ * An abstract decorator class providing implementations for the methods defined in the
+ * {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} interface.
  */
 abstract class OrderedLongCollectionDecorator extends LongCollectionDecorator implements OrderedLongCollection {
     @Override

@@ -42,7 +42,8 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedIntegerCol
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(INTEGER_THREE, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getGreaterThan(2));
+        assertEquals(INTEGER_THREE,
+                createSortedIntegerCollection(Comparator.naturalOrder(), 1, 2, INTEGER_THREE).getGreaterThan(2));
     }
 
     /**
@@ -50,7 +51,8 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedIntegerCol
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getGreaterThanOrEqualTo(2));
+        assertEquals(2, createSortedIntegerCollection(Comparator.naturalOrder(), 1, 2, INTEGER_THREE)
+                .getGreaterThanOrEqualTo(2));
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedIntegerCol
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getLessThan(2));
+        assertEquals(1, createSortedIntegerCollection(Comparator.naturalOrder(), 1, 2, INTEGER_THREE).getLessThan(2));
     }
 
     /**
@@ -66,6 +68,7 @@ public abstract class SortedIntegerCollectionTestBase<T extends SortedIntegerCol
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createOrderedIntegerCollection(1, 2, INTEGER_THREE).getLessThanOrEqualTo(2));
+        assertEquals(2,
+                createSortedIntegerCollection(Comparator.naturalOrder(), 1, 2, INTEGER_THREE).getLessThanOrEqualTo(2));
     }
 }

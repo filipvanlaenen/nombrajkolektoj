@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -34,39 +33,12 @@ public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCol
     protected abstract T createEmptyBigDecimalCollection();
 
     /**
-     * Creates a BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The BigDecimals to be included in the BigDecimals collection.
-     * @return A BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
-     */
-    protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality, BigDecimal... numbers);
-
-    /**
-     * Creates a BigDecimals collection from a collection of BigDecimals with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of BigDecimals.
-     * @return A BigDecimals collection containing the provided BigDecimals with the provided element cardinality.
-     */
-    protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality,
-            NumericCollection<BigDecimal> source);
-
-    /**
      * Creates a BigDecimals collection containing the provided BigDecimals.
      *
      * @param numbers The BigDecimals to be included in the BigDecimals collection.
      * @return An BigDecimals collection containing the provided BigDecimals.
      */
     protected abstract T createBigDecimalCollection(BigDecimal... numbers);
-
-    /**
-     * Creates a BigDecimals collection from a collection of BigDecimals.
-     *
-     * @param source The collection of BigDecimals.
-     * @return A BigDecimals collection containing the provided BigDecimals.
-     */
-    protected abstract T createBigDecimalCollection(NumericCollection<BigDecimal> source);
 
     /**
      * Verifies that an empty BigDecimals collection is empty.

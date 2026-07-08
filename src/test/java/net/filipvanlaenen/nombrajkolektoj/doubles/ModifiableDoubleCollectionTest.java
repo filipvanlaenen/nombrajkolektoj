@@ -26,12 +26,6 @@ public final class ModifiableDoubleCollectionTest
      */
     private final NumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
 
-    @Override
-    protected ModifiableDoubleCollection createEmptyDoubleCollection() {
-        return ModifiableDoubleCollection.empty();
-    }
-
-    @Override
     protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
         return ModifiableDoubleCollection.of(numbers);
     }

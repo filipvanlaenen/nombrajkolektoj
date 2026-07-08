@@ -21,13 +21,6 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
     private static final Float FLOAT_THREE = 3F;
 
     /**
-     * Creates an empty floats collection.
-     *
-     * @return An empty floats collection.
-     */
-    protected abstract T createEmptyFloatCollection();
-
-    /**
      * Creates a floats collection with the provided element cardinality containing the provided floats.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class FloatCollectionTestBase<T extends NumericCollection<Float>
      */
     protected abstract T createFloatCollection(ElementCardinality elementCardinality,
             NumericCollection<Float> source);
-
-    /**
-     * Creates a floats collection containing the provided floats.
-     *
-     * @param numbers The floats to be included in the floats collection.
-     * @return An floats collection containing the provided floats.
-     */
-    protected abstract T createFloatCollection(Float... numbers);
 
     /**
      * Creates a floats collection from a collection of floats.

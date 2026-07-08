@@ -42,16 +42,6 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     }
 
     @Override
-    protected DoubleCollection createEmptyDoubleCollection() {
-        return DoubleCollection.empty();
-    }
-
-    @Override
-    protected DoubleCollection createDoubleCollection(final Double... numbers) {
-        return DoubleCollection.of(numbers);
-    }
-
-    @Override
     protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return DoubleCollection.of(elementCardinality, numbers);

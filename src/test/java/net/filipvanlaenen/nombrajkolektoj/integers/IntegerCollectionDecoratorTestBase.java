@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollec
     protected abstract T createEmptyIntegerCollection();
 
     /**
-     * Creates a integers collection with the provided element cardinality containing the provided integers.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The integers to be included in the integers collection.
-     * @return A integers collection with the provided element cardinality containing the provided integers.
-     */
-    protected abstract T createIntegerCollection(ElementCardinality elementCardinality, Integer... numbers);
-
-    /**
-     * Creates a integers collection from a collection of integers with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of integers.
-     * @return A integers collection containing the provided integers with the provided element cardinality.
-     */
-    protected abstract T createIntegerCollection(ElementCardinality elementCardinality,
-            NumericCollection<Integer> source);
-
-    /**
      * Creates a integers collection containing the provided integers.
      *
      * @param numbers The integers to be included in the integers collection.
      * @return An integers collection containing the provided integers.
      */
     protected abstract T createIntegerCollection(Integer... numbers);
-
-    /**
-     * Creates a integers collection from a collection of integers.
-     *
-     * @param source The collection of integers.
-     * @return A integers collection containing the provided integers.
-     */
-    protected abstract T createIntegerCollection(NumericCollection<Integer> source);
 
     /**
      * Verifies that an empty integers collection is empty.

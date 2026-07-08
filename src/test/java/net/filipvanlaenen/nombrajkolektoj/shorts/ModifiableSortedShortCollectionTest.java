@@ -42,11 +42,6 @@ public final class ModifiableSortedShortCollectionTest
         return ModifiableSortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedShortCollection createEmptyShortCollection() {
-        return ModifiableSortedShortCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted shorts collection containing the provided shorts.
      *

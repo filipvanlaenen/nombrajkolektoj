@@ -21,13 +21,6 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
     private static final Long LONG_THREE = 3L;
 
     /**
-     * Creates an empty longs collection.
-     *
-     * @return An empty longs collection.
-     */
-    protected abstract T createEmptyLongCollection();
-
-    /**
      * Creates a longs collection with the provided element cardinality containing the provided longs.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class LongCollectionTestBase<T extends NumericCollection<Long>> 
      */
     protected abstract T createLongCollection(ElementCardinality elementCardinality,
             NumericCollection<Long> source);
-
-    /**
-     * Creates a longs collection containing the provided longs.
-     *
-     * @param numbers The longs to be included in the longs collection.
-     * @return An longs collection containing the provided longs.
-     */
-    protected abstract T createLongCollection(Long... numbers);
 
     /**
      * Creates a longs collection from a collection of longs.

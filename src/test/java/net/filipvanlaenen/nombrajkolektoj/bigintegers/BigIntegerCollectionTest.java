@@ -44,16 +44,6 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     }
 
     @Override
-    protected BigIntegerCollection createEmptyBigIntegerCollection() {
-        return BigIntegerCollection.empty();
-    }
-
-    @Override
-    protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
-        return BigIntegerCollection.of(numbers);
-    }
-
-    @Override
     protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
             final BigInteger... numbers) {
         return BigIntegerCollection.of(elementCardinality, numbers);

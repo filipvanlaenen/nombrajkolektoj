@@ -68,11 +68,6 @@ public final class ModifiableOrderedBigIntegerCollectionTest
                 OrderedBigIntegerCollection.of(source.toArray(EmptyArrays.BIG_INTEGERS)));
     }
 
-    @Override
-    protected ModifiableOrderedBigIntegerCollection createEmptyBigIntegerCollection() {
-        return ModifiableOrderedBigIntegerCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

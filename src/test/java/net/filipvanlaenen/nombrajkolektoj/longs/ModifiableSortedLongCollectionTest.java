@@ -42,11 +42,6 @@ public final class ModifiableSortedLongCollectionTest
         return ModifiableSortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedLongCollection createEmptyLongCollection() {
-        return ModifiableSortedLongCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted longs collection containing the provided longs.
      *

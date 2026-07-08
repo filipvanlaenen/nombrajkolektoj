@@ -23,13 +23,6 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
     private static final BigDecimal BIG_DECIMAL_THREE = BigDecimal.valueOf(3L);
 
     /**
-     * Creates an empty BigDecimals collection.
-     *
-     * @return An empty BigDecimals collection.
-     */
-    protected abstract T createEmptyBigDecimalCollection();
-
-    /**
      * Creates a BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
      *
      * @param elementCardinality The element cardinality.
@@ -47,14 +40,6 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      */
     protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality,
             NumericCollection<BigDecimal> source);
-
-    /**
-     * Creates a BigDecimals collection containing the provided BigDecimals.
-     *
-     * @param numbers The BigDecimals to be included in the BigDecimals collection.
-     * @return An BigDecimals collection containing the provided BigDecimals.
-     */
-    protected abstract T createBigDecimalCollection(BigDecimal... numbers);
 
     /**
      * Creates a BigDecimals collection from a collection of BigDecimals.

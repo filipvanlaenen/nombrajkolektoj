@@ -66,11 +66,6 @@ public final class ModifiableOrderedLongCollectionTest
                 OrderedLongCollection.of(source.toArray(EmptyArrays.LONGS)));
     }
 
-    @Override
-    protected ModifiableOrderedLongCollection createEmptyLongCollection() {
-        return ModifiableOrderedLongCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

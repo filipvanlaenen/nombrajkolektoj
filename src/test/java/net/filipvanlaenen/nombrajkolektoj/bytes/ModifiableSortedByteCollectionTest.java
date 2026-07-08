@@ -42,11 +42,6 @@ public final class ModifiableSortedByteCollectionTest
         return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedByteCollection createEmptyByteCollection() {
-        return ModifiableSortedByteCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted bytes collection containing the provided bytes.
      *

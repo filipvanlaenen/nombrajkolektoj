@@ -11,16 +11,6 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  */
 public final class SortedLongCollectionTest extends SortedLongCollectionTestBase<SortedLongCollection> {
     @Override
-    protected SortedLongCollection createEmptyLongCollection() {
-        return SortedLongCollection.empty(Comparator.naturalOrder());
-    }
-
-    @Override
-    protected SortedLongCollection createLongCollection(final Long... numbers) {
-        return SortedLongCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

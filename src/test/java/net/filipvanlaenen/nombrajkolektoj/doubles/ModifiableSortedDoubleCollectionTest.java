@@ -42,11 +42,6 @@ public final class ModifiableSortedDoubleCollectionTest
         return ModifiableSortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedDoubleCollection createEmptyDoubleCollection() {
-        return ModifiableSortedDoubleCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted doubles collection containing the provided doubles.
      *

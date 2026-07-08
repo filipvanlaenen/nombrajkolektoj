@@ -66,11 +66,6 @@ public final class ModifiableOrderedDoubleCollectionTest
                 OrderedDoubleCollection.of(source.toArray(EmptyArrays.DOUBLES)));
     }
 
-    @Override
-    protected ModifiableOrderedDoubleCollection createEmptyDoubleCollection() {
-        return ModifiableOrderedDoubleCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

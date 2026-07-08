@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class DoubleCollectionDecoratorTestBase<T extends NumericCollect
     protected abstract T createEmptyDoubleCollection();
 
     /**
-     * Creates a doubles collection with the provided element cardinality containing the provided doubles.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The doubles to be included in the doubles collection.
-     * @return A doubles collection with the provided element cardinality containing the provided doubles.
-     */
-    protected abstract T createDoubleCollection(ElementCardinality elementCardinality, Double... numbers);
-
-    /**
-     * Creates a doubles collection from a collection of doubles with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of doubles.
-     * @return A doubles collection containing the provided doubles with the provided element cardinality.
-     */
-    protected abstract T createDoubleCollection(ElementCardinality elementCardinality,
-            NumericCollection<Double> source);
-
-    /**
      * Creates a doubles collection containing the provided doubles.
      *
      * @param numbers The doubles to be included in the doubles collection.
      * @return An doubles collection containing the provided doubles.
      */
     protected abstract T createDoubleCollection(Double... numbers);
-
-    /**
-     * Creates a doubles collection from a collection of doubles.
-     *
-     * @param source The collection of doubles.
-     * @return A doubles collection containing the provided doubles.
-     */
-    protected abstract T createDoubleCollection(NumericCollection<Double> source);
 
     /**
      * Verifies that an empty doubles collection is empty.

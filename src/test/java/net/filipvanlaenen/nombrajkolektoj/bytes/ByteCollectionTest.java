@@ -42,16 +42,6 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     }
 
     @Override
-    protected ByteCollection createEmptyByteCollection() {
-        return ByteCollection.empty();
-    }
-
-    @Override
-    protected ByteCollection createByteCollection(final Byte... numbers) {
-        return ByteCollection.of(numbers);
-    }
-
-    @Override
     protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return ByteCollection.of(elementCardinality, numbers);

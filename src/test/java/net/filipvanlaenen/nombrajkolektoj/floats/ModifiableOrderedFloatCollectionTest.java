@@ -66,11 +66,6 @@ public final class ModifiableOrderedFloatCollectionTest
                 OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
     }
 
-    @Override
-    protected ModifiableOrderedFloatCollection createEmptyFloatCollection() {
-        return ModifiableOrderedFloatCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

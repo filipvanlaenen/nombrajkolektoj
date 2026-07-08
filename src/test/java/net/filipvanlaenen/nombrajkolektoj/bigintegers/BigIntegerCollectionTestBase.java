@@ -23,13 +23,6 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
 
     /**
-     * Creates an empty BigIntegers collection.
-     *
-     * @return An empty BigIntegers collection.
-     */
-    protected abstract T createEmptyBigIntegerCollection();
-
-    /**
      * Creates a BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
      *
      * @param elementCardinality The element cardinality.
@@ -47,14 +40,6 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      */
     protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality,
             NumericCollection<BigInteger> source);
-
-    /**
-     * Creates a BigIntegers collection containing the provided BigIntegers.
-     *
-     * @param numbers The BigIntegers to be included in the BigIntegers collection.
-     * @return An BigIntegers collection containing the provided BigIntegers.
-     */
-    protected abstract T createBigIntegerCollection(BigInteger... numbers);
 
     /**
      * Creates a BigIntegers collection from a collection of BigIntegers.

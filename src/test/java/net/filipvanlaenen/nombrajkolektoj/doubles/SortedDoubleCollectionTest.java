@@ -11,16 +11,6 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  */
 public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTestBase<SortedDoubleCollection> {
     @Override
-    protected SortedDoubleCollection createEmptyDoubleCollection() {
-        return SortedDoubleCollection.empty(Comparator.naturalOrder());
-    }
-
-    @Override
-    protected SortedDoubleCollection createDoubleCollection(final Double... numbers) {
-        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

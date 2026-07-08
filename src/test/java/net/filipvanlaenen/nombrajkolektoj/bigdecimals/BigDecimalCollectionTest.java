@@ -44,16 +44,6 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     }
 
     @Override
-    protected BigDecimalCollection createEmptyBigDecimalCollection() {
-        return BigDecimalCollection.empty();
-    }
-
-    @Override
-    protected BigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
-        return BigDecimalCollection.of(numbers);
-    }
-
-    @Override
     protected BigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return BigDecimalCollection.of(elementCardinality, numbers);

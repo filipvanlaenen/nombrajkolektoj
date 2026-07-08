@@ -26,12 +26,6 @@ public final class ModifiableLongCollectionTest
      */
     private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
 
-    @Override
-    protected ModifiableLongCollection createEmptyLongCollection() {
-        return ModifiableLongCollection.empty();
-    }
-
-    @Override
     protected ModifiableLongCollection createLongCollection(final Long... numbers) {
         return ModifiableLongCollection.of(numbers);
     }

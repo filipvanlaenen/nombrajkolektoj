@@ -66,11 +66,6 @@ public final class ModifiableOrderedByteCollectionTest
                 OrderedByteCollection.of(source.toArray(EmptyArrays.BYTES)));
     }
 
-    @Override
-    protected ModifiableOrderedByteCollection createEmptyByteCollection() {
-        return ModifiableOrderedByteCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

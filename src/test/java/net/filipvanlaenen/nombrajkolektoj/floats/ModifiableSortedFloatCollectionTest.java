@@ -42,11 +42,6 @@ public final class ModifiableSortedFloatCollectionTest
         return ModifiableSortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedFloatCollection createEmptyFloatCollection() {
-        return ModifiableSortedFloatCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted floats collection containing the provided floats.
      *

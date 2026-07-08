@@ -68,11 +68,6 @@ public final class ModifiableOrderedBigDecimalCollectionTest
                 OrderedBigDecimalCollection.of(source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 
-    @Override
-    protected ModifiableOrderedBigDecimalCollection createEmptyBigDecimalCollection() {
-        return ModifiableOrderedBigDecimalCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

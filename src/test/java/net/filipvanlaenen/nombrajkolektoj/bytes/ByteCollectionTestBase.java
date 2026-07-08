@@ -21,13 +21,6 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
     private static final Byte BYTE_THREE = (byte) 3;
 
     /**
-     * Creates an empty bytes collection.
-     *
-     * @return An empty bytes collection.
-     */
-    protected abstract T createEmptyByteCollection();
-
-    /**
      * Creates a bytes collection with the provided element cardinality containing the provided bytes.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      */
     protected abstract T createByteCollection(ElementCardinality elementCardinality,
             NumericCollection<Byte> source);
-
-    /**
-     * Creates a bytes collection containing the provided bytes.
-     *
-     * @param numbers The bytes to be included in the bytes collection.
-     * @return An bytes collection containing the provided bytes.
-     */
-    protected abstract T createByteCollection(Byte... numbers);
 
     /**
      * Creates a bytes collection from a collection of bytes.

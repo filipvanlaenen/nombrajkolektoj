@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableShortCollectionTestBase<T extends ModifiableNumericCollection<Short>>
         extends ShortCollectionTestBase<T> {
     /**
+     * Creates a shorts collection containing the provided shorts.
+     *
+     * @param numbers The shorts to be included in the shorts collection.
+     * @return An shorts collection containing the provided shorts.
+     */
+    protected abstract T createShortCollection(Short... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

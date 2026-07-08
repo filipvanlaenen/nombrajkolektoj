@@ -45,12 +45,6 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     private final OrderedNumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
 
-    @Override
-    protected OrderedLongCollection createEmptyLongCollection() {
-        return OrderedLongCollection.empty();
-    }
-
-    @Override
     protected OrderedLongCollection createLongCollection(final Long... numbers) {
         return OrderedLongCollection.of(numbers);
     }

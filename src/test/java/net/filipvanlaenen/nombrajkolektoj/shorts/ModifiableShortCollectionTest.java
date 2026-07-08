@@ -26,12 +26,6 @@ public final class ModifiableShortCollectionTest
      */
     private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
-    @Override
-    protected ModifiableShortCollection createEmptyShortCollection() {
-        return ModifiableShortCollection.empty();
-    }
-
-    @Override
     protected ModifiableShortCollection createShortCollection(final Short... numbers) {
         return ModifiableShortCollection.of(numbers);
     }

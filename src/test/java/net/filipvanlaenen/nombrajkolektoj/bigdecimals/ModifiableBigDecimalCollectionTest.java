@@ -28,12 +28,6 @@ public final class ModifiableBigDecimalCollectionTest
      */
     private final NumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
-    @Override
-    protected ModifiableBigDecimalCollection createEmptyBigDecimalCollection() {
-        return ModifiableBigDecimalCollection.empty();
-    }
-
-    @Override
     protected ModifiableBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return ModifiableBigDecimalCollection.of(numbers);
     }

@@ -21,13 +21,6 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
     private static final Short SHORT_THREE = (short) 3;
 
     /**
-     * Creates an empty shorts collection.
-     *
-     * @return An empty shorts collection.
-     */
-    protected abstract T createEmptyShortCollection();
-
-    /**
      * Creates a shorts collection with the provided element cardinality containing the provided shorts.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class ShortCollectionTestBase<T extends NumericCollection<Short>
      */
     protected abstract T createShortCollection(ElementCardinality elementCardinality,
             NumericCollection<Short> source);
-
-    /**
-     * Creates a shorts collection containing the provided shorts.
-     *
-     * @param numbers The shorts to be included in the shorts collection.
-     * @return An shorts collection containing the provided shorts.
-     */
-    protected abstract T createShortCollection(Short... numbers);
 
     /**
      * Creates a shorts collection from a collection of shorts.

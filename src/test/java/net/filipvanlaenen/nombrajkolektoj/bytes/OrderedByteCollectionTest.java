@@ -45,12 +45,6 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     private final OrderedNumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
-    @Override
-    protected OrderedByteCollection createEmptyByteCollection() {
-        return OrderedByteCollection.empty();
-    }
-
-    @Override
     protected OrderedByteCollection createByteCollection(final Byte... numbers) {
         return OrderedByteCollection.of(numbers);
     }

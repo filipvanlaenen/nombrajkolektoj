@@ -4,12 +4,20 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
- * An interface defining the {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface for longs and
- * containing inner classes with concrete implementations.
+ * A numeric collection containing longs. In addition to the functionality of collections in general, it supports
+ * calculating the sum and the product of the numbers it contains, and finding their maximum and the minimum.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface binding the
+ * type parameter to Long. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection} and one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.Collection}.
  */
 public interface LongCollection extends NumericCollection<Long> {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     * A numeric collection containing longs and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}.
      */
     final class ArrayCollection extends LongCollectionDecorator {
         /**
@@ -65,7 +73,9 @@ public interface LongCollection extends NumericCollection<Long> {
     }
 
     /**
-     * Inner class using a hash backed implementation of the {@link net.filipvanlaenen.kolektoj.Collection} interface.
+     * A numeric collection containing longs and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}.
      */
     final class HashCollection extends LongCollectionDecorator {
         /**

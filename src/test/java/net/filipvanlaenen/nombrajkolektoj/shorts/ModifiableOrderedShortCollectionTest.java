@@ -66,11 +66,6 @@ public final class ModifiableOrderedShortCollectionTest
                 OrderedShortCollection.of(source.toArray(EmptyArrays.SHORTS)));
     }
 
-    @Override
-    protected ModifiableOrderedShortCollection createEmptyShortCollection() {
-        return ModifiableOrderedShortCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

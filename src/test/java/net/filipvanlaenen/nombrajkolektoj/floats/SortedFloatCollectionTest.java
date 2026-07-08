@@ -11,16 +11,6 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  */
 public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBase<SortedFloatCollection> {
     @Override
-    protected SortedFloatCollection createEmptyFloatCollection() {
-        return SortedFloatCollection.empty(Comparator.naturalOrder());
-    }
-
-    @Override
-    protected SortedFloatCollection createFloatCollection(final Float... numbers) {
-        return SortedFloatCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

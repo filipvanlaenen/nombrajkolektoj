@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -34,39 +33,12 @@ public abstract class BigIntegerCollectionDecoratorTestBase<T extends NumericCol
     protected abstract T createEmptyBigIntegerCollection();
 
     /**
-     * Creates a BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The BigIntegers to be included in the BigIntegers collection.
-     * @return A BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
-     */
-    protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality, BigInteger... numbers);
-
-    /**
-     * Creates a BigIntegers collection from a collection of BigIntegers with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of BigIntegers.
-     * @return A BigIntegers collection containing the provided BigIntegers with the provided element cardinality.
-     */
-    protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality,
-            NumericCollection<BigInteger> source);
-
-    /**
      * Creates a BigIntegers collection containing the provided BigIntegers.
      *
      * @param numbers The BigIntegers to be included in the BigIntegers collection.
      * @return An BigIntegers collection containing the provided BigIntegers.
      */
     protected abstract T createBigIntegerCollection(BigInteger... numbers);
-
-    /**
-     * Creates a BigIntegers collection from a collection of BigIntegers.
-     *
-     * @param source The collection of BigIntegers.
-     * @return A BigIntegers collection containing the provided BigIntegers.
-     */
-    protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
 
     /**
      * Verifies that an empty BigIntegers collection is empty.

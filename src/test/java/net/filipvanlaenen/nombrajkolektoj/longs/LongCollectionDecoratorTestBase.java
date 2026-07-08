@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class LongCollectionDecoratorTestBase<T extends NumericCollectio
     protected abstract T createEmptyLongCollection();
 
     /**
-     * Creates a longs collection with the provided element cardinality containing the provided longs.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The longs to be included in the longs collection.
-     * @return A longs collection with the provided element cardinality containing the provided longs.
-     */
-    protected abstract T createLongCollection(ElementCardinality elementCardinality, Long... numbers);
-
-    /**
-     * Creates a longs collection from a collection of longs with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of longs.
-     * @return A longs collection containing the provided longs with the provided element cardinality.
-     */
-    protected abstract T createLongCollection(ElementCardinality elementCardinality,
-            NumericCollection<Long> source);
-
-    /**
      * Creates a longs collection containing the provided longs.
      *
      * @param numbers The longs to be included in the longs collection.
      * @return An longs collection containing the provided longs.
      */
     protected abstract T createLongCollection(Long... numbers);
-
-    /**
-     * Creates a longs collection from a collection of longs.
-     *
-     * @param source The collection of longs.
-     * @return A longs collection containing the provided longs.
-     */
-    protected abstract T createLongCollection(NumericCollection<Long> source);
 
     /**
      * Verifies that an empty longs collection is empty.

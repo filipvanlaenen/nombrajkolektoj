@@ -44,11 +44,6 @@ public final class ModifiableSortedBigDecimalCollectionTest
         return ModifiableSortedBigDecimalCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedBigDecimalCollection createEmptyBigDecimalCollection() {
-        return ModifiableSortedBigDecimalCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted BigDecimals collection containing the provided BigDecimals.
      *

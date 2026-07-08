@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollecti
     protected abstract T createEmptyFloatCollection();
 
     /**
-     * Creates a floats collection with the provided element cardinality containing the provided floats.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The floats to be included in the floats collection.
-     * @return A floats collection with the provided element cardinality containing the provided floats.
-     */
-    protected abstract T createFloatCollection(ElementCardinality elementCardinality, Float... numbers);
-
-    /**
-     * Creates a floats collection from a collection of floats with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of floats.
-     * @return A floats collection containing the provided floats with the provided element cardinality.
-     */
-    protected abstract T createFloatCollection(ElementCardinality elementCardinality,
-            NumericCollection<Float> source);
-
-    /**
      * Creates a floats collection containing the provided floats.
      *
      * @param numbers The floats to be included in the floats collection.
      * @return An floats collection containing the provided floats.
      */
     protected abstract T createFloatCollection(Float... numbers);
-
-    /**
-     * Creates a floats collection from a collection of floats.
-     *
-     * @param source The collection of floats.
-     * @return A floats collection containing the provided floats.
-     */
-    protected abstract T createFloatCollection(NumericCollection<Float> source);
 
     /**
      * Verifies that an empty floats collection is empty.

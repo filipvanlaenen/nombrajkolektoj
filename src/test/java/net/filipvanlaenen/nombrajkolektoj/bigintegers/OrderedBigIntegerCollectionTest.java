@@ -47,12 +47,6 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     private final OrderedNumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
-    @Override
-    protected OrderedBigIntegerCollection createEmptyBigIntegerCollection() {
-        return OrderedBigIntegerCollection.empty();
-    }
-
-    @Override
     protected OrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return OrderedBigIntegerCollection.of(numbers);
     }

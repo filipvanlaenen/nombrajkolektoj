@@ -21,13 +21,6 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
     private static final Double DOUBLE_THREE = 3D;
 
     /**
-     * Creates an empty doubles collection.
-     *
-     * @return An empty doubles collection.
-     */
-    protected abstract T createEmptyDoubleCollection();
-
-    /**
      * Creates a doubles collection with the provided element cardinality containing the provided doubles.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      */
     protected abstract T createDoubleCollection(ElementCardinality elementCardinality,
             NumericCollection<Double> source);
-
-    /**
-     * Creates a doubles collection containing the provided doubles.
-     *
-     * @param numbers The doubles to be included in the doubles collection.
-     * @return An doubles collection containing the provided doubles.
-     */
-    protected abstract T createDoubleCollection(Double... numbers);
 
     /**
      * Creates a doubles collection from a collection of doubles.

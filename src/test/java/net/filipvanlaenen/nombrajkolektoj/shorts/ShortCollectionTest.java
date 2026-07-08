@@ -42,16 +42,6 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     }
 
     @Override
-    protected ShortCollection createEmptyShortCollection() {
-        return ShortCollection.empty();
-    }
-
-    @Override
-    protected ShortCollection createShortCollection(final Short... numbers) {
-        return ShortCollection.of(numbers);
-    }
-
-    @Override
     protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return ShortCollection.of(elementCardinality, numbers);

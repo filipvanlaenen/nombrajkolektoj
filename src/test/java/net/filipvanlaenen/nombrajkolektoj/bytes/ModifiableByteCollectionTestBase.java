@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableByteCollectionTestBase<T extends ModifiableNumericCollection<Byte>>
         extends ByteCollectionTestBase<T> {
     /**
+     * Creates a bytes collection containing the provided bytes.
+     *
+     * @param numbers The bytes to be included in the bytes collection.
+     * @return An bytes collection containing the provided bytes.
+     */
+    protected abstract T createByteCollection(Byte... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

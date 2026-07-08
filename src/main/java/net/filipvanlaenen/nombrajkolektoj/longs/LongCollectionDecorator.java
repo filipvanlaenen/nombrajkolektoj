@@ -7,7 +7,7 @@ import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
- * An abstract decorator class implementing the methods defined in the
+ * An abstract decorator class providing implementations for the methods defined in the
  * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} interface.
  */
 abstract class LongCollectionDecorator implements LongCollection {

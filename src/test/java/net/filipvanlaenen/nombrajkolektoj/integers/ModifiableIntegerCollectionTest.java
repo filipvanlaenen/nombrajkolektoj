@@ -26,12 +26,6 @@ public final class ModifiableIntegerCollectionTest
      */
     private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
-    @Override
-    protected ModifiableIntegerCollection createEmptyIntegerCollection() {
-        return ModifiableIntegerCollection.empty();
-    }
-
-    @Override
     protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
         return ModifiableIntegerCollection.of(numbers);
     }

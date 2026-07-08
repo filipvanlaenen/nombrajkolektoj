@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableLongCollectionTestBase<T extends ModifiableNumericCollection<Long>>
         extends LongCollectionTestBase<T> {
     /**
+     * Creates a longs collection containing the provided longs.
+     *
+     * @param numbers The longs to be included in the longs collection.
+     * @return An longs collection containing the provided longs.
+     */
+    protected abstract T createLongCollection(Long... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

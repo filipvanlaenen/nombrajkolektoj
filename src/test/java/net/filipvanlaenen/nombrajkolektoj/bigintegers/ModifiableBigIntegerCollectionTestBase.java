@@ -19,6 +19,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableBigIntegerCollectionTestBase<T extends ModifiableNumericCollection<BigInteger>>
         extends BigIntegerCollectionTestBase<T> {
     /**
+     * Creates a BigIntegers collection containing the provided BigIntegers.
+     *
+     * @param numbers The BigIntegers to be included in the BigIntegers collection.
+     * @return An BigIntegers collection containing the provided BigIntegers.
+     */
+    protected abstract T createBigIntegerCollection(BigInteger... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

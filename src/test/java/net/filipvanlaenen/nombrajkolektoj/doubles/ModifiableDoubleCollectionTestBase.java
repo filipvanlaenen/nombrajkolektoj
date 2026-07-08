@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableDoubleCollectionTestBase<T extends ModifiableNumericCollection<Double>>
         extends DoubleCollectionTestBase<T> {
     /**
+     * Creates a doubles collection containing the provided doubles.
+     *
+     * @param numbers The doubles to be included in the doubles collection.
+     * @return An doubles collection containing the provided doubles.
+     */
+    protected abstract T createDoubleCollection(Double... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

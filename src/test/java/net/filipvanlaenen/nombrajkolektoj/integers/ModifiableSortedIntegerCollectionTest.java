@@ -42,11 +42,6 @@ public final class ModifiableSortedIntegerCollectionTest
         return ModifiableSortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedIntegerCollection createEmptyIntegerCollection() {
-        return ModifiableSortedIntegerCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted integers collection containing the provided integers.
      *

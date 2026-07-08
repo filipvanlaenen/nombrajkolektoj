@@ -28,12 +28,6 @@ public final class ModifiableBigIntegerCollectionTest
      */
     private final NumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
-    @Override
-    protected ModifiableBigIntegerCollection createEmptyBigIntegerCollection() {
-        return ModifiableBigIntegerCollection.empty();
-    }
-
-    @Override
     protected ModifiableBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return ModifiableBigIntegerCollection.of(numbers);
     }

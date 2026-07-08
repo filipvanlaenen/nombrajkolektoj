@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} implementation.
@@ -55,23 +52,6 @@ public class FloatCollectionDecoratorTest extends FloatCollectionDecoratorTestBa
     @Override
     protected FloatCollection createFloatCollection(final Float... numbers) {
         return FloatCollection.of(numbers);
-    }
-
-    @Override
-    protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final Float... numbers) {
-        return FloatCollection.of(elementCardinality, numbers);
-    }
-
-    @Override
-    protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
-        return FloatCollection.of(elementCardinality, source);
-    }
-
-    @Override
-    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
-        return FloatCollection.of(source);
     }
 
     /**

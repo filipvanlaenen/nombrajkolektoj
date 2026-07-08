@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollecti
     protected abstract T createEmptyShortCollection();
 
     /**
-     * Creates a shorts collection with the provided element cardinality containing the provided shorts.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The shorts to be included in the shorts collection.
-     * @return A shorts collection with the provided element cardinality containing the provided shorts.
-     */
-    protected abstract T createShortCollection(ElementCardinality elementCardinality, Short... numbers);
-
-    /**
-     * Creates a shorts collection from a collection of shorts with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of shorts.
-     * @return A shorts collection containing the provided shorts with the provided element cardinality.
-     */
-    protected abstract T createShortCollection(ElementCardinality elementCardinality,
-            NumericCollection<Short> source);
-
-    /**
      * Creates a shorts collection containing the provided shorts.
      *
      * @param numbers The shorts to be included in the shorts collection.
      * @return An shorts collection containing the provided shorts.
      */
     protected abstract T createShortCollection(Short... numbers);
-
-    /**
-     * Creates a shorts collection from a collection of shorts.
-     *
-     * @param source The collection of shorts.
-     * @return A shorts collection containing the provided shorts.
-     */
-    protected abstract T createShortCollection(NumericCollection<Short> source);
 
     /**
      * Verifies that an empty shorts collection is empty.

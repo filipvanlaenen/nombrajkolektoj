@@ -26,12 +26,6 @@ public final class ModifiableFloatCollectionTest
      */
     private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
 
-    @Override
-    protected ModifiableFloatCollection createEmptyFloatCollection() {
-        return ModifiableFloatCollection.empty();
-    }
-
-    @Override
     protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
         return ModifiableFloatCollection.of(numbers);
     }

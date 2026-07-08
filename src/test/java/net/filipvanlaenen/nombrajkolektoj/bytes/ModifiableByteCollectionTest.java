@@ -26,12 +26,6 @@ public final class ModifiableByteCollectionTest
      */
     private final NumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
-    @Override
-    protected ModifiableByteCollection createEmptyByteCollection() {
-        return ModifiableByteCollection.empty();
-    }
-
-    @Override
     protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableByteCollection.of(numbers);
     }

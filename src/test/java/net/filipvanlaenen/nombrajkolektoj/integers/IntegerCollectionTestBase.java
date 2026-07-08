@@ -21,13 +21,6 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
     private static final Integer INTEGER_THREE = 3;
 
     /**
-     * Creates an empty integers collection.
-     *
-     * @return An empty integers collection.
-     */
-    protected abstract T createEmptyIntegerCollection();
-
-    /**
      * Creates a integers collection with the provided element cardinality containing the provided integers.
      *
      * @param elementCardinality The element cardinality.
@@ -45,14 +38,6 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      */
     protected abstract T createIntegerCollection(ElementCardinality elementCardinality,
             NumericCollection<Integer> source);
-
-    /**
-     * Creates a integers collection containing the provided integers.
-     *
-     * @param numbers The integers to be included in the integers collection.
-     * @return An integers collection containing the provided integers.
-     */
-    protected abstract T createIntegerCollection(Integer... numbers);
 
     /**
      * Creates a integers collection from a collection of integers.

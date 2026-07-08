@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableIntegerCollectionTestBase<T extends ModifiableNumericCollection<Integer>>
         extends IntegerCollectionTestBase<T> {
     /**
+     * Creates a integers collection containing the provided integers.
+     *
+     * @param numbers The integers to be included in the integers collection.
+     * @return An integers collection containing the provided integers.
+     */
+    protected abstract T createIntegerCollection(Integer... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

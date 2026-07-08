@@ -42,16 +42,6 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     }
 
     @Override
-    protected LongCollection createEmptyLongCollection() {
-        return LongCollection.empty();
-    }
-
-    @Override
-    protected LongCollection createLongCollection(final Long... numbers) {
-        return LongCollection.of(numbers);
-    }
-
-    @Override
     protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return LongCollection.of(elementCardinality, numbers);

@@ -66,11 +66,6 @@ public final class ModifiableOrderedIntegerCollectionTest
                 OrderedIntegerCollection.of(source.toArray(EmptyArrays.INTEGERS)));
     }
 
-    @Override
-    protected ModifiableOrderedIntegerCollection createEmptyIntegerCollection() {
-        return ModifiableOrderedIntegerCollection.empty();
-    }
-
     /**
      * Verifies that the <code>addAllAt</code> method is wired correctly to the internal collection.
      */

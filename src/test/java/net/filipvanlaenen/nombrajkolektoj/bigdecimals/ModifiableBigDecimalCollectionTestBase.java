@@ -19,6 +19,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableBigDecimalCollectionTestBase<T extends ModifiableNumericCollection<BigDecimal>>
         extends BigDecimalCollectionTestBase<T> {
     /**
+     * Creates a BigDecimals collection containing the provided BigDecimals.
+     *
+     * @param numbers The BigDecimals to be included in the BigDecimals collection.
+     * @return An BigDecimals collection containing the provided BigDecimals.
+     */
+    protected abstract T createBigDecimalCollection(BigDecimal... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

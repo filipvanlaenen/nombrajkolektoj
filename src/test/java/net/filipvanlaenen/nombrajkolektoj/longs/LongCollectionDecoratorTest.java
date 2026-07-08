@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} implementation.
@@ -55,23 +52,6 @@ public class LongCollectionDecoratorTest extends LongCollectionDecoratorTestBase
     @Override
     protected LongCollection createLongCollection(final Long... numbers) {
         return LongCollection.of(numbers);
-    }
-
-    @Override
-    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final Long... numbers) {
-        return LongCollection.of(elementCardinality, numbers);
-    }
-
-    @Override
-    protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
-        return LongCollection.of(elementCardinality, source);
-    }
-
-    @Override
-    protected LongCollection createLongCollection(final NumericCollection<Long> source) {
-        return LongCollection.of(source);
     }
 
     /**

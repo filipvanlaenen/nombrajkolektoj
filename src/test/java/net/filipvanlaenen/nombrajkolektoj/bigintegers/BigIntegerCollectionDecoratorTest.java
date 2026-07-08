@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} implementation.
@@ -57,23 +54,6 @@ public class BigIntegerCollectionDecoratorTest extends BigIntegerCollectionDecor
     @Override
     protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return BigIntegerCollection.of(numbers);
-    }
-
-    @Override
-    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final BigInteger... numbers) {
-        return BigIntegerCollection.of(elementCardinality, numbers);
-    }
-
-    @Override
-    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
-        return BigIntegerCollection.of(elementCardinality, source);
-    }
-
-    @Override
-    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
-        return BigIntegerCollection.of(source);
     }
 
     /**

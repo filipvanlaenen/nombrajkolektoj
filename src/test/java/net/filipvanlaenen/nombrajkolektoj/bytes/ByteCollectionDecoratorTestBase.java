@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -32,39 +31,12 @@ public abstract class ByteCollectionDecoratorTestBase<T extends NumericCollectio
     protected abstract T createEmptyByteCollection();
 
     /**
-     * Creates a bytes collection with the provided element cardinality containing the provided bytes.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param numbers            The bytes to be included in the bytes collection.
-     * @return A bytes collection with the provided element cardinality containing the provided bytes.
-     */
-    protected abstract T createByteCollection(ElementCardinality elementCardinality, Byte... numbers);
-
-    /**
-     * Creates a bytes collection from a collection of bytes with the provided element cardinality.
-     *
-     * @param elementCardinality The element cardinality.
-     * @param source             The collection of bytes.
-     * @return A bytes collection containing the provided bytes with the provided element cardinality.
-     */
-    protected abstract T createByteCollection(ElementCardinality elementCardinality,
-            NumericCollection<Byte> source);
-
-    /**
      * Creates a bytes collection containing the provided bytes.
      *
      * @param numbers The bytes to be included in the bytes collection.
      * @return An bytes collection containing the provided bytes.
      */
     protected abstract T createByteCollection(Byte... numbers);
-
-    /**
-     * Creates a bytes collection from a collection of bytes.
-     *
-     * @param source The collection of bytes.
-     * @return A bytes collection containing the provided bytes.
-     */
-    protected abstract T createByteCollection(NumericCollection<Byte> source);
 
     /**
      * Verifies that an empty bytes collection is empty.

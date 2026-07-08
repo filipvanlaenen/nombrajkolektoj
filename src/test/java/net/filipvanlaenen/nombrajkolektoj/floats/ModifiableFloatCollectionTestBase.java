@@ -17,6 +17,14 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
 public abstract class ModifiableFloatCollectionTestBase<T extends ModifiableNumericCollection<Float>>
         extends FloatCollectionTestBase<T> {
     /**
+     * Creates a floats collection containing the provided floats.
+     *
+     * @param numbers The floats to be included in the floats collection.
+     * @return An floats collection containing the provided floats.
+     */
+    protected abstract T createFloatCollection(Float... numbers);
+
+    /**
      * Verifies that the <code>add</code> method is wired correctly to the internal collection.
      */
     @Test

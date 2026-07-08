@@ -11,16 +11,6 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  */
 public final class SortedByteCollectionTest extends SortedByteCollectionTestBase<SortedByteCollection> {
     @Override
-    protected SortedByteCollection createEmptyByteCollection() {
-        return SortedByteCollection.empty(Comparator.naturalOrder());
-    }
-
-    @Override
-    protected SortedByteCollection createByteCollection(final Byte... numbers) {
-        return SortedByteCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return SortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

@@ -13,16 +13,6 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  */
 public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollectionTestBase<SortedBigDecimalCollection> {
     @Override
-    protected SortedBigDecimalCollection createEmptyBigDecimalCollection() {
-        return SortedBigDecimalCollection.empty(Comparator.naturalOrder());
-    }
-
-    @Override
-    protected SortedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
-        return SortedBigDecimalCollection.of(Comparator.naturalOrder(), numbers);
-    }
-
-    @Override
     protected SortedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return SortedBigDecimalCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);

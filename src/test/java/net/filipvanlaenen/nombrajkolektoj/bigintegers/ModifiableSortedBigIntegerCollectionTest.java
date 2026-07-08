@@ -44,11 +44,6 @@ public final class ModifiableSortedBigIntegerCollectionTest
         return ModifiableSortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
-    @Override
-    protected ModifiableSortedBigIntegerCollection createEmptyBigIntegerCollection() {
-        return ModifiableSortedBigIntegerCollection.empty(Comparator.naturalOrder());
-    }
-
     /**
      * Creates a modifiable sorted BigIntegers collection containing the provided BigIntegers.
      *

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection} class.
@@ -22,11 +21,11 @@ public final class ModifiableBigDecimalCollectionTest
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final NumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final ModifiableBigDecimalCollection collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final NumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final ModifiableBigDecimalCollection collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     protected ModifiableBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return ModifiableBigDecimalCollection.of(numbers);
@@ -40,12 +39,12 @@ public final class ModifiableBigDecimalCollectionTest
 
     @Override
     protected ModifiableBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigDecimal> source) {
+            final ModifiableBigDecimalCollection source) {
         return ModifiableBigDecimalCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+    protected ModifiableBigDecimalCollection createBigDecimalCollection(final ModifiableBigDecimalCollection source) {
         return ModifiableBigDecimalCollection.of(source);
     }
 

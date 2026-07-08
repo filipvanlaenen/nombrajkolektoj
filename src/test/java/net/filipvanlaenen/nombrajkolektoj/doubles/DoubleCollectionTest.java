@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} class.
@@ -19,11 +18,11 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final NumericCollection<Double> collection012 = DoubleCollection.of(0D, 1D, 2D);
+    private final DoubleCollection collection012 = DoubleCollection.of(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final NumericCollection<Double> collection123 = DoubleCollection.of(1D, 2D, 3D);
+    private final DoubleCollection collection123 = DoubleCollection.of(1D, 2D, 3D);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a double collection.
@@ -49,12 +48,12 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
 
     @Override
     protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final DoubleCollection source) {
         return DoubleCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected DoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected DoubleCollection createDoubleCollection(final DoubleCollection source) {
         return DoubleCollection.of(source);
     }
 

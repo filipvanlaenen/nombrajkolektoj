@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final NumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final ModifiableShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final ModifiableShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     protected ModifiableShortCollection createShortCollection(final Short... numbers) {
         return ModifiableShortCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableShortCollectionTest
 
     @Override
     protected ModifiableShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Short> source) {
+            final ModifiableShortCollection source) {
         return ModifiableShortCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableShortCollection createShortCollection(final NumericCollection<Short> source) {
+    protected ModifiableShortCollection createShortCollection(final ModifiableShortCollection source) {
         return ModifiableShortCollection.of(source);
     }
 

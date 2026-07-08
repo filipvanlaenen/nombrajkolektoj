@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,6 +26,24 @@ public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollecti
     private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createFloatCollection(1F)));
+        assertFalse(collection123.containsAll(createFloatCollection(0F)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(1F));
+        assertFalse(collection123.contains(0F));
+    }
+
+    /**
      * Creates an empty floats collection.
      *
      * @return An empty floats collection.
@@ -39,29 +59,20 @@ public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollecti
     protected abstract T createFloatCollection(Float... numbers);
 
     /**
-     * Verifies that an empty floats collection is empty.
+     * Creates a floats collection with the provided element cardinality containing the provided floats.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The floats to be included in the floats collection.
+     * @return A floats collection with the provided element cardinality containing the provided floats.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyFloatCollection() {
-        assertTrue(createEmptyFloatCollection().isEmpty());
-    }
+    protected abstract T createFloatCollection(ElementCardinality elementCardinality, Float... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains(1F));
-        assertFalse(collection123.contains(0F));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createFloatCollection(1F)));
-        assertFalse(collection123.containsAll(createFloatCollection(0F)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createFloatCollection(DISTINCT_ELEMENTS, 1F, 2F).getElementCardinality());
     }
 
     /**
@@ -70,6 +81,14 @@ public abstract class FloatCollectionDecoratorTestBase<T extends NumericCollecti
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty floats collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyFloatCollection() {
+        assertTrue(createEmptyFloatCollection().isEmpty());
     }
 
     /**

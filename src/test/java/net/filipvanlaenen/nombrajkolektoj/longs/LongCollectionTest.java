@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} class.
@@ -19,11 +18,11 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final NumericCollection<Long> collection012 = LongCollection.of(0L, 1L, 2L);
+    private final LongCollection collection012 = LongCollection.of(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final NumericCollection<Long> collection123 = LongCollection.of(1L, 2L, 3L);
+    private final LongCollection collection123 = LongCollection.of(1L, 2L, 3L);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a long collection.
@@ -49,12 +48,12 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
 
     @Override
     protected LongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
+            final LongCollection source) {
         return LongCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected LongCollection createLongCollection(final NumericCollection<Long> source) {
+    protected LongCollection createLongCollection(final LongCollection source) {
         return LongCollection.of(source);
     }
 

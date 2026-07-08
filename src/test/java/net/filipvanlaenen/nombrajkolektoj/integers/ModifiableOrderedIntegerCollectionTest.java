@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableOrderedIntegerCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedIntegerCollectionTest
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    private final ModifiableOrderedIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
+    private final ModifiableOrderedIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
 
     @Override
-    protected ModifiableOrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final ModifiableOrderedIntegerCollection source) {
         return ModifiableOrderedIntegerCollection
                 .of(OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedIntegerCollectionTest
 
     @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Integer> source) {
+            final ModifiableOrderedIntegerCollection source) {
         return ModifiableOrderedIntegerCollection.of(elementCardinality,
                 OrderedIntegerCollection.of(source.toArray(EmptyArrays.INTEGERS)));
     }

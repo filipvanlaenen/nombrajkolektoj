@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,6 +26,24 @@ public abstract class LongCollectionDecoratorTestBase<T extends NumericCollectio
     private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createLongCollection(1L)));
+        assertFalse(collection123.containsAll(createLongCollection(0L)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(1L));
+        assertFalse(collection123.contains(0L));
+    }
+
+    /**
      * Creates an empty longs collection.
      *
      * @return An empty longs collection.
@@ -39,29 +59,20 @@ public abstract class LongCollectionDecoratorTestBase<T extends NumericCollectio
     protected abstract T createLongCollection(Long... numbers);
 
     /**
-     * Verifies that an empty longs collection is empty.
+     * Creates a longs collection with the provided element cardinality containing the provided longs.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The longs to be included in the longs collection.
+     * @return A longs collection with the provided element cardinality containing the provided longs.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyLongCollection() {
-        assertTrue(createEmptyLongCollection().isEmpty());
-    }
+    protected abstract T createLongCollection(ElementCardinality elementCardinality, Long... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains(1L));
-        assertFalse(collection123.contains(0L));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createLongCollection(1L)));
-        assertFalse(collection123.containsAll(createLongCollection(0L)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createLongCollection(DISTINCT_ELEMENTS, 1L, 2L).getElementCardinality());
     }
 
     /**
@@ -70,6 +81,14 @@ public abstract class LongCollectionDecoratorTestBase<T extends NumericCollectio
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty longs collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyLongCollection() {
+        assertTrue(createEmptyLongCollection().isEmpty());
     }
 
     /**

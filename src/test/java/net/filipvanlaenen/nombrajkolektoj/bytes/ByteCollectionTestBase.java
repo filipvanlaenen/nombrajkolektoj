@@ -2,19 +2,19 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> {
+public abstract class ByteCollectionTestBase<T extends ByteCollection> {
     /**
      * The byte three.
      */
@@ -36,8 +36,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      * @param source             The collection of bytes.
      * @return A bytes collection containing the provided bytes with the provided element cardinality.
      */
-    protected abstract T createByteCollection(ElementCardinality elementCardinality,
-            NumericCollection<Byte> source);
+    protected abstract T createByteCollection(ElementCardinality elementCardinality, T source);
 
     /**
      * Creates a bytes collection from a collection of bytes.
@@ -45,7 +44,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      * @param source The collection of bytes.
      * @return A bytes collection containing the provided bytes.
      */
-    protected abstract T createByteCollection(NumericCollection<Byte> source);
+    protected abstract T createByteCollection(T source);
 
     /**
      * Verifies that a bytes collection with a specific element cardinality receives that element cardinality.
@@ -60,7 +59,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      */
     @Test
     public void ofWithCollectionShouldReturnAByteCollectionWithTheSameElementCardinalityAndBytes() {
-        ByteCollection source = ByteCollection.of(DISTINCT_ELEMENTS, (byte) 1);
+        T source = createByteCollection(DISTINCT_ELEMENTS, (byte) 1);
         T actual = createByteCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
@@ -72,7 +71,7 @@ public abstract class ByteCollectionTestBase<T extends NumericCollection<Byte>> 
      */
     @Test
     public void ofWithCollectionAndElementCardinalityShouldReturnAByteCollectionWithTheProvidedElementCardinality() {
-        ByteCollection source = ByteCollection.of(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE);
+        T source = createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE);
         T actual = createByteCollection(DISTINCT_ELEMENTS, source);
         ByteCollection expected = ByteCollection.of((byte) 1, (byte) 2, BYTE_THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

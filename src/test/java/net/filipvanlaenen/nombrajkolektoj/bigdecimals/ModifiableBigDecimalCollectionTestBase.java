@@ -9,14 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableBigDecimalCollectionTestBase<T extends ModifiableNumericCollection<BigDecimal>>
+public abstract class ModifiableBigDecimalCollectionTestBase<T extends ModifiableBigDecimalCollection>
         extends BigDecimalCollectionTestBase<T> {
     /**
      * Creates a BigDecimals collection containing the provided BigDecimals.

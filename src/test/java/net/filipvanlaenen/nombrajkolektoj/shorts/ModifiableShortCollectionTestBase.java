@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableShortCollectionTestBase<T extends ModifiableNumericCollection<Short>>
+public abstract class ModifiableShortCollectionTestBase<T extends ModifiableShortCollection>
         extends ShortCollectionTestBase<T> {
     /**
      * Creates a shorts collection containing the provided shorts.

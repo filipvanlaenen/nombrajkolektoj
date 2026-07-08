@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    private final OrderedIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
+    private final OrderedIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
 
     protected OrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
         return OrderedIntegerCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
 
     @Override
     protected OrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Integer> source) {
+            final OrderedIntegerCollection source) {
         return OrderedIntegerCollection.of(elementCardinality,
                 OrderedIntegerCollection.of(source.toArray(EmptyArrays.INTEGERS)));
     }
 
     @Override
-    protected OrderedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+    protected OrderedIntegerCollection createIntegerCollection(final OrderedIntegerCollection source) {
         return OrderedIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.INTEGERS));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     @Override
-    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source) {
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedIntegerCollection source) {
         return OrderedIntegerCollection.of(source);
     }
 
     @Override
-    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source,
+    protected OrderedIntegerCollection createOrderedIntegerCollection(final OrderedIntegerCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedIntegerCollection.of(source, fromIndex, toIndex);
     }

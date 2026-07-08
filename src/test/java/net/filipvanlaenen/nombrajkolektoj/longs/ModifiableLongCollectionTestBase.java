@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableLongCollectionTestBase<T extends ModifiableNumericCollection<Long>>
+public abstract class ModifiableLongCollectionTestBase<T extends ModifiableLongCollection>
         extends LongCollectionTestBase<T> {
     /**
      * Creates a longs collection containing the provided longs.

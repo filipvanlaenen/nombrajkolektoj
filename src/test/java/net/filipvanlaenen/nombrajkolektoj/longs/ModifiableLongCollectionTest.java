@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableLongCollectionTest
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final NumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
+    private final ModifiableLongCollection collection012 = createLongCollection(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final NumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
+    private final ModifiableLongCollection collection123 = createLongCollection(1L, 2L, 3L);
 
     protected ModifiableLongCollection createLongCollection(final Long... numbers) {
         return ModifiableLongCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableLongCollectionTest
 
     @Override
     protected ModifiableLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
+            final ModifiableLongCollection source) {
         return ModifiableLongCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableLongCollection createLongCollection(final NumericCollection<Long> source) {
+    protected ModifiableLongCollection createLongCollection(final ModifiableLongCollection source) {
         return ModifiableLongCollection.of(source);
     }
 

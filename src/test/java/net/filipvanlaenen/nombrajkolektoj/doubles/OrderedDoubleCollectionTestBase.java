@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCollection<Double>>
+public abstract class OrderedDoubleCollectionTestBase<T extends OrderedDoubleCollection>
         extends DoubleCollectionTestBase<T> {
     /**
      * The double three.
@@ -44,7 +43,7 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * @param source The doubles to be included in the ordered doubles collection.
      * @return An ordered doubles collection containing the provided doubles.
      */
-    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source);
+    protected abstract T createOrderedDoubleCollection(T source);
 
     /**
      * Creates an ordered doubles collection containing the provided range of doubles.
@@ -54,8 +53,7 @@ public abstract class OrderedDoubleCollectionTestBase<T extends OrderedNumericCo
      * @param toIndex   The index of the first element not to be included in the new ordered doubles collection.
      * @return An ordered doubles collection containing the provided range of doubles.
      */
-    protected abstract T createOrderedDoubleCollection(OrderedNumericCollection<Double> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedDoubleCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered doubles collection containing the provided doubles.

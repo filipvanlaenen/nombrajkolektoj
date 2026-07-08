@@ -4,19 +4,19 @@ import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<BigInteger>> {
+public abstract class BigIntegerCollectionTestBase<T extends BigIntegerCollection> {
     /**
      * The BigInteger three.
      */
@@ -38,8 +38,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      * @param source             The collection of BigIntegers.
      * @return A BigIntegers collection containing the provided BigIntegers with the provided element cardinality.
      */
-    protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality,
-            NumericCollection<BigInteger> source);
+    protected abstract T createBigIntegerCollection(ElementCardinality elementCardinality, T source);
 
     /**
      * Creates a BigIntegers collection from a collection of BigIntegers.
@@ -47,7 +46,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      * @param source The collection of BigIntegers.
      * @return A BigIntegers collection containing the provided BigIntegers.
      */
-    protected abstract T createBigIntegerCollection(NumericCollection<BigInteger> source);
+    protected abstract T createBigIntegerCollection(T source);
 
     /**
      * Verifies that a BigIntegers collection with a specific element cardinality receives that element cardinality.
@@ -62,7 +61,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionShouldReturnABigIntegerCollectionWithTheSameElementCardinalityAndBigIntegers() {
-        BigIntegerCollection source = BigIntegerCollection.of(DISTINCT_ELEMENTS, BigInteger.ONE);
+        T source = createBigIntegerCollection(DISTINCT_ELEMENTS, BigInteger.ONE);
         T actual = createBigIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
@@ -74,7 +73,7 @@ public abstract class BigIntegerCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionAndElementCardinalityShouldReturnABigIntegerCollectionWithTheProvidedElementCardinality() {
-        BigIntegerCollection source = BigIntegerCollection.of(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE);
+        T source = createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE);
         T actual = createBigIntegerCollection(DISTINCT_ELEMENTS, source);
         BigIntegerCollection expected = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

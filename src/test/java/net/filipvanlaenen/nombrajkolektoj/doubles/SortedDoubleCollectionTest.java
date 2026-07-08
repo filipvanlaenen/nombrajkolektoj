@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.SortedDoubleCollection} class.
@@ -18,12 +16,12 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
 
     @Override
     protected SortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final SortedDoubleCollection source) {
         return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected SortedDoubleCollection createDoubleCollection(final SortedDoubleCollection source) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedDoubleCollectionTest extends SortedDoubleCollectionTest
     }
 
     @Override
-    protected SortedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source) {
+    protected SortedDoubleCollection createOrderedDoubleCollection(final SortedDoubleCollection source) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source,
+    protected SortedDoubleCollection createOrderedDoubleCollection(final SortedDoubleCollection source,
             final int fromIndex, final int toIndex) {
         return SortedDoubleCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

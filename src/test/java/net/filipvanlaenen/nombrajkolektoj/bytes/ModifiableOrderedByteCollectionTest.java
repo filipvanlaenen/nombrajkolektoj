@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableOrderedByteCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedByteCollectionTest
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final ModifiableOrderedByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final ModifiableOrderedByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     @Override
-    protected ModifiableOrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected ModifiableOrderedByteCollection createByteCollection(final ModifiableOrderedByteCollection source) {
         return ModifiableOrderedByteCollection
                 .of(OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedByteCollectionTest
 
     @Override
     protected ModifiableOrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final ModifiableOrderedByteCollection source) {
         return ModifiableOrderedByteCollection.of(elementCardinality,
                 OrderedByteCollection.of(source.toArray(EmptyArrays.BYTES)));
     }

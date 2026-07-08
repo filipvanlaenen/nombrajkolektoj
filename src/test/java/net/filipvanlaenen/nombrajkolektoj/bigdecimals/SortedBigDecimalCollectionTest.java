@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.SortedBigDecimalCollection} class.
@@ -20,12 +18,12 @@ public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollec
 
     @Override
     protected SortedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigDecimal> source) {
+            final SortedBigDecimalCollection source) {
         return SortedBigDecimalCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+    protected SortedBigDecimalCollection createBigDecimalCollection(final SortedBigDecimalCollection source) {
         return SortedBigDecimalCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -47,12 +45,12 @@ public final class SortedBigDecimalCollectionTest extends SortedBigDecimalCollec
     }
 
     @Override
-    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source) {
+    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final SortedBigDecimalCollection source) {
         return SortedBigDecimalCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source,
+    protected SortedBigDecimalCollection createOrderedBigDecimalCollection(final SortedBigDecimalCollection source,
             final int fromIndex, final int toIndex) {
         return SortedBigDecimalCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

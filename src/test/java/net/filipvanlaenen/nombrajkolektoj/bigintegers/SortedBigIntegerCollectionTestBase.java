@@ -8,15 +8,13 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.SortedBigIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
 
-public abstract class SortedBigIntegerCollectionTestBase<T extends SortedNumericCollection<BigInteger>>
+public abstract class SortedBigIntegerCollectionTestBase<T extends SortedBigIntegerCollection>
         extends OrderedBigIntegerCollectionTestBase<T> {
     /**
      * The BigInteger three.

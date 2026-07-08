@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableDoubleCollectionTest
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final NumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final ModifiableDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final NumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final ModifiableDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
 
     protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
         return ModifiableDoubleCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableDoubleCollectionTest
 
     @Override
     protected ModifiableDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final ModifiableDoubleCollection source) {
         return ModifiableDoubleCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected ModifiableDoubleCollection createDoubleCollection(final ModifiableDoubleCollection source) {
         return ModifiableDoubleCollection.of(source);
     }
 

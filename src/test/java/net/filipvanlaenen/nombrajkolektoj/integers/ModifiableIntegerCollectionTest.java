@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableIntegerCollectionTest
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final NumericCollection<Integer> collection012 = createIntegerCollection(0, 1, 2);
+    private final ModifiableIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
+    private final ModifiableIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
 
     protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
         return ModifiableIntegerCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableIntegerCollectionTest
 
     @Override
     protected ModifiableIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Integer> source) {
+            final ModifiableIntegerCollection source) {
         return ModifiableIntegerCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+    protected ModifiableIntegerCollection createIntegerCollection(final ModifiableIntegerCollection source) {
         return ModifiableIntegerCollection.of(source);
     }
 

@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,6 +26,24 @@ public abstract class ByteCollectionDecoratorTestBase<T extends NumericCollectio
     private final NumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createByteCollection((byte) 1)));
+        assertFalse(collection123.containsAll(createByteCollection((byte) 0)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains((byte) 1));
+        assertFalse(collection123.contains((byte) 0));
+    }
+
+    /**
      * Creates an empty bytes collection.
      *
      * @return An empty bytes collection.
@@ -39,29 +59,20 @@ public abstract class ByteCollectionDecoratorTestBase<T extends NumericCollectio
     protected abstract T createByteCollection(Byte... numbers);
 
     /**
-     * Verifies that an empty bytes collection is empty.
+     * Creates a bytes collection with the provided element cardinality containing the provided bytes.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The bytes to be included in the bytes collection.
+     * @return A bytes collection with the provided element cardinality containing the provided bytes.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyByteCollection() {
-        assertTrue(createEmptyByteCollection().isEmpty());
-    }
+    protected abstract T createByteCollection(ElementCardinality elementCardinality, Byte... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains((byte) 1));
-        assertFalse(collection123.contains((byte) 0));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createByteCollection((byte) 1)));
-        assertFalse(collection123.containsAll(createByteCollection((byte) 0)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createByteCollection(DISTINCT_ELEMENTS, (byte) 1, (byte) 2).getElementCardinality());
     }
 
     /**
@@ -70,6 +81,14 @@ public abstract class ByteCollectionDecoratorTestBase<T extends NumericCollectio
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty bytes collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyByteCollection() {
+        assertTrue(createEmptyByteCollection().isEmpty());
     }
 
     /**

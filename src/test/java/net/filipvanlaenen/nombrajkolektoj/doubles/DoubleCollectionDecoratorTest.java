@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} implementation.
  */
-public class DoubleCollectionDecoratorTest extends DoubleCollectionDecoratorTestBase<DoubleCollection> {
+public final class DoubleCollectionDecoratorTest extends DoubleCollectionDecoratorTestBase<DoubleCollection> {
     /**
      * The magic number three.
      */
@@ -52,6 +54,12 @@ public class DoubleCollectionDecoratorTest extends DoubleCollectionDecoratorTest
     @Override
     protected DoubleCollection createDoubleCollection(final Double... numbers) {
         return DoubleCollection.of(numbers);
+    }
+
+    @Override
+    protected DoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return DoubleCollection.of(elementCardinality, numbers);
     }
 
     /**

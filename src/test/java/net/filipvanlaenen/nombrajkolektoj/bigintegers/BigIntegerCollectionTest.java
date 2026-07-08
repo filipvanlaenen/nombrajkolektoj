@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} class.
@@ -21,11 +20,11 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final NumericCollection<BigInteger> collection012 = BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final BigIntegerCollection collection012 = BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final NumericCollection<BigInteger> collection123 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final BigIntegerCollection collection123 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
@@ -51,12 +50,12 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
 
     @Override
     protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
+            final BigIntegerCollection source) {
         return BigIntegerCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected BigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+    protected BigIntegerCollection createBigIntegerCollection(final BigIntegerCollection source) {
         return BigIntegerCollection.of(source);
     }
 

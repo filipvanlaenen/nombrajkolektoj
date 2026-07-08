@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.SortedShortCollection} class.
@@ -18,12 +16,12 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
 
     @Override
     protected SortedShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Short> source) {
+            final SortedShortCollection source) {
         return SortedShortCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedShortCollection createShortCollection(final NumericCollection<Short> source) {
+    protected SortedShortCollection createShortCollection(final SortedShortCollection source) {
         return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedShortCollectionTest extends SortedShortCollectionTestBa
     }
 
     @Override
-    protected SortedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source) {
+    protected SortedShortCollection createOrderedShortCollection(final SortedShortCollection source) {
         return SortedShortCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source,
+    protected SortedShortCollection createOrderedShortCollection(final SortedShortCollection source,
             final int fromIndex, final int toIndex) {
         return SortedShortCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

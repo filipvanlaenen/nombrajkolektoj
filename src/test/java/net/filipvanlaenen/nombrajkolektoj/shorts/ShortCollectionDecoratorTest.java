@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} implementation.
  */
-public class ShortCollectionDecoratorTest extends ShortCollectionDecoratorTestBase<ShortCollection> {
+public final class ShortCollectionDecoratorTest extends ShortCollectionDecoratorTestBase<ShortCollection> {
     /**
      * The magic number three.
      */
@@ -52,6 +54,12 @@ public class ShortCollectionDecoratorTest extends ShortCollectionDecoratorTestBa
     @Override
     protected ShortCollection createShortCollection(final Short... numbers) {
         return ShortCollection.of(numbers);
+    }
+
+    @Override
+    protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
+            final Short... numbers) {
+        return ShortCollection.of(elementCardinality, numbers);
     }
 
     /**

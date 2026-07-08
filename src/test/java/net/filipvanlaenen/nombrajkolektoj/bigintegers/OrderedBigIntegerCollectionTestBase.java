@@ -10,14 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumericCollection<BigInteger>>
+public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedBigIntegerCollection>
         extends BigIntegerCollectionTestBase<T> {
     /**
      * The BigInteger three.
@@ -46,7 +45,7 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * @param source The BigIntegers to be included in the ordered BigIntegers collection.
      * @return An ordered BigIntegers collection containing the provided BigIntegers.
      */
-    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source);
+    protected abstract T createOrderedBigIntegerCollection(T source);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided range of BigIntegers.
@@ -56,8 +55,7 @@ public abstract class OrderedBigIntegerCollectionTestBase<T extends OrderedNumer
      * @param toIndex   The index of the first element not to be included in the new ordered BigIntegers collection.
      * @return An ordered BigIntegers collection containing the provided range of BigIntegers.
      */
-    protected abstract T createOrderedBigIntegerCollection(OrderedNumericCollection<BigInteger> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedBigIntegerCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered BigIntegers collection containing the provided BigIntegers.

@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,6 +26,24 @@ public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollecti
     private final NumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createShortCollection((short) 1)));
+        assertFalse(collection123.containsAll(createShortCollection((short) 0)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains((short) 1));
+        assertFalse(collection123.contains((short) 0));
+    }
+
+    /**
      * Creates an empty shorts collection.
      *
      * @return An empty shorts collection.
@@ -39,29 +59,20 @@ public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollecti
     protected abstract T createShortCollection(Short... numbers);
 
     /**
-     * Verifies that an empty shorts collection is empty.
+     * Creates a shorts collection with the provided element cardinality containing the provided shorts.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The shorts to be included in the shorts collection.
+     * @return A shorts collection with the provided element cardinality containing the provided shorts.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyShortCollection() {
-        assertTrue(createEmptyShortCollection().isEmpty());
-    }
+    protected abstract T createShortCollection(ElementCardinality elementCardinality, Short... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains((short) 1));
-        assertFalse(collection123.contains((short) 0));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createShortCollection((short) 1)));
-        assertFalse(collection123.containsAll(createShortCollection((short) 0)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createShortCollection(DISTINCT_ELEMENTS, (short) 1, (short) 2).getElementCardinality());
     }
 
     /**
@@ -70,6 +81,14 @@ public abstract class ShortCollectionDecoratorTestBase<T extends NumericCollecti
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty shorts collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyShortCollection() {
+        assertTrue(createEmptyShortCollection().isEmpty());
     }
 
     /**

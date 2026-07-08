@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.SortedIntegerCollection} class.
@@ -18,12 +16,12 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
 
     @Override
     protected SortedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Integer> source) {
+            final SortedIntegerCollection source) {
         return SortedIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedIntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+    protected SortedIntegerCollection createIntegerCollection(final SortedIntegerCollection source) {
         return SortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedIntegerCollectionTest extends SortedIntegerCollectionTe
     }
 
     @Override
-    protected SortedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source) {
+    protected SortedIntegerCollection createOrderedIntegerCollection(final SortedIntegerCollection source) {
         return SortedIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedIntegerCollection createOrderedIntegerCollection(final OrderedNumericCollection<Integer> source,
+    protected SortedIntegerCollection createOrderedIntegerCollection(final SortedIntegerCollection source,
             final int fromIndex, final int toIndex) {
         return SortedIntegerCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Float> collection012 = createFloatCollection(0F, 1F, 2F);
+    private final OrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
+    private final OrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
 
     protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
         return OrderedFloatCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
 
     @Override
     protected OrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final OrderedFloatCollection source) {
         return OrderedFloatCollection.of(elementCardinality,
                 OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
     }
 
     @Override
-    protected OrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected OrderedFloatCollection createFloatCollection(final OrderedFloatCollection source) {
         return OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source) {
+    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source) {
         return OrderedFloatCollection.of(source);
     }
 
     @Override
-    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source,
+    protected OrderedFloatCollection createOrderedFloatCollection(final OrderedFloatCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedFloatCollection.of(source, fromIndex, toIndex);
     }

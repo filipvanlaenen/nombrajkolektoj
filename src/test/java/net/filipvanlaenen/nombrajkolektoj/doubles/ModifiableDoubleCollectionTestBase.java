@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableDoubleCollectionTestBase<T extends ModifiableNumericCollection<Double>>
+public abstract class ModifiableDoubleCollectionTestBase<T extends ModifiableDoubleCollection>
         extends DoubleCollectionTestBase<T> {
     /**
      * Creates a doubles collection containing the provided doubles.

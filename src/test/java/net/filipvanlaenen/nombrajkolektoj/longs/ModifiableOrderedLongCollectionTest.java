@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableOrderedLongCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedLongCollectionTest
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
+    private final ModifiableOrderedLongCollection collection012 = createLongCollection(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
+    private final ModifiableOrderedLongCollection collection123 = createLongCollection(1L, 2L, 3L);
 
     @Override
-    protected ModifiableOrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
+    protected ModifiableOrderedLongCollection createLongCollection(final ModifiableOrderedLongCollection source) {
         return ModifiableOrderedLongCollection
                 .of(OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedLongCollectionTest
 
     @Override
     protected ModifiableOrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
+            final ModifiableOrderedLongCollection source) {
         return ModifiableOrderedLongCollection.of(elementCardinality,
                 OrderedLongCollection.of(source.toArray(EmptyArrays.LONGS)));
     }

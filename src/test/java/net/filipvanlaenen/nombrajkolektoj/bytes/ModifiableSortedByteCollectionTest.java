@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableSortedByteCollection} class.
@@ -33,12 +32,12 @@ public final class ModifiableSortedByteCollectionTest
 
     @Override
     protected ModifiableSortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final ModifiableSortedByteCollection source) {
         return ModifiableSortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected ModifiableSortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected ModifiableSortedByteCollection createByteCollection(final ModifiableSortedByteCollection source) {
         return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 

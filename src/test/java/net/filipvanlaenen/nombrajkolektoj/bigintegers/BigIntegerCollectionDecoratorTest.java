@@ -8,11 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
 /**
  * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollectionDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} implementation.
  */
-public class BigIntegerCollectionDecoratorTest extends BigIntegerCollectionDecoratorTestBase<BigIntegerCollection> {
+public final class BigIntegerCollectionDecoratorTest extends BigIntegerCollectionDecoratorTestBase<BigIntegerCollection> {
     /**
      * The magic number three.
      */
@@ -54,6 +56,12 @@ public class BigIntegerCollectionDecoratorTest extends BigIntegerCollectionDecor
     @Override
     protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return BigIntegerCollection.of(numbers);
+    }
+
+    @Override
+    protected BigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
+            final BigInteger... numbers) {
+        return BigIntegerCollection.of(elementCardinality, numbers);
     }
 
     /**

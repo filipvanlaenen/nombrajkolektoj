@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} class.
@@ -22,11 +21,11 @@ public final class ModifiableBigIntegerCollectionTest
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final NumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final ModifiableBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final NumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final ModifiableBigIntegerCollection collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     protected ModifiableBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return ModifiableBigIntegerCollection.of(numbers);
@@ -40,12 +39,12 @@ public final class ModifiableBigIntegerCollectionTest
 
     @Override
     protected ModifiableBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
+            final ModifiableBigIntegerCollection source) {
         return ModifiableBigIntegerCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+    protected ModifiableBigIntegerCollection createBigIntegerCollection(final ModifiableBigIntegerCollection source) {
         return ModifiableBigIntegerCollection.of(source);
     }
 

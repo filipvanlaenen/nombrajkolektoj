@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final NumericCollection<Float> collection012 = createFloatCollection(0F, 1F, 2F);
+    private final ModifiableFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final NumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
+    private final ModifiableFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
 
     protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
         return ModifiableFloatCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableFloatCollectionTest
 
     @Override
     protected ModifiableFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final ModifiableFloatCollection source) {
         return ModifiableFloatCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected ModifiableFloatCollection createFloatCollection(final ModifiableFloatCollection source) {
         return ModifiableFloatCollection.of(source);
     }
 

@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableByteCollectionTestBase<T extends ModifiableNumericCollection<Byte>>
+public abstract class ModifiableByteCollectionTestBase<T extends ModifiableByteCollection>
         extends ByteCollectionTestBase<T> {
     /**
      * Creates a bytes collection containing the provided bytes.

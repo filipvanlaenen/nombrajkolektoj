@@ -5,14 +5,14 @@ import java.math.BigInteger;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableOrderedBigIntegerCollection} class.
@@ -38,14 +38,14 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final OrderedNumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final ModifiableOrderedBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final OrderedNumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final ModifiableOrderedBigIntegerCollection collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     @Override
-    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final ModifiableOrderedBigIntegerCollection source) {
         return ModifiableOrderedBigIntegerCollection
                 .of(OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS)));
     }
@@ -63,7 +63,7 @@ public final class ModifiableOrderedBigIntegerCollectionTest
 
     @Override
     protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
+            final ModifiableOrderedBigIntegerCollection source) {
         return ModifiableOrderedBigIntegerCollection.of(elementCardinality,
                 OrderedBigIntegerCollection.of(source.toArray(EmptyArrays.BIG_INTEGERS)));
     }

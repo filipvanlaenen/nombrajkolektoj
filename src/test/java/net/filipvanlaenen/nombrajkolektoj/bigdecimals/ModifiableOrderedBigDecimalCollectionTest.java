@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableOrderedBigDecimalCollection} class.
@@ -38,14 +38,14 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final OrderedNumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final ModifiableOrderedBigDecimalCollection collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final OrderedNumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final ModifiableOrderedBigDecimalCollection collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     @Override
-    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ModifiableOrderedBigDecimalCollection source) {
         return ModifiableOrderedBigDecimalCollection
                 .of(OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
@@ -63,7 +63,7 @@ public final class ModifiableOrderedBigDecimalCollectionTest
 
     @Override
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigDecimal> source) {
+            final ModifiableOrderedBigDecimalCollection source) {
         return ModifiableOrderedBigDecimalCollection.of(elementCardinality,
                 OrderedBigDecimalCollection.of(source.toArray(EmptyArrays.BIG_DECIMALS)));
     }

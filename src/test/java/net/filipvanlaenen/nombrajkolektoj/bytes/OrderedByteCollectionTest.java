@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final OrderedByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final OrderedByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     protected OrderedByteCollection createByteCollection(final Byte... numbers) {
         return OrderedByteCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
 
     @Override
     protected OrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final OrderedByteCollection source) {
         return OrderedByteCollection.of(elementCardinality,
                 OrderedByteCollection.of(source.toArray(EmptyArrays.BYTES)));
     }
 
     @Override
-    protected OrderedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected OrderedByteCollection createByteCollection(final OrderedByteCollection source) {
         return OrderedByteCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BYTES));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     @Override
-    protected OrderedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source) {
+    protected OrderedByteCollection createOrderedByteCollection(final OrderedByteCollection source) {
         return OrderedByteCollection.of(source);
     }
 
     @Override
-    protected OrderedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source,
+    protected OrderedByteCollection createOrderedByteCollection(final OrderedByteCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedByteCollection.of(source, fromIndex, toIndex);
     }

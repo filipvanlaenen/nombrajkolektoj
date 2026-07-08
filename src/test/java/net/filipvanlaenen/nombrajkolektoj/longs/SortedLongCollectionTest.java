@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.longs;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.SortedLongCollection} class.
@@ -18,12 +16,12 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
 
     @Override
     protected SortedLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
+            final SortedLongCollection source) {
         return SortedLongCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedLongCollection createLongCollection(final NumericCollection<Long> source) {
+    protected SortedLongCollection createLongCollection(final SortedLongCollection source) {
         return SortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedLongCollectionTest extends SortedLongCollectionTestBase
     }
 
     @Override
-    protected SortedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source) {
+    protected SortedLongCollection createOrderedLongCollection(final SortedLongCollection source) {
         return SortedLongCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source,
+    protected SortedLongCollection createOrderedLongCollection(final SortedLongCollection source,
             final int fromIndex, final int toIndex) {
         return SortedLongCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

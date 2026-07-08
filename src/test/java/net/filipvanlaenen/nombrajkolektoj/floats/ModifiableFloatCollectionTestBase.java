@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableFloatCollectionTestBase<T extends ModifiableNumericCollection<Float>>
+public abstract class ModifiableFloatCollectionTestBase<T extends ModifiableFloatCollection>
         extends FloatCollectionTestBase<T> {
     /**
      * Creates a floats collection containing the provided floats.

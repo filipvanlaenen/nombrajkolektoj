@@ -2,12 +2,14 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -26,6 +28,24 @@ public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCol
     private final NumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createBigDecimalCollection(BigDecimal.ONE)));
+        assertFalse(collection123.containsAll(createBigDecimalCollection(BigDecimal.ZERO)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(BigDecimal.ONE));
+        assertFalse(collection123.contains(BigDecimal.ZERO));
+    }
+
+    /**
      * Creates an empty BigDecimals collection.
      *
      * @return An empty BigDecimals collection.
@@ -41,29 +61,20 @@ public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCol
     protected abstract T createBigDecimalCollection(BigDecimal... numbers);
 
     /**
-     * Verifies that an empty BigDecimals collection is empty.
+     * Creates a BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The BigDecimals to be included in the BigDecimals collection.
+     * @return A BigDecimals collection with the provided element cardinality containing the provided BigDecimals.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyBigDecimalCollection() {
-        assertTrue(createEmptyBigDecimalCollection().isEmpty());
-    }
+    protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality, BigDecimal... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains(BigDecimal.ONE));
-        assertFalse(collection123.contains(BigDecimal.ZERO));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createBigDecimalCollection(BigDecimal.ONE)));
-        assertFalse(collection123.containsAll(createBigDecimalCollection(BigDecimal.ZERO)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L)).getElementCardinality());
     }
 
     /**
@@ -72,6 +83,14 @@ public abstract class BigDecimalCollectionDecoratorTestBase<T extends NumericCol
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty BigDecimals collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyBigDecimalCollection() {
+        assertTrue(createEmptyBigDecimalCollection().isEmpty());
     }
 
     /**

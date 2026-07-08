@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} class.
@@ -21,11 +20,11 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final NumericCollection<BigDecimal> collection012 = BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final BigDecimalCollection collection012 = BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final NumericCollection<BigDecimal> collection123 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final BigDecimalCollection collection123 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a BigDecimal collection.
@@ -51,12 +50,12 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
 
     @Override
     protected BigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigDecimal> source) {
+            final BigDecimalCollection source) {
         return BigDecimalCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected BigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+    protected BigDecimalCollection createBigDecimalCollection(final BigDecimalCollection source) {
         return BigDecimalCollection.of(source);
     }
 

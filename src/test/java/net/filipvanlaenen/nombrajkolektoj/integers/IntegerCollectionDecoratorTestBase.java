@@ -1,11 +1,13 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
@@ -24,6 +26,24 @@ public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollec
     private final NumericCollection<Integer> collection123 = createIntegerCollection(1, 2, 3);
 
     /**
+     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.containsAll(createIntegerCollection(1)));
+        assertFalse(collection123.containsAll(createIntegerCollection(0)));
+    }
+
+    /**
+     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     */
+    @Test
+    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertTrue(collection123.contains(1));
+        assertFalse(collection123.contains(0));
+    }
+
+    /**
      * Creates an empty integers collection.
      *
      * @return An empty integers collection.
@@ -39,29 +59,20 @@ public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollec
     protected abstract T createIntegerCollection(Integer... numbers);
 
     /**
-     * Verifies that an empty integers collection is empty.
+     * Creates a integers collection with the provided element cardinality containing the provided integers.
+     *
+     * @param elementCardinality The element cardinality.
+     * @param numbers            The integers to be included in the integers collection.
+     * @return A integers collection with the provided element cardinality containing the provided integers.
      */
-    @Test
-    public void isEmptyShouldReturnTrueForAnEmptyIntegerCollection() {
-        assertTrue(createEmptyIntegerCollection().isEmpty());
-    }
+    protected abstract T createIntegerCollection(ElementCardinality elementCardinality, Integer... numbers);
 
     /**
-     * Verifies that the <code>contains</code> method is wired correctly to the internal collection.
+     * Verifies that the <code>getElementCardinality</code> method is wired correctly to the internal collection.
      */
     @Test
-    public void containsShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.contains(1));
-        assertFalse(collection123.contains(0));
-    }
-
-    /**
-     * Verifies that the <code>containsAll</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void containsAllShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertTrue(collection123.containsAll(createIntegerCollection(1)));
-        assertFalse(collection123.containsAll(createIntegerCollection(0)));
+    public void getElementCardinalityShouldBeWiredCorrectlyToTheInternalCollection() {
+        assertEquals(DISTINCT_ELEMENTS, createIntegerCollection(DISTINCT_ELEMENTS, 1, 2).getElementCardinality());
     }
 
     /**
@@ -70,6 +81,14 @@ public abstract class IntegerCollectionDecoratorTestBase<T extends NumericCollec
     @Test
     public void getShouldBeWiredCorrectlyToTheInternalCollection() {
         assertTrue(collection123.contains(collection123.get()));
+    }
+
+    /**
+     * Verifies that an empty integers collection is empty.
+     */
+    @Test
+    public void isEmptyShouldReturnTrueForAnEmptyIntegerCollection() {
+        assertTrue(createEmptyIntegerCollection().isEmpty());
     }
 
     /**

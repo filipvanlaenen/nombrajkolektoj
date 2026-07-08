@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} class.
@@ -19,11 +18,11 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final NumericCollection<Float> collection012 = FloatCollection.of(0F, 1F, 2F);
+    private final FloatCollection collection012 = FloatCollection.of(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final NumericCollection<Float> collection123 = FloatCollection.of(1F, 2F, 3F);
+    private final FloatCollection collection123 = FloatCollection.of(1F, 2F, 3F);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a float collection.
@@ -49,12 +48,12 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
 
     @Override
     protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final FloatCollection source) {
         return FloatCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected FloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected FloatCollection createFloatCollection(final FloatCollection source) {
         return FloatCollection.of(source);
     }
 

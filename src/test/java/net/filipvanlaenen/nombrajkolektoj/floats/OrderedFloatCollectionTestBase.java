@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCollection<Float>>
+public abstract class OrderedFloatCollectionTestBase<T extends OrderedFloatCollection>
         extends FloatCollectionTestBase<T> {
     /**
      * The float three.
@@ -44,7 +43,7 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * @param source The floats to be included in the ordered floats collection.
      * @return An ordered floats collection containing the provided floats.
      */
-    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source);
+    protected abstract T createOrderedFloatCollection(T source);
 
     /**
      * Creates an ordered floats collection containing the provided range of floats.
@@ -54,8 +53,7 @@ public abstract class OrderedFloatCollectionTestBase<T extends OrderedNumericCol
      * @param toIndex   The index of the first element not to be included in the new ordered floats collection.
      * @return An ordered floats collection containing the provided range of floats.
      */
-    protected abstract T createOrderedFloatCollection(OrderedNumericCollection<Float> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedFloatCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered floats collection containing the provided floats.

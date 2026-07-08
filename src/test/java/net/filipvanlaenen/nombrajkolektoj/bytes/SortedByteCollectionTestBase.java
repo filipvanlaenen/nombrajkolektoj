@@ -6,15 +6,13 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.SortedNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.SortedByteCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
 
-public abstract class SortedByteCollectionTestBase<T extends SortedNumericCollection<Byte>>
+public abstract class SortedByteCollectionTestBase<T extends SortedByteCollection>
         extends OrderedByteCollectionTestBase<T> {
     /**
      * The byte three.

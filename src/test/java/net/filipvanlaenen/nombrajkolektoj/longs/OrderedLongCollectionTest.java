@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Long> collection012 = createLongCollection(0L, 1L, 2L);
+    private final OrderedLongCollection collection012 = createLongCollection(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Long> collection123 = createLongCollection(1L, 2L, 3L);
+    private final OrderedLongCollection collection123 = createLongCollection(1L, 2L, 3L);
 
     protected OrderedLongCollection createLongCollection(final Long... numbers) {
         return OrderedLongCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
 
     @Override
     protected OrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Long> source) {
+            final OrderedLongCollection source) {
         return OrderedLongCollection.of(elementCardinality,
                 OrderedLongCollection.of(source.toArray(EmptyArrays.LONGS)));
     }
 
     @Override
-    protected OrderedLongCollection createLongCollection(final NumericCollection<Long> source) {
+    protected OrderedLongCollection createLongCollection(final OrderedLongCollection source) {
         return OrderedLongCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.LONGS));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     @Override
-    protected OrderedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source) {
+    protected OrderedLongCollection createOrderedLongCollection(final OrderedLongCollection source) {
         return OrderedLongCollection.of(source);
     }
 
     @Override
-    protected OrderedLongCollection createOrderedLongCollection(final OrderedNumericCollection<Long> source,
+    protected OrderedLongCollection createOrderedLongCollection(final OrderedLongCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedLongCollection.of(source, fromIndex, toIndex);
     }

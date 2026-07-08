@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} class.
@@ -19,11 +18,11 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final NumericCollection<Byte> collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
+    private final ByteCollection collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final NumericCollection<Byte> collection123 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3);
+    private final ByteCollection collection123 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a byte collection.
@@ -49,12 +48,12 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
 
     @Override
     protected ByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final ByteCollection source) {
         return ByteCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected ByteCollection createByteCollection(final ByteCollection source) {
         return ByteCollection.of(source);
     }
 

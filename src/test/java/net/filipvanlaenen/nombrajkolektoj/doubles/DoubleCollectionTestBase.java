@@ -2,19 +2,19 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class DoubleCollectionTestBase<T extends NumericCollection<Double>> {
+public abstract class DoubleCollectionTestBase<T extends DoubleCollection> {
     /**
      * The double three.
      */
@@ -36,8 +36,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      * @param source             The collection of doubles.
      * @return A doubles collection containing the provided doubles with the provided element cardinality.
      */
-    protected abstract T createDoubleCollection(ElementCardinality elementCardinality,
-            NumericCollection<Double> source);
+    protected abstract T createDoubleCollection(ElementCardinality elementCardinality, T source);
 
     /**
      * Creates a doubles collection from a collection of doubles.
@@ -45,7 +44,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      * @param source The collection of doubles.
      * @return A doubles collection containing the provided doubles.
      */
-    protected abstract T createDoubleCollection(NumericCollection<Double> source);
+    protected abstract T createDoubleCollection(T source);
 
     /**
      * Verifies that a doubles collection with a specific element cardinality receives that element cardinality.
@@ -60,7 +59,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      */
     @Test
     public void ofWithCollectionShouldReturnADoubleCollectionWithTheSameElementCardinalityAndDoubles() {
-        DoubleCollection source = DoubleCollection.of(DISTINCT_ELEMENTS, 1D);
+        T source = createDoubleCollection(DISTINCT_ELEMENTS, 1D);
         T actual = createDoubleCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
@@ -72,7 +71,7 @@ public abstract class DoubleCollectionTestBase<T extends NumericCollection<Doubl
      */
     @Test
     public void ofWithCollectionAndElementCardinalityShouldReturnADoubleCollectionWithTheProvidedElementCardinality() {
-        DoubleCollection source = DoubleCollection.of(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE);
+        T source = createDoubleCollection(DUPLICATE_ELEMENTS, 1D, 2D, 2D, DOUBLE_THREE);
         T actual = createDoubleCollection(DISTINCT_ELEMENTS, source);
         DoubleCollection expected = DoubleCollection.of(1D, 2D, DOUBLE_THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

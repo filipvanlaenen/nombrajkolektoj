@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericCollection<Byte>>
+public abstract class OrderedByteCollectionTestBase<T extends OrderedByteCollection>
         extends ByteCollectionTestBase<T> {
     /**
      * The byte three.
@@ -44,7 +43,7 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
      * @param source The bytes to be included in the ordered bytes collection.
      * @return An ordered bytes collection containing the provided bytes.
      */
-    protected abstract T createOrderedByteCollection(OrderedNumericCollection<Byte> source);
+    protected abstract T createOrderedByteCollection(T source);
 
     /**
      * Creates an ordered bytes collection containing the provided range of bytes.
@@ -54,8 +53,7 @@ public abstract class OrderedByteCollectionTestBase<T extends OrderedNumericColl
      * @param toIndex   The index of the first element not to be included in the new ordered bytes collection.
      * @return An ordered bytes collection containing the provided range of bytes.
      */
-    protected abstract T createOrderedByteCollection(OrderedNumericCollection<Byte> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedByteCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered bytes collection containing the provided bytes.

@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericCollection<Integer>>
+public abstract class OrderedIntegerCollectionTestBase<T extends OrderedIntegerCollection>
         extends IntegerCollectionTestBase<T> {
     /**
      * The int three.
@@ -44,7 +43,7 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
      * @param source The integers to be included in the ordered integers collection.
      * @return An ordered integers collection containing the provided integers.
      */
-    protected abstract T createOrderedIntegerCollection(OrderedNumericCollection<Integer> source);
+    protected abstract T createOrderedIntegerCollection(T source);
 
     /**
      * Creates an ordered integers collection containing the provided range of integers.
@@ -54,8 +53,7 @@ public abstract class OrderedIntegerCollectionTestBase<T extends OrderedNumericC
      * @param toIndex   The index of the first element not to be included in the new ordered integers collection.
      * @return An ordered integers collection containing the provided range of integers.
      */
-    protected abstract T createOrderedIntegerCollection(OrderedNumericCollection<Integer> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedIntegerCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered integers collection containing the provided integers.

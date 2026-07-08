@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} class.
@@ -19,11 +18,11 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final NumericCollection<Short> collection012 = ShortCollection.of((short) 0, (short) 1, (short) 2);
+    private final ShortCollection collection012 = ShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final NumericCollection<Short> collection123 = ShortCollection.of((short) 1, (short) 2, (short) 3);
+    private final ShortCollection collection123 = ShortCollection.of((short) 1, (short) 2, (short) 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a short collection.
@@ -49,12 +48,12 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
 
     @Override
     protected ShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Short> source) {
+            final ShortCollection source) {
         return ShortCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ShortCollection createShortCollection(final NumericCollection<Short> source) {
+    protected ShortCollection createShortCollection(final ShortCollection source) {
         return ShortCollection.of(source);
     }
 

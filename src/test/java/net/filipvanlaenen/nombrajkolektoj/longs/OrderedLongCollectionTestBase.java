@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericCollection<Long>>
+public abstract class OrderedLongCollectionTestBase<T extends OrderedLongCollection>
         extends LongCollectionTestBase<T> {
     /**
      * The long three.
@@ -44,7 +43,7 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * @param source The longs to be included in the ordered longs collection.
      * @return An ordered longs collection containing the provided longs.
      */
-    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source);
+    protected abstract T createOrderedLongCollection(T source);
 
     /**
      * Creates an ordered longs collection containing the provided range of longs.
@@ -54,8 +53,7 @@ public abstract class OrderedLongCollectionTestBase<T extends OrderedNumericColl
      * @param toIndex   The index of the first element not to be included in the new ordered longs collection.
      * @return An ordered longs collection containing the provided range of longs.
      */
-    protected abstract T createOrderedLongCollection(OrderedNumericCollection<Long> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedLongCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered longs collection containing the provided longs.

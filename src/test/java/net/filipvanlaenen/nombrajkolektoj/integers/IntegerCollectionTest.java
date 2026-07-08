@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} class.
@@ -19,11 +18,11 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final NumericCollection<Integer> collection012 = IntegerCollection.of(0, 1, 2);
+    private final IntegerCollection collection012 = IntegerCollection.of(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final NumericCollection<Integer> collection123 = IntegerCollection.of(1, 2, 3);
+    private final IntegerCollection collection123 = IntegerCollection.of(1, 2, 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a int collection.
@@ -49,12 +48,12 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
 
     @Override
     protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Integer> source) {
+            final IntegerCollection source) {
         return IntegerCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected IntegerCollection createIntegerCollection(final NumericCollection<Integer> source) {
+    protected IntegerCollection createIntegerCollection(final IntegerCollection source) {
         return IntegerCollection.of(source);
     }
 

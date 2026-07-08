@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableSortedDoubleCollection} class.
@@ -33,12 +32,12 @@ public final class ModifiableSortedDoubleCollectionTest
 
     @Override
     protected ModifiableSortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final ModifiableSortedDoubleCollection source) {
         return ModifiableSortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected ModifiableSortedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected ModifiableSortedDoubleCollection createDoubleCollection(final ModifiableSortedDoubleCollection source) {
         return ModifiableSortedDoubleCollection.of(Comparator.naturalOrder(), source);
     }
 

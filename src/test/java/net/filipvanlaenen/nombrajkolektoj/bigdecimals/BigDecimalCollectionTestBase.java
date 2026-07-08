@@ -4,19 +4,19 @@ import java.math.BigDecimal;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<BigDecimal>> {
+public abstract class BigDecimalCollectionTestBase<T extends BigDecimalCollection> {
     /**
      * The BigDecimal three.
      */
@@ -38,8 +38,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      * @param source             The collection of BigDecimals.
      * @return A BigDecimals collection containing the provided BigDecimals with the provided element cardinality.
      */
-    protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality,
-            NumericCollection<BigDecimal> source);
+    protected abstract T createBigDecimalCollection(ElementCardinality elementCardinality, T source);
 
     /**
      * Creates a BigDecimals collection from a collection of BigDecimals.
@@ -47,7 +46,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      * @param source The collection of BigDecimals.
      * @return A BigDecimals collection containing the provided BigDecimals.
      */
-    protected abstract T createBigDecimalCollection(NumericCollection<BigDecimal> source);
+    protected abstract T createBigDecimalCollection(T source);
 
     /**
      * Verifies that a BigDecimals collection with a specific element cardinality receives that element cardinality.
@@ -62,7 +61,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionShouldReturnABigDecimalCollectionWithTheSameElementCardinalityAndBigDecimals() {
-        BigDecimalCollection source = BigDecimalCollection.of(DISTINCT_ELEMENTS, BigDecimal.ONE);
+        T source = createBigDecimalCollection(DISTINCT_ELEMENTS, BigDecimal.ONE);
         T actual = createBigDecimalCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
@@ -74,7 +73,7 @@ public abstract class BigDecimalCollectionTestBase<T extends NumericCollection<B
      */
     @Test
     public void ofWithCollectionAndElementCardinalityShouldReturnABigDecimalCollectionWithTheProvidedElementCardinality() {
-        BigDecimalCollection source = BigDecimalCollection.of(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
+        T source = createBigDecimalCollection(DUPLICATE_ELEMENTS, BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
         T actual = createBigDecimalCollection(DISTINCT_ELEMENTS, source);
         BigDecimalCollection expected = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

@@ -2,19 +2,19 @@ package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class IntegerCollectionTestBase<T extends NumericCollection<Integer>> {
+public abstract class IntegerCollectionTestBase<T extends IntegerCollection> {
     /**
      * The int three.
      */
@@ -36,8 +36,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      * @param source             The collection of integers.
      * @return A integers collection containing the provided integers with the provided element cardinality.
      */
-    protected abstract T createIntegerCollection(ElementCardinality elementCardinality,
-            NumericCollection<Integer> source);
+    protected abstract T createIntegerCollection(ElementCardinality elementCardinality, T source);
 
     /**
      * Creates a integers collection from a collection of integers.
@@ -45,7 +44,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      * @param source The collection of integers.
      * @return A integers collection containing the provided integers.
      */
-    protected abstract T createIntegerCollection(NumericCollection<Integer> source);
+    protected abstract T createIntegerCollection(T source);
 
     /**
      * Verifies that a integers collection with a specific element cardinality receives that element cardinality.
@@ -60,7 +59,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      */
     @Test
     public void ofWithCollectionShouldReturnAIntegerCollectionWithTheSameElementCardinalityAndIntegers() {
-        IntegerCollection source = IntegerCollection.of(DISTINCT_ELEMENTS, 1);
+        T source = createIntegerCollection(DISTINCT_ELEMENTS, 1);
         T actual = createIntegerCollection(source);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
         assertEquals(1, actual.size());
@@ -72,7 +71,7 @@ public abstract class IntegerCollectionTestBase<T extends NumericCollection<Inte
      */
     @Test
     public void ofWithCollectionAndElementCardinalityShouldReturnAIntegerCollectionWithTheProvidedElementCardinality() {
-        IntegerCollection source = IntegerCollection.of(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE);
+        T source = createIntegerCollection(DUPLICATE_ELEMENTS, 1, 2, 2, INTEGER_THREE);
         T actual = createIntegerCollection(DISTINCT_ELEMENTS, source);
         IntegerCollection expected = IntegerCollection.of(1, 2, INTEGER_THREE);
         assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());

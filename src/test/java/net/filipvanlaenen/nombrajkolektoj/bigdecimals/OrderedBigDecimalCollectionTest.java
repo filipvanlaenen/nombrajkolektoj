@@ -3,7 +3,10 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 import java.math.BigDecimal;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -11,8 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} class.
@@ -41,11 +42,11 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final OrderedNumericCollection<BigDecimal> collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final OrderedBigDecimalCollection collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final OrderedNumericCollection<BigDecimal> collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final OrderedBigDecimalCollection collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     protected OrderedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return OrderedBigDecimalCollection.of(numbers);
@@ -59,13 +60,13 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
 
     @Override
     protected OrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigDecimal> source) {
+            final OrderedBigDecimalCollection source) {
         return OrderedBigDecimalCollection.of(elementCardinality,
                 OrderedBigDecimalCollection.of(source.toArray(EmptyArrays.BIG_DECIMALS)));
     }
 
     @Override
-    protected OrderedBigDecimalCollection createBigDecimalCollection(final NumericCollection<BigDecimal> source) {
+    protected OrderedBigDecimalCollection createBigDecimalCollection(final OrderedBigDecimalCollection source) {
         return OrderedBigDecimalCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_DECIMALS));
     }
 
@@ -81,12 +82,12 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     @Override
-    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source) {
+    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedBigDecimalCollection source) {
         return OrderedBigDecimalCollection.of(source);
     }
 
     @Override
-    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedNumericCollection<BigDecimal> source,
+    protected OrderedBigDecimalCollection createOrderedBigDecimalCollection(final OrderedBigDecimalCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedBigDecimalCollection.of(source, fromIndex, toIndex);
     }

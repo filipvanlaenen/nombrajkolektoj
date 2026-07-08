@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.floats;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableOrderedFloatCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Float> collection012 = createFloatCollection(0F, 1F, 2F);
+    private final ModifiableOrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Float> collection123 = createFloatCollection(1F, 2F, 3F);
+    private final ModifiableOrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
 
     @Override
-    protected ModifiableOrderedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected ModifiableOrderedFloatCollection createFloatCollection(final ModifiableOrderedFloatCollection source) {
         return ModifiableOrderedFloatCollection
                 .of(OrderedFloatCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.FLOATS)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedFloatCollectionTest
 
     @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final ModifiableOrderedFloatCollection source) {
         return ModifiableOrderedFloatCollection.of(elementCardinality,
                 OrderedFloatCollection.of(source.toArray(EmptyArrays.FLOATS)));
     }

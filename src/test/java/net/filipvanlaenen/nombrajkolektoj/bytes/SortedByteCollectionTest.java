@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.bytes;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.SortedByteCollection} class.
@@ -18,12 +16,12 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
 
     @Override
     protected SortedByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final SortedByteCollection source) {
         return SortedByteCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected SortedByteCollection createByteCollection(final SortedByteCollection source) {
         return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedByteCollectionTest extends SortedByteCollectionTestBase
     }
 
     @Override
-    protected SortedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source) {
+    protected SortedByteCollection createOrderedByteCollection(final SortedByteCollection source) {
         return SortedByteCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedByteCollection createOrderedByteCollection(final OrderedNumericCollection<Byte> source,
+    protected SortedByteCollection createOrderedByteCollection(final SortedByteCollection source,
             final int fromIndex, final int toIndex) {
         return SortedByteCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

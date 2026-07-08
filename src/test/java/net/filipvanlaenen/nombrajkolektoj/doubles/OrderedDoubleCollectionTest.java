@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final OrderedDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final OrderedDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
 
     protected OrderedDoubleCollection createDoubleCollection(final Double... numbers) {
         return OrderedDoubleCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
 
     @Override
     protected OrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final OrderedDoubleCollection source) {
         return OrderedDoubleCollection.of(elementCardinality,
                 OrderedDoubleCollection.of(source.toArray(EmptyArrays.DOUBLES)));
     }
 
     @Override
-    protected OrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected OrderedDoubleCollection createDoubleCollection(final OrderedDoubleCollection source) {
         return OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source) {
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedDoubleCollection source) {
         return OrderedDoubleCollection.of(source);
     }
 
     @Override
-    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedNumericCollection<Double> source,
+    protected OrderedDoubleCollection createOrderedDoubleCollection(final OrderedDoubleCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedDoubleCollection.of(source, fromIndex, toIndex);
     }

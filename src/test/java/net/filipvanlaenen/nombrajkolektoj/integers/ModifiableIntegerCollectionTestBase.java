@@ -7,14 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.ModifiableIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableIntegerCollectionTestBase<T extends ModifiableNumericCollection<Integer>>
+public abstract class ModifiableIntegerCollectionTestBase<T extends ModifiableIntegerCollection>
         extends IntegerCollectionTestBase<T> {
     /**
      * Creates a integers collection containing the provided integers.

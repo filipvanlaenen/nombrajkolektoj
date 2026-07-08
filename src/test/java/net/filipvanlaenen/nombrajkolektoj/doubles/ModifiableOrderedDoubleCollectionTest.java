@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.doubles;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableOrderedDoubleCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedDoubleCollectionTest
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Double> collection012 = createDoubleCollection(0D, 1D, 2D);
+    private final ModifiableOrderedDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Double> collection123 = createDoubleCollection(1D, 2D, 3D);
+    private final ModifiableOrderedDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
 
     @Override
-    protected ModifiableOrderedDoubleCollection createDoubleCollection(final NumericCollection<Double> source) {
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final ModifiableOrderedDoubleCollection source) {
         return ModifiableOrderedDoubleCollection
                 .of(OrderedDoubleCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.DOUBLES)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedDoubleCollectionTest
 
     @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Double> source) {
+            final ModifiableOrderedDoubleCollection source) {
         return ModifiableOrderedDoubleCollection.of(elementCardinality,
                 OrderedDoubleCollection.of(source.toArray(EmptyArrays.DOUBLES)));
     }

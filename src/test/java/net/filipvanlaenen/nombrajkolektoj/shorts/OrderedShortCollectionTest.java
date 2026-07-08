@@ -1,7 +1,10 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} class.
@@ -39,11 +40,11 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final OrderedShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final OrderedShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     protected OrderedShortCollection createShortCollection(final Short... numbers) {
         return OrderedShortCollection.of(numbers);
@@ -57,13 +58,13 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
 
     @Override
     protected OrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Short> source) {
+            final OrderedShortCollection source) {
         return OrderedShortCollection.of(elementCardinality,
                 OrderedShortCollection.of(source.toArray(EmptyArrays.SHORTS)));
     }
 
     @Override
-    protected OrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
+    protected OrderedShortCollection createShortCollection(final OrderedShortCollection source) {
         return OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS));
     }
 
@@ -79,12 +80,12 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     @Override
-    protected OrderedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source) {
+    protected OrderedShortCollection createOrderedShortCollection(final OrderedShortCollection source) {
         return OrderedShortCollection.of(source);
     }
 
     @Override
-    protected OrderedShortCollection createOrderedShortCollection(final OrderedNumericCollection<Short> source,
+    protected OrderedShortCollection createOrderedShortCollection(final OrderedShortCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedShortCollection.of(source, fromIndex, toIndex);
     }

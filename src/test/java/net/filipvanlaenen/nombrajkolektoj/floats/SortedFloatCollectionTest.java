@@ -3,8 +3,6 @@ package net.filipvanlaenen.nombrajkolektoj.floats;
 import java.util.Comparator;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.SortedFloatCollection} class.
@@ -18,12 +16,12 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
 
     @Override
     protected SortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final SortedFloatCollection source) {
         return SortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected SortedFloatCollection createFloatCollection(final SortedFloatCollection source) {
         return SortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 
@@ -45,12 +43,12 @@ public final class SortedFloatCollectionTest extends SortedFloatCollectionTestBa
     }
 
     @Override
-    protected SortedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source) {
+    protected SortedFloatCollection createOrderedFloatCollection(final SortedFloatCollection source) {
         return SortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected SortedFloatCollection createOrderedFloatCollection(final OrderedNumericCollection<Float> source,
+    protected SortedFloatCollection createOrderedFloatCollection(final SortedFloatCollection source,
             final int fromIndex, final int toIndex) {
         return SortedFloatCollection.of(Comparator.naturalOrder(), source, fromIndex, toIndex);
     }

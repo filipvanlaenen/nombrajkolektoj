@@ -9,14 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection;
-
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class ModifiableBigIntegerCollectionTestBase<T extends ModifiableNumericCollection<BigInteger>>
+public abstract class ModifiableBigIntegerCollectionTestBase<T extends ModifiableBigIntegerCollection>
         extends BigIntegerCollectionTestBase<T> {
     /**
      * Creates a BigIntegers collection containing the provided BigIntegers.

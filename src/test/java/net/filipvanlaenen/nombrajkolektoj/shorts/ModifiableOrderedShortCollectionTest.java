@@ -3,14 +3,14 @@ package net.filipvanlaenen.nombrajkolektoj.shorts;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableOrderedShortCollection} class.
@@ -36,14 +36,14 @@ public final class ModifiableOrderedShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final OrderedNumericCollection<Short> collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    private final ModifiableOrderedShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final OrderedNumericCollection<Short> collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
+    private final ModifiableOrderedShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
     @Override
-    protected ModifiableOrderedShortCollection createShortCollection(final NumericCollection<Short> source) {
+    protected ModifiableOrderedShortCollection createShortCollection(final ModifiableOrderedShortCollection source) {
         return ModifiableOrderedShortCollection
                 .of(OrderedShortCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.SHORTS)));
     }
@@ -61,7 +61,7 @@ public final class ModifiableOrderedShortCollectionTest
 
     @Override
     protected ModifiableOrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Short> source) {
+            final ModifiableOrderedShortCollection source) {
         return ModifiableOrderedShortCollection.of(elementCardinality,
                 OrderedShortCollection.of(source.toArray(EmptyArrays.SHORTS)));
     }

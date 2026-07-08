@@ -10,14 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumericCollection<BigDecimal>>
+public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedBigDecimalCollection>
         extends BigDecimalCollectionTestBase<T> {
     /**
      * The BigDecimal three.
@@ -46,7 +45,7 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
      * @param source The BigDecimals to be included in the ordered BigDecimals collection.
      * @return An ordered BigDecimals collection containing the provided BigDecimals.
      */
-    protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source);
+    protected abstract T createOrderedBigDecimalCollection(T source);
 
     /**
      * Creates an ordered BigDecimals collection containing the provided range of BigDecimals.
@@ -56,8 +55,7 @@ public abstract class OrderedBigDecimalCollectionTestBase<T extends OrderedNumer
      * @param toIndex   The index of the first element not to be included in the new ordered BigDecimals collection.
      * @return An ordered BigDecimals collection containing the provided range of BigDecimals.
      */
-    protected abstract T createOrderedBigDecimalCollection(OrderedNumericCollection<BigDecimal> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedBigDecimalCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered BigDecimals collection containing the provided BigDecimals.

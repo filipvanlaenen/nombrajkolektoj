@@ -10,7 +10,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableSortedBigIntegerCollection} class.
@@ -35,12 +34,12 @@ public final class ModifiableSortedBigIntegerCollectionTest
 
     @Override
     protected ModifiableSortedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
+            final ModifiableSortedBigIntegerCollection source) {
         return ModifiableSortedBigIntegerCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected ModifiableSortedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+    protected ModifiableSortedBigIntegerCollection createBigIntegerCollection(final ModifiableSortedBigIntegerCollection source) {
         return ModifiableSortedBigIntegerCollection.of(Comparator.naturalOrder(), source);
     }
 

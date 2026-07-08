@@ -8,7 +8,6 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableSortedFloatCollection} class.
@@ -33,12 +32,12 @@ public final class ModifiableSortedFloatCollectionTest
 
     @Override
     protected ModifiableSortedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Float> source) {
+            final ModifiableSortedFloatCollection source) {
         return ModifiableSortedFloatCollection.of(elementCardinality, Comparator.naturalOrder(), source);
     }
 
     @Override
-    protected ModifiableSortedFloatCollection createFloatCollection(final NumericCollection<Float> source) {
+    protected ModifiableSortedFloatCollection createFloatCollection(final ModifiableSortedFloatCollection source) {
         return ModifiableSortedFloatCollection.of(Comparator.naturalOrder(), source);
     }
 

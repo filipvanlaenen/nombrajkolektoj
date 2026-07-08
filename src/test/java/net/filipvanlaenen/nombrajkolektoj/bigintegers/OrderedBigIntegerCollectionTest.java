@@ -3,7 +3,10 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -11,8 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} class.
@@ -41,11 +42,11 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final OrderedNumericCollection<BigInteger> collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final OrderedBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final OrderedNumericCollection<BigInteger> collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final OrderedBigIntegerCollection collection123 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     protected OrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return OrderedBigIntegerCollection.of(numbers);
@@ -59,13 +60,13 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
 
     @Override
     protected OrderedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<BigInteger> source) {
+            final OrderedBigIntegerCollection source) {
         return OrderedBigIntegerCollection.of(elementCardinality,
                 OrderedBigIntegerCollection.of(source.toArray(EmptyArrays.BIG_INTEGERS)));
     }
 
     @Override
-    protected OrderedBigIntegerCollection createBigIntegerCollection(final NumericCollection<BigInteger> source) {
+    protected OrderedBigIntegerCollection createBigIntegerCollection(final OrderedBigIntegerCollection source) {
         return OrderedBigIntegerCollection.of(source.getElementCardinality(), source.toArray(EmptyArrays.BIG_INTEGERS));
     }
 
@@ -81,12 +82,12 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     @Override
-    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source) {
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedBigIntegerCollection source) {
         return OrderedBigIntegerCollection.of(source);
     }
 
     @Override
-    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedNumericCollection<BigInteger> source,
+    protected OrderedBigIntegerCollection createOrderedBigIntegerCollection(final OrderedBigIntegerCollection source,
             final int fromIndex, final int toIndex) {
         return OrderedBigIntegerCollection.of(source, fromIndex, toIndex);
     }

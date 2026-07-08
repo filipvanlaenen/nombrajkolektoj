@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ModifiableByteCollection} class.
@@ -20,11 +19,11 @@ public final class ModifiableByteCollectionTest
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final NumericCollection<Byte> collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    private final ModifiableByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final NumericCollection<Byte> collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
+    private final ModifiableByteCollection collection123 = createByteCollection((byte) 1, (byte) 2, (byte) 3);
 
     protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableByteCollection.of(numbers);
@@ -38,12 +37,12 @@ public final class ModifiableByteCollectionTest
 
     @Override
     protected ModifiableByteCollection createByteCollection(final ElementCardinality elementCardinality,
-            final NumericCollection<Byte> source) {
+            final ModifiableByteCollection source) {
         return ModifiableByteCollection.of(elementCardinality, source);
     }
 
     @Override
-    protected ModifiableByteCollection createByteCollection(final NumericCollection<Byte> source) {
+    protected ModifiableByteCollection createByteCollection(final ModifiableByteCollection source) {
         return ModifiableByteCollection.of(source);
     }
 

@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
-import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCollection<Short>>
+public abstract class OrderedShortCollectionTestBase<T extends OrderedShortCollection>
         extends ShortCollectionTestBase<T> {
     /**
      * The short three.
@@ -44,7 +43,7 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * @param source The shorts to be included in the ordered shorts collection.
      * @return An ordered shorts collection containing the provided shorts.
      */
-    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source);
+    protected abstract T createOrderedShortCollection(T source);
 
     /**
      * Creates an ordered shorts collection containing the provided range of shorts.
@@ -54,8 +53,7 @@ public abstract class OrderedShortCollectionTestBase<T extends OrderedNumericCol
      * @param toIndex   The index of the first element not to be included in the new ordered shorts collection.
      * @return An ordered shorts collection containing the provided range of shorts.
      */
-    protected abstract T createOrderedShortCollection(OrderedNumericCollection<Short> source, int fromIndex,
-            int toIndex);
+    protected abstract T createOrderedShortCollection(T source, int fromIndex, int toIndex);
 
     /**
      * Creates an ordered shorts collection containing the provided shorts.

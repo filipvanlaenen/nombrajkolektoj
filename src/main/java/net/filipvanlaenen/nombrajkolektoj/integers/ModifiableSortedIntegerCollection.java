@@ -22,7 +22,10 @@ public interface ModifiableSortedIntegerCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedIntegerCollectionDecorator {
+    final class SortedTreeCollection extends ModifiableSortedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableSortedTreeCollection<Integer> decoratedCollection;
 
         @Override
@@ -84,7 +87,7 @@ public interface ModifiableSortedIntegerCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted integers collection.
      */
-    public static ModifiableSortedIntegerCollection empty(final Comparator<Integer> comparator) {
+    static ModifiableSortedIntegerCollection empty(final Comparator<Integer> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -95,8 +98,7 @@ public interface ModifiableSortedIntegerCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted integers collection with the specified integers.
      */
-    public static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
-            final Integer... numbers) {
+    static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new SortedTreeCollection(comparator, numbers);
     }
 
@@ -107,7 +109,7 @@ public interface ModifiableSortedIntegerCollection
      * @param collection The original integers collection.
      * @return A new sorted modifiable integers collection cloned from the provided integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
+    static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
             final NumericCollection<Integer> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
@@ -123,7 +125,7 @@ public interface ModifiableSortedIntegerCollection
      * @return A new modifiable sorted integers collection cloned from a range in the provided ordered integers
      *         collection.
      */
-    public static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
+    static ModifiableSortedIntegerCollection of(final Comparator<? super Integer> comparator,
             final OrderedNumericCollection<Integer> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
@@ -141,7 +143,7 @@ public interface ModifiableSortedIntegerCollection
      * @param numbers            The integers for the new modifiable sorted integers collection.
      * @return A new modifiable sorted integers collection with the specified element cardinality and the integers.
      */
-    public static ModifiableSortedIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
     }
@@ -156,7 +158,7 @@ public interface ModifiableSortedIntegerCollection
      * @return A new modifiable sorted integers collection with the specified element cardinality cloned from the
      *         provided integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Integer> comparator, final NumericCollection<Integer> collection) {
         return new SortedTreeCollection(elementCardinality, comparator, collection);
     }
@@ -167,7 +169,7 @@ public interface ModifiableSortedIntegerCollection
      * @param collection The original sorted integers collection.
      * @return A new modifiable sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
+    static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -178,7 +180,7 @@ public interface ModifiableSortedIntegerCollection
      * @param range      The range.
      * @return A new modifiable sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection,
+    static ModifiableSortedIntegerCollection of(final SortedNumericCollection<Integer> collection,
             final Range<Integer> range) {
         ModifiableSortedIntegerCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

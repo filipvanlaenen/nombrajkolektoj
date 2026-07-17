@@ -2,13 +2,16 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -20,7 +23,20 @@ public final class ModifiableSortedBigIntegerCollectionTest
      * The BigInteger three.
      */
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
+    /**
+     * The BigInteger four.
+     */
+    private static final BigInteger BIG_INTEGER_FOUR = BigInteger.valueOf(4L);
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Collection with the BigIntegers 1, 2 and 3.
+     */
+    private final BigIntegerCollection collection123 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
+    @Override
     protected ModifiableSortedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return ModifiableSortedBigIntegerCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -43,95 +59,59 @@ public final class ModifiableSortedBigIntegerCollectionTest
     }
 
     /**
-     * Creates a modifiable sorted BigIntegers collection containing the provided BigIntegers.
-     *
-     * @param numbers    The BigIntegers to be included in the modifiable sorted BigIntegers collection.
-     * @param comparator The comparator for the BigIntegers.
-     * @return An modifiable sorted BigIntegers collection containing the provided BigIntegers.
+     * Verifies that the constructor of the SortedTreeCollection class creates a BigInteger collection.
      */
-    private ModifiableSortedBigIntegerCollection createSortedBigIntegerCollection(final Comparator<BigInteger> comparator,
-            final BigInteger... numbers) {
-        return ModifiableSortedBigIntegerCollection.of(comparator, numbers);
+    @Test
+    public void constructorOfSortedTreeCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new ModifiableSortedBigIntegerCollection.SortedTreeCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO,
+                BIG_INTEGER_THREE).containsAll(collection123));
     }
 
     /**
-     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableSortedBigIntegerCollection collection = createSortedBigIntegerCollection(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO);
-        assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableSortedBigIntegerCollection.empty(Comparator.naturalOrder()).isEmpty());
     }
 
     /**
-     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted BigIntegers collection created from another sorted collection has the same comparator and the
+     * same elements.
      */
     @Test
-    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BIG_INTEGER_THREE, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getGreaterThan(BigInteger.TWO));
+    public void ofWithSortedCollectionShouldReturnASortedCollectionWithTheSameComparatorAndElements() {
+        SortedBigIntegerCollection source = SortedBigIntegerCollection.of(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        ModifiableSortedBigIntegerCollection actual = ModifiableSortedBigIntegerCollection.of(source);
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(source));
     }
 
     /**
-     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted BigIntegers collection created with a range from another sorted collection has the same
+     * comparator and the correct elements.
      */
     @Test
-    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getGreaterThanOrEqualTo(BigInteger.TWO));
+    public void ofWithSortedCollectionAndRangeShouldReturnASortedCollectionWithTheSameComparatorAndCorrectElements() {
+        SortedBigIntegerCollection source = SortedBigIntegerCollection.of(Comparator.naturalOrder(), BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
+        ModifiableSortedBigIntegerCollection actual =
+                ModifiableSortedBigIntegerCollection.of(source, Range.greaterThan(BigInteger.ONE).lessThan(BIG_INTEGER_THREE));
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(BigIntegerCollection.of(BigInteger.TWO)));
     }
 
     /**
-     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     * Verifies that an ordered BigIntegers collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct BigIntegers in the same order.
      */
     @Test
-    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.ONE, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThan(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getLessThanOrEqualTo(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).firstIndexOf(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).indexOf(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createBigIntegerCollection(DUPLICATE_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BigInteger.TWO, BIG_INTEGER_THREE).lastIndexOf(BigInteger.TWO));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BigInteger.TWO, createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).removeAt(1));
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        OrderedBigIntegerCollection source =
+                OrderedBigIntegerCollection.of(DISTINCT_ELEMENTS, BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BIG_INTEGER_FOUR);
+        ModifiableSortedBigIntegerCollection actual =
+                ModifiableSortedBigIntegerCollection.of(Comparator.naturalOrder(), source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertEquals(Comparator.naturalOrder(), actual.getComparator());
+        assertArrayEquals(new BigInteger[] {BigInteger.TWO, BIG_INTEGER_THREE}, actual.toArray());
     }
 }

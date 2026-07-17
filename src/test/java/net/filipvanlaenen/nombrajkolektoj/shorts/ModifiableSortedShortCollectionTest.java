@@ -1,12 +1,15 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -18,7 +21,20 @@ public final class ModifiableSortedShortCollectionTest
      * The short three.
      */
     private static final Short SHORT_THREE = (short) 3;
+    /**
+     * The short four.
+     */
+    private static final Short SHORT_FOUR = (short) 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Collection with the shorts 1, 2 and 3.
+     */
+    private final ShortCollection collection123 = ShortCollection.of((short) 1, (short) 2, (short) 3);
 
+    @Override
     protected ModifiableSortedShortCollection createShortCollection(final Short... numbers) {
         return ModifiableSortedShortCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -41,95 +57,59 @@ public final class ModifiableSortedShortCollectionTest
     }
 
     /**
-     * Creates a modifiable sorted shorts collection containing the provided shorts.
-     *
-     * @param numbers    The shorts to be included in the modifiable sorted shorts collection.
-     * @param comparator The comparator for the shorts.
-     * @return An modifiable sorted shorts collection containing the provided shorts.
+     * Verifies that the constructor of the SortedTreeCollection class creates a short collection.
      */
-    private ModifiableSortedShortCollection createSortedShortCollection(final Comparator<Short> comparator,
-            final Short... numbers) {
-        return ModifiableSortedShortCollection.of(comparator, numbers);
+    @Test
+    public void constructorOfSortedTreeCollectionShouldCreateAShortCollection() {
+        assertTrue(new ModifiableSortedShortCollection.SortedTreeCollection(Comparator.naturalOrder(), (short) 1, (short) 2,
+                SHORT_THREE).containsAll(collection123));
     }
 
     /**
-     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableSortedShortCollection collection = createSortedShortCollection(Comparator.naturalOrder(), (short) 1, (short) 2);
-        assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableSortedShortCollection.empty(Comparator.naturalOrder()).isEmpty());
     }
 
     /**
-     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted shorts collection created from another sorted collection has the same comparator and the
+     * same elements.
      */
     @Test
-    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(SHORT_THREE, createShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThan((short) 2));
+    public void ofWithSortedCollectionShouldReturnASortedCollectionWithTheSameComparatorAndElements() {
+        SortedShortCollection source = SortedShortCollection.of(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE);
+        ModifiableSortedShortCollection actual = ModifiableSortedShortCollection.of(source);
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(source));
     }
 
     /**
-     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted shorts collection created with a range from another sorted collection has the same
+     * comparator and the correct elements.
      */
     @Test
-    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getGreaterThanOrEqualTo((short) 2));
+    public void ofWithSortedCollectionAndRangeShouldReturnASortedCollectionWithTheSameComparatorAndCorrectElements() {
+        SortedShortCollection source = SortedShortCollection.of(Comparator.naturalOrder(), (short) 1, (short) 2, SHORT_THREE);
+        ModifiableSortedShortCollection actual =
+                ModifiableSortedShortCollection.of(source, Range.greaterThan((short) 1).lessThan(SHORT_THREE));
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(ShortCollection.of((short) 2)));
     }
 
     /**
-     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     * Verifies that an ordered shorts collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct shorts in the same order.
      */
     @Test
-    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 1, createShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThan((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getLessThanOrEqualTo((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).firstIndexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createShortCollection((short) 1, (short) 2, SHORT_THREE).indexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createShortCollection(DUPLICATE_ELEMENTS, (short) 1, (short) 2, (short) 2, SHORT_THREE).lastIndexOf((short) 2));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((short) 2, createShortCollection((short) 1, (short) 2, SHORT_THREE).removeAt(1));
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        OrderedShortCollection source =
+                OrderedShortCollection.of(DISTINCT_ELEMENTS, (short) 1, (short) 2, SHORT_THREE, SHORT_FOUR);
+        ModifiableSortedShortCollection actual =
+                ModifiableSortedShortCollection.of(Comparator.naturalOrder(), source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertEquals(Comparator.naturalOrder(), actual.getComparator());
+        assertArrayEquals(new Short[] {(short) 2, SHORT_THREE}, actual.toArray());
     }
 }

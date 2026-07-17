@@ -22,7 +22,10 @@ public interface ModifiableSortedDoubleCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedDoubleCollectionDecorator {
+    final class SortedTreeCollection extends ModifiableSortedDoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableSortedTreeCollection<Double> decoratedCollection;
 
         @Override
@@ -84,7 +87,7 @@ public interface ModifiableSortedDoubleCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted doubles collection.
      */
-    public static ModifiableSortedDoubleCollection empty(final Comparator<Double> comparator) {
+    static ModifiableSortedDoubleCollection empty(final Comparator<Double> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -95,8 +98,7 @@ public interface ModifiableSortedDoubleCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted doubles collection with the specified doubles.
      */
-    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
-            final Double... numbers) {
+    static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator, final Double... numbers) {
         return new SortedTreeCollection(comparator, numbers);
     }
 
@@ -107,7 +109,7 @@ public interface ModifiableSortedDoubleCollection
      * @param collection The original doubles collection.
      * @return A new sorted modifiable doubles collection cloned from the provided doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
+    static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
             final NumericCollection<Double> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
@@ -123,7 +125,7 @@ public interface ModifiableSortedDoubleCollection
      * @return A new modifiable sorted doubles collection cloned from a range in the provided ordered doubles
      *         collection.
      */
-    public static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
+    static ModifiableSortedDoubleCollection of(final Comparator<? super Double> comparator,
             final OrderedNumericCollection<Double> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedDoubleCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
@@ -141,7 +143,7 @@ public interface ModifiableSortedDoubleCollection
      * @param numbers            The doubles for the new modifiable sorted doubles collection.
      * @return A new modifiable sorted doubles collection with the specified element cardinality and the doubles.
      */
-    public static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Double> comparator, final Double... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
     }
@@ -156,7 +158,7 @@ public interface ModifiableSortedDoubleCollection
      * @return A new modifiable sorted doubles collection with the specified element cardinality cloned from the
      *         provided doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedDoubleCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Double> comparator, final NumericCollection<Double> collection) {
         return new SortedTreeCollection(elementCardinality, comparator, collection);
     }
@@ -167,7 +169,7 @@ public interface ModifiableSortedDoubleCollection
      * @param collection The original sorted doubles collection.
      * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
+    static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -178,7 +180,7 @@ public interface ModifiableSortedDoubleCollection
      * @param range      The range.
      * @return A new modifiable sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection,
+    static ModifiableSortedDoubleCollection of(final SortedNumericCollection<Double> collection,
             final Range<Double> range) {
         ModifiableSortedDoubleCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

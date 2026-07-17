@@ -24,7 +24,10 @@ public interface ModifiableSortedBigDecimalCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedBigDecimalCollectionDecorator {
+    final class SortedTreeCollection extends ModifiableSortedBigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableSortedTreeCollection<BigDecimal> decoratedCollection;
 
         @Override
@@ -86,7 +89,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted BigDecimals collection.
      */
-    public static ModifiableSortedBigDecimalCollection empty(final Comparator<BigDecimal> comparator) {
+    static ModifiableSortedBigDecimalCollection empty(final Comparator<BigDecimal> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -97,8 +100,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted BigDecimals collection with the specified BigDecimals.
      */
-    public static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
-            final BigDecimal... numbers) {
+    static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
         return new SortedTreeCollection(comparator, numbers);
     }
 
@@ -109,7 +111,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param collection The original BigDecimals collection.
      * @return A new sorted modifiable BigDecimals collection cloned from the provided BigDecimals collection.
      */
-    public static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
+    static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
             final NumericCollection<BigDecimal> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
@@ -125,7 +127,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @return A new modifiable sorted BigDecimals collection cloned from a range in the provided ordered BigDecimals
      *         collection.
      */
-    public static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
+    static ModifiableSortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
             final OrderedNumericCollection<BigDecimal> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedBigDecimalCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
@@ -143,7 +145,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param numbers            The BigDecimals for the new modifiable sorted BigDecimals collection.
      * @return A new modifiable sorted BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    public static ModifiableSortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedBigDecimalCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
     }
@@ -158,7 +160,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @return A new modifiable sorted BigDecimals collection with the specified element cardinality cloned from the
      *         provided BigDecimals collection.
      */
-    public static ModifiableSortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedBigDecimalCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigDecimal> comparator, final NumericCollection<BigDecimal> collection) {
         return new SortedTreeCollection(elementCardinality, comparator, collection);
     }
@@ -169,7 +171,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param collection The original sorted BigDecimals collection.
      * @return A new modifiable sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static ModifiableSortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection) {
+    static ModifiableSortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -180,7 +182,7 @@ public interface ModifiableSortedBigDecimalCollection
      * @param range      The range.
      * @return A new modifiable sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static ModifiableSortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection,
+    static ModifiableSortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection,
             final Range<BigDecimal> range) {
         ModifiableSortedBigDecimalCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

@@ -1,12 +1,15 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -18,7 +21,20 @@ public final class ModifiableSortedLongCollectionTest
      * The long three.
      */
     private static final Long LONG_THREE = 3L;
+    /**
+     * The long four.
+     */
+    private static final Long LONG_FOUR = 4L;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Collection with the longs 1, 2 and 3.
+     */
+    private final LongCollection collection123 = LongCollection.of(1L, 2L, 3L);
 
+    @Override
     protected ModifiableSortedLongCollection createLongCollection(final Long... numbers) {
         return ModifiableSortedLongCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -41,95 +57,59 @@ public final class ModifiableSortedLongCollectionTest
     }
 
     /**
-     * Creates a modifiable sorted longs collection containing the provided longs.
-     *
-     * @param numbers    The longs to be included in the modifiable sorted longs collection.
-     * @param comparator The comparator for the longs.
-     * @return An modifiable sorted longs collection containing the provided longs.
+     * Verifies that the constructor of the SortedTreeCollection class creates a long collection.
      */
-    private ModifiableSortedLongCollection createSortedLongCollection(final Comparator<Long> comparator,
-            final Long... numbers) {
-        return ModifiableSortedLongCollection.of(comparator, numbers);
+    @Test
+    public void constructorOfSortedTreeCollectionShouldCreateALongCollection() {
+        assertTrue(new ModifiableSortedLongCollection.SortedTreeCollection(Comparator.naturalOrder(), 1L, 2L,
+                LONG_THREE).containsAll(collection123));
     }
 
     /**
-     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableSortedLongCollection collection = createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L);
-        assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableSortedLongCollection.empty(Comparator.naturalOrder()).isEmpty());
     }
 
     /**
-     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted longs collection created from another sorted collection has the same comparator and the
+     * same elements.
      */
     @Test
-    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(LONG_THREE, createLongCollection(1L, 2L, LONG_THREE).getGreaterThan(2L));
+    public void ofWithSortedCollectionShouldReturnASortedCollectionWithTheSameComparatorAndElements() {
+        SortedLongCollection source = SortedLongCollection.of(Comparator.naturalOrder(), 1L, 2L, LONG_THREE);
+        ModifiableSortedLongCollection actual = ModifiableSortedLongCollection.of(source);
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(source));
     }
 
     /**
-     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted longs collection created with a range from another sorted collection has the same
+     * comparator and the correct elements.
      */
     @Test
-    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getGreaterThanOrEqualTo(2L));
+    public void ofWithSortedCollectionAndRangeShouldReturnASortedCollectionWithTheSameComparatorAndCorrectElements() {
+        SortedLongCollection source = SortedLongCollection.of(Comparator.naturalOrder(), 1L, 2L, LONG_THREE);
+        ModifiableSortedLongCollection actual =
+                ModifiableSortedLongCollection.of(source, Range.greaterThan(1L).lessThan(LONG_THREE));
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(LongCollection.of(2L)));
     }
 
     /**
-     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     * Verifies that an ordered longs collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct longs in the same order.
      */
     @Test
-    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1L, createLongCollection(1L, 2L, LONG_THREE).getLessThan(2L));
-    }
-
-    /**
-     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getLessThanOrEqualTo(2L));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).firstIndexOf(2L));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createLongCollection(1L, 2L, LONG_THREE).indexOf(2L));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createLongCollection(DUPLICATE_ELEMENTS, 1L, 2L, 2L, LONG_THREE).lastIndexOf(2L));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2L, createLongCollection(1L, 2L, LONG_THREE).removeAt(1));
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        OrderedLongCollection source =
+                OrderedLongCollection.of(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE, LONG_FOUR);
+        ModifiableSortedLongCollection actual =
+                ModifiableSortedLongCollection.of(Comparator.naturalOrder(), source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertEquals(Comparator.naturalOrder(), actual.getComparator());
+        assertArrayEquals(new Long[] {2L, LONG_THREE}, actual.toArray());
     }
 }

@@ -22,7 +22,10 @@ public interface ModifiableSortedShortCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedShortCollectionDecorator {
+    final class SortedTreeCollection extends ModifiableSortedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableSortedTreeCollection<Short> decoratedCollection;
 
         @Override
@@ -84,7 +87,7 @@ public interface ModifiableSortedShortCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted shorts collection.
      */
-    public static ModifiableSortedShortCollection empty(final Comparator<Short> comparator) {
+    static ModifiableSortedShortCollection empty(final Comparator<Short> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -95,8 +98,7 @@ public interface ModifiableSortedShortCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted shorts collection with the specified shorts.
      */
-    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
-            final Short... numbers) {
+    static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator, final Short... numbers) {
         return new SortedTreeCollection(comparator, numbers);
     }
 
@@ -107,7 +109,7 @@ public interface ModifiableSortedShortCollection
      * @param collection The original shorts collection.
      * @return A new sorted modifiable shorts collection cloned from the provided shorts collection.
      */
-    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
+    static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
             final NumericCollection<Short> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
@@ -123,7 +125,7 @@ public interface ModifiableSortedShortCollection
      * @return A new modifiable sorted shorts collection cloned from a range in the provided ordered shorts
      *         collection.
      */
-    public static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
+    static ModifiableSortedShortCollection of(final Comparator<? super Short> comparator,
             final OrderedNumericCollection<Short> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedShortCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
@@ -141,7 +143,7 @@ public interface ModifiableSortedShortCollection
      * @param numbers            The shorts for the new modifiable sorted shorts collection.
      * @return A new modifiable sorted shorts collection with the specified element cardinality and the shorts.
      */
-    public static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Short> comparator, final Short... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
     }
@@ -156,7 +158,7 @@ public interface ModifiableSortedShortCollection
      * @return A new modifiable sorted shorts collection with the specified element cardinality cloned from the
      *         provided shorts collection.
      */
-    public static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedShortCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Short> comparator, final NumericCollection<Short> collection) {
         return new SortedTreeCollection(elementCardinality, comparator, collection);
     }
@@ -167,7 +169,7 @@ public interface ModifiableSortedShortCollection
      * @param collection The original sorted shorts collection.
      * @return A new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static ModifiableSortedShortCollection of(final SortedNumericCollection<Short> collection) {
+    static ModifiableSortedShortCollection of(final SortedNumericCollection<Short> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -178,7 +180,7 @@ public interface ModifiableSortedShortCollection
      * @param range      The range.
      * @return A new modifiable sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static ModifiableSortedShortCollection of(final SortedNumericCollection<Short> collection,
+    static ModifiableSortedShortCollection of(final SortedNumericCollection<Short> collection,
             final Range<Short> range) {
         ModifiableSortedShortCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

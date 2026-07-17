@@ -1,12 +1,15 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DUPLICATE_ELEMENTS;
+import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Range;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -18,7 +21,20 @@ public final class ModifiableSortedByteCollectionTest
      * The byte three.
      */
     private static final Byte BYTE_THREE = (byte) 3;
+    /**
+     * The byte four.
+     */
+    private static final Byte BYTE_FOUR = (byte) 4;
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Collection with the bytes 1, 2 and 3.
+     */
+    private final ByteCollection collection123 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3);
 
+    @Override
     protected ModifiableSortedByteCollection createByteCollection(final Byte... numbers) {
         return ModifiableSortedByteCollection.of(Comparator.naturalOrder(), numbers);
     }
@@ -41,95 +57,59 @@ public final class ModifiableSortedByteCollectionTest
     }
 
     /**
-     * Creates a modifiable sorted bytes collection containing the provided bytes.
-     *
-     * @param numbers    The bytes to be included in the modifiable sorted bytes collection.
-     * @param comparator The comparator for the bytes.
-     * @return An modifiable sorted bytes collection containing the provided bytes.
+     * Verifies that the constructor of the SortedTreeCollection class creates a byte collection.
      */
-    private ModifiableSortedByteCollection createSortedByteCollection(final Comparator<Byte> comparator,
-            final Byte... numbers) {
-        return ModifiableSortedByteCollection.of(comparator, numbers);
+    @Test
+    public void constructorOfSortedTreeCollectionShouldCreateAByteCollection() {
+        assertTrue(new ModifiableSortedByteCollection.SortedTreeCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2,
+                BYTE_THREE).containsAll(collection123));
     }
 
     /**
-     * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
+     * Verifies that empty produces an empty collection.
      */
     @Test
-    public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
-        ModifiableSortedByteCollection collection = createSortedByteCollection(Comparator.naturalOrder(), (byte) 1, (byte) 2);
-        assertEquals(Comparator.naturalOrder(), collection.getComparator());
+    public void emptyShouldProduceAnEmptyCollection() {
+        assertTrue(ModifiableSortedByteCollection.empty(Comparator.naturalOrder()).isEmpty());
     }
 
     /**
-     * Verifies that the <code>getGreaterThan</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted bytes collection created from another sorted collection has the same comparator and the
+     * same elements.
      */
     @Test
-    public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(BYTE_THREE, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getGreaterThan((byte) 2));
+    public void ofWithSortedCollectionShouldReturnASortedCollectionWithTheSameComparatorAndElements() {
+        SortedByteCollection source = SortedByteCollection.of(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE);
+        ModifiableSortedByteCollection actual = ModifiableSortedByteCollection.of(source);
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(source));
     }
 
     /**
-     * Verifies that the <code>getGreaterThanOrEqualTo</code> method is wired correctly to the internal collection.
+     * Verifies that a sorted bytes collection created with a range from another sorted collection has the same
+     * comparator and the correct elements.
      */
     @Test
-    public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getGreaterThanOrEqualTo((byte) 2));
+    public void ofWithSortedCollectionAndRangeShouldReturnASortedCollectionWithTheSameComparatorAndCorrectElements() {
+        SortedByteCollection source = SortedByteCollection.of(Comparator.naturalOrder(), (byte) 1, (byte) 2, BYTE_THREE);
+        ModifiableSortedByteCollection actual =
+                ModifiableSortedByteCollection.of(source, Range.greaterThan((byte) 1).lessThan(BYTE_THREE));
+        assertEquals(source.getComparator(), actual.getComparator());
+        assertTrue(actual.containsSame(ByteCollection.of((byte) 2)));
     }
 
     /**
-     * Verifies that the <code>getLessThan</code> method is wired correctly to the internal collection.
+     * Verifies that an ordered bytes collection created as a slice from another ordered collection has the same
+     * element cardinality and the correct bytes in the same order.
      */
     @Test
-    public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 1, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getLessThan((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>getLessThanOrEqualTo</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getLessThanOrEqualTo((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>firstIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void firstIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).firstIndexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>getAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void getAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).getAt(1));
-    }
-
-    /**
-     * Verifies that the <code>indexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void indexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).indexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>lastIndexOf</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void lastIndexOfShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2, createByteCollection(DUPLICATE_ELEMENTS, (byte) 1, (byte) 2, (byte) 2, BYTE_THREE).lastIndexOf((byte) 2));
-    }
-
-    /**
-     * Verifies that the <code>removeAt</code> method is wired correctly to the internal collection.
-     */
-    @Test
-    public void removeAtShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals((byte) 2, createByteCollection((byte) 1, (byte) 2, BYTE_THREE).removeAt(1));
+    public void ofWithCollectionShouldReturnTheCorrectSlice() {
+        OrderedByteCollection source =
+                OrderedByteCollection.of(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE, BYTE_FOUR);
+        ModifiableSortedByteCollection actual =
+                ModifiableSortedByteCollection.of(Comparator.naturalOrder(), source, 1, THREE);
+        assertEquals(DISTINCT_ELEMENTS, actual.getElementCardinality());
+        assertEquals(Comparator.naturalOrder(), actual.getComparator());
+        assertArrayEquals(new Byte[] {(byte) 2, BYTE_THREE}, actual.toArray());
     }
 }

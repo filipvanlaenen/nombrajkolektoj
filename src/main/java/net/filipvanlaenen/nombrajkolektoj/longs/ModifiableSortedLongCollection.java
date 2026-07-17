@@ -22,7 +22,10 @@ public interface ModifiableSortedLongCollection
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableSortedCollection}
      * interface backed by a sorted tree.
      */
-    public static final class SortedTreeCollection extends ModifiableSortedLongCollectionDecorator {
+    final class SortedTreeCollection extends ModifiableSortedLongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private ModifiableSortedTreeCollection<Long> decoratedCollection;
 
         @Override
@@ -84,7 +87,7 @@ public interface ModifiableSortedLongCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted longs collection.
      */
-    public static ModifiableSortedLongCollection empty(final Comparator<Long> comparator) {
+    static ModifiableSortedLongCollection empty(final Comparator<Long> comparator) {
         return new SortedTreeCollection(comparator);
     }
 
@@ -95,8 +98,7 @@ public interface ModifiableSortedLongCollection
      * @param comparator The comparator by which to sort the elements.
      * @return A new modifiable sorted longs collection with the specified longs.
      */
-    public static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
-            final Long... numbers) {
+    static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator, final Long... numbers) {
         return new SortedTreeCollection(comparator, numbers);
     }
 
@@ -107,7 +109,7 @@ public interface ModifiableSortedLongCollection
      * @param collection The original longs collection.
      * @return A new sorted modifiable longs collection cloned from the provided longs collection.
      */
-    public static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
+    static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
             final NumericCollection<Long> collection) {
         return new SortedTreeCollection(comparator, collection);
     }
@@ -123,7 +125,7 @@ public interface ModifiableSortedLongCollection
      * @return A new modifiable sorted longs collection cloned from a range in the provided ordered longs
      *         collection.
      */
-    public static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
+    static ModifiableSortedLongCollection of(final Comparator<? super Long> comparator,
             final OrderedNumericCollection<Long> collection, final int fromIndex, final int toIndex) {
         ModifiableSortedLongCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), comparator);
@@ -141,7 +143,7 @@ public interface ModifiableSortedLongCollection
      * @param numbers            The longs for the new modifiable sorted longs collection.
      * @return A new modifiable sorted longs collection with the specified element cardinality and the longs.
      */
-    public static ModifiableSortedLongCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedLongCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Long> comparator, final Long... numbers) {
         return new SortedTreeCollection(elementCardinality, comparator, numbers);
     }
@@ -156,7 +158,7 @@ public interface ModifiableSortedLongCollection
      * @return A new modifiable sorted longs collection with the specified element cardinality cloned from the
      *         provided longs collection.
      */
-    public static ModifiableSortedLongCollection of(final ElementCardinality elementCardinality,
+    static ModifiableSortedLongCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Long> comparator, final NumericCollection<Long> collection) {
         return new SortedTreeCollection(elementCardinality, comparator, collection);
     }
@@ -167,7 +169,7 @@ public interface ModifiableSortedLongCollection
      * @param collection The original sorted longs collection.
      * @return A new modifiable sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection) {
+    static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection) {
         return new SortedTreeCollection(collection.getComparator(), collection);
     }
 
@@ -178,7 +180,7 @@ public interface ModifiableSortedLongCollection
      * @param range      The range.
      * @return A new modifiable sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection,
+    static ModifiableSortedLongCollection of(final SortedNumericCollection<Long> collection,
             final Range<Long> range) {
         ModifiableSortedLongCollection result =
                 new SortedTreeCollection(collection.getElementCardinality(), collection.getComparator());

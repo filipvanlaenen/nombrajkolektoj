@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.AbstractUpdatableDoubleMap} class. The
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.doubles.UpdatableDoubleMapDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.doubles.UpdatableDoubleMap} implementation.
  */
 public class AbstractUpdatableDoubleMapTest {

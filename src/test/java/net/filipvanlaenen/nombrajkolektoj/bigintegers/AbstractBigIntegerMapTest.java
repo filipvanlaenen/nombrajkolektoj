@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.AbstractBigIntegerMap} class. The class is
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerMapDecorator} class. The class is
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerMap} implementation.
  */
 public class AbstractBigIntegerMapTest {

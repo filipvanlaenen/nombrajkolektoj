@@ -1,8 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
@@ -11,20 +8,31 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface for
- * Integers and containing inner classes with concrete implementations.
+ * An updatable numeric map containing integers. In addition to the functionality of updatable maps in general and
+ * integers maps, it supports augmenting, subtracting, multiplying and dividing all the values of map with a number, and
+ * negating them, and for a key only.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface binding
+ * the type parameter to Integer. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.UpdatableMap}.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap<K>
-        implements UpdatableNumericMap<K, Integer> {
+public interface UpdatableIntegerMap<K> extends UpdatableNumericMap<K, Integer>, IntegerMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableMap}
-     * interface.
+     * An updatable numeric map containing integers and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.UpdatableIntegerMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.UpdatableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableIntegerMap<K> {
+    public static final class HashMap<K> extends UpdatableIntegerMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private UpdatableHashMap<K, Integer> decoratedMap;
+
         /**
          * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +40,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Integer>... entries) {
-            super(new UpdatableHashMap<K, Integer>(entries));
+            decoratedMap = new UpdatableHashMap<K, Integer>(entries);
         }
 
         /**
@@ -42,7 +50,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Integer>... entries) {
-            super(new UpdatableHashMap<K, Integer>(keyAndValueCardinality, entries));
+            decoratedMap = new UpdatableHashMap<K, Integer>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +60,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Integer> source) {
-            super(new UpdatableHashMap<K, Integer>(keyAndValueCardinality, source));
+            decoratedMap = new UpdatableHashMap<K, Integer>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +70,12 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Integer> source) {
-            super(new UpdatableHashMap<K, Integer>(source));
+            decoratedMap = new UpdatableHashMap<K, Integer>(source);
+        }
+
+        @Override
+        UpdatableMap<K, Integer> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +85,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param <L> The key type.
      * @return A new empty integers map.
      */
-    public static <L> UpdatableIntegerMap<L> empty() {
+    static <L> UpdatableIntegerMap<L> empty() {
         return new HashMap<L>();
     }
 
@@ -84,7 +97,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys         The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final Collection<? extends L> keys) {
         ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +113,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys         The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
+    static <L> UpdatableIntegerMap<L> of(final Integer defaultValue, final L... keys) {
         ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +128,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param entries The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final Entry<L, Integer>... entries) {
+    static <L> UpdatableIntegerMap<L> of(final Entry<L, Integer>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +141,8 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys                   The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Integer defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +159,8 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param keys                   The keys for the new map.
      * @return A new updatable integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Integer defaultValue, final L... keys) {
+    static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Integer defaultValue,
+            final L... keys) {
         ModifiableIntegerMap<L> map = ModifiableIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +176,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param entries                The entries for the new map.
      * @return A new integers map with the specified entries.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Integer>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +189,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param map                    The original integers map.
      * @return A new integers map cloned from the provided integers map with the specified key and value cardinality.
      */
-    public static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +202,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param value The value for the entry.
      * @return A new integers map containing an entry with the key and the value.
      */
-    public static <L> UpdatableIntegerMap<L> of(final L key, final Integer value) {
+    static <L> UpdatableIntegerMap<L> of(final L key, final Integer value) {
         return new HashMap<L>(new Entry<L, Integer>(key, value));
     }
 
@@ -203,7 +216,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param value2 The second value for the entry.
      * @return A new integers map containing two entries using the provided keys and values.
      */
-    public static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2) {
+    static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2) {
         return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2));
     }
 
@@ -219,7 +232,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param value3 The third value for the entry.
      * @return A new integers map containing three entries using the provided keys and values.
      */
-    public static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+    static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
             final L key3, final Integer value3) {
         return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3));
@@ -239,7 +252,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param value4 The fourth value for the entry.
      * @return A new integers map containing four entries using the provided keys and values.
      */
-    public static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+    static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
             final L key3, final Integer value3, final L key4, final Integer value4) {
         return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4));
@@ -261,7 +274,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param value5 The fifth value for the entry.
      * @return A new integers map containing five entries using the provided keys and values.
      */
-    public static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
+    static <L> UpdatableIntegerMap<L> of(final L key1, final Integer value1, final L key2, final Integer value2,
             final L key3, final Integer value3, final L key4, final Integer value4, final L key5, final Integer value5) {
         return new HashMap<L>(new Entry<L, Integer>(key1, value1), new Entry<L, Integer>(key2, value2),
                 new Entry<L, Integer>(key3, value3), new Entry<L, Integer>(key4, value4),
@@ -275,7 +288,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param map The original integers map.
      * @return A new updatable integers map cloned from the provided integers map.
      */
-    public static <L> UpdatableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
+    static <L> UpdatableIntegerMap<L> of(final NumericMap<? extends L, Integer> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +302,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @return A new updatable integers map with the specified key and value cardinality containing all the entries from
      *         the provided integers maps.
      */
-    public static <L> UpdatableIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Integer>... maps) {
         ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Integer> map : maps) {
@@ -305,101 +318,7 @@ public abstract class UpdatableIntegerMap<K> extends AbstractUpdatableIntegerMap
      * @param maps The integers maps from which to copy all the entries.
      * @return A new updatable integers map containing all the entries from the provided integers maps.
      */
-    public static <L> UpdatableIntegerMap<L> unionOf(final NumericMap<? extends L, Integer>... maps) {
+    static <L> UpdatableIntegerMap<L> unionOf(final NumericMap<? extends L, Integer>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The updatable map holding the keys and the integers.
-     */
-    private final UpdatableMap<K, Integer> map;
-
-    /**
-     * Private constructor taking a map with the keys and the integers as its parameter.
-     *
-     * @param map The map holding the keys and the integers.
-     */
-    private UpdatableIntegerMap(final UpdatableMap<K, Integer> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Integer> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Integer value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Integer> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Integer get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public IntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new IntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public IntegerCollection getValues() {
-        return new IntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Integer>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Integer>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Integer update(final K key, final Integer value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Integer oldValye, final Integer newValue) {
-        return map.update(key, oldValye, newValue);
     }
 }

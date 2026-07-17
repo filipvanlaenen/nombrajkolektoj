@@ -2,9 +2,6 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
 import java.math.BigDecimal;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
@@ -13,20 +10,31 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface for
- * BigDecimals and containing inner classes with concrete implementations.
+ * An updatable numeric map containing BigDecimals. In addition to the functionality of updatable maps in general and
+ * BigDecimals maps, it supports augmenting, subtracting, multiplying and dividing all the values of map with a number, and
+ * negating them, and for a key only.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface binding
+ * the type parameter to BigDecimal. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.UpdatableMap}.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDecimalMap<K>
-        implements UpdatableNumericMap<K, BigDecimal> {
+public interface UpdatableBigDecimalMap<K> extends UpdatableNumericMap<K, BigDecimal>, BigDecimalMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableMap}
-     * interface.
+     * An updatable numeric map containing BigDecimals and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.UpdatableBigDecimalMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.UpdatableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableBigDecimalMap<K> {
+    public static final class HashMap<K> extends UpdatableBigDecimalMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private UpdatableHashMap<K, BigDecimal> decoratedMap;
+
         /**
          * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -34,7 +42,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, BigDecimal>... entries) {
-            super(new UpdatableHashMap<K, BigDecimal>(entries));
+            decoratedMap = new UpdatableHashMap<K, BigDecimal>(entries);
         }
 
         /**
@@ -44,7 +52,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, BigDecimal>... entries) {
-            super(new UpdatableHashMap<K, BigDecimal>(keyAndValueCardinality, entries));
+            decoratedMap = new UpdatableHashMap<K, BigDecimal>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -54,7 +62,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigDecimal> source) {
-            super(new UpdatableHashMap<K, BigDecimal>(keyAndValueCardinality, source));
+            decoratedMap = new UpdatableHashMap<K, BigDecimal>(keyAndValueCardinality, source);
         }
 
         /**
@@ -64,7 +72,12 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, BigDecimal> source) {
-            super(new UpdatableHashMap<K, BigDecimal>(source));
+            decoratedMap = new UpdatableHashMap<K, BigDecimal>(source);
+        }
+
+        @Override
+        UpdatableMap<K, BigDecimal> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -74,7 +87,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param <L> The key type.
      * @return A new empty BigDecimals map.
      */
-    public static <L> UpdatableBigDecimalMap<L> empty() {
+    static <L> UpdatableBigDecimalMap<L> empty() {
         return new HashMap<L>();
     }
 
@@ -86,7 +99,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param keys         The keys for the new map.
      * @return A new updatable BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final BigDecimal defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableBigDecimalMap<L> of(final BigDecimal defaultValue, final Collection<? extends L> keys) {
         ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -102,7 +115,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param keys         The keys for the new map.
      * @return A new updatable BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final BigDecimal defaultValue, final L... keys) {
+    static <L> UpdatableBigDecimalMap<L> of(final BigDecimal defaultValue, final L... keys) {
         ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -117,7 +130,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param entries The entries for the new map.
      * @return A new BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
+    static <L> UpdatableBigDecimalMap<L> of(final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -130,8 +143,8 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param keys                   The keys for the new map.
      * @return A new updatable BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigDecimal defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigDecimal defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -148,8 +161,8 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param keys                   The keys for the new map.
      * @return A new updatable BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigDecimal defaultValue, final L... keys) {
+    static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigDecimal defaultValue,
+            final L... keys) {
         ModifiableBigDecimalMap<L> map = ModifiableBigDecimalMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -165,7 +178,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param entries                The entries for the new map.
      * @return A new BigDecimals map with the specified entries.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigDecimal>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -178,7 +191,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param map                    The original BigDecimals map.
      * @return A new BigDecimals map cloned from the provided BigDecimals map with the specified key and value cardinality.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableBigDecimalMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, BigDecimal> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -191,7 +204,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param value The value for the entry.
      * @return A new BigDecimals map containing an entry with the key and the value.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final L key, final BigDecimal value) {
+    static <L> UpdatableBigDecimalMap<L> of(final L key, final BigDecimal value) {
         return new HashMap<L>(new Entry<L, BigDecimal>(key, value));
     }
 
@@ -205,7 +218,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param value2 The second value for the entry.
      * @return A new BigDecimals map containing two entries using the provided keys and values.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2) {
+    static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2) {
         return new HashMap<L>(new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2));
     }
 
@@ -221,7 +234,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param value3 The third value for the entry.
      * @return A new BigDecimals map containing three entries using the provided keys and values.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
+    static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
             final L key3, final BigDecimal value3) {
         return new HashMap<L>(new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3));
@@ -241,7 +254,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param value4 The fourth value for the entry.
      * @return A new BigDecimals map containing four entries using the provided keys and values.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
+    static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
             final L key3, final BigDecimal value3, final L key4, final BigDecimal value4) {
         return new HashMap<L>(new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4));
@@ -263,7 +276,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param value5 The fifth value for the entry.
      * @return A new BigDecimals map containing five entries using the provided keys and values.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
+    static <L> UpdatableBigDecimalMap<L> of(final L key1, final BigDecimal value1, final L key2, final BigDecimal value2,
             final L key3, final BigDecimal value3, final L key4, final BigDecimal value4, final L key5, final BigDecimal value5) {
         return new HashMap<L>(new Entry<L, BigDecimal>(key1, value1), new Entry<L, BigDecimal>(key2, value2),
                 new Entry<L, BigDecimal>(key3, value3), new Entry<L, BigDecimal>(key4, value4),
@@ -277,7 +290,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param map The original BigDecimals map.
      * @return A new updatable BigDecimals map cloned from the provided BigDecimals map.
      */
-    public static <L> UpdatableBigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
+    static <L> UpdatableBigDecimalMap<L> of(final NumericMap<? extends L, BigDecimal> map) {
         return new HashMap<L>(map);
     }
 
@@ -291,7 +304,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @return A new updatable BigDecimals map with the specified key and value cardinality containing all the entries from
      *         the provided BigDecimals maps.
      */
-    public static <L> UpdatableBigDecimalMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableBigDecimalMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, BigDecimal>... maps) {
         ModifiableBigDecimalMap<L> result = ModifiableBigDecimalMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, BigDecimal> map : maps) {
@@ -307,101 +320,7 @@ public abstract class UpdatableBigDecimalMap<K> extends AbstractUpdatableBigDeci
      * @param maps The BigDecimals maps from which to copy all the entries.
      * @return A new updatable BigDecimals map containing all the entries from the provided BigDecimals maps.
      */
-    public static <L> UpdatableBigDecimalMap<L> unionOf(final NumericMap<? extends L, BigDecimal>... maps) {
+    static <L> UpdatableBigDecimalMap<L> unionOf(final NumericMap<? extends L, BigDecimal>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The updatable map holding the keys and the BigDecimals.
-     */
-    private final UpdatableMap<K, BigDecimal> map;
-
-    /**
-     * Private constructor taking a map with the keys and the BigDecimals as its parameter.
-     *
-     * @param map The map holding the keys and the BigDecimals.
-     */
-    private UpdatableBigDecimalMap(final UpdatableMap<K, BigDecimal> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, BigDecimal> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final BigDecimal value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, BigDecimal> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public BigDecimal get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public BigDecimalCollection getAll(final K key) throws IllegalArgumentException {
-        return new BigDecimalCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public BigDecimalCollection getValues() {
-        return new BigDecimalCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, BigDecimal>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, BigDecimal>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public BigDecimal update(final K key, final BigDecimal value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final BigDecimal oldValye, final BigDecimal newValue) {
-        return map.update(key, oldValye, newValue);
     }
 }

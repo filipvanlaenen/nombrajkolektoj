@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
@@ -12,19 +8,30 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
- * Floats and containing inner classes with concrete implementations.
+ * A modifiable numeric map containing floats. It doesn't support any new functionality in addition to the
+ * functionality of modifiable maps in general and updatable floats maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifableNumericMap} interface binding
+ * the type parameter to Float. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.ModifiableMap}.
  *
  * @param <K> The key type.
  */
-public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> implements ModifiableNumericMap<K, Float> {
+public interface ModifiableFloatMap<K> extends ModifiableNumericMap<K, Float>, UpdatableFloatMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
-     * interface.
+     * A modifiable numeric map containing floats and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.ModifiableFloatMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableFloatMap<K> {
+    public static final class HashMap<K> extends ModifiableFloatMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private ModifiableHashMap<K, Float> decoratedMap;
+
         /**
          * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +39,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Float>... entries) {
-            super(new ModifiableHashMap<K, Float>(entries));
+            decoratedMap = new ModifiableHashMap<K, Float>(entries);
         }
 
         /**
@@ -42,7 +49,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Float>... entries) {
-            super(new ModifiableHashMap<K, Float>(keyAndValueCardinality, entries));
+            decoratedMap = new ModifiableHashMap<K, Float>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +59,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Float> source) {
-            super(new ModifiableHashMap<K, Float>(keyAndValueCardinality, source));
+            decoratedMap = new ModifiableHashMap<K, Float>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +69,12 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Float> source) {
-            super(new ModifiableHashMap<K, Float>(source));
+            decoratedMap = new ModifiableHashMap<K, Float>(source);
+        }
+
+        @Override
+        ModifiableMap<K, Float> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +84,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param <K> The key type.
      * @return A new empty floats map.
      */
-    public static <K> ModifiableFloatMap<K> empty() {
+    static <K> ModifiableFloatMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -84,7 +96,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param keys         The keys for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final Float defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableFloatMap<L> of(final Float defaultValue, final Collection<? extends L> keys) {
         ModifiableFloatMap<L> map = ModifiableFloatMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +112,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param keys         The keys for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final Float defaultValue, final L... keys) {
+    static <L> ModifiableFloatMap<L> of(final Float defaultValue, final L... keys) {
         ModifiableFloatMap<L> map = ModifiableFloatMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +127,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param entries The entries for the new map.
      * @return A new floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final Entry<L, Float>... entries) {
+    static <L> ModifiableFloatMap<L> of(final Entry<L, Float>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +140,8 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Float defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableFloatMap<L> map = ModifiableFloatMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +158,8 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Float defaultValue, final L... keys) {
+    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Float defaultValue,
+            final L... keys) {
         ModifiableFloatMap<L> map = ModifiableFloatMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +175,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param entries                The entries for the new map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Float>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +188,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param map                    The original floats map.
      * @return A new modifiable floats map with the specified entries.
      */
-    public static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableFloatMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Float> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +201,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param value The value for the entry.
      * @return A new floats map containing an entry with the key and the value.
      */
-    public static <L> ModifiableFloatMap<L> of(final L key, final Float value) {
+    static <L> ModifiableFloatMap<L> of(final L key, final Float value) {
         return new HashMap<L>(new Entry<L, Float>(key, value));
     }
 
@@ -203,7 +215,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param value2 The second value for the entry.
      * @return A new floats map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2) {
+    static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2) {
         return new HashMap<L>(new Entry<L, Float>(key1, value1), new Entry<L, Float>(key2, value2));
     }
 
@@ -219,7 +231,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param value3 The third value for the entry.
      * @return A new floats map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
+    static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
             final L key3, final Float value3) {
         return new HashMap<L>(new Entry<L, Float>(key1, value1), new Entry<L, Float>(key2, value2),
                 new Entry<L, Float>(key3, value3));
@@ -239,7 +251,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param value4 The fourth value for the entry.
      * @return A new floats map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
+    static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
             final L key3, final Float value3, final L key4, final Float value4) {
         return new HashMap<L>(new Entry<L, Float>(key1, value1), new Entry<L, Float>(key2, value2),
                 new Entry<L, Float>(key3, value3), new Entry<L, Float>(key4, value4));
@@ -261,7 +273,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param value5 The fifth value for the entry.
      * @return A new floats map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
+    static <L> ModifiableFloatMap<L> of(final L key1, final Float value1, final L key2, final Float value2,
             final L key3, final Float value3, final L key4, final Float value4, final L key5, final Float value5) {
         return new HashMap<L>(new Entry<L, Float>(key1, value1), new Entry<L, Float>(key2, value2),
                 new Entry<L, Float>(key3, value3), new Entry<L, Float>(key4, value4),
@@ -275,7 +287,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param map The original floats map.
      * @return A new modifiable floats map cloned from the provided floats map.
      */
-    public static <L> ModifiableFloatMap<L> of(final NumericMap<? extends L, Float> map) {
+    static <L> ModifiableFloatMap<L> of(final NumericMap<? extends L, Float> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +301,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @return A new modifiable floats map with the specified key and value cardinality containing all the entries from
      *         the provided floats maps.
      */
-    public static <L> ModifiableFloatMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableFloatMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Float>... maps) {
         ModifiableFloatMap<L> result = ModifiableFloatMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Float> map : maps) {
@@ -305,141 +317,7 @@ public class ModifiableFloatMap<K> extends AbstractModifiableFloatMap<K> impleme
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */
-    public static <L> ModifiableFloatMap<L> unionOf(final NumericMap<? extends L, Float>... maps) {
+    static <L> ModifiableFloatMap<L> unionOf(final NumericMap<? extends L, Float>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The modifiable map holding the keys and the floats.
-     */
-    private final ModifiableMap<K, Float> map;
-
-    /**
-     * Private constructor taking a map with the keys and the floats as its parameter.
-     *
-     * @param map The map holding the keys and the floats.
-     */
-    private ModifiableFloatMap(final ModifiableMap<K, Float> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Float value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Float> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Float> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Float value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Float> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Float get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public FloatCollection getAll(final K key) throws IllegalArgumentException {
-        return new FloatCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public FloatCollection getValues() {
-        return new FloatCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Float>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public Float remove(final K key) throws IllegalArgumentException {
-        return map.remove(key);
-    }
-
-    @Override
-    public boolean remove(final K key, final Float value) {
-        return map.remove(key, value);
-    }
-
-    @Override
-    public boolean removeAll(final Map<? extends K, ? extends Float> aMap) {
-        return map.removeAll(aMap);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Float>> predicate) {
-        return map.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Map<? extends K, ? extends Float> aMap) {
-        return map.retainAll(aMap);
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Float>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Float update(final K key, final Float value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Float oldValue, final Float newValue) {
-        return map.update(key, oldValue, newValue);
     }
 }

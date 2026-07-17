@@ -2,10 +2,6 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
 import java.math.BigInteger;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
@@ -14,19 +10,30 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
- * BigIntegers and containing inner classes with concrete implementations.
+ * A modifiable numeric map containing BigIntegers. It doesn't support any new functionality in addition to the
+ * functionality of modifiable maps in general and updatable BigIntegers maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifableNumericMap} interface binding
+ * the type parameter to BigInteger. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.ModifiableMap}.
  *
  * @param <K> The key type.
  */
-public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<K> implements ModifiableNumericMap<K, BigInteger> {
+public interface ModifiableBigIntegerMap<K> extends ModifiableNumericMap<K, BigInteger>, UpdatableBigIntegerMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
-     * interface.
+     * A modifiable numeric map containing BigIntegers and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableBigIntegerMap<K> {
+    public static final class HashMap<K> extends ModifiableBigIntegerMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private ModifiableHashMap<K, BigInteger> decoratedMap;
+
         /**
          * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -34,7 +41,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, BigInteger>... entries) {
-            super(new ModifiableHashMap<K, BigInteger>(entries));
+            decoratedMap = new ModifiableHashMap<K, BigInteger>(entries);
         }
 
         /**
@@ -44,7 +51,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, BigInteger>... entries) {
-            super(new ModifiableHashMap<K, BigInteger>(keyAndValueCardinality, entries));
+            decoratedMap = new ModifiableHashMap<K, BigInteger>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -54,7 +61,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, BigInteger> source) {
-            super(new ModifiableHashMap<K, BigInteger>(keyAndValueCardinality, source));
+            decoratedMap = new ModifiableHashMap<K, BigInteger>(keyAndValueCardinality, source);
         }
 
         /**
@@ -64,7 +71,12 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, BigInteger> source) {
-            super(new ModifiableHashMap<K, BigInteger>(source));
+            decoratedMap = new ModifiableHashMap<K, BigInteger>(source);
+        }
+
+        @Override
+        ModifiableMap<K, BigInteger> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -74,7 +86,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param <K> The key type.
      * @return A new empty BigIntegers map.
      */
-    public static <K> ModifiableBigIntegerMap<K> empty() {
+    static <K> ModifiableBigIntegerMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -86,7 +98,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param keys         The keys for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final Collection<? extends L> keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -102,7 +114,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param keys         The keys for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
+    static <L> ModifiableBigIntegerMap<L> of(final BigInteger defaultValue, final L... keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -117,7 +129,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param entries The entries for the new map.
      * @return A new BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
+    static <L> ModifiableBigIntegerMap<L> of(final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -130,8 +142,8 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param keys                   The keys for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigInteger defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigInteger defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -148,8 +160,8 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param keys                   The keys for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final BigInteger defaultValue, final L... keys) {
+    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final BigInteger defaultValue,
+            final L... keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -165,7 +177,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param entries                The entries for the new map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, BigInteger>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -178,7 +190,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param map                    The original BigIntegers map.
      * @return A new modifiable BigIntegers map with the specified entries.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -191,7 +203,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param value The value for the entry.
      * @return A new BigIntegers map containing an entry with the key and the value.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final L key, final BigInteger value) {
+    static <L> ModifiableBigIntegerMap<L> of(final L key, final BigInteger value) {
         return new HashMap<L>(new Entry<L, BigInteger>(key, value));
     }
 
@@ -205,7 +217,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param value2 The second value for the entry.
      * @return A new BigIntegers map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2) {
+    static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2) {
         return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2));
     }
 
@@ -221,7 +233,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param value3 The third value for the entry.
      * @return A new BigIntegers map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+    static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
             final L key3, final BigInteger value3) {
         return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3));
@@ -241,7 +253,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param value4 The fourth value for the entry.
      * @return A new BigIntegers map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+    static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
             final L key3, final BigInteger value3, final L key4, final BigInteger value4) {
         return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4));
@@ -263,7 +275,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param value5 The fifth value for the entry.
      * @return A new BigIntegers map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
+    static <L> ModifiableBigIntegerMap<L> of(final L key1, final BigInteger value1, final L key2, final BigInteger value2,
             final L key3, final BigInteger value3, final L key4, final BigInteger value4, final L key5, final BigInteger value5) {
         return new HashMap<L>(new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
@@ -277,7 +289,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param map The original BigIntegers map.
      * @return A new modifiable BigIntegers map cloned from the provided BigIntegers map.
      */
-    public static <L> ModifiableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
+    static <L> ModifiableBigIntegerMap<L> of(final NumericMap<? extends L, BigInteger> map) {
         return new HashMap<L>(map);
     }
 
@@ -291,7 +303,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @return A new modifiable BigIntegers map with the specified key and value cardinality containing all the entries from
      *         the provided BigIntegers maps.
      */
-    public static <L> ModifiableBigIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableBigIntegerMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, BigInteger>... maps) {
         ModifiableBigIntegerMap<L> result = ModifiableBigIntegerMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, BigInteger> map : maps) {
@@ -307,141 +319,7 @@ public class ModifiableBigIntegerMap<K> extends AbstractModifiableBigIntegerMap<
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */
-    public static <L> ModifiableBigIntegerMap<L> unionOf(final NumericMap<? extends L, BigInteger>... maps) {
+    static <L> ModifiableBigIntegerMap<L> unionOf(final NumericMap<? extends L, BigInteger>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The modifiable map holding the keys and the BigIntegers.
-     */
-    private final ModifiableMap<K, BigInteger> map;
-
-    /**
-     * Private constructor taking a map with the keys and the BigIntegers as its parameter.
-     *
-     * @param map The map holding the keys and the BigIntegers.
-     */
-    private ModifiableBigIntegerMap(final ModifiableMap<K, BigInteger> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final BigInteger value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends BigInteger> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, BigInteger> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final BigInteger value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, BigInteger> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public BigInteger get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new BigIntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public BigIntegerCollection getValues() {
-        return new BigIntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, BigInteger>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public BigInteger remove(final K key) throws IllegalArgumentException {
-        return map.remove(key);
-    }
-
-    @Override
-    public boolean remove(final K key, final BigInteger value) {
-        return map.remove(key, value);
-    }
-
-    @Override
-    public boolean removeAll(final Map<? extends K, ? extends BigInteger> aMap) {
-        return map.removeAll(aMap);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<Entry<? extends K, ? extends BigInteger>> predicate) {
-        return map.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Map<? extends K, ? extends BigInteger> aMap) {
-        return map.retainAll(aMap);
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, BigInteger>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public BigInteger update(final K key, final BigInteger value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final BigInteger oldValue, final BigInteger newValue) {
-        return map.update(key, oldValue, newValue);
     }
 }

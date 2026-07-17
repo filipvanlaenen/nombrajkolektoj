@@ -3,13 +3,10 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 import java.math.BigInteger;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Spliterator;
 
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.Range;
-import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.kolektoj.UpdatableSortedMap;
 import net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap;
 import net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap;
@@ -18,20 +15,32 @@ import net.filipvanlaenen.nombrajkolektoj.SortedNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap} interface for
- * BigIntegers and containing inner classes with concrete implementations.
+ * An updatable sorted numeric map containing BigIntegers. It doesn't support any new functionality in addition to the
+ * functionality of updatable sorted maps in general and updatable BigIntegers maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.UpdatableSortedNumericMap} interface
+ * binding the type parameter to BigInteger. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap} and one backed by
+ * {@link net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.UpdatableSortedMap}.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableSortedBigIntegerMap<K>
-        implements UpdatableSortedNumericMap<K, BigInteger> {
+public interface UpdatableSortedBigIntegerMap<K>
+        extends UpdatableSortedNumericMap<K, BigInteger>, UpdatableBigIntegerMap<K>, SortedBigIntegerMap<K> {
     /**
-     * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableSortedMap}
-     * interface.
+     * An updatable sorted numeric map containing BigIntegers and backed by an array. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.UpdatableSortedBigIntegerMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.array.UpdatableSortedArrayMap}.
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends UpdatableSortedBigIntegerMap<K> {
+    public static final class ArrayMap<K> extends UpdatableSortedBigIntegerMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private UpdatableSortedArrayMap<K, BigInteger> decoratedMap;
+
         /**
          * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -40,7 +49,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          * @param entries    The entries of the map.
          */
         public ArrayMap(final Comparator<? super K> comparator, final Entry<K, BigInteger>... entries) {
-            super(new UpdatableSortedArrayMap<K, BigInteger>(comparator, entries));
+            decoratedMap = new UpdatableSortedArrayMap<K, BigInteger>(comparator, entries);
         }
 
         /**
@@ -51,7 +60,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          * @param source     The map to create a new map from.
          */
         public ArrayMap(final Comparator<? super K> comparator, final Map<? extends K, BigInteger> source) {
-            super(new UpdatableSortedArrayMap<K, BigInteger>(comparator, source));
+            decoratedMap = new UpdatableSortedArrayMap<K, BigInteger>(comparator, source);
         }
 
         /**
@@ -63,7 +72,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          */
         public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Entry<K, BigInteger>... entries) {
-            super(new UpdatableSortedArrayMap<K, BigInteger>(keyAndValueCardinality, comparator, entries));
+            decoratedMap = new UpdatableSortedArrayMap<K, BigInteger>(keyAndValueCardinality, comparator, entries);
         }
 
         /**
@@ -75,17 +84,28 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          */
         public ArrayMap(final KeyAndValueCardinality keyAndValueCardinality, final Comparator<? super K> comparator,
                 final Map<? extends K, BigInteger> source) {
-            super(new UpdatableSortedArrayMap<K, BigInteger>(keyAndValueCardinality, comparator, source));
+            decoratedMap = new UpdatableSortedArrayMap<K, BigInteger>(keyAndValueCardinality, comparator, source);
+        }
+
+        @Override
+        UpdatableSortedMap<K, BigInteger> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
     /**
-     * Inner class using a sorted tree backed implementation of the
-     * {@link net.filipvanlaenen.kolektoj.UpdatableSortedMap} interface.
+     * An updatable sorted numeric map containing BigIntegers and backed by a sorted tree. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.UpdatableSortedBigIntegerMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.sortedtree.UpdatableSortedTreeMap}.
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends UpdatableSortedBigIntegerMap<K> {
+    public static final class SortedTreeMap<K> extends UpdatableSortedBigIntegerMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private UpdatableSortedTreeMap<K, BigInteger> decoratedMap;
+
         /**
          * Constructs an updatable sorted map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -94,7 +114,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          * @param entries    The entries of the map.
          */
         public SortedTreeMap(final Comparator<? super K> comparator, final Entry<K, BigInteger>... entries) {
-            super(new UpdatableSortedTreeMap<K, BigInteger>(comparator, entries));
+            decoratedMap = new UpdatableSortedTreeMap<K, BigInteger>(comparator, entries);
         }
 
         /**
@@ -105,7 +125,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          * @param source     The map to create a new map from.
          */
         public SortedTreeMap(final Comparator<? super K> comparator, final Map<? extends K, BigInteger> source) {
-            super(new UpdatableSortedTreeMap<K, BigInteger>(comparator, source));
+            decoratedMap = new UpdatableSortedTreeMap<K, BigInteger>(comparator, source);
         }
 
         /**
@@ -117,7 +137,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          */
         public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
                 final Comparator<? super K> comparator, final Entry<K, BigInteger>... entries) {
-            super(new UpdatableSortedTreeMap<K, BigInteger>(keyAndValueCardinality, comparator, entries));
+            decoratedMap = new UpdatableSortedTreeMap<K, BigInteger>(keyAndValueCardinality, comparator, entries);
         }
 
         /**
@@ -129,7 +149,12 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
          */
         public SortedTreeMap(final KeyAndValueCardinality keyAndValueCardinality,
                 final Comparator<? super K> comparator, final Map<? extends K, BigInteger> source) {
-            super(new UpdatableSortedTreeMap<K, BigInteger>(keyAndValueCardinality, comparator, source));
+            decoratedMap = new UpdatableSortedTreeMap<K, BigInteger>(keyAndValueCardinality, comparator, source);
+        }
+
+        @Override
+        UpdatableSortedMap<K, BigInteger> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -140,7 +165,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param comparator The comparator by which to sort the keys.
      * @return A new empty BigIntegers map.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> empty(final Comparator<? super L> comparator) {
+    static <L> UpdatableSortedBigIntegerMap<L> empty(final Comparator<? super L> comparator) {
         return new ArrayMap<L>(comparator);
     }
 
@@ -153,7 +178,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param keys         The keys for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigInteger defaultValue,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigInteger defaultValue,
             final Collection<? extends L> keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
         for (L key : keys) {
@@ -171,7 +196,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param keys         The keys for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigInteger defaultValue,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final BigInteger defaultValue,
             final L... keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>empty();
         for (L key : keys) {
@@ -188,7 +213,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param entries    The entries for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
             final Entry<L, BigInteger>... entries) {
         return new SortedTreeMap<L>(comparator, entries);
     }
@@ -202,8 +227,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param value      The value for the entry.
      * @return A new updatable sorted BigIntegers map containing an entry with the key and the value.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key,
-            final BigInteger value) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key, final BigInteger value) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key, value));
     }
 
@@ -218,8 +242,8 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param value2     The second value for the entry.
      * @return A new updatable sorted BigIntegers map containing two entries using the provided keys and values.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
-            final BigInteger value1, final L key2, final BigInteger value2) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final BigInteger value1,
+            final L key2, final BigInteger value2) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2));
     }
 
@@ -236,8 +260,8 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param value3     The third value for the entry.
      * @return A new updatable sorted BigIntegers map containing three entries using the provided keys and values.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
-            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final BigInteger value1,
+            final L key2, final BigInteger value2, final L key3, final BigInteger value3) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3));
     }
@@ -257,9 +281,8 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param value4     The fourth value for the entry.
      * @return A new updatable sorted BigIntegers map containing four entries using the provided keys and values.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
-            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4,
-            final BigInteger value4) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final BigInteger value1,
+            final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4, final BigInteger value4) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4));
     }
@@ -281,9 +304,9 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param value5     The fifth value for the entry.
      * @return A new updatable sorted BigIntegers map containing five entries using the provided keys and values.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1,
-            final BigInteger value1, final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4,
-            final BigInteger value4, final L key5, final BigInteger value5) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator, final L key1, final BigInteger value1,
+            final L key2, final BigInteger value2, final L key3, final BigInteger value3, final L key4, final BigInteger value4,
+            final L key5, final BigInteger value5) {
         return new SortedTreeMap<L>(comparator, new Entry<L, BigInteger>(key1, value1), new Entry<L, BigInteger>(key2, value2),
                 new Entry<L, BigInteger>(key3, value3), new Entry<L, BigInteger>(key4, value4),
                 new Entry<L, BigInteger>(key5, value5));
@@ -299,7 +322,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @return A new updatable sorted BigIntegers map cloned from the provided BigIntegers map but sorted according to the
      *         comparator.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final Comparator<? super L> comparator,
             final NumericMap<? extends L, BigInteger> map) {
         return new SortedTreeMap<L>(comparator, map);
     }
@@ -315,7 +338,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param keys                   The keys for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final BigInteger defaultValue, final Collection<? extends L> keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
@@ -335,7 +358,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param keys                   The keys for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final BigInteger defaultValue, final L... keys) {
         ModifiableBigIntegerMap<L> map = ModifiableBigIntegerMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
@@ -353,7 +376,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param entries                The entries for the new map.
      * @return A new updatable sorted BigIntegers map with the specified entries.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final Entry<L, BigInteger>... entries) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, entries);
     }
@@ -369,7 +392,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @return A new updatable sorted BigIntegers map cloned from the provided BigIntegers map with the specified key and value
      *         cardinality.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableSortedBigIntegerMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Comparator<? super L> comparator, final NumericMap<? extends L, BigInteger> map) {
         return new SortedTreeMap<L>(keyAndValueCardinality, comparator, map);
     }
@@ -381,7 +404,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param map The original sorted BigIntegers map.
      * @return A new updatable sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map) {
         return new SortedTreeMap<L>(map.getComparator(), map);
     }
 
@@ -393,7 +416,7 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
      * @param range The range.
      * @return A new updatable sorted BigIntegers map cloned from the provided sorted BigIntegers map.
      */
-    public static <L> UpdatableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map, final Range<L> range) {
+    static <L> UpdatableSortedBigIntegerMap<L> of(final SortedNumericMap<L, BigInteger> map, final Range<L> range) {
         ModifiableSortedBigIntegerMap<L> slice =
                 ModifiableSortedBigIntegerMap.<L>of(map.getKeyAndValueCardinality(), map.getComparator());
         boolean below = true;
@@ -409,164 +432,5 @@ public abstract class UpdatableSortedBigIntegerMap<K> extends AbstractUpdatableS
             }
         }
         return new SortedTreeMap<L>(map.getComparator(), slice);
-    }
-
-    /**
-     * The updatable sorted map holding the keys and the BigIntegers.
-     */
-    private final UpdatableSortedMap<K, BigInteger> map;
-
-    /**
-     * Private constructor taking a map with the keys and the BigIntegers as its parameter.
-     *
-     * @param map The map holding the keys and the BigIntegers.
-     */
-    private UpdatableSortedBigIntegerMap(final UpdatableSortedMap<K, BigInteger> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, BigInteger> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final BigInteger value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, BigInteger> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public BigInteger get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public BigIntegerCollection getAll(final K key) throws IllegalArgumentException {
-        return new BigIntegerCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public Comparator<? super K> getComparator() {
-        return map.getComparator();
-    }
-
-    @Override
-    public Entry<K, BigInteger> getGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThan(key);
-    }
-
-    @Override
-    public Entry<K, BigInteger> getGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public Entry<K, BigInteger> getGreatest() {
-        return map.getGreatest();
-    }
-
-    @Override
-    public K getGreatestKey() {
-        return map.getGreatestKey();
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public K getKeyGreaterThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThan(key);
-    }
-
-    @Override
-    public K getKeyGreaterThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyGreaterThanOrEqualTo(key);
-    }
-
-    @Override
-    public K getKeyLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThan(key);
-    }
-
-    @Override
-    public K getKeyLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getKeyLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public SortedCollection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public Entry<K, BigInteger> getLeast() {
-        return map.getLeast();
-    }
-
-    @Override
-    public K getLeastKey() {
-        return map.getLeastKey();
-    }
-
-    @Override
-    public Entry<K, BigInteger> getLessThan(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThan(key);
-    }
-
-    @Override
-    public Entry<K, BigInteger> getLessThanOrEqualTo(final K key) throws IndexOutOfBoundsException {
-        return map.getLessThanOrEqualTo(key);
-    }
-
-    @Override
-    public OrderedBigIntegerCollection getValues() {
-        return new OrderedBigIntegerCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, BigInteger>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, BigInteger>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public BigInteger update(final K key, final BigInteger value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final BigInteger oldValye, final BigInteger newValue) {
-        return map.update(key, oldValye, newValue);
     }
 }

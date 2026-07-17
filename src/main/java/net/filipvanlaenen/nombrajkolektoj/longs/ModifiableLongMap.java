@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
@@ -12,19 +8,30 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
- * Longs and containing inner classes with concrete implementations.
+ * A modifiable numeric map containing longs. It doesn't support any new functionality in addition to the
+ * functionality of modifiable maps in general and updatable longs maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifableNumericMap} interface binding
+ * the type parameter to Long. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.ModifiableMap}.
  *
  * @param <K> The key type.
  */
-public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implements ModifiableNumericMap<K, Long> {
+public interface ModifiableLongMap<K> extends ModifiableNumericMap<K, Long>, UpdatableLongMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
-     * interface.
+     * A modifiable numeric map containing longs and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.ModifiableLongMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableLongMap<K> {
+    public static final class HashMap<K> extends ModifiableLongMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private ModifiableHashMap<K, Long> decoratedMap;
+
         /**
          * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +39,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Long>... entries) {
-            super(new ModifiableHashMap<K, Long>(entries));
+            decoratedMap = new ModifiableHashMap<K, Long>(entries);
         }
 
         /**
@@ -42,7 +49,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Long>... entries) {
-            super(new ModifiableHashMap<K, Long>(keyAndValueCardinality, entries));
+            decoratedMap = new ModifiableHashMap<K, Long>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +59,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Long> source) {
-            super(new ModifiableHashMap<K, Long>(keyAndValueCardinality, source));
+            decoratedMap = new ModifiableHashMap<K, Long>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +69,12 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Long> source) {
-            super(new ModifiableHashMap<K, Long>(source));
+            decoratedMap = new ModifiableHashMap<K, Long>(source);
+        }
+
+        @Override
+        ModifiableMap<K, Long> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +84,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param <K> The key type.
      * @return A new empty longs map.
      */
-    public static <K> ModifiableLongMap<K> empty() {
+    static <K> ModifiableLongMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -84,7 +96,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param keys         The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final Long defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableLongMap<L> of(final Long defaultValue, final Collection<? extends L> keys) {
         ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +112,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param keys         The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final Long defaultValue, final L... keys) {
+    static <L> ModifiableLongMap<L> of(final Long defaultValue, final L... keys) {
         ModifiableLongMap<L> map = ModifiableLongMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +127,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final Entry<L, Long>... entries) {
+    static <L> ModifiableLongMap<L> of(final Entry<L, Long>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +140,8 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param keys                   The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Long defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +158,8 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param keys                   The keys for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Long defaultValue, final L... keys) {
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Long defaultValue,
+            final L... keys) {
         ModifiableLongMap<L> map = ModifiableLongMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +175,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param entries                The entries for the new map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Long>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +188,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param map                    The original longs map.
      * @return A new modifiable longs map with the specified entries.
      */
-    public static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableLongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +201,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value The value for the entry.
      * @return A new longs map containing an entry with the key and the value.
      */
-    public static <L> ModifiableLongMap<L> of(final L key, final Long value) {
+    static <L> ModifiableLongMap<L> of(final L key, final Long value) {
         return new HashMap<L>(new Entry<L, Long>(key, value));
     }
 
@@ -203,7 +215,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value2 The second value for the entry.
      * @return A new longs map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
+    static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2));
     }
 
@@ -219,7 +231,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value3 The third value for the entry.
      * @return A new longs map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+    static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
             final L key3, final Long value3) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3));
@@ -239,7 +251,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value4 The fourth value for the entry.
      * @return A new longs map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+    static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
             final L key3, final Long value3, final L key4, final Long value4) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4));
@@ -261,7 +273,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param value5 The fifth value for the entry.
      * @return A new longs map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
+    static <L> ModifiableLongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
             final L key3, final Long value3, final L key4, final Long value4, final L key5, final Long value5) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
@@ -275,7 +287,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param map The original longs map.
      * @return A new modifiable longs map cloned from the provided longs map.
      */
-    public static <L> ModifiableLongMap<L> of(final NumericMap<? extends L, Long> map) {
+    static <L> ModifiableLongMap<L> of(final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +301,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @return A new modifiable longs map with the specified key and value cardinality containing all the entries from
      *         the provided longs maps.
      */
-    public static <L> ModifiableLongMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableLongMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Long>... maps) {
         ModifiableLongMap<L> result = ModifiableLongMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Long> map : maps) {
@@ -305,141 +317,7 @@ public class ModifiableLongMap<K> extends AbstractModifiableLongMap<K> implement
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */
-    public static <L> ModifiableLongMap<L> unionOf(final NumericMap<? extends L, Long>... maps) {
+    static <L> ModifiableLongMap<L> unionOf(final NumericMap<? extends L, Long>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The modifiable map holding the keys and the longs.
-     */
-    private final ModifiableMap<K, Long> map;
-
-    /**
-     * Private constructor taking a map with the keys and the longs as its parameter.
-     *
-     * @param map The map holding the keys and the longs.
-     */
-    private ModifiableLongMap(final ModifiableMap<K, Long> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Long value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Long> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Long> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Long value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Long> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Long get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public LongCollection getAll(final K key) throws IllegalArgumentException {
-        return new LongCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public LongCollection getValues() {
-        return new LongCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Long>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public Long remove(final K key) throws IllegalArgumentException {
-        return map.remove(key);
-    }
-
-    @Override
-    public boolean remove(final K key, final Long value) {
-        return map.remove(key, value);
-    }
-
-    @Override
-    public boolean removeAll(final Map<? extends K, ? extends Long> aMap) {
-        return map.removeAll(aMap);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Long>> predicate) {
-        return map.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Map<? extends K, ? extends Long> aMap) {
-        return map.retainAll(aMap);
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Long>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Long update(final K key, final Long value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Long oldValue, final Long newValue) {
-        return map.update(key, oldValue, newValue);
     }
 }

@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
@@ -12,19 +8,30 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
- * Shorts and containing inner classes with concrete implementations.
+ * A modifiable numeric map containing shorts. It doesn't support any new functionality in addition to the
+ * functionality of modifiable maps in general and updatable shorts maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifableNumericMap} interface binding
+ * the type parameter to Short. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.ModifiableMap}.
  *
  * @param <K> The key type.
  */
-public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> implements ModifiableNumericMap<K, Short> {
+public interface ModifiableShortMap<K> extends ModifiableNumericMap<K, Short>, UpdatableShortMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
-     * interface.
+     * A modifiable numeric map containing shorts and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ModifiableShortMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableShortMap<K> {
+    public static final class HashMap<K> extends ModifiableShortMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private ModifiableHashMap<K, Short> decoratedMap;
+
         /**
          * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +39,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Short>... entries) {
-            super(new ModifiableHashMap<K, Short>(entries));
+            decoratedMap = new ModifiableHashMap<K, Short>(entries);
         }
 
         /**
@@ -42,7 +49,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Short>... entries) {
-            super(new ModifiableHashMap<K, Short>(keyAndValueCardinality, entries));
+            decoratedMap = new ModifiableHashMap<K, Short>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +59,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Short> source) {
-            super(new ModifiableHashMap<K, Short>(keyAndValueCardinality, source));
+            decoratedMap = new ModifiableHashMap<K, Short>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +69,12 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Short> source) {
-            super(new ModifiableHashMap<K, Short>(source));
+            decoratedMap = new ModifiableHashMap<K, Short>(source);
+        }
+
+        @Override
+        ModifiableMap<K, Short> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +84,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param <K> The key type.
      * @return A new empty shorts map.
      */
-    public static <K> ModifiableShortMap<K> empty() {
+    static <K> ModifiableShortMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -84,7 +96,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param keys         The keys for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final Short defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableShortMap<L> of(final Short defaultValue, final Collection<? extends L> keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +112,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param keys         The keys for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final Short defaultValue, final L... keys) {
+    static <L> ModifiableShortMap<L> of(final Short defaultValue, final L... keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +127,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final Entry<L, Short>... entries) {
+    static <L> ModifiableShortMap<L> of(final Entry<L, Short>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +140,8 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Short defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +158,8 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param keys                   The keys for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Short defaultValue, final L... keys) {
+    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final L... keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +175,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param entries                The entries for the new map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Short>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +188,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param map                    The original shorts map.
      * @return A new modifiable shorts map with the specified entries.
      */
-    public static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +201,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param value The value for the entry.
      * @return A new shorts map containing an entry with the key and the value.
      */
-    public static <L> ModifiableShortMap<L> of(final L key, final Short value) {
+    static <L> ModifiableShortMap<L> of(final L key, final Short value) {
         return new HashMap<L>(new Entry<L, Short>(key, value));
     }
 
@@ -203,7 +215,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param value2 The second value for the entry.
      * @return A new shorts map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2) {
+    static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2));
     }
 
@@ -219,7 +231,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param value3 The third value for the entry.
      * @return A new shorts map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3));
@@ -239,7 +251,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param value4 The fourth value for the entry.
      * @return A new shorts map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3, final L key4, final Short value4) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4));
@@ -261,7 +273,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param value5 The fifth value for the entry.
      * @return A new shorts map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> ModifiableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3, final L key4, final Short value4, final L key5, final Short value5) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4),
@@ -275,7 +287,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param map The original shorts map.
      * @return A new modifiable shorts map cloned from the provided shorts map.
      */
-    public static <L> ModifiableShortMap<L> of(final NumericMap<? extends L, Short> map) {
+    static <L> ModifiableShortMap<L> of(final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +301,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @return A new modifiable shorts map with the specified key and value cardinality containing all the entries from
      *         the provided shorts maps.
      */
-    public static <L> ModifiableShortMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableShortMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Short>... maps) {
         ModifiableShortMap<L> result = ModifiableShortMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Short> map : maps) {
@@ -305,141 +317,7 @@ public class ModifiableShortMap<K> extends AbstractModifiableShortMap<K> impleme
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */
-    public static <L> ModifiableShortMap<L> unionOf(final NumericMap<? extends L, Short>... maps) {
+    static <L> ModifiableShortMap<L> unionOf(final NumericMap<? extends L, Short>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The modifiable map holding the keys and the shorts.
-     */
-    private final ModifiableMap<K, Short> map;
-
-    /**
-     * Private constructor taking a map with the keys and the shorts as its parameter.
-     *
-     * @param map The map holding the keys and the shorts.
-     */
-    private ModifiableShortMap(final ModifiableMap<K, Short> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Short value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Short> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Short> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Short value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Short> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Short get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public ShortCollection getAll(final K key) throws IllegalArgumentException {
-        return new ShortCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public ShortCollection getValues() {
-        return new ShortCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Short>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public Short remove(final K key) throws IllegalArgumentException {
-        return map.remove(key);
-    }
-
-    @Override
-    public boolean remove(final K key, final Short value) {
-        return map.remove(key, value);
-    }
-
-    @Override
-    public boolean removeAll(final Map<? extends K, ? extends Short> aMap) {
-        return map.removeAll(aMap);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Short>> predicate) {
-        return map.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Map<? extends K, ? extends Short> aMap) {
-        return map.retainAll(aMap);
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Short>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Short update(final K key, final Short value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Short oldValue, final Short newValue) {
-        return map.update(key, oldValue, newValue);
     }
 }

@@ -1,25 +1,33 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for Bytes and
- * containing inner classes with concrete implementations.
+ * A numeric map containing bytes. In addition to the functionality of maps in general, it supports calculating the
+ * sum and the product of the map's values, and finding their maximum and the minimum.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface binding the type
+ * parameter for the values to Byte. It contains one nested class implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.Map}.
  *
  * @param <K> The key type.
  */
-public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMap<K, Byte> {
+public interface ByteMap<K> extends NumericMap<K, Byte> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.Map} interface.
+     * A numeric map containing bytes and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.HashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ByteMap<K> {
+    public static final class HashMap<K> extends ByteMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte> decoratedMap;
+
         /**
          * Constructs a map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -27,7 +35,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(entries));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(entries);
         }
 
         /**
@@ -37,7 +45,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Byte>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(keyAndValueCardinality, entries));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -47,7 +55,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(keyAndValueCardinality, source));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(keyAndValueCardinality, source);
         }
 
         /**
@@ -56,7 +64,12 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Byte> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(source));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Byte>(source);
+        }
+
+        @Override
+        Map<K, Byte> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -66,7 +79,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param <K> The key type.
      * @return A new empty bytes map.
      */
-    public static <K> ByteMap<K> empty() {
+    static <K> ByteMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -77,7 +90,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param entries The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    public static <L> ByteMap<L> of(final Entry<L, Byte>... entries) {
+    static <L> ByteMap<L> of(final Entry<L, Byte>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -89,8 +102,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param entries                The entries for the new map.
      * @return A new bytes map with the specified entries.
      */
-    public static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, Byte>... entries) {
+    static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Byte>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
@@ -102,7 +114,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param map                    The original bytes map.
      * @return A new bytes map with the specified key and value cardinality cloned from the provided bytes map.
      */
-    public static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ByteMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Byte> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -115,7 +127,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param value The value for the entry.
      * @return A new bytes map containing an entry with the key and the value.
      */
-    public static <L> ByteMap<L> of(final L key, final Byte value) {
+    static <L> ByteMap<L> of(final L key, final Byte value) {
         return new HashMap<L>(new Entry<L, Byte>(key, value));
     }
 
@@ -129,7 +141,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param value2 The second value for the entry.
      * @return A new bytes map containing two entries using the provided keys and values.
      */
-    public static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2) {
+    static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2) {
         return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2));
     }
 
@@ -145,8 +157,8 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param value3 The third value for the entry.
      * @return A new bytes map containing three entries using the provided keys and values.
      */
-    public static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
-            final L key3, final Byte value3) {
+    static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2, final L key3,
+            final Byte value3) {
         return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3));
     }
@@ -165,8 +177,8 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param value4 The fourth value for the entry.
      * @return A new bytes map containing four entries using the provided keys and values.
      */
-    public static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
-            final L key3, final Byte value3, final L key4, final Byte value4) {
+    static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2, final L key3,
+            final Byte value3, final L key4, final Byte value4) {
         return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4));
     }
@@ -187,8 +199,8 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param value5 The fifth value for the entry.
      * @return A new bytes map containing five entries using the provided keys and values.
      */
-    public static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2,
-            final L key3, final Byte value3, final L key4, final Byte value4, final L key5, final Byte value5) {
+    static <L> ByteMap<L> of(final L key1, final Byte value1, final L key2, final Byte value2, final L key3,
+            final Byte value3, final L key4, final Byte value4, final L key5, final Byte value5) {
         return new HashMap<L>(new Entry<L, Byte>(key1, value1), new Entry<L, Byte>(key2, value2),
                 new Entry<L, Byte>(key3, value3), new Entry<L, Byte>(key4, value4),
                 new Entry<L, Byte>(key5, value5));
@@ -201,7 +213,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param map The original bytes map.
      * @return A new bytes map cloned from the provided bytes map.
      */
-    public static <L> ByteMap<L> of(final NumericMap<? extends L, Byte> map) {
+    static <L> ByteMap<L> of(final NumericMap<? extends L, Byte> map) {
         return new HashMap<L>(map);
     }
 
@@ -215,7 +227,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @return A new bytes map with the specified key and value cardinality containing all the entries from the
      *         provided bytes maps.
      */
-    public static <L> ByteMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ByteMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Byte>... maps) {
         ModifiableByteMap<L> result = ModifiableByteMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Byte> map : maps) {
@@ -231,91 +243,7 @@ public abstract class ByteMap<K> extends AbstractByteMap<K> implements NumericMa
      * @param maps The bytes maps from which to copy all the entries.
      * @return A new bytes map containing all the entries from the provided bytes maps.
      */
-    public static <L> ByteMap<L> unionOf(final NumericMap<? extends L, Byte>... maps) {
+    static <L> ByteMap<L> unionOf(final NumericMap<? extends L, Byte>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The map holding the keys and the bytes.
-     */
-    private final Map<K, Byte> map;
-
-    /**
-     * Private constructor taking a map with the keys and the bytes as its parameter.
-     *
-     * @param map The map holding the keys and the bytes.
-     */
-    private ByteMap(final Map<K, Byte> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Byte> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Byte value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Byte> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Byte get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public ByteCollection getAll(final K key) throws IllegalArgumentException {
-        return new ByteCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public ByteCollection getValues() {
-        return new ByteCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Byte>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Byte>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
     }
 }

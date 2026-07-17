@@ -16,7 +16,7 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericCollection} interface
  * binding the type parameter to Long. It contains three nested classes implementing this interface, one backed by an
  * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
- * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashCollection}, and one backed by
  * {@link net.filipvanlaenen.kolektoj.linkedlist.ModifiableLinkedListCollection}, and factory methods mirroring the
  * factory methods of {@link net.filipvanlaenen.kolektoj.ModifiableCollection}.
  */

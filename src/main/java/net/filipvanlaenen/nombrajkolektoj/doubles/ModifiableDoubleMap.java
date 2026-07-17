@@ -1,9 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Predicate;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.ModifiableMap;
@@ -12,19 +8,30 @@ import net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.ModifiableNumericMap} interface for
- * Doubles and containing inner classes with concrete implementations.
+ * A modifiable numeric map containing doubles. It doesn't support any new functionality in addition to the
+ * functionality of modifiable maps in general and updatable doubles maps.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.ModifableNumericMap} interface binding
+ * the type parameter to Double. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.ModifiableMap}.
  *
  * @param <K> The key type.
  */
-public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> implements ModifiableNumericMap<K, Double> {
+public interface ModifiableDoubleMap<K> extends ModifiableNumericMap<K, Double>, UpdatableDoubleMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.ModifiableMap}
-     * interface.
+     * A modifiable numeric map containing doubles and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.doubles.ModifiableDoubleMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.ModifiableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableDoubleMap<K> {
+    public static final class HashMap<K> extends ModifiableDoubleMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private ModifiableHashMap<K, Double> decoratedMap;
+
         /**
          * Constructs a modifiable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +39,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Double>... entries) {
-            super(new ModifiableHashMap<K, Double>(entries));
+            decoratedMap = new ModifiableHashMap<K, Double>(entries);
         }
 
         /**
@@ -42,7 +49,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Double>... entries) {
-            super(new ModifiableHashMap<K, Double>(keyAndValueCardinality, entries));
+            decoratedMap = new ModifiableHashMap<K, Double>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +59,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Double> source) {
-            super(new ModifiableHashMap<K, Double>(keyAndValueCardinality, source));
+            decoratedMap = new ModifiableHashMap<K, Double>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +69,12 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Double> source) {
-            super(new ModifiableHashMap<K, Double>(source));
+            decoratedMap = new ModifiableHashMap<K, Double>(source);
+        }
+
+        @Override
+        ModifiableMap<K, Double> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +84,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param <K> The key type.
      * @return A new empty doubles map.
      */
-    public static <K> ModifiableDoubleMap<K> empty() {
+    static <K> ModifiableDoubleMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -84,7 +96,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param keys         The keys for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final Collection<? extends L> keys) {
         ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +112,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param keys         The keys for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final L... keys) {
+    static <L> ModifiableDoubleMap<L> of(final Double defaultValue, final L... keys) {
         ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +127,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param entries The entries for the new map.
      * @return A new doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final Entry<L, Double>... entries) {
+    static <L> ModifiableDoubleMap<L> of(final Entry<L, Double>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +140,8 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param keys                   The keys for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Double defaultValue, final Collection<? extends L> keys) {
+    static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +158,8 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param keys                   The keys for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Double defaultValue, final L... keys) {
+    static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Double defaultValue,
+            final L... keys) {
         ModifiableDoubleMap<L> map = ModifiableDoubleMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +175,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param entries                The entries for the new map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Double>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +188,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param map                    The original doubles map.
      * @return A new modifiable doubles map with the specified entries.
      */
-    public static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableDoubleMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Double> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +201,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param value The value for the entry.
      * @return A new doubles map containing an entry with the key and the value.
      */
-    public static <L> ModifiableDoubleMap<L> of(final L key, final Double value) {
+    static <L> ModifiableDoubleMap<L> of(final L key, final Double value) {
         return new HashMap<L>(new Entry<L, Double>(key, value));
     }
 
@@ -203,7 +215,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param value2 The second value for the entry.
      * @return A new doubles map containing two entries using the provided keys and values.
      */
-    public static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2) {
+    static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2) {
         return new HashMap<L>(new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2));
     }
 
@@ -219,7 +231,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param value3 The third value for the entry.
      * @return A new doubles map containing three entries using the provided keys and values.
      */
-    public static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
+    static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
             final L key3, final Double value3) {
         return new HashMap<L>(new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3));
@@ -239,7 +251,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param value4 The fourth value for the entry.
      * @return A new doubles map containing four entries using the provided keys and values.
      */
-    public static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
+    static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
             final L key3, final Double value3, final L key4, final Double value4) {
         return new HashMap<L>(new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4));
@@ -261,7 +273,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param value5 The fifth value for the entry.
      * @return A new doubles map containing five entries using the provided keys and values.
      */
-    public static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
+    static <L> ModifiableDoubleMap<L> of(final L key1, final Double value1, final L key2, final Double value2,
             final L key3, final Double value3, final L key4, final Double value4, final L key5, final Double value5) {
         return new HashMap<L>(new Entry<L, Double>(key1, value1), new Entry<L, Double>(key2, value2),
                 new Entry<L, Double>(key3, value3), new Entry<L, Double>(key4, value4),
@@ -275,7 +287,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param map The original doubles map.
      * @return A new modifiable doubles map cloned from the provided doubles map.
      */
-    public static <L> ModifiableDoubleMap<L> of(final NumericMap<? extends L, Double> map) {
+    static <L> ModifiableDoubleMap<L> of(final NumericMap<? extends L, Double> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +301,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @return A new modifiable doubles map with the specified key and value cardinality containing all the entries from
      *         the provided doubles maps.
      */
-    public static <L> ModifiableDoubleMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> ModifiableDoubleMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Double>... maps) {
         ModifiableDoubleMap<L> result = ModifiableDoubleMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Double> map : maps) {
@@ -305,141 +317,7 @@ public class ModifiableDoubleMap<K> extends AbstractModifiableDoubleMap<K> imple
      * @param maps The maps from which to copy all the entries.
      * @return A new modifiable map containing all the entries from the provided maps.
      */
-    public static <L> ModifiableDoubleMap<L> unionOf(final NumericMap<? extends L, Double>... maps) {
+    static <L> ModifiableDoubleMap<L> unionOf(final NumericMap<? extends L, Double>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The modifiable map holding the keys and the doubles.
-     */
-    private final ModifiableMap<K, Double> map;
-
-    /**
-     * Private constructor taking a map with the keys and the doubles as its parameter.
-     *
-     * @param map The map holding the keys and the doubles.
-     */
-    private ModifiableDoubleMap(final ModifiableMap<K, Double> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean add(final K key, final Double value) {
-        return map.add(key, value);
-    }
-
-    @Override
-    public boolean addAll(final Map<? extends K, ? extends Double> aMap) {
-        return map.addAll(aMap);
-    }
-
-    @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Double> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Double value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Double> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Double get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public DoubleCollection getAll(final K key) throws IllegalArgumentException {
-        return new DoubleCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public DoubleCollection getValues() {
-        return new DoubleCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Double>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public Double remove(final K key) throws IllegalArgumentException {
-        return map.remove(key);
-    }
-
-    @Override
-    public boolean remove(final K key, final Double value) {
-        return map.remove(key, value);
-    }
-
-    @Override
-    public boolean removeAll(final Map<? extends K, ? extends Double> aMap) {
-        return map.removeAll(aMap);
-    }
-
-    @Override
-    public boolean removeIf(final Predicate<Entry<? extends K, ? extends Double>> predicate) {
-        return map.removeIf(predicate);
-    }
-
-    @Override
-    public boolean retainAll(final Map<? extends K, ? extends Double> aMap) {
-        return map.retainAll(aMap);
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Double>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Double update(final K key, final Double value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Double oldValue, final Double newValue) {
-        return map.update(key, oldValue, newValue);
     }
 }

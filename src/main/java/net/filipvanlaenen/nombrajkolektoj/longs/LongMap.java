@@ -1,25 +1,33 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
-import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface for Longs and
- * containing inner classes with concrete implementations.
+ * A numeric map containing longs. In addition to the functionality of maps in general, it supports calculating the
+ * sum and the product of the map's values, and finding their maximum and the minimum.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.NumericMap} interface binding the type
+ * parameter for the values to Long. It contains one nested class implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashMap}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.Map}.
  *
  * @param <K> The key type.
  */
-public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMap<K, Long> {
+public interface LongMap<K> extends NumericMap<K, Long> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.Map} interface.
+     * A numeric map containing longs and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.HashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends LongMap<K> {
+    public static final class HashMap<K> extends LongMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private net.filipvanlaenen.kolektoj.hash.HashMap<K, Long> decoratedMap;
+
         /**
          * Constructs a map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -27,7 +35,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(entries));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(entries);
         }
 
         /**
@@ -37,7 +45,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Long>... entries) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(keyAndValueCardinality, entries));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -47,7 +55,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(keyAndValueCardinality, source));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(keyAndValueCardinality, source);
         }
 
         /**
@@ -56,7 +64,12 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Long> source) {
-            super(new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(source));
+            decoratedMap = new net.filipvanlaenen.kolektoj.hash.HashMap<K, Long>(source);
+        }
+
+        @Override
+        Map<K, Long> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -66,7 +79,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param <K> The key type.
      * @return A new empty longs map.
      */
-    public static <K> LongMap<K> empty() {
+    static <K> LongMap<K> empty() {
         return new HashMap<K>();
     }
 
@@ -77,7 +90,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param entries The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    public static <L> LongMap<L> of(final Entry<L, Long>... entries) {
+    static <L> LongMap<L> of(final Entry<L, Long>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -89,8 +102,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param entries                The entries for the new map.
      * @return A new longs map with the specified entries.
      */
-    public static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Entry<L, Long>... entries) {
+    static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Entry<L, Long>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
 
@@ -102,7 +114,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param map                    The original longs map.
      * @return A new longs map with the specified key and value cardinality cloned from the provided longs map.
      */
-    public static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> LongMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -115,7 +127,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param value The value for the entry.
      * @return A new longs map containing an entry with the key and the value.
      */
-    public static <L> LongMap<L> of(final L key, final Long value) {
+    static <L> LongMap<L> of(final L key, final Long value) {
         return new HashMap<L>(new Entry<L, Long>(key, value));
     }
 
@@ -129,7 +141,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param value2 The second value for the entry.
      * @return A new longs map containing two entries using the provided keys and values.
      */
-    public static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
+    static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2));
     }
 
@@ -145,8 +157,8 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param value3 The third value for the entry.
      * @return A new longs map containing three entries using the provided keys and values.
      */
-    public static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
-            final L key3, final Long value3) {
+    static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2, final L key3,
+            final Long value3) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3));
     }
@@ -165,8 +177,8 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param value4 The fourth value for the entry.
      * @return A new longs map containing four entries using the provided keys and values.
      */
-    public static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
-            final L key3, final Long value3, final L key4, final Long value4) {
+    static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2, final L key3,
+            final Long value3, final L key4, final Long value4) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4));
     }
@@ -187,8 +199,8 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param value5 The fifth value for the entry.
      * @return A new longs map containing five entries using the provided keys and values.
      */
-    public static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2,
-            final L key3, final Long value3, final L key4, final Long value4, final L key5, final Long value5) {
+    static <L> LongMap<L> of(final L key1, final Long value1, final L key2, final Long value2, final L key3,
+            final Long value3, final L key4, final Long value4, final L key5, final Long value5) {
         return new HashMap<L>(new Entry<L, Long>(key1, value1), new Entry<L, Long>(key2, value2),
                 new Entry<L, Long>(key3, value3), new Entry<L, Long>(key4, value4),
                 new Entry<L, Long>(key5, value5));
@@ -201,7 +213,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param map The original longs map.
      * @return A new longs map cloned from the provided longs map.
      */
-    public static <L> LongMap<L> of(final NumericMap<? extends L, Long> map) {
+    static <L> LongMap<L> of(final NumericMap<? extends L, Long> map) {
         return new HashMap<L>(map);
     }
 
@@ -215,7 +227,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @return A new longs map with the specified key and value cardinality containing all the entries from the
      *         provided longs maps.
      */
-    public static <L> LongMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> LongMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Long>... maps) {
         ModifiableLongMap<L> result = ModifiableLongMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Long> map : maps) {
@@ -231,91 +243,7 @@ public abstract class LongMap<K> extends AbstractLongMap<K> implements NumericMa
      * @param maps The longs maps from which to copy all the entries.
      * @return A new longs map containing all the entries from the provided longs maps.
      */
-    public static <L> LongMap<L> unionOf(final NumericMap<? extends L, Long>... maps) {
+    static <L> LongMap<L> unionOf(final NumericMap<? extends L, Long>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The map holding the keys and the longs.
-     */
-    private final Map<K, Long> map;
-
-    /**
-     * Private constructor taking a map with the keys and the longs as its parameter.
-     *
-     * @param map The map holding the keys and the longs.
-     */
-    private LongMap(final Map<K, Long> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Long> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Long value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Long> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Long get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public LongCollection getAll(final K key) throws IllegalArgumentException {
-        return new LongCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public LongCollection getValues() {
-        return new LongCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Long>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Long>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
     }
 }

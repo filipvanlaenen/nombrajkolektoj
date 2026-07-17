@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Map.Entry;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.AbstractBigDecimalMap} class. The class is
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalMapDecorator} class. The class is
  * tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalMap} implementation.
  */
 public class AbstractBigDecimalMapTest {

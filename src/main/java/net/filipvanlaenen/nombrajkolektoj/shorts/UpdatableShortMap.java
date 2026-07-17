@@ -1,8 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-
 import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Map;
 import net.filipvanlaenen.kolektoj.UpdatableMap;
@@ -11,20 +8,31 @@ import net.filipvanlaenen.nombrajkolektoj.NumericMap;
 import net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap;
 
 /**
- * An abstract class implementing the {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface for
- * Shorts and containing inner classes with concrete implementations.
+ * An updatable numeric map containing shorts. In addition to the functionality of updatable maps in general and
+ * shorts maps, it supports augmenting, subtracting, multiplying and dividing all the values of map with a number, and
+ * negating them, and for a key only.
+ *
+ * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.UpdatableNumericMap} interface binding
+ * the type parameter to Short. It contains one nested classes implementing this interface, backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and factory methods mirroring the factory methods of
+ * {@link net.filipvanlaenen.kolektoj.UpdatableMap}.
  *
  * @param <K> The key type.
  */
-public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
-        implements UpdatableNumericMap<K, Short> {
+public interface UpdatableShortMap<K> extends UpdatableNumericMap<K, Short>, ShortMap<K> {
     /**
-     * Inner class using a hash function backed implementation of the {@link net.filipvanlaenen.kolektoj.UpdatableMap}
-     * interface.
+     * An updatable numeric map containing shorts and backed by a hash. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.UpdatableShortMap} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.hash.UpdatableHashMap}.
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableShortMap<K> {
+    public static final class HashMap<K> extends UpdatableShortMapDecorator<K> {
+        /**
+         * The internal decorated map.
+         */
+        private UpdatableHashMap<K, Short> decoratedMap;
+
         /**
          * Constructs an updatable map with the given entries. The key and value cardinality is defaulted to
          * <code>DISTINCT_KEYS</code>.
@@ -32,7 +40,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
          * @param entries The entries of the map.
          */
         public HashMap(final Entry<K, Short>... entries) {
-            super(new UpdatableHashMap<K, Short>(entries));
+            decoratedMap = new UpdatableHashMap<K, Short>(entries);
         }
 
         /**
@@ -42,7 +50,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
          * @param entries                The entries of the map.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Entry<K, Short>... entries) {
-            super(new UpdatableHashMap<K, Short>(keyAndValueCardinality, entries));
+            decoratedMap = new UpdatableHashMap<K, Short>(keyAndValueCardinality, entries);
         }
 
         /**
@@ -52,7 +60,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
          * @param source                 The map to create a new map from.
          */
         public HashMap(final KeyAndValueCardinality keyAndValueCardinality, final Map<? extends K, Short> source) {
-            super(new UpdatableHashMap<K, Short>(keyAndValueCardinality, source));
+            decoratedMap = new UpdatableHashMap<K, Short>(keyAndValueCardinality, source);
         }
 
         /**
@@ -62,7 +70,12 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
          * @param source The map to create a new map from.
          */
         public HashMap(final Map<? extends K, Short> source) {
-            super(new UpdatableHashMap<K, Short>(source));
+            decoratedMap = new UpdatableHashMap<K, Short>(source);
+        }
+
+        @Override
+        UpdatableMap<K, Short> getDecoratedMap() {
+            return decoratedMap;
         }
     }
 
@@ -72,7 +85,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param <L> The key type.
      * @return A new empty shorts map.
      */
-    public static <L> UpdatableShortMap<L> empty() {
+    static <L> UpdatableShortMap<L> empty() {
         return new HashMap<L>();
     }
 
@@ -84,7 +97,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final Short defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableShortMap<L> of(final Short defaultValue, final Collection<? extends L> keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -100,7 +113,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys         The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final Short defaultValue, final L... keys) {
+    static <L> UpdatableShortMap<L> of(final Short defaultValue, final L... keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>empty();
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -115,7 +128,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param entries The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final Entry<L, Short>... entries) {
+    static <L> UpdatableShortMap<L> of(final Entry<L, Short>... entries) {
         return new HashMap<L>(entries);
     }
 
@@ -128,8 +141,8 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Short defaultValue, final Collection<? extends L> keys) {
+    static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final Collection<? extends L> keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -146,8 +159,8 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param keys                   The keys for the new map.
      * @return A new updatable shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
-            final Short defaultValue, final L... keys) {
+    static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality, final Short defaultValue,
+            final L... keys) {
         ModifiableShortMap<L> map = ModifiableShortMap.<L>of(keyAndValueCardinality);
         for (L key : keys) {
             map.add(key, defaultValue);
@@ -163,7 +176,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param entries                The entries for the new map.
      * @return A new shorts map with the specified entries.
      */
-    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final Entry<L, Short>... entries) {
         return new HashMap<L>(keyAndValueCardinality, entries);
     }
@@ -176,7 +189,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param map                    The original shorts map.
      * @return A new shorts map cloned from the provided shorts map with the specified key and value cardinality.
      */
-    public static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableShortMap<L> of(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(keyAndValueCardinality, map);
     }
@@ -189,7 +202,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value The value for the entry.
      * @return A new shorts map containing an entry with the key and the value.
      */
-    public static <L> UpdatableShortMap<L> of(final L key, final Short value) {
+    static <L> UpdatableShortMap<L> of(final L key, final Short value) {
         return new HashMap<L>(new Entry<L, Short>(key, value));
     }
 
@@ -203,7 +216,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value2 The second value for the entry.
      * @return A new shorts map containing two entries using the provided keys and values.
      */
-    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2) {
+    static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2));
     }
 
@@ -219,7 +232,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value3 The third value for the entry.
      * @return A new shorts map containing three entries using the provided keys and values.
      */
-    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3));
@@ -239,7 +252,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value4 The fourth value for the entry.
      * @return A new shorts map containing four entries using the provided keys and values.
      */
-    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3, final L key4, final Short value4) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4));
@@ -261,7 +274,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param value5 The fifth value for the entry.
      * @return A new shorts map containing five entries using the provided keys and values.
      */
-    public static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
+    static <L> UpdatableShortMap<L> of(final L key1, final Short value1, final L key2, final Short value2,
             final L key3, final Short value3, final L key4, final Short value4, final L key5, final Short value5) {
         return new HashMap<L>(new Entry<L, Short>(key1, value1), new Entry<L, Short>(key2, value2),
                 new Entry<L, Short>(key3, value3), new Entry<L, Short>(key4, value4),
@@ -275,7 +288,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param map The original shorts map.
      * @return A new updatable shorts map cloned from the provided shorts map.
      */
-    public static <L> UpdatableShortMap<L> of(final NumericMap<? extends L, Short> map) {
+    static <L> UpdatableShortMap<L> of(final NumericMap<? extends L, Short> map) {
         return new HashMap<L>(map);
     }
 
@@ -289,7 +302,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @return A new updatable shorts map with the specified key and value cardinality containing all the entries from
      *         the provided shorts maps.
      */
-    public static <L> UpdatableShortMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
+    static <L> UpdatableShortMap<L> unionOf(final KeyAndValueCardinality keyAndValueCardinality,
             final NumericMap<? extends L, Short>... maps) {
         ModifiableShortMap<L> result = ModifiableShortMap.of(keyAndValueCardinality);
         for (NumericMap<? extends L, Short> map : maps) {
@@ -305,101 +318,7 @@ public abstract class UpdatableShortMap<K> extends AbstractUpdatableShortMap<K>
      * @param maps The shorts maps from which to copy all the entries.
      * @return A new updatable shorts map containing all the entries from the provided shorts maps.
      */
-    public static <L> UpdatableShortMap<L> unionOf(final NumericMap<? extends L, Short>... maps) {
+    static <L> UpdatableShortMap<L> unionOf(final NumericMap<? extends L, Short>... maps) {
         return unionOf(KeyAndValueCardinality.DISTINCT_KEYS, maps);
-    }
-
-    /**
-     * The updatable map holding the keys and the shorts.
-     */
-    private final UpdatableMap<K, Short> map;
-
-    /**
-     * Private constructor taking a map with the keys and the shorts as its parameter.
-     *
-     * @param map The map holding the keys and the shorts.
-     */
-    private UpdatableShortMap(final UpdatableMap<K, Short> map) {
-        this.map = map;
-    }
-
-    @Override
-    public boolean contains(final Entry<K, Short> entry) {
-        return map.contains(entry);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> collection) {
-        return map.containsAll(collection);
-    }
-
-    @Override
-    public boolean containsKey(final K key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Short value) {
-        return map.containsValue(value);
-    }
-
-    @Override
-    public Entry<K, Short> get() throws IndexOutOfBoundsException {
-        return map.get();
-    }
-
-    @Override
-    public Short get(final K key) throws IllegalArgumentException {
-        return map.get(key);
-    }
-
-    @Override
-    public ShortCollection getAll(final K key) throws IllegalArgumentException {
-        return new ShortCollection.ArrayCollection(map.getAll(key));
-    }
-
-    @Override
-    public KeyAndValueCardinality getKeyAndValueCardinality() {
-        return map.getKeyAndValueCardinality();
-    }
-
-    @Override
-    public Collection<K> getKeys() {
-        return map.getKeys();
-    }
-
-    @Override
-    public ShortCollection getValues() {
-        return new ShortCollection.ArrayCollection(map.getValues());
-    }
-
-    @Override
-    public Iterator<Entry<K, Short>> iterator() {
-        return map.iterator();
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    public Spliterator<Entry<K, Short>> spliterator() {
-        return map.spliterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return map.toArray();
-    }
-
-    @Override
-    public Short update(final K key, final Short value) throws IllegalArgumentException {
-        return map.update(key, value);
-    }
-
-    @Override
-    public boolean update(final K key, final Short oldValye, final Short newValue) {
-        return map.update(key, oldValye, newValue);
     }
 }

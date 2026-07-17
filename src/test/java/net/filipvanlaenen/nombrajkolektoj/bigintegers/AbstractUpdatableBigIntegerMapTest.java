@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.AbstractUpdatableBigIntegerMap} class. The
+ * Unit tests on the abstract {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.UpdatableBigIntegerMapDecorator} class. The
  * class is tested through the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.UpdatableBigIntegerMap} implementation.
  */
 public class AbstractUpdatableBigIntegerMapTest {

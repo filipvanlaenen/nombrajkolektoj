@@ -21,6 +21,14 @@ public abstract class ByteCollectionTestBase<T extends ByteCollection> {
     private static final Byte BYTE_THREE = (byte) 3;
 
     /**
+     * Creates a bytes collection with the provided bytes.
+     *
+     * @param numbers The bytes to be included in the bytes collection.
+     * @return A bytes collection with the provided bytes.
+     */
+    protected abstract T createByteCollection(Byte... numbers);
+
+    /**
      * Creates a bytes collection with the provided element cardinality containing the provided bytes.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class ByteCollectionTestBase<T extends ByteCollection> {
      * @return A bytes collection containing the provided bytes.
      */
     protected abstract T createByteCollection(T source);
+
+    /**
+     * Verifies that a bytes collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnAByteCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createByteCollection((byte) 1).getElementCardinality());
+    }
 
     /**
      * Verifies that a bytes collection with a specific element cardinality receives that element cardinality.

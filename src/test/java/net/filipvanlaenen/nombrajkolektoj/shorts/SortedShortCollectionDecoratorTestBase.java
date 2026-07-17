@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test;
  *
  * @param <T> The subclass type to be tested.
  */
-
-public abstract class SortedShortCollectionTestBase<T extends SortedShortCollection>
-        extends OrderedShortCollectionTestBase<T> {
+public abstract class SortedShortCollectionDecoratorTestBase<T extends SortedShortCollection>
+        extends OrderedShortCollectionDecoratorTestBase<T> {
     /**
      * The short three.
      */

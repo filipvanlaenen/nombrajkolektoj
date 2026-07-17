@@ -48,6 +48,7 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     private final OrderedBigDecimalCollection collection123 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
+    @Override
     protected OrderedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return OrderedBigDecimalCollection.of(numbers);
     }

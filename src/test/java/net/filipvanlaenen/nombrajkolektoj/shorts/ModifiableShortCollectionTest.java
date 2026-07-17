@@ -19,11 +19,11 @@ public final class ModifiableShortCollectionTest
     /**
      * Collection with the shorts 0, 1 and 2.
      */
-    private final ModifiableShortCollection collection012 = ModifiableShortCollection.of((short) 0, (short) 1, (short) 2);
+    private final ShortCollection collection012 = ShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
-    private final ModifiableShortCollection collection123 = ModifiableShortCollection.of((short) 1, (short) 2, (short) 3);
+    private final ShortCollection collection123 = ShortCollection.of((short) 1, (short) 2, (short) 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a short collection.
@@ -48,6 +48,11 @@ public final class ModifiableShortCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateAShortCollection() {
         assertTrue(
                 new ModifiableShortCollection.LinkedListCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableShortCollection createShortCollection(final Short... numbers) {
+        return ModifiableShortCollection.of(numbers);
     }
 
     @Override

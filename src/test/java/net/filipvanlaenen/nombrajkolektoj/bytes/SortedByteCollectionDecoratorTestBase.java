@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test;
  *
  * @param <T> The subclass type to be tested.
  */
-
-public abstract class SortedByteCollectionTestBase<T extends SortedByteCollection>
-        extends OrderedByteCollectionTestBase<T> {
+public abstract class SortedByteCollectionDecoratorTestBase<T extends SortedByteCollection>
+        extends OrderedByteCollectionDecoratorTestBase<T> {
     /**
      * The byte three.
      */

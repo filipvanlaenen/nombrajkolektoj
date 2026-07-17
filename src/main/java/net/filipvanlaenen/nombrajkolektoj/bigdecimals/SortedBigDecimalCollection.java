@@ -22,13 +22,11 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedBigDecimalCollectionDecorator {
+    final class ArrayCollection extends SortedBigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<BigDecimal> decoratedCollection;
-
-        @Override
-        SortedCollection<BigDecimal> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same BigDecimals and the same element cardinality.
@@ -75,19 +73,22 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
                 final BigDecimal... numbers) {
             decoratedCollection = new SortedArrayCollection<BigDecimal>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedBigDecimalCollectionDecorator {
+    final class SortedTreeCollection extends SortedBigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigDecimal> decoratedCollection;
-
-        @Override
-        SortedCollection<BigDecimal> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same BigDecimals and the same element cardinality.
@@ -136,6 +137,11 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigDecimal>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.BIG_DECIMALS));
         }
+
+        @Override
+        SortedCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -144,7 +150,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted BigDecimals collection.
      */
-    public static SortedBigDecimalCollection empty(final Comparator<? super BigDecimal> comparator) {
+    static SortedBigDecimalCollection empty(final Comparator<? super BigDecimal> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -155,7 +161,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted BigDecimals collection with the specified BigDecimals.
      */
-    public static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
+    static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -166,7 +172,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param collection The original BigDecimals collection.
      * @return A new sorted BigDecimals collection cloned from the provided BigDecimals collection.
      */
-    public static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
+    static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
             final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -180,7 +186,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted BigDecimals collection cloned from a range in the provided ordered collection.
      */
-    public static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
+    static SortedBigDecimalCollection of(final Comparator<? super BigDecimal> comparator,
             final OrderedNumericCollection<BigDecimal> collection, final int fromIndex, final int toIndex) {
         ModifiableBigDecimalCollection slice = ModifiableBigDecimalCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -197,7 +203,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param numbers            The BigDecimals for the new sorted BigDecimals collection.
      * @return A new sorted BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    public static SortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+    static SortedBigDecimalCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigDecimal> comparator, final BigDecimal... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -210,7 +216,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param collection         The original BigDecimals collection.
      * @return A new sorted BigDecimals collection with the specified element cardinality and the BigDecimals.
      */
-    public static SortedBigDecimalCollection of(final ElementCardinality elementCardinality,
+    static SortedBigDecimalCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigDecimal> comparator, final NumericCollection<BigDecimal> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -221,7 +227,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param collection The original sorted BigDecimals collection.
      * @return A new sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection) {
+    static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -232,8 +238,7 @@ public interface SortedBigDecimalCollection extends SortedNumericCollection<BigD
      * @param range      The range.
      * @return A new sorted BigDecimals collection cloned from the provided sorted BigDecimals collection.
      */
-    public static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection,
-            final Range<BigDecimal> range) {
+    static SortedBigDecimalCollection of(final SortedNumericCollection<BigDecimal> collection, final Range<BigDecimal> range) {
         ModifiableBigDecimalCollection slice = ModifiableBigDecimalCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (BigDecimal element : collection) {

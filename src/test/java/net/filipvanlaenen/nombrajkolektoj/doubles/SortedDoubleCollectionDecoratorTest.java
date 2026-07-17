@@ -1,0 +1,44 @@
+package net.filipvanlaenen.nombrajkolektoj.doubles;
+
+import java.util.Comparator;
+
+import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+
+/**
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
+ */
+public final class SortedDoubleCollectionDecoratorTest
+        extends SortedDoubleCollectionDecoratorTestBase<SortedDoubleCollection> {
+    @Override
+    protected SortedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected SortedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected SortedDoubleCollection createEmptyDoubleCollection() {
+        return SortedDoubleCollection.empty(Comparator.naturalOrder());
+    }
+
+    @Override
+    protected SortedDoubleCollection createOrderedDoubleCollection(final Double... numbers) {
+        return SortedDoubleCollection.of(Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected SortedDoubleCollection createOrderedDoubleCollection(final ElementCardinality elementCardinality,
+            final Double... numbers) {
+        return SortedDoubleCollection.of(elementCardinality, Comparator.naturalOrder(), numbers);
+    }
+
+    @Override
+    protected SortedDoubleCollection createSortedDoubleCollection(final Comparator<Double> comparator,
+            final Double... numbers) {
+        return SortedDoubleCollection.of(comparator, numbers);
+    }
+}

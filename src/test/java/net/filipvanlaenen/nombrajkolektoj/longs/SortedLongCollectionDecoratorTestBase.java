@@ -1,4 +1,4 @@
-package net.filipvanlaenen.nombrajkolektoj.doubles;
+package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,33 +7,32 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.SortedDoubleCollection} class.
+ * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.SortedLongCollection} class.
  *
  * @param <T> The subclass type to be tested.
  */
-
-public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleCollection>
-        extends OrderedDoubleCollectionTestBase<T> {
+public abstract class SortedLongCollectionDecoratorTestBase<T extends SortedLongCollection>
+        extends OrderedLongCollectionDecoratorTestBase<T> {
     /**
-     * The double three.
+     * The long three.
      */
-    private static final Double DOUBLE_THREE = 3D;
+    private static final Long LONG_THREE = 3L;
 
     /**
-     * Creates a sorted doubles collection containing the provided doubles.
+     * Creates a sorted longs collection containing the provided longs.
      *
-     * @param numbers    The doubles to be included in the sorted doubles collection.
-     * @param comparator The comparator for the doubles.
-     * @return An sorted doubles collection containing the provided doubles.
+     * @param numbers    The longs to be included in the sorted longs collection.
+     * @param comparator The comparator for the longs.
+     * @return An sorted longs collection containing the provided longs.
      */
-    protected abstract T createSortedDoubleCollection(Comparator<Double> comparator, Double... numbers);
+    protected abstract T createSortedLongCollection(Comparator<Long> comparator, Long... numbers);
 
     /**
      * Verifies that the <code>getComparator</code> method is wired correctly to the internal collection.
      */
     @Test
     public void getComparatorShouldBeWiredCorrectlyToTheInternalCollection() {
-        T collection = createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D);
+        T collection = createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L);
         assertEquals(Comparator.naturalOrder(), collection.getComparator());
     }
 
@@ -42,8 +41,8 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getGreaterThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(DOUBLE_THREE,
-                createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getGreaterThan(2D));
+        assertEquals(LONG_THREE,
+                createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getGreaterThan(2L));
     }
 
     /**
@@ -51,8 +50,8 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getGreaterThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D, createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE)
-                .getGreaterThanOrEqualTo(2D));
+        assertEquals(2L, createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE)
+                .getGreaterThanOrEqualTo(2L));
     }
 
     /**
@@ -60,7 +59,7 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getLessThanShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(1D, createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getLessThan(2D));
+        assertEquals(1L, createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getLessThan(2L));
     }
 
     /**
@@ -68,7 +67,7 @@ public abstract class SortedDoubleCollectionTestBase<T extends SortedDoubleColle
      */
     @Test
     public void getLessThanOrEqualToShouldBeWiredCorrectlyToTheInternalCollection() {
-        assertEquals(2D,
-                createSortedDoubleCollection(Comparator.naturalOrder(), 1D, 2D, DOUBLE_THREE).getLessThanOrEqualTo(2D));
+        assertEquals(2L,
+                createSortedLongCollection(Comparator.naturalOrder(), 1L, 2L, LONG_THREE).getLessThanOrEqualTo(2L));
     }
 }

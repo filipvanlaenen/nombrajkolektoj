@@ -19,11 +19,11 @@ public final class ModifiableLongCollectionTest
     /**
      * Collection with the longs 0, 1 and 2.
      */
-    private final ModifiableLongCollection collection012 = ModifiableLongCollection.of(0L, 1L, 2L);
+    private final LongCollection collection012 = LongCollection.of(0L, 1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
-    private final ModifiableLongCollection collection123 = ModifiableLongCollection.of(1L, 2L, 3L);
+    private final LongCollection collection123 = LongCollection.of(1L, 2L, 3L);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a long collection.
@@ -48,6 +48,11 @@ public final class ModifiableLongCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateALongCollection() {
         assertTrue(
                 new ModifiableLongCollection.LinkedListCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableLongCollection createLongCollection(final Long... numbers) {
+        return ModifiableLongCollection.of(numbers);
     }
 
     @Override

@@ -21,11 +21,11 @@ public final class ModifiableBigIntegerCollectionTest
     /**
      * Collection with the BigIntegers 0, 1 and 2.
      */
-    private final ModifiableBigIntegerCollection collection012 = ModifiableBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    private final BigIntegerCollection collection012 = BigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
-    private final ModifiableBigIntegerCollection collection123 = ModifiableBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
+    private final BigIntegerCollection collection123 = BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
@@ -50,6 +50,11 @@ public final class ModifiableBigIntegerCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateABigIntegerCollection() {
         assertTrue(
                 new ModifiableBigIntegerCollection.LinkedListCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return ModifiableBigIntegerCollection.of(numbers);
     }
 
     @Override

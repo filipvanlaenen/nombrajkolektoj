@@ -65,6 +65,11 @@ public final class ModifiableOrderedLongCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedLongCollection createLongCollection(final Long... numbers) {
+        return ModifiableOrderedLongCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedLongCollection createLongCollection(final ElementCardinality elementCardinality,
             final Long... numbers) {
         return ModifiableOrderedLongCollection.of(elementCardinality, numbers);

@@ -19,11 +19,11 @@ public final class ModifiableFloatCollectionTest
     /**
      * Collection with the floats 0, 1 and 2.
      */
-    private final ModifiableFloatCollection collection012 = ModifiableFloatCollection.of(0F, 1F, 2F);
+    private final FloatCollection collection012 = FloatCollection.of(0F, 1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
-    private final ModifiableFloatCollection collection123 = ModifiableFloatCollection.of(1F, 2F, 3F);
+    private final FloatCollection collection123 = FloatCollection.of(1F, 2F, 3F);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a float collection.
@@ -48,6 +48,11 @@ public final class ModifiableFloatCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateAFloatCollection() {
         assertTrue(
                 new ModifiableFloatCollection.LinkedListCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableFloatCollection createFloatCollection(final Float... numbers) {
+        return ModifiableFloatCollection.of(numbers);
     }
 
     @Override

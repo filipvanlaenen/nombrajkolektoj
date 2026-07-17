@@ -13,9 +13,8 @@ import org.junit.jupiter.api.Test;
  *
  * @param <T> The subclass type to be tested.
  */
-
-public abstract class SortedBigDecimalCollectionTestBase<T extends SortedBigDecimalCollection>
-        extends OrderedBigDecimalCollectionTestBase<T> {
+public abstract class SortedBigDecimalCollectionDecoratorTestBase<T extends SortedBigDecimalCollection>
+        extends OrderedBigDecimalCollectionDecoratorTestBase<T> {
     /**
      * The BigDecimal three.
      */

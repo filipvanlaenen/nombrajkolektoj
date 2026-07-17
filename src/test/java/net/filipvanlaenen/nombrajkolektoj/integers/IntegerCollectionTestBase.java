@@ -21,6 +21,14 @@ public abstract class IntegerCollectionTestBase<T extends IntegerCollection> {
     private static final Integer INTEGER_THREE = 3;
 
     /**
+     * Creates a integers collection with the provided integers.
+     *
+     * @param numbers The integers to be included in the integers collection.
+     * @return A integers collection with the provided integers.
+     */
+    protected abstract T createIntegerCollection(Integer... numbers);
+
+    /**
      * Creates a integers collection with the provided element cardinality containing the provided integers.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class IntegerCollectionTestBase<T extends IntegerCollection> {
      * @return A integers collection containing the provided integers.
      */
     protected abstract T createIntegerCollection(T source);
+
+    /**
+     * Verifies that a integers collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnAIntegerCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createIntegerCollection(1).getElementCardinality());
+    }
 
     /**
      * Verifies that a integers collection with a specific element cardinality receives that element cardinality.

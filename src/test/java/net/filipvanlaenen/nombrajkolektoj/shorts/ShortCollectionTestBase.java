@@ -21,6 +21,14 @@ public abstract class ShortCollectionTestBase<T extends ShortCollection> {
     private static final Short SHORT_THREE = (short) 3;
 
     /**
+     * Creates a shorts collection with the provided shorts.
+     *
+     * @param numbers The shorts to be included in the shorts collection.
+     * @return A shorts collection with the provided shorts.
+     */
+    protected abstract T createShortCollection(Short... numbers);
+
+    /**
      * Creates a shorts collection with the provided element cardinality containing the provided shorts.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class ShortCollectionTestBase<T extends ShortCollection> {
      * @return A shorts collection containing the provided shorts.
      */
     protected abstract T createShortCollection(T source);
+
+    /**
+     * Verifies that a shorts collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnAShortCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createShortCollection((short) 1).getElementCardinality());
+    }
 
     /**
      * Verifies that a shorts collection with a specific element cardinality receives that element cardinality.

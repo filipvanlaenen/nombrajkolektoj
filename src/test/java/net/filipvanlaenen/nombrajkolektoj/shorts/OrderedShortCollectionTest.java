@@ -46,6 +46,7 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     private final OrderedShortCollection collection123 = createShortCollection((short) 1, (short) 2, (short) 3);
 
+    @Override
     protected OrderedShortCollection createShortCollection(final Short... numbers) {
         return OrderedShortCollection.of(numbers);
     }

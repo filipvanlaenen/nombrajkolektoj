@@ -20,13 +20,11 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedLongCollectionDecorator {
+    final class ArrayCollection extends SortedLongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<Long> decoratedCollection;
-
-        @Override
-        SortedCollection<Long> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same longs and the same element cardinality.
@@ -73,19 +71,22 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
                 final Long... numbers) {
             decoratedCollection = new SortedArrayCollection<Long>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedLongCollectionDecorator {
+    final class SortedTreeCollection extends SortedLongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long> decoratedCollection;
-
-        @Override
-        SortedCollection<Long> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same longs and the same element cardinality.
@@ -134,6 +135,11 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Long>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.LONGS));
         }
+
+        @Override
+        SortedCollection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -142,7 +148,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted longs collection.
      */
-    public static SortedLongCollection empty(final Comparator<? super Long> comparator) {
+    static SortedLongCollection empty(final Comparator<? super Long> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -153,7 +159,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted longs collection with the specified longs.
      */
-    public static SortedLongCollection of(final Comparator<? super Long> comparator, final Long... numbers) {
+    static SortedLongCollection of(final Comparator<? super Long> comparator, final Long... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -164,7 +170,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param collection The original longs collection.
      * @return A new sorted longs collection cloned from the provided longs collection.
      */
-    public static SortedLongCollection of(final Comparator<? super Long> comparator,
+    static SortedLongCollection of(final Comparator<? super Long> comparator,
             final NumericCollection<Long> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -178,7 +184,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted longs collection cloned from a range in the provided ordered collection.
      */
-    public static SortedLongCollection of(final Comparator<? super Long> comparator,
+    static SortedLongCollection of(final Comparator<? super Long> comparator,
             final OrderedNumericCollection<Long> collection, final int fromIndex, final int toIndex) {
         ModifiableLongCollection slice = ModifiableLongCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -195,7 +201,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param numbers            The longs for the new sorted longs collection.
      * @return A new sorted longs collection with the specified element cardinality and the longs.
      */
-    public static SortedLongCollection of(final ElementCardinality elementCardinality,
+    static SortedLongCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Long> comparator, final Long... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -208,7 +214,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param collection         The original longs collection.
      * @return A new sorted longs collection with the specified element cardinality and the longs.
      */
-    public static SortedLongCollection of(final ElementCardinality elementCardinality,
+    static SortedLongCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Long> comparator, final NumericCollection<Long> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -219,7 +225,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param collection The original sorted longs collection.
      * @return A new sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static SortedLongCollection of(final SortedNumericCollection<Long> collection) {
+    static SortedLongCollection of(final SortedNumericCollection<Long> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -230,8 +236,7 @@ public interface SortedLongCollection extends SortedNumericCollection<Long>, Ord
      * @param range      The range.
      * @return A new sorted longs collection cloned from the provided sorted longs collection.
      */
-    public static SortedLongCollection of(final SortedNumericCollection<Long> collection,
-            final Range<Long> range) {
+    static SortedLongCollection of(final SortedNumericCollection<Long> collection, final Range<Long> range) {
         ModifiableLongCollection slice = ModifiableLongCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Long element : collection) {

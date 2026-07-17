@@ -46,6 +46,7 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     private final OrderedIntegerCollection collection123 = createIntegerCollection(1, 2, 3);
 
+    @Override
     protected OrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
         return OrderedIntegerCollection.of(numbers);
     }

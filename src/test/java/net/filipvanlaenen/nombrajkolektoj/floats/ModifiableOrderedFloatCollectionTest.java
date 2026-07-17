@@ -65,6 +65,11 @@ public final class ModifiableOrderedFloatCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedFloatCollection createFloatCollection(final Float... numbers) {
+        return ModifiableOrderedFloatCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedFloatCollection createFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return ModifiableOrderedFloatCollection.of(elementCardinality, numbers);

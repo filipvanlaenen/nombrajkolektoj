@@ -65,6 +65,11 @@ public final class ModifiableOrderedDoubleCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableOrderedDoubleCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedDoubleCollection createDoubleCollection(final ElementCardinality elementCardinality,
             final Double... numbers) {
         return ModifiableOrderedDoubleCollection.of(elementCardinality, numbers);

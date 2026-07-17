@@ -21,6 +21,14 @@ public abstract class FloatCollectionTestBase<T extends FloatCollection> {
     private static final Float FLOAT_THREE = 3F;
 
     /**
+     * Creates a floats collection with the provided floats.
+     *
+     * @param numbers The floats to be included in the floats collection.
+     * @return A floats collection with the provided floats.
+     */
+    protected abstract T createFloatCollection(Float... numbers);
+
+    /**
      * Creates a floats collection with the provided element cardinality containing the provided floats.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class FloatCollectionTestBase<T extends FloatCollection> {
      * @return A floats collection containing the provided floats.
      */
     protected abstract T createFloatCollection(T source);
+
+    /**
+     * Verifies that a floats collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnAFloatCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createFloatCollection(1F).getElementCardinality());
+    }
 
     /**
      * Verifies that a floats collection with a specific element cardinality receives that element cardinality.

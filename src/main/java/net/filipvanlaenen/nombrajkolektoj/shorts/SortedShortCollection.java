@@ -20,13 +20,11 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedShortCollectionDecorator {
+    final class ArrayCollection extends SortedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<Short> decoratedCollection;
-
-        @Override
-        SortedCollection<Short> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same shorts and the same element cardinality.
@@ -73,19 +71,22 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
                 final Short... numbers) {
             decoratedCollection = new SortedArrayCollection<Short>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedShortCollectionDecorator {
+    final class SortedTreeCollection extends SortedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Short> decoratedCollection;
-
-        @Override
-        SortedCollection<Short> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same shorts and the same element cardinality.
@@ -134,6 +135,11 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Short>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.SHORTS));
         }
+
+        @Override
+        SortedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -142,7 +148,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted shorts collection.
      */
-    public static SortedShortCollection empty(final Comparator<? super Short> comparator) {
+    static SortedShortCollection empty(final Comparator<? super Short> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -153,7 +159,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted shorts collection with the specified shorts.
      */
-    public static SortedShortCollection of(final Comparator<? super Short> comparator, final Short... numbers) {
+    static SortedShortCollection of(final Comparator<? super Short> comparator, final Short... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -164,7 +170,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param collection The original shorts collection.
      * @return A new sorted shorts collection cloned from the provided shorts collection.
      */
-    public static SortedShortCollection of(final Comparator<? super Short> comparator,
+    static SortedShortCollection of(final Comparator<? super Short> comparator,
             final NumericCollection<Short> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -178,7 +184,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted shorts collection cloned from a range in the provided ordered collection.
      */
-    public static SortedShortCollection of(final Comparator<? super Short> comparator,
+    static SortedShortCollection of(final Comparator<? super Short> comparator,
             final OrderedNumericCollection<Short> collection, final int fromIndex, final int toIndex) {
         ModifiableShortCollection slice = ModifiableShortCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -195,7 +201,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param numbers            The shorts for the new sorted shorts collection.
      * @return A new sorted shorts collection with the specified element cardinality and the shorts.
      */
-    public static SortedShortCollection of(final ElementCardinality elementCardinality,
+    static SortedShortCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Short> comparator, final Short... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -208,7 +214,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param collection         The original shorts collection.
      * @return A new sorted shorts collection with the specified element cardinality and the shorts.
      */
-    public static SortedShortCollection of(final ElementCardinality elementCardinality,
+    static SortedShortCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Short> comparator, final NumericCollection<Short> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -219,7 +225,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param collection The original sorted shorts collection.
      * @return A new sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static SortedShortCollection of(final SortedNumericCollection<Short> collection) {
+    static SortedShortCollection of(final SortedNumericCollection<Short> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -230,8 +236,7 @@ public interface SortedShortCollection extends SortedNumericCollection<Short>, O
      * @param range      The range.
      * @return A new sorted shorts collection cloned from the provided sorted shorts collection.
      */
-    public static SortedShortCollection of(final SortedNumericCollection<Short> collection,
-            final Range<Short> range) {
+    static SortedShortCollection of(final SortedNumericCollection<Short> collection, final Range<Short> range) {
         ModifiableShortCollection slice = ModifiableShortCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Short element : collection) {

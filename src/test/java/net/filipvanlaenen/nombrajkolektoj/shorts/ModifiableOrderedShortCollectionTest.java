@@ -65,6 +65,11 @@ public final class ModifiableOrderedShortCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedShortCollection createShortCollection(final Short... numbers) {
+        return ModifiableOrderedShortCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedShortCollection createShortCollection(final ElementCardinality elementCardinality,
             final Short... numbers) {
         return ModifiableOrderedShortCollection.of(elementCardinality, numbers);

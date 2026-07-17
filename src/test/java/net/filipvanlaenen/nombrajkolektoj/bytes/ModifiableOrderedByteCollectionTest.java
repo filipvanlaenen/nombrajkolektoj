@@ -65,6 +65,11 @@ public final class ModifiableOrderedByteCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableOrderedByteCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedByteCollection createByteCollection(final ElementCardinality elementCardinality,
             final Byte... numbers) {
         return ModifiableOrderedByteCollection.of(elementCardinality, numbers);

@@ -20,13 +20,11 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedIntegerCollectionDecorator {
+    final class ArrayCollection extends SortedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<Integer> decoratedCollection;
-
-        @Override
-        SortedCollection<Integer> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same integers and the same element cardinality.
@@ -73,19 +71,22 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
                 final Integer... numbers) {
             decoratedCollection = new SortedArrayCollection<Integer>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedIntegerCollectionDecorator {
+    final class SortedTreeCollection extends SortedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Integer> decoratedCollection;
-
-        @Override
-        SortedCollection<Integer> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same integers and the same element cardinality.
@@ -134,6 +135,11 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Integer>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.INTEGERS));
         }
+
+        @Override
+        SortedCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -142,7 +148,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted integers collection.
      */
-    public static SortedIntegerCollection empty(final Comparator<? super Integer> comparator) {
+    static SortedIntegerCollection empty(final Comparator<? super Integer> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -153,7 +159,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted integers collection with the specified integers.
      */
-    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator, final Integer... numbers) {
+    static SortedIntegerCollection of(final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -164,7 +170,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param collection The original integers collection.
      * @return A new sorted integers collection cloned from the provided integers collection.
      */
-    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
+    static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
             final NumericCollection<Integer> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -178,7 +184,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted integers collection cloned from a range in the provided ordered collection.
      */
-    public static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
+    static SortedIntegerCollection of(final Comparator<? super Integer> comparator,
             final OrderedNumericCollection<Integer> collection, final int fromIndex, final int toIndex) {
         ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -195,7 +201,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param numbers            The integers for the new sorted integers collection.
      * @return A new sorted integers collection with the specified element cardinality and the integers.
      */
-    public static SortedIntegerCollection of(final ElementCardinality elementCardinality,
+    static SortedIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Integer> comparator, final Integer... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -208,7 +214,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param collection         The original integers collection.
      * @return A new sorted integers collection with the specified element cardinality and the integers.
      */
-    public static SortedIntegerCollection of(final ElementCardinality elementCardinality,
+    static SortedIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Integer> comparator, final NumericCollection<Integer> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -219,7 +225,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param collection The original sorted integers collection.
      * @return A new sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
+    static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -230,8 +236,7 @@ public interface SortedIntegerCollection extends SortedNumericCollection<Integer
      * @param range      The range.
      * @return A new sorted integers collection cloned from the provided sorted integers collection.
      */
-    public static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection,
-            final Range<Integer> range) {
+    static SortedIntegerCollection of(final SortedNumericCollection<Integer> collection, final Range<Integer> range) {
         ModifiableIntegerCollection slice = ModifiableIntegerCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Integer element : collection) {

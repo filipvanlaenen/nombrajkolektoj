@@ -21,6 +21,14 @@ public abstract class DoubleCollectionTestBase<T extends DoubleCollection> {
     private static final Double DOUBLE_THREE = 3D;
 
     /**
+     * Creates a doubles collection with the provided doubles.
+     *
+     * @param numbers The doubles to be included in the doubles collection.
+     * @return A doubles collection with the provided doubles.
+     */
+    protected abstract T createDoubleCollection(Double... numbers);
+
+    /**
      * Creates a doubles collection with the provided element cardinality containing the provided doubles.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class DoubleCollectionTestBase<T extends DoubleCollection> {
      * @return A doubles collection containing the provided doubles.
      */
     protected abstract T createDoubleCollection(T source);
+
+    /**
+     * Verifies that a doubles collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnADoubleCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createDoubleCollection(1D).getElementCardinality());
+    }
 
     /**
      * Verifies that a doubles collection with a specific element cardinality receives that element cardinality.

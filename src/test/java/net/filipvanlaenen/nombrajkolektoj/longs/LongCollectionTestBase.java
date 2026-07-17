@@ -21,6 +21,14 @@ public abstract class LongCollectionTestBase<T extends LongCollection> {
     private static final Long LONG_THREE = 3L;
 
     /**
+     * Creates a longs collection with the provided longs.
+     *
+     * @param numbers The longs to be included in the longs collection.
+     * @return A longs collection with the provided longs.
+     */
+    protected abstract T createLongCollection(Long... numbers);
+
+    /**
      * Creates a longs collection with the provided element cardinality containing the provided longs.
      *
      * @param elementCardinality The element cardinality.
@@ -45,6 +53,15 @@ public abstract class LongCollectionTestBase<T extends LongCollection> {
      * @return A longs collection containing the provided longs.
      */
     protected abstract T createLongCollection(T source);
+
+    /**
+     * Verifies that a longs collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnALongCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createLongCollection(1L).getElementCardinality());
+    }
 
     /**
      * Verifies that a longs collection with a specific element cardinality receives that element cardinality.

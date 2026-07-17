@@ -65,6 +65,11 @@ public final class ModifiableOrderedIntegerCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return ModifiableOrderedIntegerCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedIntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return ModifiableOrderedIntegerCollection.of(elementCardinality, numbers);

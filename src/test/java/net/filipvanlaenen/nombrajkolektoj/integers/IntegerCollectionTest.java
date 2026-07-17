@@ -41,6 +41,11 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
     }
 
     @Override
+    protected IntegerCollection createIntegerCollection(final Integer... numbers) {
+        return IntegerCollection.of(numbers);
+    }
+
+    @Override
     protected IntegerCollection createIntegerCollection(final ElementCardinality elementCardinality,
             final Integer... numbers) {
         return IntegerCollection.of(elementCardinality, numbers);

@@ -20,13 +20,11 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedByteCollectionDecorator {
+    final class ArrayCollection extends SortedByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<Byte> decoratedCollection;
-
-        @Override
-        SortedCollection<Byte> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same bytes and the same element cardinality.
@@ -73,19 +71,22 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
                 final Byte... numbers) {
             decoratedCollection = new SortedArrayCollection<Byte>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedByteCollectionDecorator {
+    final class SortedTreeCollection extends SortedByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte> decoratedCollection;
-
-        @Override
-        SortedCollection<Byte> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same bytes and the same element cardinality.
@@ -134,6 +135,11 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Byte>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.BYTES));
         }
+
+        @Override
+        SortedCollection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -142,7 +148,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted bytes collection.
      */
-    public static SortedByteCollection empty(final Comparator<? super Byte> comparator) {
+    static SortedByteCollection empty(final Comparator<? super Byte> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -153,7 +159,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted bytes collection with the specified bytes.
      */
-    public static SortedByteCollection of(final Comparator<? super Byte> comparator, final Byte... numbers) {
+    static SortedByteCollection of(final Comparator<? super Byte> comparator, final Byte... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -164,7 +170,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param collection The original bytes collection.
      * @return A new sorted bytes collection cloned from the provided bytes collection.
      */
-    public static SortedByteCollection of(final Comparator<? super Byte> comparator,
+    static SortedByteCollection of(final Comparator<? super Byte> comparator,
             final NumericCollection<Byte> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -178,7 +184,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted bytes collection cloned from a range in the provided ordered collection.
      */
-    public static SortedByteCollection of(final Comparator<? super Byte> comparator,
+    static SortedByteCollection of(final Comparator<? super Byte> comparator,
             final OrderedNumericCollection<Byte> collection, final int fromIndex, final int toIndex) {
         ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -195,7 +201,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param numbers            The bytes for the new sorted bytes collection.
      * @return A new sorted bytes collection with the specified element cardinality and the bytes.
      */
-    public static SortedByteCollection of(final ElementCardinality elementCardinality,
+    static SortedByteCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Byte> comparator, final Byte... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -208,7 +214,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param collection         The original bytes collection.
      * @return A new sorted bytes collection with the specified element cardinality and the bytes.
      */
-    public static SortedByteCollection of(final ElementCardinality elementCardinality,
+    static SortedByteCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Byte> comparator, final NumericCollection<Byte> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -219,7 +225,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param collection The original sorted bytes collection.
      * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static SortedByteCollection of(final SortedNumericCollection<Byte> collection) {
+    static SortedByteCollection of(final SortedNumericCollection<Byte> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -230,8 +236,7 @@ public interface SortedByteCollection extends SortedNumericCollection<Byte>, Ord
      * @param range      The range.
      * @return A new sorted bytes collection cloned from the provided sorted bytes collection.
      */
-    public static SortedByteCollection of(final SortedNumericCollection<Byte> collection,
-            final Range<Byte> range) {
+    static SortedByteCollection of(final SortedNumericCollection<Byte> collection, final Range<Byte> range) {
         ModifiableByteCollection slice = ModifiableByteCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Byte element : collection) {

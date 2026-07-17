@@ -19,11 +19,11 @@ public final class ModifiableDoubleCollectionTest
     /**
      * Collection with the doubles 0, 1 and 2.
      */
-    private final ModifiableDoubleCollection collection012 = ModifiableDoubleCollection.of(0D, 1D, 2D);
+    private final DoubleCollection collection012 = DoubleCollection.of(0D, 1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
-    private final ModifiableDoubleCollection collection123 = ModifiableDoubleCollection.of(1D, 2D, 3D);
+    private final DoubleCollection collection123 = DoubleCollection.of(1D, 2D, 3D);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a double collection.
@@ -48,6 +48,11 @@ public final class ModifiableDoubleCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateADoubleCollection() {
         assertTrue(
                 new ModifiableDoubleCollection.LinkedListCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableDoubleCollection createDoubleCollection(final Double... numbers) {
+        return ModifiableDoubleCollection.of(numbers);
     }
 
     @Override

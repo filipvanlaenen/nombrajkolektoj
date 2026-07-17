@@ -46,6 +46,7 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     private final OrderedDoubleCollection collection123 = createDoubleCollection(1D, 2D, 3D);
 
+    @Override
     protected OrderedDoubleCollection createDoubleCollection(final Double... numbers) {
         return OrderedDoubleCollection.of(numbers);
     }

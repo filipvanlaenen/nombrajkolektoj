@@ -19,11 +19,11 @@ public final class ModifiableIntegerCollectionTest
     /**
      * Collection with the integers 0, 1 and 2.
      */
-    private final ModifiableIntegerCollection collection012 = ModifiableIntegerCollection.of(0, 1, 2);
+    private final IntegerCollection collection012 = IntegerCollection.of(0, 1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
-    private final ModifiableIntegerCollection collection123 = ModifiableIntegerCollection.of(1, 2, 3);
+    private final IntegerCollection collection123 = IntegerCollection.of(1, 2, 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a int collection.
@@ -48,6 +48,11 @@ public final class ModifiableIntegerCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateAIntegerCollection() {
         assertTrue(
                 new ModifiableIntegerCollection.LinkedListCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableIntegerCollection createIntegerCollection(final Integer... numbers) {
+        return ModifiableIntegerCollection.of(numbers);
     }
 
     @Override

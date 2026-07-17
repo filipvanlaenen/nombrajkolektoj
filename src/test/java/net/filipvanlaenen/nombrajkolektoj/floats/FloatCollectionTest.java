@@ -41,6 +41,11 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
     }
 
     @Override
+    protected FloatCollection createFloatCollection(final Float... numbers) {
+        return FloatCollection.of(numbers);
+    }
+
+    @Override
     protected FloatCollection createFloatCollection(final ElementCardinality elementCardinality,
             final Float... numbers) {
         return FloatCollection.of(elementCardinality, numbers);

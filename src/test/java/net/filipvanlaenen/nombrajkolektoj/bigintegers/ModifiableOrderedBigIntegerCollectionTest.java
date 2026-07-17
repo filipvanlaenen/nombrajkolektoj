@@ -67,6 +67,11 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
+        return ModifiableOrderedBigIntegerCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedBigIntegerCollection createBigIntegerCollection(final ElementCardinality elementCardinality,
             final BigInteger... numbers) {
         return ModifiableOrderedBigIntegerCollection.of(elementCardinality, numbers);

@@ -21,11 +21,11 @@ public final class ModifiableBigDecimalCollectionTest
     /**
      * Collection with the BigDecimals 0, 1 and 2.
      */
-    private final ModifiableBigDecimalCollection collection012 = ModifiableBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    private final BigDecimalCollection collection012 = BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
-    private final ModifiableBigDecimalCollection collection123 = ModifiableBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
+    private final BigDecimalCollection collection123 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a BigDecimal collection.
@@ -50,6 +50,11 @@ public final class ModifiableBigDecimalCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateABigDecimalCollection() {
         assertTrue(
                 new ModifiableBigDecimalCollection.LinkedListCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
+        return ModifiableBigDecimalCollection.of(numbers);
     }
 
     @Override

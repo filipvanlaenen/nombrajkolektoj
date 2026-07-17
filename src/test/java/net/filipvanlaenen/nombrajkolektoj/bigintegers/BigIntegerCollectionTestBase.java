@@ -23,6 +23,14 @@ public abstract class BigIntegerCollectionTestBase<T extends BigIntegerCollectio
     private static final BigInteger BIG_INTEGER_THREE = BigInteger.valueOf(3L);
 
     /**
+     * Creates a BigIntegers collection with the provided BigIntegers.
+     *
+     * @param numbers The BigIntegers to be included in the BigIntegers collection.
+     * @return A BigIntegers collection with the provided BigIntegers.
+     */
+    protected abstract T createBigIntegerCollection(BigInteger... numbers);
+
+    /**
      * Creates a BigIntegers collection with the provided element cardinality containing the provided BigIntegers.
      *
      * @param elementCardinality The element cardinality.
@@ -47,6 +55,15 @@ public abstract class BigIntegerCollectionTestBase<T extends BigIntegerCollectio
      * @return A BigIntegers collection containing the provided BigIntegers.
      */
     protected abstract T createBigIntegerCollection(T source);
+
+    /**
+     * Verifies that a BigIntegers collection without a specific element cardinality receives the default element
+     * cardinality.
+     */
+    @Test
+    public void ofWithoutElementCardinalityShouldReturnABigIntegerCollectionWithTheDefaultCardinality() {
+        assertEquals(DUPLICATE_ELEMENTS, createBigIntegerCollection(BigInteger.ONE).getElementCardinality());
+    }
 
     /**
      * Verifies that a BigIntegers collection with a specific element cardinality receives that element cardinality.

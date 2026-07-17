@@ -20,13 +20,11 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedDoubleCollectionDecorator {
+    final class ArrayCollection extends SortedDoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<Double> decoratedCollection;
-
-        @Override
-        SortedCollection<Double> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same doubles and the same element cardinality.
@@ -73,19 +71,22 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
                 final Double... numbers) {
             decoratedCollection = new SortedArrayCollection<Double>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedDoubleCollectionDecorator {
+    final class SortedTreeCollection extends SortedDoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double> decoratedCollection;
-
-        @Override
-        SortedCollection<Double> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same doubles and the same element cardinality.
@@ -134,6 +135,11 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<Double>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.DOUBLES));
         }
+
+        @Override
+        SortedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -142,7 +148,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted doubles collection.
      */
-    public static SortedDoubleCollection empty(final Comparator<? super Double> comparator) {
+    static SortedDoubleCollection empty(final Comparator<? super Double> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -153,7 +159,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted doubles collection with the specified doubles.
      */
-    public static SortedDoubleCollection of(final Comparator<? super Double> comparator, final Double... numbers) {
+    static SortedDoubleCollection of(final Comparator<? super Double> comparator, final Double... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -164,7 +170,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param collection The original doubles collection.
      * @return A new sorted doubles collection cloned from the provided doubles collection.
      */
-    public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
+    static SortedDoubleCollection of(final Comparator<? super Double> comparator,
             final NumericCollection<Double> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -178,7 +184,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted doubles collection cloned from a range in the provided ordered collection.
      */
-    public static SortedDoubleCollection of(final Comparator<? super Double> comparator,
+    static SortedDoubleCollection of(final Comparator<? super Double> comparator,
             final OrderedNumericCollection<Double> collection, final int fromIndex, final int toIndex) {
         ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -195,7 +201,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param numbers            The doubles for the new sorted doubles collection.
      * @return A new sorted doubles collection with the specified element cardinality and the doubles.
      */
-    public static SortedDoubleCollection of(final ElementCardinality elementCardinality,
+    static SortedDoubleCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Double> comparator, final Double... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -208,7 +214,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param collection         The original doubles collection.
      * @return A new sorted doubles collection with the specified element cardinality and the doubles.
      */
-    public static SortedDoubleCollection of(final ElementCardinality elementCardinality,
+    static SortedDoubleCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super Double> comparator, final NumericCollection<Double> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -219,7 +225,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param collection The original sorted doubles collection.
      * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static SortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
+    static SortedDoubleCollection of(final SortedNumericCollection<Double> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -230,8 +236,7 @@ public interface SortedDoubleCollection extends SortedNumericCollection<Double>,
      * @param range      The range.
      * @return A new sorted doubles collection cloned from the provided sorted doubles collection.
      */
-    public static SortedDoubleCollection of(final SortedNumericCollection<Double> collection,
-            final Range<Double> range) {
+    static SortedDoubleCollection of(final SortedNumericCollection<Double> collection, final Range<Double> range) {
         ModifiableDoubleCollection slice = ModifiableDoubleCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (Double element : collection) {

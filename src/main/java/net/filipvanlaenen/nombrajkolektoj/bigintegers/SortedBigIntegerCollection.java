@@ -22,13 +22,11 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * Inner class using an array backed implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection}
      * interface.
      */
-    public static final class ArrayCollection extends SortedBigIntegerCollectionDecorator {
+    final class ArrayCollection extends SortedBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private SortedArrayCollection<BigInteger> decoratedCollection;
-
-        @Override
-        SortedCollection<BigInteger> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same BigIntegers and the same element cardinality.
@@ -75,19 +73,22 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
                 final BigInteger... numbers) {
             decoratedCollection = new SortedArrayCollection<BigInteger>(elementCardinality, comparator, numbers);
         }
+
+        @Override
+        SortedCollection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
      * Inner class using an implementation of the {@link net.filipvanlaenen.kolektoj.SortedCollection} interface backed
      * by a sorted tree.
      */
-    public static final class SortedTreeCollection extends SortedBigIntegerCollectionDecorator {
+    final class SortedTreeCollection extends SortedBigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
         private net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger> decoratedCollection;
-
-        @Override
-        SortedCollection<BigInteger> getDecoratedCollection() {
-            return decoratedCollection;
-        }
 
         /**
          * Constructs a sorted collection from a collection, with the same BigIntegers and the same element cardinality.
@@ -136,6 +137,11 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
             decoratedCollection = new net.filipvanlaenen.kolektoj.sortedtree.SortedTreeCollection<BigInteger>(
                     elementCardinality, comparator, source.toArray(EmptyArrays.BIG_INTEGERS));
         }
+
+        @Override
+        SortedCollection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
     }
 
     /**
@@ -144,7 +150,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param comparator The comparator by which to sort the elements.
      * @return A new empty sorted BigIntegers collection.
      */
-    public static SortedBigIntegerCollection empty(final Comparator<? super BigInteger> comparator) {
+    static SortedBigIntegerCollection empty(final Comparator<? super BigInteger> comparator) {
         return new ArrayCollection(comparator);
     }
 
@@ -155,7 +161,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param comparator The comparator by which to sort the elements.
      * @return A new sorted BigIntegers collection with the specified BigIntegers.
      */
-    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
+    static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
         return new ArrayCollection(comparator, numbers);
     }
 
@@ -166,7 +172,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param collection The original BigIntegers collection.
      * @return A new sorted BigIntegers collection cloned from the provided BigIntegers collection.
      */
-    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
+    static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
             final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(comparator, collection);
     }
@@ -180,7 +186,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param toIndex    The index of the first element not to be included in the new sorted collection.
      * @return A new sorted BigIntegers collection cloned from a range in the provided ordered collection.
      */
-    public static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
+    static SortedBigIntegerCollection of(final Comparator<? super BigInteger> comparator,
             final OrderedNumericCollection<BigInteger> collection, final int fromIndex, final int toIndex) {
         ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
         for (int i = fromIndex; i < toIndex; i++) {
@@ -197,7 +203,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param numbers            The BigIntegers for the new sorted BigIntegers collection.
      * @return A new sorted BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
+    static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigInteger> comparator, final BigInteger... numbers) {
         return new ArrayCollection(elementCardinality, comparator, numbers);
     }
@@ -210,7 +216,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param collection         The original BigIntegers collection.
      * @return A new sorted BigIntegers collection with the specified element cardinality and the BigIntegers.
      */
-    public static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
+    static SortedBigIntegerCollection of(final ElementCardinality elementCardinality,
             final Comparator<? super BigInteger> comparator, final NumericCollection<BigInteger> collection) {
         return new ArrayCollection(elementCardinality, comparator, collection);
     }
@@ -221,7 +227,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param collection The original sorted BigIntegers collection.
      * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection) {
+    static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection) {
         return new ArrayCollection(collection.getComparator(), collection);
     }
 
@@ -232,8 +238,7 @@ public interface SortedBigIntegerCollection extends SortedNumericCollection<BigI
      * @param range      The range.
      * @return A new sorted BigIntegers collection cloned from the provided sorted BigIntegers collection.
      */
-    public static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection,
-            final Range<BigInteger> range) {
+    static SortedBigIntegerCollection of(final SortedNumericCollection<BigInteger> collection, final Range<BigInteger> range) {
         ModifiableBigIntegerCollection slice = ModifiableBigIntegerCollection.of(collection.getElementCardinality());
         boolean below = true;
         for (BigInteger element : collection) {

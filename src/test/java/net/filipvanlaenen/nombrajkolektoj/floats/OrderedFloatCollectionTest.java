@@ -46,6 +46,7 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     private final OrderedFloatCollection collection123 = createFloatCollection(1F, 2F, 3F);
 
+    @Override
     protected OrderedFloatCollection createFloatCollection(final Float... numbers) {
         return OrderedFloatCollection.of(numbers);
     }

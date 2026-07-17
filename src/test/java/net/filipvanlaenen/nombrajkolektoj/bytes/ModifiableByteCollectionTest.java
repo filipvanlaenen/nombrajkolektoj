@@ -19,11 +19,11 @@ public final class ModifiableByteCollectionTest
     /**
      * Collection with the bytes 0, 1 and 2.
      */
-    private final ModifiableByteCollection collection012 = ModifiableByteCollection.of((byte) 0, (byte) 1, (byte) 2);
+    private final ByteCollection collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
-    private final ModifiableByteCollection collection123 = ModifiableByteCollection.of((byte) 1, (byte) 2, (byte) 3);
+    private final ByteCollection collection123 = ByteCollection.of((byte) 1, (byte) 2, (byte) 3);
 
     /**
      * Verifies that the constructor of the ArrayCollection class creates a byte collection.
@@ -48,6 +48,11 @@ public final class ModifiableByteCollectionTest
     public void constructorOfLinkedListCollectionShouldCreateAByteCollection() {
         assertTrue(
                 new ModifiableByteCollection.LinkedListCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    @Override
+    protected ModifiableByteCollection createByteCollection(final Byte... numbers) {
+        return ModifiableByteCollection.of(numbers);
     }
 
     @Override

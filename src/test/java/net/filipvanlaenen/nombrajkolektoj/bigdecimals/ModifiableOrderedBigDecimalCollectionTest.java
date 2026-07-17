@@ -67,6 +67,11 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     }
 
     @Override
+    protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
+        return ModifiableOrderedBigDecimalCollection.of(numbers);
+    }
+
+    @Override
     protected ModifiableOrderedBigDecimalCollection createBigDecimalCollection(final ElementCardinality elementCardinality,
             final BigDecimal... numbers) {
         return ModifiableOrderedBigDecimalCollection.of(elementCardinality, numbers);

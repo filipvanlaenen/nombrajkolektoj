@@ -46,6 +46,7 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     private final OrderedLongCollection collection123 = createLongCollection(1L, 2L, 3L);
 
+    @Override
     protected OrderedLongCollection createLongCollection(final Long... numbers) {
         return OrderedLongCollection.of(numbers);
     }

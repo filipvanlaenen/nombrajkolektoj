@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.integers;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      * Collection with the integers 0, 1 and 2.
      */
     private final OrderedIntegerCollection collection012 = createIntegerCollection(0, 1, 2);
+    /**
+     * Collection with the int 1.
+     */
+    private final OrderedIntegerCollection collection1 = createIntegerCollection(1);
+    /**
+     * Collection with the integers 1 and 2.
+     */
+    private final OrderedIntegerCollection collection12 = createIntegerCollection(1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedIntegerCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered integers collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedIntegerCollection collectionA = OrderedIntegerCollection.of(1, 2);
-        OrderedIntegerCollection collectionB = OrderedIntegerCollection.of(1, 2, INTEGER_THREE);
-        OrderedIntegerCollection actual = OrderedIntegerCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedIntegerCollection actual = OrderedIntegerCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Integer[] {1, 2, INTEGER_THREE, 2, INTEGER_FOUR, INTEGER_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedIntegerCollection collectionA = OrderedIntegerCollection.of(1, 2);
         OrderedIntegerCollection collectionB = OrderedIntegerCollection.of(1, null, INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedIntegerCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedIntegerCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedIntegerCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedIntegerCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -178,6 +179,24 @@ public interface OrderedBigDecimalCollection extends OrderedNumericCollection<Bi
      */
     static OrderedBigDecimalCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new ordered BigDecimals collection containing all the BigDecimals present in each of the provided BigDecimals
+     * collections, with the BigDecimals in the order of the ordered BigDecimals collection.
+     *
+     * @param orderedCollection The ordered BigDecimals collection from which to calculate the intersection.
+     * @param collections       The other BigDecimals collections from which to calculate the intersection.
+     * @return A new ordered BigDecimals collection containing all the BigDecimals present in each of the provided BigDecimals
+     *         collections, with the BigDecimals in the order of the ordered BigDecimals collection.
+     */
+    static OrderedBigDecimalCollection intersectionOf(final OrderedNumericCollection<BigDecimal> orderedCollection,
+            final NumericCollection<BigDecimal>... collections) {
+        ModifiableOrderedBigDecimalCollection result = ModifiableOrderedBigDecimalCollection.of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return of(result);
     }
 
     /**

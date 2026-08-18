@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.doubles;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      * Collection with the doubles 0, 1 and 2.
      */
     private final OrderedDoubleCollection collection012 = createDoubleCollection(0D, 1D, 2D);
+    /**
+     * Collection with the double 1.
+     */
+    private final OrderedDoubleCollection collection1 = createDoubleCollection(1D);
+    /**
+     * Collection with the doubles 1 and 2.
+     */
+    private final OrderedDoubleCollection collection12 = createDoubleCollection(1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedDoubleCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered doubles collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedDoubleCollection collectionA = OrderedDoubleCollection.of(1D, 2D);
-        OrderedDoubleCollection collectionB = OrderedDoubleCollection.of(1D, 2D, DOUBLE_THREE);
-        OrderedDoubleCollection actual = OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedDoubleCollection actual = OrderedDoubleCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Double[] {1D, 2D, DOUBLE_THREE, 2D, DOUBLE_FOUR, DOUBLE_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedDoubleCollection collectionA = OrderedDoubleCollection.of(1D, 2D);
         OrderedDoubleCollection collectionB = OrderedDoubleCollection.of(1D, null, DOUBLE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedDoubleCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedDoubleCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedDoubleCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedDoubleCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

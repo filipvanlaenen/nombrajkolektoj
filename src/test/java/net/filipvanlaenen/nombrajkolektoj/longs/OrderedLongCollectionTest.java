@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.longs;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.longs.OrderedLongCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      * Collection with the longs 0, 1 and 2.
      */
     private final OrderedLongCollection collection012 = createLongCollection(0L, 1L, 2L);
+    /**
+     * Collection with the long 1.
+     */
+    private final OrderedLongCollection collection1 = createLongCollection(1L);
+    /**
+     * Collection with the longs 1 and 2.
+     */
+    private final OrderedLongCollection collection12 = createLongCollection(1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedLongCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered longs collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedLongCollection collectionA = OrderedLongCollection.of(1L, 2L);
-        OrderedLongCollection collectionB = OrderedLongCollection.of(1L, 2L, LONG_THREE);
-        OrderedLongCollection actual = OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedLongCollection actual = OrderedLongCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Long[] {1L, 2L, LONG_THREE, 2L, LONG_FOUR, LONG_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedLongCollection collectionA = OrderedLongCollection.of(1L, 2L);
         OrderedLongCollection collectionB = OrderedLongCollection.of(1L, null, LONG_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedLongCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedLongCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedLongCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedLongCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

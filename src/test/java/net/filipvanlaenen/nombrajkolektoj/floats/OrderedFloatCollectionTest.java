@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.floats;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.floats.OrderedFloatCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      * Collection with the floats 0, 1 and 2.
      */
     private final OrderedFloatCollection collection012 = createFloatCollection(0F, 1F, 2F);
+    /**
+     * Collection with the float 1.
+     */
+    private final OrderedFloatCollection collection1 = createFloatCollection(1F);
+    /**
+     * Collection with the floats 1 and 2.
+     */
+    private final OrderedFloatCollection collection12 = createFloatCollection(1F, 2F);
     /**
      * Collection with the floats 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedFloatCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered floats collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
-        OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, 2F, FLOAT_THREE);
-        OrderedFloatCollection actual = OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedFloatCollection actual = OrderedFloatCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Float[] {1F, 2F, FLOAT_THREE, 2F, FLOAT_FOUR, FLOAT_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedFloatCollection collectionA = OrderedFloatCollection.of(1F, 2F);
         OrderedFloatCollection collectionB = OrderedFloatCollection.of(1F, null, FLOAT_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedFloatCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedFloatCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedFloatCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

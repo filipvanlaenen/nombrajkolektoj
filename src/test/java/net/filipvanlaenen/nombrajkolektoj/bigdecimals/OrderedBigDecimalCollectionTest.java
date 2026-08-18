@@ -3,10 +3,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 import java.math.BigDecimal;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -14,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} class.
@@ -43,6 +41,14 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      * Collection with the BigDecimals 0, 1 and 2.
      */
     private final OrderedBigDecimalCollection collection012 = createBigDecimalCollection(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    /**
+     * Collection with the BigDecimal 1.
+     */
+    private final OrderedBigDecimalCollection collection1 = createBigDecimalCollection(BigDecimal.ONE);
+    /**
+     * Collection with the BigDecimals 1 and 2.
+     */
+    private final OrderedBigDecimalCollection collection12 = createBigDecimalCollection(BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
@@ -89,13 +95,28 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedBigDecimalCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigDecimals collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedBigDecimalCollection collectionA = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
-        OrderedBigDecimalCollection collectionB = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE);
-        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedBigDecimalCollection actual = OrderedBigDecimalCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new BigDecimal[] {BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE, BigDecimal.valueOf(2L), BIG_DECIMAL_FOUR, BIG_DECIMAL_SIX}, actual.toArray());
     }
 
@@ -105,14 +126,13 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedBigDecimalCollection collectionA = OrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
         OrderedBigDecimalCollection collectionB = OrderedBigDecimalCollection.of(BigDecimal.ONE, null, BIG_DECIMAL_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedBigDecimalCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

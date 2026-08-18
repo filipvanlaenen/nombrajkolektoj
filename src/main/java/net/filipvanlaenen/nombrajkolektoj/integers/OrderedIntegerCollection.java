@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -176,6 +177,24 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
      */
     static OrderedIntegerCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new ordered integers collection containing all the integers present in each of the provided integers
+     * collections, with the integers in the order of the ordered integers collection.
+     *
+     * @param orderedCollection The ordered integers collection from which to calculate the intersection.
+     * @param collections       The other integers collections from which to calculate the intersection.
+     * @return A new ordered integers collection containing all the integers present in each of the provided integers
+     *         collections, with the integers in the order of the ordered integers collection.
+     */
+    static OrderedIntegerCollection intersectionOf(final OrderedNumericCollection<Integer> orderedCollection,
+            final NumericCollection<Integer>... collections) {
+        ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return of(result);
     }
 
     /**

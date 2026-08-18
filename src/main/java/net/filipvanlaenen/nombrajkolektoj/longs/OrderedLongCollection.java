@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -176,6 +177,24 @@ public interface OrderedLongCollection extends OrderedNumericCollection<Long>, L
      */
     static OrderedLongCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new ordered longs collection containing all the longs present in each of the provided longs
+     * collections, with the longs in the order of the ordered longs collection.
+     *
+     * @param orderedCollection The ordered longs collection from which to calculate the intersection.
+     * @param collections       The other longs collections from which to calculate the intersection.
+     * @return A new ordered longs collection containing all the longs present in each of the provided longs
+     *         collections, with the longs in the order of the ordered longs collection.
+     */
+    static OrderedLongCollection intersectionOf(final OrderedNumericCollection<Long> orderedCollection,
+            final NumericCollection<Long>... collections) {
+        ModifiableOrderedLongCollection result = ModifiableOrderedLongCollection.of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return of(result);
     }
 
     /**

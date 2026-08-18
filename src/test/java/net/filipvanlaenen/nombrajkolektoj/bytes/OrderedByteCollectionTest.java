@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.bytes;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.OrderedByteCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      * Collection with the bytes 0, 1 and 2.
      */
     private final OrderedByteCollection collection012 = createByteCollection((byte) 0, (byte) 1, (byte) 2);
+    /**
+     * Collection with the byte 1.
+     */
+    private final OrderedByteCollection collection1 = createByteCollection((byte) 1);
+    /**
+     * Collection with the bytes 1 and 2.
+     */
+    private final OrderedByteCollection collection12 = createByteCollection((byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedByteCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered bytes collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedByteCollection collectionA = OrderedByteCollection.of((byte) 1, (byte) 2);
-        OrderedByteCollection collectionB = OrderedByteCollection.of((byte) 1, (byte) 2, BYTE_THREE);
-        OrderedByteCollection actual = OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedByteCollection actual = OrderedByteCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Byte[] {(byte) 1, (byte) 2, BYTE_THREE, (byte) 2, BYTE_FOUR, BYTE_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedByteCollection collectionA = OrderedByteCollection.of((byte) 1, (byte) 2);
         OrderedByteCollection collectionB = OrderedByteCollection.of((byte) 1, null, BYTE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedByteCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedByteCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedByteCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedByteCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

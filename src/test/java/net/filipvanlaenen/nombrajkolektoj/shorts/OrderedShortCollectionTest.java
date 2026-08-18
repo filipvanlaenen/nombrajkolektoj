@@ -1,10 +1,7 @@
 package net.filipvanlaenen.nombrajkolektoj.shorts;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} class.
@@ -41,6 +39,14 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      * Collection with the shorts 0, 1 and 2.
      */
     private final OrderedShortCollection collection012 = createShortCollection((short) 0, (short) 1, (short) 2);
+    /**
+     * Collection with the short 1.
+     */
+    private final OrderedShortCollection collection1 = createShortCollection((short) 1);
+    /**
+     * Collection with the shorts 1 and 2.
+     */
+    private final OrderedShortCollection collection12 = createShortCollection((short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
@@ -87,13 +93,28 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedShortCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered shorts collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedShortCollection collectionA = OrderedShortCollection.of((short) 1, (short) 2);
-        OrderedShortCollection collectionB = OrderedShortCollection.of((short) 1, (short) 2, SHORT_THREE);
-        OrderedShortCollection actual = OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedShortCollection actual = OrderedShortCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new Short[] {(short) 1, (short) 2, SHORT_THREE, (short) 2, SHORT_FOUR, SHORT_SIX}, actual.toArray());
     }
 
@@ -103,14 +124,13 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedShortCollection collectionA = OrderedShortCollection.of((short) 1, (short) 2);
         OrderedShortCollection collectionB = OrderedShortCollection.of((short) 1, null, SHORT_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedShortCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedShortCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedShortCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedShortCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

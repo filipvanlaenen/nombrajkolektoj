@@ -3,10 +3,7 @@ package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 import java.math.BigInteger;
 
 import static net.filipvanlaenen.kolektoj.Collection.ElementCardinality.DISTINCT_ELEMENTS;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Objects;
 
@@ -14,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.OrderedBigIntegerCollection} class.
@@ -43,6 +41,14 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      * Collection with the BigIntegers 0, 1 and 2.
      */
     private final OrderedBigIntegerCollection collection012 = createBigIntegerCollection(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
+    /**
+     * Collection with the BigInteger 1.
+     */
+    private final OrderedBigIntegerCollection collection1 = createBigIntegerCollection(BigInteger.ONE);
+    /**
+     * Collection with the BigIntegers 1 and 2.
+     */
+    private final OrderedBigIntegerCollection collection12 = createBigIntegerCollection(BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
@@ -89,13 +95,28 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(OrderedBigIntegerCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(
+                collection1.containsSame(OrderedCollection.intersectionOf(collection123, collection1, collection12)));
+    }
+
+    /**
      * Verifies that the matrix direct product factory method produces a correct ordered BigIntegers collection.
      */
     @Test
     public void ofMatrixDirectProductShouldProduceACorrectOrderedCollection() {
-        OrderedBigIntegerCollection collectionA = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO);
-        OrderedBigIntegerCollection collectionB = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE);
-        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB);
+        OrderedBigIntegerCollection actual = OrderedBigIntegerCollection.matrixDirectProductOf(collection12, collection123);
         assertArrayEquals(new BigInteger[] {BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE, BigInteger.TWO, BIG_INTEGER_FOUR, BIG_INTEGER_SIX}, actual.toArray());
     }
 
@@ -105,14 +126,13 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
      */
     @Test
     public void ofMatrixDirectProductShouldThrowExceptionWhenCollectionContainsNull() {
-        OrderedBigIntegerCollection collectionA = OrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO);
         OrderedBigIntegerCollection collectionB = OrderedBigIntegerCollection.of(BigInteger.ONE, null, BIG_INTEGER_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionA, collectionB));
+                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collection12, collectionB));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
         exception = assertThrows(IllegalArgumentException.class,
-                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionB, collectionA));
+                () -> OrderedBigIntegerCollection.matrixDirectProductOf(collectionB, collection12));
         assertEquals("Cannot produce a matrix direct product when one of the collections contains null.",
                 exception.getMessage());
     }

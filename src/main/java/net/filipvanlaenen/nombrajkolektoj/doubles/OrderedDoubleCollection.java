@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -176,6 +177,24 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
      */
     static OrderedDoubleCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new ordered doubles collection containing all the doubles present in each of the provided doubles
+     * collections, with the doubles in the order of the ordered doubles collection.
+     *
+     * @param orderedCollection The ordered doubles collection from which to calculate the intersection.
+     * @param collections       The other doubles collections from which to calculate the intersection.
+     * @return A new ordered doubles collection containing all the doubles present in each of the provided doubles
+     *         collections, with the doubles in the order of the ordered doubles collection.
+     */
+    static OrderedDoubleCollection intersectionOf(final OrderedNumericCollection<Double> orderedCollection,
+            final NumericCollection<Double>... collections) {
+        ModifiableOrderedDoubleCollection result = ModifiableOrderedDoubleCollection.of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return of(result);
     }
 
     /**

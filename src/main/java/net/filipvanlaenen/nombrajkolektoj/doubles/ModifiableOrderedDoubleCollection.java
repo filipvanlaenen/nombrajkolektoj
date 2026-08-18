@@ -6,6 +6,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -142,6 +143,24 @@ public interface ModifiableOrderedDoubleCollection
      */
     static ModifiableOrderedDoubleCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered doubles collection containing all the doubles present in each of the provided
+     * doubles collections, with the doubles in the order of the ordered doubles collection.
+     *
+     * @param orderedCollection The ordered doubles collection from which to calculate the intersection.
+     * @param collections       The other doubles collections from which to calculate the intersection.
+     * @return A new modifiable ordered doubles collection containing all the doubles present in each of the provided
+     *         doubles collections, with the doubles in the order of the ordered doubles collection.
+     */
+    static ModifiableOrderedDoubleCollection intersectionOf(final OrderedNumericCollection<Double> orderedCollection,
+            final NumericCollection<Double>... collections) {
+        ModifiableOrderedDoubleCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

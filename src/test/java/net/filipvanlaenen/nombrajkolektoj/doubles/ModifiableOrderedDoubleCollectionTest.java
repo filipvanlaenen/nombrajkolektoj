@@ -36,6 +36,10 @@ public final class ModifiableOrderedDoubleCollectionTest
      */
     private final ModifiableOrderedDoubleCollection collection012 = ModifiableOrderedDoubleCollection.of(0D, 1D, 2D);
     /**
+     * Collection with the double 1.
+     */
+    private final ModifiableOrderedDoubleCollection collection1 = ModifiableOrderedDoubleCollection.of(1D);
+    /**
      * Collection with the doubles 1, 2 and 3.
      */
     private final ModifiableOrderedDoubleCollection collection123 = ModifiableOrderedDoubleCollection.of(1D, 2D, 3D);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedDoubleCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedDoubleCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedDoubleCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedDoubleCollection.intersectionOf(collection123, collection1,
+                DoubleCollection.of(1D, 2D))));
     }
 
     /**

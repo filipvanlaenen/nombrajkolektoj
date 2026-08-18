@@ -6,6 +6,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -142,6 +143,24 @@ public interface ModifiableOrderedFloatCollection
      */
     static ModifiableOrderedFloatCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered floats collection containing all the floats present in each of the provided
+     * floats collections, with the floats in the order of the ordered floats collection.
+     *
+     * @param orderedCollection The ordered floats collection from which to calculate the intersection.
+     * @param collections       The other floats collections from which to calculate the intersection.
+     * @return A new modifiable ordered floats collection containing all the floats present in each of the provided
+     *         floats collections, with the floats in the order of the ordered floats collection.
+     */
+    static ModifiableOrderedFloatCollection intersectionOf(final OrderedNumericCollection<Float> orderedCollection,
+            final NumericCollection<Float>... collections) {
+        ModifiableOrderedFloatCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

@@ -36,6 +36,10 @@ public final class ModifiableOrderedLongCollectionTest
      */
     private final ModifiableOrderedLongCollection collection012 = ModifiableOrderedLongCollection.of(0L, 1L, 2L);
     /**
+     * Collection with the long 1.
+     */
+    private final ModifiableOrderedLongCollection collection1 = ModifiableOrderedLongCollection.of(1L);
+    /**
      * Collection with the longs 1, 2 and 3.
      */
     private final ModifiableOrderedLongCollection collection123 = ModifiableOrderedLongCollection.of(1L, 2L, 3L);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedLongCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedLongCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedLongCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedLongCollection.intersectionOf(collection123, collection1,
+                LongCollection.of(1L, 2L))));
     }
 
     /**

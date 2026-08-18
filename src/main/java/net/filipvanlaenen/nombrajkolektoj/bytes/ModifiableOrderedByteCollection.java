@@ -6,6 +6,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -142,6 +143,24 @@ public interface ModifiableOrderedByteCollection
      */
     static ModifiableOrderedByteCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered bytes collection containing all the bytes present in each of the provided
+     * bytes collections, with the bytes in the order of the ordered bytes collection.
+     *
+     * @param orderedCollection The ordered bytes collection from which to calculate the intersection.
+     * @param collections       The other bytes collections from which to calculate the intersection.
+     * @return A new modifiable ordered bytes collection containing all the bytes present in each of the provided
+     *         bytes collections, with the bytes in the order of the ordered bytes collection.
+     */
+    static ModifiableOrderedByteCollection intersectionOf(final OrderedNumericCollection<Byte> orderedCollection,
+            final NumericCollection<Byte>... collections) {
+        ModifiableOrderedByteCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

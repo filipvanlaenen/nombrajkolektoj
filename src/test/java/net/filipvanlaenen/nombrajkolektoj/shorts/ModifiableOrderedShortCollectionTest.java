@@ -36,6 +36,10 @@ public final class ModifiableOrderedShortCollectionTest
      */
     private final ModifiableOrderedShortCollection collection012 = ModifiableOrderedShortCollection.of((short) 0, (short) 1, (short) 2);
     /**
+     * Collection with the short 1.
+     */
+    private final ModifiableOrderedShortCollection collection1 = ModifiableOrderedShortCollection.of((short) 1);
+    /**
      * Collection with the shorts 1, 2 and 3.
      */
     private final ModifiableOrderedShortCollection collection123 = ModifiableOrderedShortCollection.of((short) 1, (short) 2, (short) 3);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedShortCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedShortCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedShortCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedShortCollection.intersectionOf(collection123, collection1,
+                ShortCollection.of((short) 1, (short) 2))));
     }
 
     /**

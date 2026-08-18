@@ -6,6 +6,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -142,6 +143,24 @@ public interface ModifiableOrderedIntegerCollection
      */
     static ModifiableOrderedIntegerCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered integers collection containing all the integers present in each of the provided
+     * integers collections, with the integers in the order of the ordered integers collection.
+     *
+     * @param orderedCollection The ordered integers collection from which to calculate the intersection.
+     * @param collections       The other integers collections from which to calculate the intersection.
+     * @return A new modifiable ordered integers collection containing all the integers present in each of the provided
+     *         integers collections, with the integers in the order of the ordered integers collection.
+     */
+    static ModifiableOrderedIntegerCollection intersectionOf(final OrderedNumericCollection<Integer> orderedCollection,
+            final NumericCollection<Integer>... collections) {
+        ModifiableOrderedIntegerCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

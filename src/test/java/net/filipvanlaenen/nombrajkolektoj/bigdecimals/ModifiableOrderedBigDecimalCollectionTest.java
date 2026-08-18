@@ -38,6 +38,10 @@ public final class ModifiableOrderedBigDecimalCollectionTest
      */
     private final ModifiableOrderedBigDecimalCollection collection012 = ModifiableOrderedBigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
+     * Collection with the BigDecimal 1.
+     */
+    private final ModifiableOrderedBigDecimalCollection collection1 = ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE);
+    /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
     private final ModifiableOrderedBigDecimalCollection collection123 = ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L), BigDecimal.valueOf(3L));
@@ -90,6 +94,23 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedBigDecimalCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedBigDecimalCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedBigDecimalCollection.intersectionOf(collection123, collection1,
+                BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L)))));
     }
 
     /**

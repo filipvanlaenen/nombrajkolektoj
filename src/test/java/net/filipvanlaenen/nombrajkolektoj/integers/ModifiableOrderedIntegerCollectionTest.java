@@ -36,6 +36,10 @@ public final class ModifiableOrderedIntegerCollectionTest
      */
     private final ModifiableOrderedIntegerCollection collection012 = ModifiableOrderedIntegerCollection.of(0, 1, 2);
     /**
+     * Collection with the int 1.
+     */
+    private final ModifiableOrderedIntegerCollection collection1 = ModifiableOrderedIntegerCollection.of(1);
+    /**
      * Collection with the integers 1, 2 and 3.
      */
     private final ModifiableOrderedIntegerCollection collection123 = ModifiableOrderedIntegerCollection.of(1, 2, 3);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedIntegerCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedIntegerCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedIntegerCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedIntegerCollection.intersectionOf(collection123, collection1,
+                IntegerCollection.of(1, 2))));
     }
 
     /**

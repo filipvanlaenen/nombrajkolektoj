@@ -36,6 +36,10 @@ public final class ModifiableOrderedByteCollectionTest
      */
     private final ModifiableOrderedByteCollection collection012 = ModifiableOrderedByteCollection.of((byte) 0, (byte) 1, (byte) 2);
     /**
+     * Collection with the byte 1.
+     */
+    private final ModifiableOrderedByteCollection collection1 = ModifiableOrderedByteCollection.of((byte) 1);
+    /**
      * Collection with the bytes 1, 2 and 3.
      */
     private final ModifiableOrderedByteCollection collection123 = ModifiableOrderedByteCollection.of((byte) 1, (byte) 2, (byte) 3);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedByteCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedByteCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedByteCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedByteCollection.intersectionOf(collection123, collection1,
+                ByteCollection.of((byte) 1, (byte) 2))));
     }
 
     /**

@@ -8,6 +8,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -144,6 +145,24 @@ public interface ModifiableOrderedBigIntegerCollection
      */
     static ModifiableOrderedBigIntegerCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered BigIntegers collection containing all the BigIntegers present in each of the provided
+     * BigIntegers collections, with the BigIntegers in the order of the ordered BigIntegers collection.
+     *
+     * @param orderedCollection The ordered BigIntegers collection from which to calculate the intersection.
+     * @param collections       The other BigIntegers collections from which to calculate the intersection.
+     * @return A new modifiable ordered BigIntegers collection containing all the BigIntegers present in each of the provided
+     *         BigIntegers collections, with the BigIntegers in the order of the ordered BigIntegers collection.
+     */
+    static ModifiableOrderedBigIntegerCollection intersectionOf(final OrderedNumericCollection<BigInteger> orderedCollection,
+            final NumericCollection<BigInteger>... collections) {
+        ModifiableOrderedBigIntegerCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

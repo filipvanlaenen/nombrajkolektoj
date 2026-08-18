@@ -6,6 +6,7 @@ import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.ModifiableOrderedArrayCollection;
 import net.filipvanlaenen.kolektoj.linkedlist.ModifiableOrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.ModifiableOrderedNumericCollection;
+import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
 /**
@@ -142,6 +143,24 @@ public interface ModifiableOrderedLongCollection
      */
     static ModifiableOrderedLongCollection empty() {
         return new ArrayCollection();
+    }
+
+    /**
+     * Returns a new modifiable ordered longs collection containing all the longs present in each of the provided
+     * longs collections, with the longs in the order of the ordered longs collection.
+     *
+     * @param orderedCollection The ordered longs collection from which to calculate the intersection.
+     * @param collections       The other longs collections from which to calculate the intersection.
+     * @return A new modifiable ordered longs collection containing all the longs present in each of the provided
+     *         longs collections, with the longs in the order of the ordered longs collection.
+     */
+    static ModifiableOrderedLongCollection intersectionOf(final OrderedNumericCollection<Long> orderedCollection,
+            final NumericCollection<Long>... collections) {
+        ModifiableOrderedLongCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.retainAll(collections[i]);
+        }
+        return result;
     }
 
     /**

@@ -38,6 +38,10 @@ public final class ModifiableOrderedBigIntegerCollectionTest
      */
     private final ModifiableOrderedBigIntegerCollection collection012 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ZERO, BigInteger.ONE, BigInteger.TWO);
     /**
+     * Collection with the BigInteger 1.
+     */
+    private final ModifiableOrderedBigIntegerCollection collection1 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE);
+    /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
     private final ModifiableOrderedBigIntegerCollection collection123 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO, BigInteger.valueOf(3L));
@@ -90,6 +94,23 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedBigIntegerCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedBigIntegerCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedBigIntegerCollection.intersectionOf(collection123, collection1,
+                BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO))));
     }
 
     /**

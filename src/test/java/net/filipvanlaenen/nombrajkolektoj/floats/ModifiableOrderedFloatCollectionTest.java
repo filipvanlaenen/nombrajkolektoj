@@ -36,6 +36,10 @@ public final class ModifiableOrderedFloatCollectionTest
      */
     private final ModifiableOrderedFloatCollection collection012 = ModifiableOrderedFloatCollection.of(0F, 1F, 2F);
     /**
+     * Collection with the float 1.
+     */
+    private final ModifiableOrderedFloatCollection collection1 = ModifiableOrderedFloatCollection.of(1F);
+    /**
      * Collection with the floats 1, 2 and 3.
      */
     private final ModifiableOrderedFloatCollection collection123 = ModifiableOrderedFloatCollection.of(1F, 2F, 3F);
@@ -88,6 +92,23 @@ public final class ModifiableOrderedFloatCollectionTest
     @Test
     public void emptyShouldProduceAnEmptyCollection() {
         assertTrue(ModifiableOrderedFloatCollection.empty().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one collection is that collection.
+     */
+    @Test
+    public void intersectionOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedFloatCollection.intersectionOf(collection123)));
+    }
+
+    /**
+     * Verifies that the intersection of three collections only contains the common elements.
+     */
+    @Test
+    public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
+        assertTrue(collection1.containsSame(ModifiableOrderedFloatCollection.intersectionOf(collection123, collection1,
+                FloatCollection.of(1F, 2F))));
     }
 
     /**

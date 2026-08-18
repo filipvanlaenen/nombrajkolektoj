@@ -88,8 +88,7 @@ public final class ModifiableOrderedByteCollectionDecoratorTest
      * @return A distinct collection with the numbers 1, 2, 3 and 4.
      */
     private ModifiableOrderedByteCollection createDistinctCollection1234() {
-        return ModifiableOrderedByteCollection.of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE,
-                BYTE_FOUR);
+        return ModifiableOrderedByteCollection.of(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, BYTE_THREE, BYTE_FOUR);
     }
 
     /**
@@ -550,8 +549,8 @@ public final class ModifiableOrderedByteCollectionDecoratorTest
      */
     @Test
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedByteCollection collection = ModifiableOrderedByteCollection
-                .of(ElementCardinality.DISTINCT_ELEMENTS, (byte) 1, (byte) 2, MINUS_TWO, BYTE_THREE);
+        ModifiableOrderedByteCollection collection =
+                ModifiableOrderedByteCollection.of(DISTINCT_ELEMENTS, (byte) 1, (byte) 2, MINUS_TWO, BYTE_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",

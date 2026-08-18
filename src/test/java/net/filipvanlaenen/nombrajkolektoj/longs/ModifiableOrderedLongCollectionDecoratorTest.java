@@ -88,8 +88,7 @@ public final class ModifiableOrderedLongCollectionDecoratorTest
      * @return A distinct collection with the numbers 1, 2, 3 and 4.
      */
     private ModifiableOrderedLongCollection createDistinctCollection1234() {
-        return ModifiableOrderedLongCollection.of(ElementCardinality.DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE,
-                LONG_FOUR);
+        return ModifiableOrderedLongCollection.of(DISTINCT_ELEMENTS, 1L, 2L, LONG_THREE, LONG_FOUR);
     }
 
     /**
@@ -550,8 +549,8 @@ public final class ModifiableOrderedLongCollectionDecoratorTest
      */
     @Test
     public void negateWithIndexShouldThrowExceptionForDuplicate() {
-        ModifiableOrderedLongCollection collection = ModifiableOrderedLongCollection
-                .of(ElementCardinality.DISTINCT_ELEMENTS, 1L, 2L, MINUS_TWO, LONG_THREE);
+        ModifiableOrderedLongCollection collection =
+                ModifiableOrderedLongCollection.of(DISTINCT_ELEMENTS, 1L, 2L, MINUS_TWO, LONG_THREE);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> collection.negate(1));
         assertEquals(
                 "Cannot negate the element at the position into a duplicate element due to the cardinality constraint.",

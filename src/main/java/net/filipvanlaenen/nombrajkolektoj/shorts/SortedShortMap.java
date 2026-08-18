@@ -29,7 +29,7 @@ public interface SortedShortMap<K> extends SortedNumericMap<K, Short>, ShortMap<
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedShortMapDecorator<K> {
+    final class ArrayMap<K> extends SortedShortMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -94,7 +94,7 @@ public interface SortedShortMap<K> extends SortedNumericMap<K, Short>, ShortMap<
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedShortMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedShortMapDecorator<K> {
         /**
          * The internal decorated map.
          */

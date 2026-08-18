@@ -29,7 +29,7 @@ public interface UpdatableBigIntegerMap<K> extends UpdatableNumericMap<K, BigInt
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableBigIntegerMapDecorator<K> {
+    final class HashMap<K> extends UpdatableBigIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

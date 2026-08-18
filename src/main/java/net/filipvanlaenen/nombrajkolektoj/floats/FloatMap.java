@@ -22,7 +22,7 @@ public interface FloatMap<K> extends NumericMap<K, Float> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends FloatMapDecorator<K> {
+    final class HashMap<K> extends FloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */

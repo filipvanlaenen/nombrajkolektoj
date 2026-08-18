@@ -27,7 +27,7 @@ public interface UpdatableDoubleMap<K> extends UpdatableNumericMap<K, Double>, D
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableDoubleMapDecorator<K> {
+    final class HashMap<K> extends UpdatableDoubleMapDecorator<K> {
         /**
          * The internal decorated map.
          */

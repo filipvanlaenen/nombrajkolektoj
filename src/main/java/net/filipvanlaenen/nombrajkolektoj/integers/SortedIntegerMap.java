@@ -29,7 +29,7 @@ public interface SortedIntegerMap<K> extends SortedNumericMap<K, Integer>, Integ
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedIntegerMapDecorator<K> {
+    final class ArrayMap<K> extends SortedIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -94,7 +94,7 @@ public interface SortedIntegerMap<K> extends SortedNumericMap<K, Integer>, Integ
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedIntegerMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

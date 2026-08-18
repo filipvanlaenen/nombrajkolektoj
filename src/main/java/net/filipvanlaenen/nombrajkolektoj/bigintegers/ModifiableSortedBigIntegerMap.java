@@ -33,7 +33,7 @@ public interface ModifiableSortedBigIntegerMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends ModifiableSortedBigIntegerMapDecorator<K> {
+    final class SortedTreeMap<K> extends ModifiableSortedBigIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

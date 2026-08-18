@@ -29,7 +29,7 @@ public interface UpdatableBigDecimalMap<K> extends UpdatableNumericMap<K, BigDec
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableBigDecimalMapDecorator<K> {
+    final class HashMap<K> extends UpdatableBigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */

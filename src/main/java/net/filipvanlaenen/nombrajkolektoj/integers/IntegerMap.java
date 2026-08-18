@@ -22,7 +22,7 @@ public interface IntegerMap<K> extends NumericMap<K, Integer> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends IntegerMapDecorator<K> {
+    final class HashMap<K> extends IntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

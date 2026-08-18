@@ -26,7 +26,7 @@ public interface ModifiableFloatMap<K> extends ModifiableNumericMap<K, Float>, U
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableFloatMapDecorator<K> {
+    final class HashMap<K> extends ModifiableFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */

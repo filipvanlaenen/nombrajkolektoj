@@ -29,7 +29,7 @@ public interface SortedByteMap<K> extends SortedNumericMap<K, Byte>, ByteMap<K> 
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedByteMapDecorator<K> {
+    final class ArrayMap<K> extends SortedByteMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -94,7 +94,7 @@ public interface SortedByteMap<K> extends SortedNumericMap<K, Byte>, ByteMap<K> 
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedByteMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedByteMapDecorator<K> {
         /**
          * The internal decorated map.
          */

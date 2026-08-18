@@ -22,7 +22,7 @@ public interface ByteMap<K> extends NumericMap<K, Byte> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ByteMapDecorator<K> {
+    final class HashMap<K> extends ByteMapDecorator<K> {
         /**
          * The internal decorated map.
          */

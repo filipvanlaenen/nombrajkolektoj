@@ -26,7 +26,7 @@ public interface ModifiableLongMap<K> extends ModifiableNumericMap<K, Long>, Upd
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableLongMapDecorator<K> {
+    final class HashMap<K> extends ModifiableLongMapDecorator<K> {
         /**
          * The internal decorated map.
          */

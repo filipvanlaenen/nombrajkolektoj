@@ -29,7 +29,7 @@ public interface SortedLongMap<K> extends SortedNumericMap<K, Long>, LongMap<K> 
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedLongMapDecorator<K> {
+    final class ArrayMap<K> extends SortedLongMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -94,7 +94,7 @@ public interface SortedLongMap<K> extends SortedNumericMap<K, Long>, LongMap<K> 
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedLongMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedLongMapDecorator<K> {
         /**
          * The internal decorated map.
          */

@@ -26,7 +26,7 @@ public interface ModifiableDoubleMap<K> extends ModifiableNumericMap<K, Double>,
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableDoubleMapDecorator<K> {
+    final class HashMap<K> extends ModifiableDoubleMapDecorator<K> {
         /**
          * The internal decorated map.
          */

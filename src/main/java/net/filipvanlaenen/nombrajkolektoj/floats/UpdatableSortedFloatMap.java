@@ -33,7 +33,7 @@ public interface UpdatableSortedFloatMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends UpdatableSortedFloatMapDecorator<K> {
+    final class ArrayMap<K> extends UpdatableSortedFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -98,7 +98,7 @@ public interface UpdatableSortedFloatMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends UpdatableSortedFloatMapDecorator<K> {
+    final class SortedTreeMap<K> extends UpdatableSortedFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */

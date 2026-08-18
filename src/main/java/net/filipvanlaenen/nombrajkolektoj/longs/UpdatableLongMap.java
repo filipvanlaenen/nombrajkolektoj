@@ -27,7 +27,7 @@ public interface UpdatableLongMap<K> extends UpdatableNumericMap<K, Long>, LongM
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableLongMapDecorator<K> {
+    final class HashMap<K> extends UpdatableLongMapDecorator<K> {
         /**
          * The internal decorated map.
          */

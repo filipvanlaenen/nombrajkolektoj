@@ -28,7 +28,7 @@ public interface ModifiableBigIntegerMap<K> extends ModifiableNumericMap<K, BigI
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableBigIntegerMapDecorator<K> {
+    final class HashMap<K> extends ModifiableBigIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

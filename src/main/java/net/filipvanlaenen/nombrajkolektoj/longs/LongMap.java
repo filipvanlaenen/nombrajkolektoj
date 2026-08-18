@@ -22,7 +22,7 @@ public interface LongMap<K> extends NumericMap<K, Long> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends LongMapDecorator<K> {
+    final class HashMap<K> extends LongMapDecorator<K> {
         /**
          * The internal decorated map.
          */

@@ -26,7 +26,7 @@ public interface ModifiableByteMap<K> extends ModifiableNumericMap<K, Byte>, Upd
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableByteMapDecorator<K> {
+    final class HashMap<K> extends ModifiableByteMapDecorator<K> {
         /**
          * The internal decorated map.
          */

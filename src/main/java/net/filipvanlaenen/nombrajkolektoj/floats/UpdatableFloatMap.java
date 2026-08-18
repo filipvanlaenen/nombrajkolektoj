@@ -27,7 +27,7 @@ public interface UpdatableFloatMap<K> extends UpdatableNumericMap<K, Float>, Flo
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableFloatMapDecorator<K> {
+    final class HashMap<K> extends UpdatableFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */

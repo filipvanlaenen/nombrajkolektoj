@@ -35,7 +35,7 @@ public interface UpdatableSortedBigDecimalMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends UpdatableSortedBigDecimalMapDecorator<K> {
+    final class ArrayMap<K> extends UpdatableSortedBigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -100,7 +100,7 @@ public interface UpdatableSortedBigDecimalMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends UpdatableSortedBigDecimalMapDecorator<K> {
+    final class SortedTreeMap<K> extends UpdatableSortedBigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */

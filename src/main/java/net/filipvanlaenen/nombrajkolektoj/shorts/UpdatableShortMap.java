@@ -27,7 +27,7 @@ public interface UpdatableShortMap<K> extends UpdatableNumericMap<K, Short>, Sho
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableShortMapDecorator<K> {
+    final class HashMap<K> extends UpdatableShortMapDecorator<K> {
         /**
          * The internal decorated map.
          */

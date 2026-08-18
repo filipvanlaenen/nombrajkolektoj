@@ -29,7 +29,7 @@ public interface SortedFloatMap<K> extends SortedNumericMap<K, Float>, FloatMap<
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedFloatMapDecorator<K> {
+    final class ArrayMap<K> extends SortedFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -94,7 +94,7 @@ public interface SortedFloatMap<K> extends SortedNumericMap<K, Float>, FloatMap<
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedFloatMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedFloatMapDecorator<K> {
         /**
          * The internal decorated map.
          */

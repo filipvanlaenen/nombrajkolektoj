@@ -27,7 +27,7 @@ public interface UpdatableIntegerMap<K> extends UpdatableNumericMap<K, Integer>,
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableIntegerMapDecorator<K> {
+    final class HashMap<K> extends UpdatableIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

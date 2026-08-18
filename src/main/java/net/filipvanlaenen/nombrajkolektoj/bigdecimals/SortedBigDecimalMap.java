@@ -31,7 +31,7 @@ public interface SortedBigDecimalMap<K> extends SortedNumericMap<K, BigDecimal>,
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends SortedBigDecimalMapDecorator<K> {
+    final class ArrayMap<K> extends SortedBigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -96,7 +96,7 @@ public interface SortedBigDecimalMap<K> extends SortedNumericMap<K, BigDecimal>,
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends SortedBigDecimalMapDecorator<K> {
+    final class SortedTreeMap<K> extends SortedBigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */

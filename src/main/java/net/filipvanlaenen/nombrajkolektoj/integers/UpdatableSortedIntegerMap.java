@@ -33,7 +33,7 @@ public interface UpdatableSortedIntegerMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class ArrayMap<K> extends UpdatableSortedIntegerMapDecorator<K> {
+    final class ArrayMap<K> extends UpdatableSortedIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */
@@ -98,7 +98,7 @@ public interface UpdatableSortedIntegerMap<K>
      *
      * @param <K> The key type.
      */
-    public static final class SortedTreeMap<K> extends UpdatableSortedIntegerMapDecorator<K> {
+    final class SortedTreeMap<K> extends UpdatableSortedIntegerMapDecorator<K> {
         /**
          * The internal decorated map.
          */

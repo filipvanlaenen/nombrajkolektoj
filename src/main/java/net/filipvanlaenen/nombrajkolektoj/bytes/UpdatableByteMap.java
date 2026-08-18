@@ -27,7 +27,7 @@ public interface UpdatableByteMap<K> extends UpdatableNumericMap<K, Byte>, ByteM
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends UpdatableByteMapDecorator<K> {
+    final class HashMap<K> extends UpdatableByteMapDecorator<K> {
         /**
          * The internal decorated map.
          */

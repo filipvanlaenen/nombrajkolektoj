@@ -24,7 +24,7 @@ public interface BigDecimalMap<K> extends NumericMap<K, BigDecimal> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends BigDecimalMapDecorator<K> {
+    final class HashMap<K> extends BigDecimalMapDecorator<K> {
         /**
          * The internal decorated map.
          */

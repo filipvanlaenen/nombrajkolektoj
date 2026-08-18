@@ -26,7 +26,7 @@ public interface ModifiableShortMap<K> extends ModifiableNumericMap<K, Short>, U
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ModifiableShortMapDecorator<K> {
+    final class HashMap<K> extends ModifiableShortMapDecorator<K> {
         /**
          * The internal decorated map.
          */

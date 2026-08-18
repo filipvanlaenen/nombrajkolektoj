@@ -22,7 +22,7 @@ public interface ShortMap<K> extends NumericMap<K, Short> {
      *
      * @param <K> The key type.
      */
-    public static final class HashMap<K> extends ShortMapDecorator<K> {
+    final class HashMap<K> extends ShortMapDecorator<K> {
         /**
          * The internal decorated map.
          */

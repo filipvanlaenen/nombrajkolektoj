@@ -40,6 +40,14 @@ public final class IntegerCollectionTest extends IntegerCollectionTestBase<Integ
         assertTrue(new IntegerCollection.HashCollection(1, 2, INTEGER_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new IntegerCollection.LinkedListCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
     @Override
     protected IntegerCollection createIntegerCollection(final Integer... numbers) {
         return IntegerCollection.of(numbers);

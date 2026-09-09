@@ -131,6 +131,64 @@ public interface ByteCollection extends NumericCollection<Byte> {
     }
 
     /**
+     * A numeric collection containing bytes and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends ByteCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Byte> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same bytes and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Byte> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Byte>(source);
+        }
+
+        /**
+         * Constructs a collection with the given bytes. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The bytes of the collection.
+         */
+        public LinkedListCollection(final Byte... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Byte>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Byte> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Byte>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given bytes and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The bytes of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Byte... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Byte>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Byte> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty bytes collection.
      *
      * @return A new empty bytes collection.

@@ -40,6 +40,14 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
         assertTrue(new DoubleCollection.HashCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateADoubleCollection() {
+        assertTrue(new DoubleCollection.LinkedListCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
     @Override
     protected DoubleCollection createDoubleCollection(final Double... numbers) {
         return DoubleCollection.of(numbers);

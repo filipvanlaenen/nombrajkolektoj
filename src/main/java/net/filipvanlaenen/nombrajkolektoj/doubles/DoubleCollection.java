@@ -131,6 +131,64 @@ public interface DoubleCollection extends NumericCollection<Double> {
     }
 
     /**
+     * A numeric collection containing doubles and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.doubles.DoubleCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends DoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Double> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same doubles and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Double> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Double>(source);
+        }
+
+        /**
+         * Constructs a collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The doubles of the collection.
+         */
+        public LinkedListCollection(final Double... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Double>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Double> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Double>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Double>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty doubles collection.
      *
      * @return A new empty doubles collection.

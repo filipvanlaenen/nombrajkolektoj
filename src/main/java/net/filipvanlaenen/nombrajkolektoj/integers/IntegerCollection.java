@@ -131,6 +131,64 @@ public interface IntegerCollection extends NumericCollection<Integer> {
     }
 
     /**
+     * A numeric collection containing integers and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.IntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends IntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Integer> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same integers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Integer> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Integer>(source);
+        }
+
+        /**
+         * Constructs a collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The integers of the collection.
+         */
+        public LinkedListCollection(final Integer... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Integer>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Integer> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Integer>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Integer>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty integers collection.
      *
      * @return A new empty integers collection.

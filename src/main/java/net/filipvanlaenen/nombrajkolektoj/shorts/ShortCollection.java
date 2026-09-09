@@ -131,6 +131,64 @@ public interface ShortCollection extends NumericCollection<Short> {
     }
 
     /**
+     * A numeric collection containing shorts and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.ShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends ShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Short> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same shorts and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Short> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Short>(source);
+        }
+
+        /**
+         * Constructs a collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The shorts of the collection.
+         */
+        public LinkedListCollection(final Short... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Short>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Short> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Short>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Short>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty shorts collection.
      *
      * @return A new empty shorts collection.

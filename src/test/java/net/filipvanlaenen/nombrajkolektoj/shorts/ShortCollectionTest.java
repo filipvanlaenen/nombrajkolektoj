@@ -40,6 +40,14 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
         assertTrue(new ShortCollection.HashCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAShortCollection() {
+        assertTrue(new ShortCollection.LinkedListCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
     @Override
     protected ShortCollection createShortCollection(final Short... numbers) {
         return ShortCollection.of(numbers);

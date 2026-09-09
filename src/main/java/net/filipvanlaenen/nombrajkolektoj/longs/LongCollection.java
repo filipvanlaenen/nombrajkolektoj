@@ -131,6 +131,64 @@ public interface LongCollection extends NumericCollection<Long> {
     }
 
     /**
+     * A numeric collection containing longs and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.longs.LongCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends LongCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Long> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same longs and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Long> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Long>(source);
+        }
+
+        /**
+         * Constructs a collection with the given longs. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The longs of the collection.
+         */
+        public LinkedListCollection(final Long... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Long>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Long> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Long>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given longs and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The longs of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Long... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Long>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Long> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty longs collection.
      *
      * @return A new empty longs collection.

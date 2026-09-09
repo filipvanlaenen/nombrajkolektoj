@@ -40,6 +40,14 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
         assertTrue(new ByteCollection.HashCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAByteCollection() {
+        assertTrue(new ByteCollection.LinkedListCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
     @Override
     protected ByteCollection createByteCollection(final Byte... numbers) {
         return ByteCollection.of(numbers);

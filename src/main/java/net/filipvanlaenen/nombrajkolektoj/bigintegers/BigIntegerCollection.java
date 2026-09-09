@@ -133,6 +133,64 @@ public interface BigIntegerCollection extends NumericCollection<BigInteger> {
     }
 
     /**
+     * A numeric collection containing BigIntegers and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.BigIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends BigIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigInteger> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same BigIntegers and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<BigInteger> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigInteger>(source);
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The BigIntegers of the collection.
+         */
+        public LinkedListCollection(final BigInteger... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigInteger>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigInteger> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigInteger>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given BigIntegers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigIntegers of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final BigInteger... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigInteger>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigInteger> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty BigIntegers collection.
      *
      * @return A new empty BigIntegers collection.

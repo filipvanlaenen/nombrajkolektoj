@@ -42,6 +42,14 @@ public final class BigIntegerCollectionTest extends BigIntegerCollectionTestBase
         assertTrue(new BigIntegerCollection.HashCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new BigIntegerCollection.LinkedListCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
     @Override
     protected BigIntegerCollection createBigIntegerCollection(final BigInteger... numbers) {
         return BigIntegerCollection.of(numbers);

@@ -131,6 +131,64 @@ public interface FloatCollection extends NumericCollection<Float> {
     }
 
     /**
+     * A numeric collection containing floats and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.floats.FloatCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends FloatCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Float> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same floats and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<Float> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Float>(source);
+        }
+
+        /**
+         * Constructs a collection with the given floats. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The floats of the collection.
+         */
+        public LinkedListCollection(final Float... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Float>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<Float> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Float>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given floats and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The floats of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Float... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<Float>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<Float> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty floats collection.
      *
      * @return A new empty floats collection.

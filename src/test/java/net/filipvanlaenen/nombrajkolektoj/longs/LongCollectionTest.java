@@ -40,6 +40,14 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
         assertTrue(new LongCollection.HashCollection(1L, 2L, LONG_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateALongCollection() {
+        assertTrue(new LongCollection.LinkedListCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
     @Override
     protected LongCollection createLongCollection(final Long... numbers) {
         return LongCollection.of(numbers);

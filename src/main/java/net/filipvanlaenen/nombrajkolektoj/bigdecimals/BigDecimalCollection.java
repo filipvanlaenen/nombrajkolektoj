@@ -133,6 +133,64 @@ public interface BigDecimalCollection extends NumericCollection<BigDecimal> {
     }
 
     /**
+     * A numeric collection containing BigDecimals and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.BigDecimalCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}.
+     */
+    final class LinkedListCollection extends BigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigDecimal> decoratedCollection;
+
+        /**
+         * Constructs a collection from another collection, with the same BigDecimals and the same element cardinality.
+         *
+         * @param source The collection to create a new collection from.
+         */
+        public LinkedListCollection(final Collection<BigDecimal> source) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigDecimal>(source);
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The BigDecimals of the collection.
+         */
+        public LinkedListCollection(final BigDecimal... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigDecimal>(numbers);
+        }
+
+        /**
+         * Constructs a collection from another collection with the provided element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Collection<BigDecimal> source) {
+            decoratedCollection =
+                    new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigDecimal>(elementCardinality, source);
+        }
+
+        /**
+         * Constructs a collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            decoratedCollection = new net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection<BigDecimal>(
+                    elementCardinality, numbers);
+        }
+
+        @Override
+        Collection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+    }
+
+    /**
      * Returns a new empty BigDecimals collection.
      *
      * @return A new empty BigDecimals collection.

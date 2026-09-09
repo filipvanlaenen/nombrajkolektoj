@@ -42,6 +42,14 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
         assertTrue(new BigDecimalCollection.HashCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new BigDecimalCollection.LinkedListCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
     @Override
     protected BigDecimalCollection createBigDecimalCollection(final BigDecimal... numbers) {
         return BigDecimalCollection.of(numbers);

@@ -40,6 +40,14 @@ public final class FloatCollectionTest extends FloatCollectionTestBase<FloatColl
         assertTrue(new FloatCollection.HashCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
     }
 
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAFloatCollection() {
+        assertTrue(new FloatCollection.LinkedListCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
     @Override
     protected FloatCollection createFloatCollection(final Float... numbers) {
         return FloatCollection.of(numbers);

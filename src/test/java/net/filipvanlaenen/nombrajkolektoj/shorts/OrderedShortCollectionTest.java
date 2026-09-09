@@ -93,6 +93,22 @@ public final class OrderedShortCollectionTest extends OrderedShortCollectionTest
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAShortCollection() {
+        assertTrue(new OrderedShortCollection.ArrayCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a short collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAShortCollection() {
+        assertTrue(new OrderedShortCollection.LinkedListCollection((short) 1, (short) 2, SHORT_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -17,9 +18,10 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * matrix direct product.
  *
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
- * binding the type parameter to BigDecimal. It contains one nested class implementing this interface, backed by an
- * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
- * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
+ * binding the type parameter to BigDecimal. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and one backed by an
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedBigDecimalCollection extends OrderedNumericCollection<BigDecimal>, BigDecimalCollection {
     /**
@@ -76,6 +78,65 @@ public interface OrderedBigDecimalCollection extends OrderedNumericCollection<Bi
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<BigDecimal> source) {
+            this(source.getElementCardinality(), source);
+        }
+    }
+
+    /**
+     * An ordered numeric collection containing BigDecimals and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.OrderedBigDecimalCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}.
+     */
+    final class LinkedListCollection extends OrderedBigDecimalCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedLinkedListCollection<BigDecimal> decoratedCollection;
+
+        @Override
+        OrderedCollection<BigDecimal> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
+        /**
+         * Constructs an ordered collection with the given BigDecimals. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The BigDecimals of the ordered collection.
+         */
+        public LinkedListCollection(final BigDecimal... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<BigDecimal>(numbers);
+        }
+
+        /**
+         * Constructs an ordered collection with the given BigDecimals and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The BigDecimals of the ordered collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final BigDecimal... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<BigDecimal>(elementCardinality, numbers);
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same BigDecimals and the provided
+         * element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<BigDecimal> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.BIG_DECIMALS));
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same BigDecimals and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final OrderedCollection<BigDecimal> source) {
             this(source.getElementCardinality(), source);
         }
     }

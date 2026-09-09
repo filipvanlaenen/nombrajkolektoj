@@ -93,6 +93,22 @@ public final class OrderedIntegerCollectionTest extends OrderedIntegerCollection
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new OrderedIntegerCollection.ArrayCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a int collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAIntegerCollection() {
+        assertTrue(new OrderedIntegerCollection.LinkedListCollection(1, 2, INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

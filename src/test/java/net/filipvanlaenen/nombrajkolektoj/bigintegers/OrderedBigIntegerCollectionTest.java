@@ -95,6 +95,22 @@ public final class OrderedBigIntegerCollectionTest extends OrderedBigIntegerColl
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new OrderedBigIntegerCollection.ArrayCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigInteger collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigIntegerCollection() {
+        assertTrue(new OrderedBigIntegerCollection.LinkedListCollection(BigInteger.ONE, BigInteger.TWO, BIG_INTEGER_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

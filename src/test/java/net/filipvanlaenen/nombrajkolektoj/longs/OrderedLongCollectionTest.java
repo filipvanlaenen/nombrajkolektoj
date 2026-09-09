@@ -93,6 +93,22 @@ public final class OrderedLongCollectionTest extends OrderedLongCollectionTestBa
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateALongCollection() {
+        assertTrue(new OrderedLongCollection.ArrayCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a long collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateALongCollection() {
+        assertTrue(new OrderedLongCollection.LinkedListCollection(1L, 2L, LONG_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

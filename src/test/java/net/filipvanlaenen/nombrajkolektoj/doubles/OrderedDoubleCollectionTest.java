@@ -93,6 +93,22 @@ public final class OrderedDoubleCollectionTest extends OrderedDoubleCollectionTe
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateADoubleCollection() {
+        assertTrue(new OrderedDoubleCollection.ArrayCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a double collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateADoubleCollection() {
+        assertTrue(new OrderedDoubleCollection.LinkedListCollection(1D, 2D, DOUBLE_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

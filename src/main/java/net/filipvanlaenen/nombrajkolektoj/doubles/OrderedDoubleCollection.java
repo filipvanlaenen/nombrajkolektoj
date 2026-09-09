@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -15,9 +16,10 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * matrix direct product.
  *
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
- * binding the type parameter to Double. It contains one nested class implementing this interface, backed by an
- * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
- * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
+ * binding the type parameter to Double. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and one backed by an
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedDoubleCollection extends OrderedNumericCollection<Double>, DoubleCollection {
     /**
@@ -74,6 +76,65 @@ public interface OrderedDoubleCollection extends OrderedNumericCollection<Double
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Double> source) {
+            this(source.getElementCardinality(), source);
+        }
+    }
+
+    /**
+     * An ordered numeric collection containing doubles and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.doubles.OrderedDoubleCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}.
+     */
+    final class LinkedListCollection extends OrderedDoubleCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedLinkedListCollection<Double> decoratedCollection;
+
+        @Override
+        OrderedCollection<Double> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
+        /**
+         * Constructs an ordered collection with the given doubles. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The doubles of the ordered collection.
+         */
+        public LinkedListCollection(final Double... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Double>(numbers);
+        }
+
+        /**
+         * Constructs an ordered collection with the given doubles and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The doubles of the ordered collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Double... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Double>(elementCardinality, numbers);
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same doubles and the provided
+         * element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Double> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.DOUBLES));
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same doubles and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final OrderedCollection<Double> source) {
             this(source.getElementCardinality(), source);
         }
     }

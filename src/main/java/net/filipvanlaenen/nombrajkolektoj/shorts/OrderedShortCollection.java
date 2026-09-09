@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -15,9 +16,10 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * matrix direct product.
  *
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
- * binding the type parameter to Short. It contains one nested class implementing this interface, backed by an
- * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
- * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
+ * binding the type parameter to Short. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and one backed by an
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedShortCollection extends OrderedNumericCollection<Short>, ShortCollection {
     /**
@@ -74,6 +76,65 @@ public interface OrderedShortCollection extends OrderedNumericCollection<Short>,
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Short> source) {
+            this(source.getElementCardinality(), source);
+        }
+    }
+
+    /**
+     * An ordered numeric collection containing shorts and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.shorts.OrderedShortCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}.
+     */
+    final class LinkedListCollection extends OrderedShortCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedLinkedListCollection<Short> decoratedCollection;
+
+        @Override
+        OrderedCollection<Short> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
+        /**
+         * Constructs an ordered collection with the given shorts. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The shorts of the ordered collection.
+         */
+        public LinkedListCollection(final Short... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Short>(numbers);
+        }
+
+        /**
+         * Constructs an ordered collection with the given shorts and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The shorts of the ordered collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Short... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Short>(elementCardinality, numbers);
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same shorts and the provided
+         * element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Short> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.SHORTS));
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same shorts and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final OrderedCollection<Short> source) {
             this(source.getElementCardinality(), source);
         }
     }

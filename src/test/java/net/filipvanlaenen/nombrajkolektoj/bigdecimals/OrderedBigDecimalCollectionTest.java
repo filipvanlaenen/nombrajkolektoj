@@ -95,6 +95,22 @@ public final class OrderedBigDecimalCollectionTest extends OrderedBigDecimalColl
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new OrderedBigDecimalCollection.ArrayCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a BigDecimal collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateABigDecimalCollection() {
+        assertTrue(new OrderedBigDecimalCollection.LinkedListCollection(BigDecimal.ONE, BigDecimal.valueOf(2L), BIG_DECIMAL_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

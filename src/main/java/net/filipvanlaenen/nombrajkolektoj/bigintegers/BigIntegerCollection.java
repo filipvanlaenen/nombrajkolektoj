@@ -10,10 +10,11 @@ import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
  * calculating the sum and the product of the numbers it contains, and finding their maximum and the minimum.
  *
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.NumericCollection} interface binding the
- * type parameter to BigInteger. It contains two nested classes implementing this interface, one backed by an
- * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection} and one backed by
- * {@link net.filipvanlaenen.kolektoj.hash.HashCollection}, and factory methods mirroring the factory methods of
- * {@link net.filipvanlaenen.kolektoj.Collection}.
+ * type parameter to BigInteger. It contains three nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.ArrayCollection}, one backed by
+ * {@link net.filipvanlaenen.kolektoj.hash.HashCollection} and one backed by
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.LinkedListCollection}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.Collection}.
  */
 public interface BigIntegerCollection extends NumericCollection<BigInteger> {
     /**

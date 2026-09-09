@@ -93,6 +93,22 @@ public final class OrderedFloatCollectionTest extends OrderedFloatCollectionTest
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAFloatCollection() {
+        assertTrue(new OrderedFloatCollection.ArrayCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a float collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAFloatCollection() {
+        assertTrue(new OrderedFloatCollection.LinkedListCollection(1F, 2F, FLOAT_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.kolektoj.array.OrderedArrayCollection;
+import net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection;
 import net.filipvanlaenen.nombrajkolektoj.NumericCollection;
 import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
 
@@ -15,9 +16,10 @@ import net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection;
  * matrix direct product.
  *
  * This interface extends the generic {@link net.filipvanlaenen.nombrajkolektoj.OrderedNumericCollection} interface
- * binding the type parameter to Integer. It contains one nested class implementing this interface, backed by an
- * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and factory methods mirroring the factory methods
- * of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
+ * binding the type parameter to Integer. It contains two nested classes implementing this interface, one backed by an
+ * {@link net.filipvanlaenen.kolektoj.array.OrderedArrayCollection}, and one backed by an
+ * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}, and factory methods mirroring the factory
+ * methods of {@link net.filipvanlaenen.kolektoj.OrderedCollection}.
  */
 public interface OrderedIntegerCollection extends OrderedNumericCollection<Integer>, IntegerCollection {
     /**
@@ -74,6 +76,65 @@ public interface OrderedIntegerCollection extends OrderedNumericCollection<Integ
          * @param source The ordered collection to create a new collection from.
          */
         public ArrayCollection(final OrderedCollection<Integer> source) {
+            this(source.getElementCardinality(), source);
+        }
+    }
+
+    /**
+     * An ordered numeric collection containing integers and backed by a linked list. It implements the
+     * {@link net.filipvanlaenen.nombrajkolektoj.integers.OrderedIntegerCollection} interface by decorating an
+     * {@link net.filipvanlaenen.kolektoj.linkedlist.OrderedLinkedListCollection}.
+     */
+    final class LinkedListCollection extends OrderedIntegerCollectionDecorator {
+        /**
+         * The internal decorated collection.
+         */
+        private OrderedLinkedListCollection<Integer> decoratedCollection;
+
+        @Override
+        OrderedCollection<Integer> getDecoratedCollection() {
+            return decoratedCollection;
+        }
+
+        /**
+         * Constructs an ordered collection with the given integers. The element cardinality is defaulted to
+         * <code>DUPLICATE_ELEMENTS</code>.
+         *
+         * @param numbers The integers of the ordered collection.
+         */
+        public LinkedListCollection(final Integer... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Integer>(numbers);
+        }
+
+        /**
+         * Constructs an ordered collection with the given integers and element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param numbers            The integers of the ordered collection.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality, final Integer... numbers) {
+            decoratedCollection = new OrderedLinkedListCollection<Integer>(elementCardinality, numbers);
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same integers and the provided
+         * element cardinality.
+         *
+         * @param elementCardinality The element cardinality.
+         * @param source             The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final ElementCardinality elementCardinality,
+                final OrderedCollection<Integer> source) {
+            this(elementCardinality, source.toArray(EmptyArrays.INTEGERS));
+        }
+
+        /**
+         * Constructs an ordered collection from another ordered collection, with the same integers and the same element
+         * cardinality.
+         *
+         * @param source The ordered collection to create a new collection from.
+         */
+        public LinkedListCollection(final OrderedCollection<Integer> source) {
             this(source.getElementCardinality(), source);
         }
     }

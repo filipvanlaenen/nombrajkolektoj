@@ -93,6 +93,22 @@ public final class OrderedByteCollectionTest extends OrderedByteCollectionTestBa
     }
 
     /**
+     * Verifies that the constructor of the ArrayCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfArrayCollectionShouldCreateAByteCollection() {
+        assertTrue(new OrderedByteCollection.ArrayCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
+     * Verifies that the constructor of the LinkedListCollection class creates a byte collection.
+     */
+    @Test
+    public void constructorOfLinkedListCollectionShouldCreateAByteCollection() {
+        assertTrue(new OrderedByteCollection.LinkedListCollection((byte) 1, (byte) 2, BYTE_THREE).containsAll(collection123));
+    }
+
+    /**
      * Verifies that the intersection of one collection is that collection.
      */
     @Test

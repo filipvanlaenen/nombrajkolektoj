@@ -74,6 +74,29 @@ public interface ByteMap<K> extends NumericMap<K, Byte> {
     }
 
     /**
+     * Returns a new bytes map containing all the entries present in the first bytes map, but not in any of the
+     * other provided bytes maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The bytes maps from which to calculate the difference.
+     * @return A new bytes map containing all the entries present in the first bytes map, but not in any of the
+     *         other provided bytes maps.
+     */
+    static <L> ByteMap<L> differenceOf(final NumericMap<? extends L, Byte>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableByteMap<L> result = ModifiableByteMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return of(result);
+    }
+
+    /**
      * Returns a new empty bytes map.
      *
      * @param <K> The key type.
@@ -81,6 +104,27 @@ public interface ByteMap<K> extends NumericMap<K, Byte> {
      */
     static <K> ByteMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new bytes map containing all the entries present in each of the provided bytes maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The bytes maps from which to calculate the intersection.
+     * @return A new bytes map containing all the entries present in each of the provided bytes maps.
+     */
+    static <L> ByteMap<L> intersectionOf(final NumericMap<? extends L, Byte>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableByteMap<L> result = ModifiableByteMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return of(result);
     }
 
     /**
@@ -221,6 +265,9 @@ public interface ByteMap<K> extends NumericMap<K, Byte> {
      * Returns a new bytes map with the specified key and value cardinality containing all the entries from the
      * provided bytes maps.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
+     *
      * @param <L>                    The key type.
      * @param keyAndValueCardinality The key and value cardinality.
      * @param maps                   The bytes maps from which to copy all the entries.
@@ -233,11 +280,14 @@ public interface ByteMap<K> extends NumericMap<K, Byte> {
         for (NumericMap<? extends L, Byte> map : maps) {
             result.addAll(map);
         }
-        return new HashMap<L>(result);
+        return of(result);
     }
 
     /**
      * Returns a new bytes map containing all the entries from the provided bytes maps.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
      *
      * @param <L>  The key type.
      * @param maps The bytes maps from which to copy all the entries.

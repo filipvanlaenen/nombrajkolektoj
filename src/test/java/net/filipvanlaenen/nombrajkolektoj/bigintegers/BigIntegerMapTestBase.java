@@ -46,7 +46,7 @@ public abstract class BigIntegerMapTestBase<T extends NumericMap<String, BigInte
     /**
      * An entry for zero.
      */
-    private static final Entry<String, BigInteger> ENTRY0 = new Entry<String, BigInteger>("zero", BigInteger.ZERO);
+    protected static final Entry<String, BigInteger> ENTRY0 = new Entry<String, BigInteger>("zero", BigInteger.ZERO);
     /**
      * An entry for one.
      */

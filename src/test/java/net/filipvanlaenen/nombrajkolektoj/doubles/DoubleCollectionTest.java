@@ -110,10 +110,10 @@ public final class DoubleCollectionTest extends DoubleCollectionTestBase<DoubleC
     }
 
     /**
-     * Verifies that the intersection of one collections is the collection itself.
+     * Verifies that the intersection of one collection is the collection itself.
      */
     @Test
-    public void intersectionOfOneCollectionsShouldBeItself() {
+    public void intersectionOfOneCollectionShouldBeItself() {
         assertTrue(collection123.containsSame(DoubleCollection.intersectionOf(collection123)));
     }
 

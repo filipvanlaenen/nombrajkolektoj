@@ -12,6 +12,15 @@ import net.filipvanlaenen.kolektoj.Map.KeyAndValueCardinality;
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.bytes.ByteMap} class.
  */
 public final class ByteMapTest extends ByteMapTestBase<ByteMap<String>> {
+    /**
+     * Map with the bytes 1 and 2.
+     */
+    private final ByteMap<String> map12 = ByteMap.of(ENTRY1, ENTRY2);
+    /**
+     * Map with the bytes 1, 2 and 3.
+     */
+    private final ByteMap<String> map123 = ByteMap.of(ENTRY1, ENTRY2, ENTRY3);
+
     @Override
     protected ByteMap<String> createEmptyByteMap() {
         return ByteMap.empty();
@@ -70,11 +79,59 @@ public final class ByteMapTest extends ByteMapTestBase<ByteMap<String>> {
     }
 
     /**
+     * Verifies that the difference of no maps is empty.
+     */
+    @Test
+    public void differenceOfNoMapsShouldBeEmpty() {
+        assertTrue(ByteMap.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one map is that map.
+     */
+    @Test
+    public void differenceOfOneMapShouldBeTheSameMap() {
+        assertTrue(map123.containsSame(ByteMap.differenceOf(map123)));
+    }
+
+    /**
+     * Verifies that the difference of three maps only contains the entries of the first map that aren't present in any
+     * of the other.
+     */
+    @Test
+    public void differenceOfThreeMapsShouldOnlyContainTheEntriesFromTheFirstMapNotInTheOthers() {
+        assertTrue(ByteMap.of(ENTRY3).containsSame(ByteMap.differenceOf(map123, ByteMap.of(ENTRY1), map12)));
+    }
+
+    /**
+     * Verifies that the intersection of no maps is an empty map.
+     */
+    @Test
+    public void intersectionOfNoMapsShouldBeEmpty() {
+        assertTrue(ByteMap.intersectionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one map is the map itself.
+     */
+    @Test
+    public void intersectionOfOneMapShouldBeItself() {
+        assertTrue(map123.containsSame(ByteMap.intersectionOf(map123)));
+    }
+
+    /**
+     * Verifies that the intersection of two maps is a maps with the common entries.
+     */
+    @Test
+    public void intersectionOfTwoMapsShouldContainCommonEntries() {
+        assertTrue(map12.containsSame(ByteMap.intersectionOf(ByteMap.of(ENTRY0, ENTRY1, ENTRY2), map123)));
+    }
+
+    /**
      * Verifies that the <code>unionOf</code> method returns the union of two maps.
      */
     @Test
     public void unionOfShouldReturnUnionOfTwoMaps() {
-        ByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
         ByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
         ByteMap<String> actual = ByteMap.unionOf(map12, map23);
         assertTrue(actual.containsSame(createByteMap(ENTRY1, ENTRY2, ENTRY3)));
@@ -85,7 +142,6 @@ public final class ByteMapTest extends ByteMapTestBase<ByteMap<String>> {
      */
     @Test
     public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        ByteMap<String> map12 = createByteMap(ENTRY1, ENTRY2);
         ByteMap<String> map23 = createByteMap(ENTRY2, ENTRY3);
         ByteMap<String> actual = ByteMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);
         ByteMap<String> expected =

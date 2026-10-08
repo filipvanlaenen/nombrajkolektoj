@@ -46,7 +46,7 @@ public abstract class BigDecimalMapTestBase<T extends NumericMap<String, BigDeci
     /**
      * An entry for zero.
      */
-    private static final Entry<String, BigDecimal> ENTRY0 = new Entry<String, BigDecimal>("zero", BigDecimal.ZERO);
+    protected static final Entry<String, BigDecimal> ENTRY0 = new Entry<String, BigDecimal>("zero", BigDecimal.ZERO);
     /**
      * An entry for one.
      */

@@ -44,7 +44,7 @@ public abstract class DoubleMapTestBase<T extends NumericMap<String, Double>> {
     /**
      * An entry for zero.
      */
-    private static final Entry<String, Double> ENTRY0 = new Entry<String, Double>("zero", 0D);
+    protected static final Entry<String, Double> ENTRY0 = new Entry<String, Double>("zero", 0D);
     /**
      * An entry for one.
      */

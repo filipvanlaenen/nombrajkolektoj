@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -21,6 +22,10 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
      * Collection with the BigDecimals 0, 1 and 2.
      */
     private final BigDecimalCollection collection012 = BigDecimalCollection.of(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.valueOf(2L));
+    /**
+     * Collection with the BigDecimals 1 and 2.
+     */
+    private final BigDecimalCollection collection12 = BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
@@ -73,6 +78,32 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
     }
 
     /**
+     * Verifies that the difference of no collections is empty.
+     */
+    @Test
+    public void differenceOfNoCollectionsShouldBeEmpty() {
+        assertTrue(BigDecimalCollection.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(BigDecimalCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BIG_DECIMAL_THREE)
+                .containsSame(BigDecimalCollection.differenceOf(collection123, BigDecimalCollection.of(BigDecimal.ONE), collection12)));
+    }
+
+    /**
      * Verifies that the intersection of no collections is an empty collection.
      */
     @Test
@@ -93,8 +124,7 @@ public final class BigDecimalCollectionTest extends BigDecimalCollectionTestBase
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L))
-                .containsSame(BigDecimalCollection.intersectionOf(collection012, collection123)));
+        assertTrue(collection12.containsSame(BigDecimalCollection.intersectionOf(collection012, collection123)));
     }
 
     /**

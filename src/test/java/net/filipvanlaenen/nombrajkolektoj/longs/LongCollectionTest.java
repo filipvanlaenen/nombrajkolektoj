@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -19,6 +20,10 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
      * Collection with the longs 0, 1 and 2.
      */
     private final LongCollection collection012 = LongCollection.of(0L, 1L, 2L);
+    /**
+     * Collection with the longs 1 and 2.
+     */
+    private final LongCollection collection12 = LongCollection.of(1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
@@ -71,6 +76,32 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
     }
 
     /**
+     * Verifies that the difference of no collections is empty.
+     */
+    @Test
+    public void differenceOfNoCollectionsShouldBeEmpty() {
+        assertTrue(LongCollection.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(LongCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(LONG_THREE)
+                .containsSame(LongCollection.differenceOf(collection123, LongCollection.of(1L), collection12)));
+    }
+
+    /**
      * Verifies that the intersection of no collections is an empty collection.
      */
     @Test
@@ -91,8 +122,7 @@ public final class LongCollectionTest extends LongCollectionTestBase<LongCollect
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(LongCollection.of(1L, 2L)
-                .containsSame(LongCollection.intersectionOf(collection012, collection123)));
+        assertTrue(collection12.containsSame(LongCollection.intersectionOf(collection012, collection123)));
     }
 
     /**

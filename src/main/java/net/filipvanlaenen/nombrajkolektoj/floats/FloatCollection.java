@@ -190,6 +190,28 @@ public interface FloatCollection extends NumericCollection<Float> {
     }
 
     /**
+     * Returns a new floats collection containing all the elements present in the first floats collection, but not in
+     * any of the other provided floats collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param collections The floats collections for which to calculate the difference.
+     * @return A new floats collection containing all the elements present in the first floats collection, but not in
+     *         any of the other provided floats collections.
+     */
+    static FloatCollection differenceOf(final NumericCollection<Float>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableFloatCollection result = ModifiableFloatCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return of(result);
+    }
+
+    /**
      * Returns a new empty floats collection.
      *
      * @return A new empty floats collection.
@@ -200,6 +222,9 @@ public interface FloatCollection extends NumericCollection<Float> {
 
     /**
      * Returns a new floats collection containing all the elements present in each of the provided floats collections.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
      *
      * @param collections The floats collections from which to calculate the intersection.
      * @return A new floats collection containing all the elements present in each of the provided floats collections.
@@ -212,7 +237,7 @@ public interface FloatCollection extends NumericCollection<Float> {
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
-        return new ArrayCollection(result);
+        return of(result);
     }
 
     /**
@@ -261,18 +286,11 @@ public interface FloatCollection extends NumericCollection<Float> {
     }
 
     /**
-     * Returns a new floats collection containing all the elements from the provided floats collections.
-     *
-     * @param collections The floats collections from which to copy all the elements.
-     * @return A new floats collection containing all the elements from the provided floats collections.
-     */
-    static FloatCollection unionOf(final NumericCollection<Float>... collections) {
-        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
      * Returns a new floats collection with the specified element cardinality containing all the elements from the
      * provided floats collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
      *
      * @param elementCardinality The element cardinality.
      * @param collections        The floats collections from which to copy all the elements.
@@ -285,6 +303,19 @@ public interface FloatCollection extends NumericCollection<Float> {
         for (NumericCollection<Float> collection : collections) {
             result.addAll(collection);
         }
-        return new ArrayCollection(result);
+        return of(result);
+    }
+
+    /**
+     * Returns a new floats collection containing all the elements from the provided floats collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
+     *
+     * @param collections The floats collections from which to copy all the elements.
+     * @return A new floats collection containing all the elements from the provided floats collections.
+     */
+    static FloatCollection unionOf(final NumericCollection<Float>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

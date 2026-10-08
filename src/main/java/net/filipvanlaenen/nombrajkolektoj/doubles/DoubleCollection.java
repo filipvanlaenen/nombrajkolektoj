@@ -190,6 +190,28 @@ public interface DoubleCollection extends NumericCollection<Double> {
     }
 
     /**
+     * Returns a new doubles collection containing all the elements present in the first doubles collection, but not in
+     * any of the other provided doubles collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param collections The doubles collections for which to calculate the difference.
+     * @return A new doubles collection containing all the elements present in the first doubles collection, but not in
+     *         any of the other provided doubles collections.
+     */
+    static DoubleCollection differenceOf(final NumericCollection<Double>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return of(result);
+    }
+
+    /**
      * Returns a new empty doubles collection.
      *
      * @return A new empty doubles collection.
@@ -200,6 +222,9 @@ public interface DoubleCollection extends NumericCollection<Double> {
 
     /**
      * Returns a new doubles collection containing all the elements present in each of the provided doubles collections.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
      *
      * @param collections The doubles collections from which to calculate the intersection.
      * @return A new doubles collection containing all the elements present in each of the provided doubles collections.
@@ -212,7 +237,7 @@ public interface DoubleCollection extends NumericCollection<Double> {
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
-        return new ArrayCollection(result);
+        return of(result);
     }
 
     /**
@@ -261,18 +286,11 @@ public interface DoubleCollection extends NumericCollection<Double> {
     }
 
     /**
-     * Returns a new doubles collection containing all the elements from the provided doubles collections.
-     *
-     * @param collections The doubles collections from which to copy all the elements.
-     * @return A new doubles collection containing all the elements from the provided doubles collections.
-     */
-    static DoubleCollection unionOf(final NumericCollection<Double>... collections) {
-        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
-    }
-
-    /**
      * Returns a new doubles collection with the specified element cardinality containing all the elements from the
      * provided doubles collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
      *
      * @param elementCardinality The element cardinality.
      * @param collections        The doubles collections from which to copy all the elements.
@@ -285,6 +303,19 @@ public interface DoubleCollection extends NumericCollection<Double> {
         for (NumericCollection<Double> collection : collections) {
             result.addAll(collection);
         }
-        return new ArrayCollection(result);
+        return of(result);
+    }
+
+    /**
+     * Returns a new doubles collection containing all the elements from the provided doubles collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
+     *
+     * @param collections The doubles collections from which to copy all the elements.
+     * @return A new doubles collection containing all the elements from the provided doubles collections.
+     */
+    static DoubleCollection unionOf(final NumericCollection<Double>... collections) {
+        return unionOf(ElementCardinality.DUPLICATE_ELEMENTS, collections);
     }
 }

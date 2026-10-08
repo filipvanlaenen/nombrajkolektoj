@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -19,6 +20,10 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
      * Collection with the shorts 0, 1 and 2.
      */
     private final ShortCollection collection012 = ShortCollection.of((short) 0, (short) 1, (short) 2);
+    /**
+     * Collection with the shorts 1 and 2.
+     */
+    private final ShortCollection collection12 = ShortCollection.of((short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
@@ -71,6 +76,32 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
     }
 
     /**
+     * Verifies that the difference of no collections is empty.
+     */
+    @Test
+    public void differenceOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ShortCollection.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ShortCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(SHORT_THREE)
+                .containsSame(ShortCollection.differenceOf(collection123, ShortCollection.of((short) 1), collection12)));
+    }
+
+    /**
      * Verifies that the intersection of no collections is an empty collection.
      */
     @Test
@@ -91,8 +122,7 @@ public final class ShortCollectionTest extends ShortCollectionTestBase<ShortColl
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(ShortCollection.of((short) 1, (short) 2)
-                .containsSame(ShortCollection.intersectionOf(collection012, collection123)));
+        assertTrue(collection12.containsSame(ShortCollection.intersectionOf(collection012, collection123)));
     }
 
     /**

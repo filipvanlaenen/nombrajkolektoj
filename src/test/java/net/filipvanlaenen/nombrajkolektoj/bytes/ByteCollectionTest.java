@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -19,6 +20,10 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
      * Collection with the bytes 0, 1 and 2.
      */
     private final ByteCollection collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
+    /**
+     * Collection with the bytes 1 and 2.
+     */
+    private final ByteCollection collection12 = ByteCollection.of((byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
@@ -71,6 +76,32 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
     }
 
     /**
+     * Verifies that the difference of no collections is empty.
+     */
+    @Test
+    public void differenceOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ByteCollection.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ByteCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BYTE_THREE)
+                .containsSame(ByteCollection.differenceOf(collection123, ByteCollection.of((byte) 1), collection12)));
+    }
+
+    /**
      * Verifies that the intersection of no collections is an empty collection.
      */
     @Test
@@ -91,8 +122,7 @@ public final class ByteCollectionTest extends ByteCollectionTestBase<ByteCollect
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(ByteCollection.of((byte) 1, (byte) 2)
-                .containsSame(ByteCollection.intersectionOf(collection012, collection123)));
+        assertTrue(collection12.containsSame(ByteCollection.intersectionOf(collection012, collection123)));
     }
 
     /**

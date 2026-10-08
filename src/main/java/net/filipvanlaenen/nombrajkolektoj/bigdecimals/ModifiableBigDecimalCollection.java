@@ -192,6 +192,28 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
     }
 
     /**
+     * Returns a new modifiable BigDecimals collection containing all the elements present in the first BigDecimals collection,
+     * but not in any of the other provided BigDecimals collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param collections The BigDecimals collections for which to calculate the difference.
+     * @return A new modifiable BigDecimals collection containing all the elements present in the first BigDecimals collection,
+     *         but not in any of the other provided BigDecimals collections.
+     */
+    static ModifiableBigDecimalCollection differenceOf(final NumericCollection<BigDecimal>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable BigDecimals collection.
      *
      * @return A new empty modifiable BigDecimals collection.
@@ -203,6 +225,9 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
     /**
      * Returns a new modifiable BigDecimals collection containing all the elements present in each of the provided BigDecimals
      * collections.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
      *
      * @param collections The BigDecimals collections from which to calculate the intersection.
      * @return A new modifiable BigDecimals collection containing all the elements present in each of the provided BigDecimals
@@ -266,6 +291,9 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
      * Returns a new modifiable BigDecimals collection with the specified element cardinality containing all the elements
      * from the provided BigDecimals collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The BigDecimals collections from which to copy all the elements.
      * @return A new modifiable BigDecimals collection with the specified element cardinality containing all the elements
@@ -282,6 +310,9 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
 
     /**
      * Returns a new modifiable BigDecimals collection containing all the elements from the provided BigDecimals collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
      *
      * @param collections The BigDecimals collections from which to copy all the elements.
      * @return A new modifiable BigDecimals collection containing all the elements from the provided BigDecimals collections.

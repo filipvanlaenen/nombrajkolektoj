@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
 
 /**
@@ -20,6 +21,10 @@ public final class ModifiableByteCollectionTest
      * Collection with the bytes 0, 1 and 2.
      */
     private final ByteCollection collection012 = ByteCollection.of((byte) 0, (byte) 1, (byte) 2);
+    /**
+     * Collection with the bytes 1 and 2.
+     */
+    private final ByteCollection collection12 = ByteCollection.of((byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
@@ -73,6 +78,32 @@ public final class ModifiableByteCollectionTest
     }
 
     /**
+     * Verifies that the difference of no collections is empty.
+     */
+    @Test
+    public void differenceOfNoCollectionsShouldBeEmpty() {
+        assertTrue(ModifiableByteCollection.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableByteCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BYTE_THREE).containsSame(
+                ModifiableByteCollection.differenceOf(collection123, ByteCollection.of((byte) 1), collection12)));
+    }
+
+    /**
      * Verifies that the intersection of no collections is an empty collection.
      */
     @Test
@@ -93,8 +124,7 @@ public final class ModifiableByteCollectionTest
      */
     @Test
     public void intersectionOfTwoCollectionsShouldContainCommonElements() {
-        assertTrue(ModifiableByteCollection.of((byte) 1, (byte) 2)
-                .containsSame(ModifiableByteCollection.intersectionOf(collection012, collection123)));
+        assertTrue(collection12.containsSame(ModifiableByteCollection.intersectionOf(collection012, collection123)));
     }
 
     /**

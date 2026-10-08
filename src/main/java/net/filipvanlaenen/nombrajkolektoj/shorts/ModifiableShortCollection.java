@@ -190,6 +190,28 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
     }
 
     /**
+     * Returns a new modifiable shorts collection containing all the elements present in the first shorts collection,
+     * but not in any of the other provided shorts collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param collections The shorts collections for which to calculate the difference.
+     * @return A new modifiable shorts collection containing all the elements present in the first shorts collection,
+     *         but not in any of the other provided shorts collections.
+     */
+    static ModifiableShortCollection differenceOf(final NumericCollection<Short>... collections) {
+        if (collections.length == 0) {
+            return empty();
+        }
+        ModifiableShortCollection result = ModifiableShortCollection.of(collections[0]);
+        for (int i = 1; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable shorts collection.
      *
      * @return A new empty modifiable shorts collection.
@@ -201,6 +223,9 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
     /**
      * Returns a new modifiable shorts collection containing all the elements present in each of the provided shorts
      * collections.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
      *
      * @param collections The shorts collections from which to calculate the intersection.
      * @return A new modifiable shorts collection containing all the elements present in each of the provided shorts
@@ -264,6 +289,9 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
      * Returns a new modifiable shorts collection with the specified element cardinality containing all the elements
      * from the provided shorts collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The shorts collections from which to copy all the elements.
      * @return A new modifiable shorts collection with the specified element cardinality containing all the elements
@@ -280,6 +308,9 @@ public interface ModifiableShortCollection extends ModifiableNumericCollection<S
 
     /**
      * Returns a new modifiable shorts collection containing all the elements from the provided shorts collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪, with {1, 2, 3} ∪ {2, 3, 4}
+     * = {1, 2, 3, 4}. For multisets, allowing duplicate elements, {1, 2, 3} ∪ {2, 3, 4} = {1, 2, 2, 3, 3, 4}.
      *
      * @param collections The shorts collections from which to copy all the elements.
      * @return A new modifiable shorts collection containing all the elements from the provided shorts collections.

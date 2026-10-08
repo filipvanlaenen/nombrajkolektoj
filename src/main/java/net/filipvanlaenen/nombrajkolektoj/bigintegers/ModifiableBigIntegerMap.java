@@ -81,6 +81,29 @@ public interface ModifiableBigIntegerMap<K> extends ModifiableNumericMap<K, BigI
     }
 
     /**
+     * Returns a new modifiable BigIntegers map containing all the entries present in the first BigIntegers map, but not in any
+     * of the other provided BigIntegers maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The BigIntegers maps from which to calculate the difference.
+     * @return A new modifiable BigIntegers map containing all the entries present in the first BigIntegers map, but not in any
+     *         of the other provided BigIntegers maps.
+     */
+    static <L> ModifiableBigIntegerMap<L> differenceOf(final NumericMap<? extends L, BigInteger>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableBigIntegerMap<L> result = ModifiableBigIntegerMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty BigIntegers map.
      *
      * @param <K> The key type.
@@ -88,6 +111,27 @@ public interface ModifiableBigIntegerMap<K> extends ModifiableNumericMap<K, BigI
      */
     static <K> ModifiableBigIntegerMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new modifiable BigIntegers map containing all the entries present in each of the provided BigIntegers maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The BigIntegers maps from which to calculate the intersection.
+     * @return A new modifiable BigIntegers map containing all the entries present in each of the provided BigIntegers maps.
+     */
+    static <L> ModifiableBigIntegerMap<L> intersectionOf(final NumericMap<? extends L, BigInteger>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableBigIntegerMap<L> result = ModifiableBigIntegerMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return result;
     }
 
     /**

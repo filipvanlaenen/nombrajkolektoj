@@ -39,6 +39,14 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      * An entry for four.
      */
     private static final Entry<String, Integer> ENTRY4 = new Entry<String, Integer>("four", INTEGER_FOUR);
+    /**
+     * Map with the integers 1 and 2.
+     */
+    private final ModifiableIntegerMap<String> map12 = ModifiableIntegerMap.of(ENTRY1, ENTRY2);
+    /**
+     * Map with the integers 1, 2 and 3.
+     */
+    private final ModifiableIntegerMap<String> map123 = ModifiableIntegerMap.of(ENTRY1, ENTRY2, ENTRY3);
 
     @Override
     protected ModifiableIntegerMap<String> createEmptyIntegerMap() {
@@ -130,10 +138,10 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.add("four", INTEGER_FOUR));
-        assertEquals(INTEGER_FOUR, map123.get("four"));
-        assertFalse(map123.add("four", INTEGER_FOUR));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.add("four", INTEGER_FOUR));
+        assertEquals(INTEGER_FOUR, map.get("four"));
+        assertFalse(map.add("four", INTEGER_FOUR));
     }
 
     /**
@@ -141,9 +149,9 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableIntegerMap(ENTRY4)));
-        assertFalse(map123.addAll(createUpdatableIntegerMap(ENTRY4)));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.addAll(createUpdatableIntegerMap(ENTRY4)));
+        assertFalse(map.addAll(createUpdatableIntegerMap(ENTRY4)));
     }
 
     /**
@@ -151,9 +159,60 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        map123.clear();
-        assertTrue(map123.isEmpty());
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        map.clear();
+        assertTrue(map.isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of no maps is empty.
+     */
+    @Test
+    public void differenceOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableIntegerMap.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one map is that map.
+     */
+    @Test
+    public void differenceOfOneMapShouldBeTheSameMap() {
+        assertTrue(map123.containsSame(ModifiableIntegerMap.differenceOf(map123)));
+    }
+
+    /**
+     * Verifies that the difference of three maps only contains the entries of the first map that aren't present in any
+     * of the other.
+     */
+    @Test
+    public void differenceOfThreeMapsShouldOnlyContainTheEntriesFromTheFirstMapNotInTheOthers() {
+        assertTrue(IntegerMap.of(ENTRY3)
+                .containsSame(ModifiableIntegerMap.differenceOf(map123, IntegerMap.of(ENTRY1), map12)));
+    }
+
+    /**
+     * Verifies that the intersection of no maps is an empty map.
+     */
+    @Test
+    public void intersectionOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableIntegerMap.intersectionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one map is the map itself.
+     */
+    @Test
+    public void intersectionOfOneMapShouldBeItself() {
+        assertTrue(map123.containsSame(ModifiableIntegerMap.intersectionOf(map123)));
+    }
+
+    /**
+     * Verifies that the intersection of two maps is a maps with the common entries.
+     */
+    @Test
+    public void intersectionOfTwoMapsShouldContainCommonEntries() {
+        assertTrue(
+                map12.containsSame(ModifiableIntegerMap.intersectionOf(IntegerMap.of(ENTRY0, ENTRY1, ENTRY2), map123)));
     }
 
     /**
@@ -161,8 +220,8 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertEquals(1, map123.remove("one"));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(1, map.remove("one"));
     }
 
     /**
@@ -170,9 +229,9 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertFalse(map123.remove("one", 2));
-        assertTrue(map123.remove("one", 1));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map.remove("one", 2));
+        assertTrue(map.remove("one", 1));
     }
 
     /**
@@ -180,9 +239,9 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeAll(createIntegerMap(ENTRY3)));
-        assertFalse(map123.removeAll(createIntegerMap(ENTRY3)));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeAll(createIntegerMap(ENTRY3)));
+        assertFalse(map.removeAll(createIntegerMap(ENTRY3)));
     }
 
     /**
@@ -190,9 +249,9 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeIf(x -> x.key().equals("one")));
-        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeIf(x -> x.key().equals("one")));
+        assertFalse(map.removeIf(x -> x.key().equals("one")));
     }
 
     /**
@@ -200,9 +259,9 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableIntegerMap<String> map123 = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
-        assertFalse(map123.retainAll(createUpdatableIntegerMap(ENTRY3)));
+        ModifiableIntegerMap<String> map = createUpdatableIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.retainAll(createUpdatableIntegerMap(ENTRY3)));
+        assertFalse(map.retainAll(createUpdatableIntegerMap(ENTRY3)));
     }
 
     /**
@@ -210,7 +269,6 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void unionOfShouldReturnUnionOfTwoMaps() {
-        ModifiableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
         ModifiableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
         ModifiableIntegerMap<String> actual = ModifiableIntegerMap.unionOf(map12, map23);
         assertTrue(actual.containsSame(createIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
@@ -221,7 +279,6 @@ public final class ModifiableIntegerMapTest extends UpdatableIntegerMapTestBase<
      */
     @Test
     public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        ModifiableIntegerMap<String> map12 = createIntegerMap(ENTRY1, ENTRY2);
         ModifiableIntegerMap<String> map23 = createIntegerMap(ENTRY2, ENTRY3);
         ModifiableIntegerMap<String> actual =
                 ModifiableIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);

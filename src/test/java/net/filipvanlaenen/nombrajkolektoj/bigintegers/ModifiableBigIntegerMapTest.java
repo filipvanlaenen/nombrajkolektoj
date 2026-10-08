@@ -41,6 +41,14 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      * An entry for four.
      */
     private static final Entry<String, BigInteger> ENTRY4 = new Entry<String, BigInteger>("four", BIG_INTEGER_FOUR);
+    /**
+     * Map with the BigIntegers 1 and 2.
+     */
+    private final ModifiableBigIntegerMap<String> map12 = ModifiableBigIntegerMap.of(ENTRY1, ENTRY2);
+    /**
+     * Map with the BigIntegers 1, 2 and 3.
+     */
+    private final ModifiableBigIntegerMap<String> map123 = ModifiableBigIntegerMap.of(ENTRY1, ENTRY2, ENTRY3);
 
     @Override
     protected ModifiableBigIntegerMap<String> createEmptyBigIntegerMap() {
@@ -132,10 +140,10 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.add("four", BIG_INTEGER_FOUR));
-        assertEquals(BIG_INTEGER_FOUR, map123.get("four"));
-        assertFalse(map123.add("four", BIG_INTEGER_FOUR));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.add("four", BIG_INTEGER_FOUR));
+        assertEquals(BIG_INTEGER_FOUR, map.get("four"));
+        assertFalse(map.add("four", BIG_INTEGER_FOUR));
     }
 
     /**
@@ -143,9 +151,9 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableBigIntegerMap(ENTRY4)));
-        assertFalse(map123.addAll(createUpdatableBigIntegerMap(ENTRY4)));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.addAll(createUpdatableBigIntegerMap(ENTRY4)));
+        assertFalse(map.addAll(createUpdatableBigIntegerMap(ENTRY4)));
     }
 
     /**
@@ -153,9 +161,60 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        map123.clear();
-        assertTrue(map123.isEmpty());
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        map.clear();
+        assertTrue(map.isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of no maps is empty.
+     */
+    @Test
+    public void differenceOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableBigIntegerMap.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one map is that map.
+     */
+    @Test
+    public void differenceOfOneMapShouldBeTheSameMap() {
+        assertTrue(map123.containsSame(ModifiableBigIntegerMap.differenceOf(map123)));
+    }
+
+    /**
+     * Verifies that the difference of three maps only contains the entries of the first map that aren't present in any
+     * of the other.
+     */
+    @Test
+    public void differenceOfThreeMapsShouldOnlyContainTheEntriesFromTheFirstMapNotInTheOthers() {
+        assertTrue(BigIntegerMap.of(ENTRY3)
+                .containsSame(ModifiableBigIntegerMap.differenceOf(map123, BigIntegerMap.of(ENTRY1), map12)));
+    }
+
+    /**
+     * Verifies that the intersection of no maps is an empty map.
+     */
+    @Test
+    public void intersectionOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableBigIntegerMap.intersectionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one map is the map itself.
+     */
+    @Test
+    public void intersectionOfOneMapShouldBeItself() {
+        assertTrue(map123.containsSame(ModifiableBigIntegerMap.intersectionOf(map123)));
+    }
+
+    /**
+     * Verifies that the intersection of two maps is a maps with the common entries.
+     */
+    @Test
+    public void intersectionOfTwoMapsShouldContainCommonEntries() {
+        assertTrue(
+                map12.containsSame(ModifiableBigIntegerMap.intersectionOf(BigIntegerMap.of(ENTRY0, ENTRY1, ENTRY2), map123)));
     }
 
     /**
@@ -163,8 +222,8 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertEquals(BigInteger.ONE, map123.remove("one"));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(BigInteger.ONE, map.remove("one"));
     }
 
     /**
@@ -172,9 +231,9 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertFalse(map123.remove("one", BigInteger.TWO));
-        assertTrue(map123.remove("one", BigInteger.ONE));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map.remove("one", BigInteger.TWO));
+        assertTrue(map.remove("one", BigInteger.ONE));
     }
 
     /**
@@ -182,9 +241,9 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeAll(createBigIntegerMap(ENTRY3)));
-        assertFalse(map123.removeAll(createBigIntegerMap(ENTRY3)));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeAll(createBigIntegerMap(ENTRY3)));
+        assertFalse(map.removeAll(createBigIntegerMap(ENTRY3)));
     }
 
     /**
@@ -192,9 +251,9 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeIf(x -> x.key().equals("one")));
-        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeIf(x -> x.key().equals("one")));
+        assertFalse(map.removeIf(x -> x.key().equals("one")));
     }
 
     /**
@@ -202,9 +261,9 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableBigIntegerMap<String> map123 = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
-        assertFalse(map123.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
+        ModifiableBigIntegerMap<String> map = createUpdatableBigIntegerMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
+        assertFalse(map.retainAll(createUpdatableBigIntegerMap(ENTRY3)));
     }
 
     /**
@@ -212,7 +271,6 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void unionOfShouldReturnUnionOfTwoMaps() {
-        ModifiableBigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
         ModifiableBigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
         ModifiableBigIntegerMap<String> actual = ModifiableBigIntegerMap.unionOf(map12, map23);
         assertTrue(actual.containsSame(createBigIntegerMap(ENTRY1, ENTRY2, ENTRY3)));
@@ -223,7 +281,6 @@ public final class ModifiableBigIntegerMapTest extends UpdatableBigIntegerMapTes
      */
     @Test
     public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        ModifiableBigIntegerMap<String> map12 = createBigIntegerMap(ENTRY1, ENTRY2);
         ModifiableBigIntegerMap<String> map23 = createBigIntegerMap(ENTRY2, ENTRY3);
         ModifiableBigIntegerMap<String> actual =
                 ModifiableBigIntegerMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);

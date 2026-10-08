@@ -81,6 +81,29 @@ public interface ModifiableBigDecimalMap<K> extends ModifiableNumericMap<K, BigD
     }
 
     /**
+     * Returns a new modifiable BigDecimals map containing all the entries present in the first BigDecimals map, but not in any
+     * of the other provided BigDecimals maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The BigDecimals maps from which to calculate the difference.
+     * @return A new modifiable BigDecimals map containing all the entries present in the first BigDecimals map, but not in any
+     *         of the other provided BigDecimals maps.
+     */
+    static <L> ModifiableBigDecimalMap<L> differenceOf(final NumericMap<? extends L, BigDecimal>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableBigDecimalMap<L> result = ModifiableBigDecimalMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty BigDecimals map.
      *
      * @param <K> The key type.
@@ -88,6 +111,27 @@ public interface ModifiableBigDecimalMap<K> extends ModifiableNumericMap<K, BigD
      */
     static <K> ModifiableBigDecimalMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new modifiable BigDecimals map containing all the entries present in each of the provided BigDecimals maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The BigDecimals maps from which to calculate the intersection.
+     * @return A new modifiable BigDecimals map containing all the entries present in each of the provided BigDecimals maps.
+     */
+    static <L> ModifiableBigDecimalMap<L> intersectionOf(final NumericMap<? extends L, BigDecimal>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableBigDecimalMap<L> result = ModifiableBigDecimalMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return result;
     }
 
     /**

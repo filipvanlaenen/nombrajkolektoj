@@ -39,6 +39,14 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      * An entry for four.
      */
     private static final Entry<String, Double> ENTRY4 = new Entry<String, Double>("four", DOUBLE_FOUR);
+    /**
+     * Map with the doubles 1 and 2.
+     */
+    private final ModifiableDoubleMap<String> map12 = ModifiableDoubleMap.of(ENTRY1, ENTRY2);
+    /**
+     * Map with the doubles 1, 2 and 3.
+     */
+    private final ModifiableDoubleMap<String> map123 = ModifiableDoubleMap.of(ENTRY1, ENTRY2, ENTRY3);
 
     @Override
     protected ModifiableDoubleMap<String> createEmptyDoubleMap() {
@@ -130,10 +138,10 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void addShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.add("four", DOUBLE_FOUR));
-        assertEquals(DOUBLE_FOUR, map123.get("four"));
-        assertFalse(map123.add("four", DOUBLE_FOUR));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.add("four", DOUBLE_FOUR));
+        assertEquals(DOUBLE_FOUR, map.get("four"));
+        assertFalse(map.add("four", DOUBLE_FOUR));
     }
 
     /**
@@ -141,9 +149,9 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void addAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.addAll(createUpdatableDoubleMap(ENTRY4)));
-        assertFalse(map123.addAll(createUpdatableDoubleMap(ENTRY4)));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.addAll(createUpdatableDoubleMap(ENTRY4)));
+        assertFalse(map.addAll(createUpdatableDoubleMap(ENTRY4)));
     }
 
     /**
@@ -151,9 +159,60 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void clearShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        map123.clear();
-        assertTrue(map123.isEmpty());
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        map.clear();
+        assertTrue(map.isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of no maps is empty.
+     */
+    @Test
+    public void differenceOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableDoubleMap.differenceOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the difference of one map is that map.
+     */
+    @Test
+    public void differenceOfOneMapShouldBeTheSameMap() {
+        assertTrue(map123.containsSame(ModifiableDoubleMap.differenceOf(map123)));
+    }
+
+    /**
+     * Verifies that the difference of three maps only contains the entries of the first map that aren't present in any
+     * of the other.
+     */
+    @Test
+    public void differenceOfThreeMapsShouldOnlyContainTheEntriesFromTheFirstMapNotInTheOthers() {
+        assertTrue(DoubleMap.of(ENTRY3)
+                .containsSame(ModifiableDoubleMap.differenceOf(map123, DoubleMap.of(ENTRY1), map12)));
+    }
+
+    /**
+     * Verifies that the intersection of no maps is an empty map.
+     */
+    @Test
+    public void intersectionOfNoMapsShouldBeEmpty() {
+        assertTrue(ModifiableDoubleMap.intersectionOf().isEmpty());
+    }
+
+    /**
+     * Verifies that the intersection of one map is the map itself.
+     */
+    @Test
+    public void intersectionOfOneMapShouldBeItself() {
+        assertTrue(map123.containsSame(ModifiableDoubleMap.intersectionOf(map123)));
+    }
+
+    /**
+     * Verifies that the intersection of two maps is a maps with the common entries.
+     */
+    @Test
+    public void intersectionOfTwoMapsShouldContainCommonEntries() {
+        assertTrue(
+                map12.containsSame(ModifiableDoubleMap.intersectionOf(DoubleMap.of(ENTRY0, ENTRY1, ENTRY2), map123)));
     }
 
     /**
@@ -161,8 +220,8 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void removeShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertEquals(1D, map123.remove("one"));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertEquals(1D, map.remove("one"));
     }
 
     /**
@@ -170,9 +229,9 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void removeWithValueShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertFalse(map123.remove("one", 2D));
-        assertTrue(map123.remove("one", 1D));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertFalse(map.remove("one", 2D));
+        assertTrue(map.remove("one", 1D));
     }
 
     /**
@@ -180,9 +239,9 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void removeAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeAll(createDoubleMap(ENTRY3)));
-        assertFalse(map123.removeAll(createDoubleMap(ENTRY3)));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeAll(createDoubleMap(ENTRY3)));
+        assertFalse(map.removeAll(createDoubleMap(ENTRY3)));
     }
 
     /**
@@ -190,9 +249,9 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void removeIfShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.removeIf(x -> x.key().equals("one")));
-        assertFalse(map123.removeIf(x -> x.key().equals("one")));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.removeIf(x -> x.key().equals("one")));
+        assertFalse(map.removeIf(x -> x.key().equals("one")));
     }
 
     /**
@@ -200,9 +259,9 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void retainAllShouldBeWiredCorrectlyToTheInternalMap() {
-        ModifiableDoubleMap<String> map123 = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
-        assertTrue(map123.retainAll(createUpdatableDoubleMap(ENTRY3)));
-        assertFalse(map123.retainAll(createUpdatableDoubleMap(ENTRY3)));
+        ModifiableDoubleMap<String> map = createUpdatableDoubleMap(ENTRY1, ENTRY2, ENTRY3);
+        assertTrue(map.retainAll(createUpdatableDoubleMap(ENTRY3)));
+        assertFalse(map.retainAll(createUpdatableDoubleMap(ENTRY3)));
     }
 
     /**
@@ -210,7 +269,6 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void unionOfShouldReturnUnionOfTwoMaps() {
-        ModifiableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
         ModifiableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
         ModifiableDoubleMap<String> actual = ModifiableDoubleMap.unionOf(map12, map23);
         assertTrue(actual.containsSame(createDoubleMap(ENTRY1, ENTRY2, ENTRY3)));
@@ -221,7 +279,6 @@ public final class ModifiableDoubleMapTest extends UpdatableDoubleMapTestBase<Mo
      */
     @Test
     public void unionOfWithKeyValueCardinalityShouldReturnUnionOfTwoMaps() {
-        ModifiableDoubleMap<String> map12 = createDoubleMap(ENTRY1, ENTRY2);
         ModifiableDoubleMap<String> map23 = createDoubleMap(ENTRY2, ENTRY3);
         ModifiableDoubleMap<String> actual =
                 ModifiableDoubleMap.unionOf(DUPLICATE_KEYS_WITH_DUPLICATE_VALUES, map12, map23);

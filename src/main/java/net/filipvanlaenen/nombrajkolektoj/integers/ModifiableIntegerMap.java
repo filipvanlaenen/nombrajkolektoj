@@ -79,6 +79,29 @@ public interface ModifiableIntegerMap<K> extends ModifiableNumericMap<K, Integer
     }
 
     /**
+     * Returns a new modifiable integers map containing all the entries present in the first integers map, but not in any
+     * of the other provided integers maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The integers maps from which to calculate the difference.
+     * @return A new modifiable integers map containing all the entries present in the first integers map, but not in any
+     *         of the other provided integers maps.
+     */
+    static <L> ModifiableIntegerMap<L> differenceOf(final NumericMap<? extends L, Integer>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty integers map.
      *
      * @param <K> The key type.
@@ -86,6 +109,27 @@ public interface ModifiableIntegerMap<K> extends ModifiableNumericMap<K, Integer
      */
     static <K> ModifiableIntegerMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new modifiable integers map containing all the entries present in each of the provided integers maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The integers maps from which to calculate the intersection.
+     * @return A new modifiable integers map containing all the entries present in each of the provided integers maps.
+     */
+    static <L> ModifiableIntegerMap<L> intersectionOf(final NumericMap<? extends L, Integer>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableIntegerMap<L> result = ModifiableIntegerMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return result;
     }
 
     /**

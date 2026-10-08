@@ -79,6 +79,29 @@ public interface ModifiableShortMap<K> extends ModifiableNumericMap<K, Short>, U
     }
 
     /**
+     * Returns a new modifiable shorts map containing all the entries present in the first shorts map, but not in any
+     * of the other provided shorts maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The shorts maps from which to calculate the difference.
+     * @return A new modifiable shorts map containing all the entries present in the first shorts map, but not in any
+     *         of the other provided shorts maps.
+     */
+    static <L> ModifiableShortMap<L> differenceOf(final NumericMap<? extends L, Short>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableShortMap<L> result = ModifiableShortMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty shorts map.
      *
      * @param <K> The key type.
@@ -86,6 +109,27 @@ public interface ModifiableShortMap<K> extends ModifiableNumericMap<K, Short>, U
      */
     static <K> ModifiableShortMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new modifiable shorts map containing all the entries present in each of the provided shorts maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The shorts maps from which to calculate the intersection.
+     * @return A new modifiable shorts map containing all the entries present in each of the provided shorts maps.
+     */
+    static <L> ModifiableShortMap<L> intersectionOf(final NumericMap<? extends L, Short>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableShortMap<L> result = ModifiableShortMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return result;
     }
 
     /**

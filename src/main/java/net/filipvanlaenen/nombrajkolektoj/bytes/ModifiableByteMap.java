@@ -79,6 +79,29 @@ public interface ModifiableByteMap<K> extends ModifiableNumericMap<K, Byte>, Upd
     }
 
     /**
+     * Returns a new modifiable bytes map containing all the entries present in the first bytes map, but not in any
+     * of the other provided bytes maps.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖, with {1, 2, 3} ∖ {2, 3, 4} = {1}.
+     *
+     * @param <L>  The key type.
+     * @param maps The bytes maps from which to calculate the difference.
+     * @return A new modifiable bytes map containing all the entries present in the first bytes map, but not in any
+     *         of the other provided bytes maps.
+     */
+    static <L> ModifiableByteMap<L> differenceOf(final NumericMap<? extends L, Byte>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableByteMap<L> result = ModifiableByteMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.removeAll(maps[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty bytes map.
      *
      * @param <K> The key type.
@@ -86,6 +109,27 @@ public interface ModifiableByteMap<K> extends ModifiableNumericMap<K, Byte>, Upd
      */
     static <K> ModifiableByteMap<K> empty() {
         return new HashMap<K>();
+    }
+
+    /**
+     * Returns a new modifiable bytes map containing all the entries present in each of the provided bytes maps.
+     *
+     * This method corresponds to the intersection operation in set theory, denoted by the symbol ∩, with {1, 2, 3} ∩
+     * {2, 3, 4} = {2, 3}.
+     *
+     * @param <L>  The key type.
+     * @param maps The bytes maps from which to calculate the intersection.
+     * @return A new modifiable bytes map containing all the entries present in each of the provided bytes maps.
+     */
+    static <L> ModifiableByteMap<L> intersectionOf(final NumericMap<? extends L, Byte>... maps) {
+        if (maps.length == 0) {
+            return empty();
+        }
+        ModifiableByteMap<L> result = ModifiableByteMap.of(maps[0]);
+        for (int i = 1; i < maps.length; i++) {
+            result.retainAll(maps[i]);
+        }
+        return result;
     }
 
     /**

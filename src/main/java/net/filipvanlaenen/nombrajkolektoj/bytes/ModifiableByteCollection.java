@@ -204,7 +204,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableByteCollection result = ModifiableByteCollection.of(collections[0]);
+        ModifiableByteCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.removeAll(collections[i]);
         }
@@ -235,7 +235,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableByteCollection result = ModifiableByteCollection.of(collections[0]);
+        ModifiableByteCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
@@ -299,7 +299,7 @@ public interface ModifiableByteCollection extends ModifiableNumericCollection<By
      */
     static ModifiableByteCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Byte>... collections) {
-        ModifiableByteCollection result = ModifiableByteCollection.of(elementCardinality);
+        ModifiableByteCollection result = of(elementCardinality);
         for (NumericCollection<Byte> collection : collections) {
             result.addAll(collection);
         }

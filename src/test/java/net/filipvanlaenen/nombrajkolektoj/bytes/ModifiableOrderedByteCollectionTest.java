@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -39,6 +40,10 @@ public final class ModifiableOrderedByteCollectionTest
      * Collection with the byte 1.
      */
     private final ModifiableOrderedByteCollection collection1 = ModifiableOrderedByteCollection.of((byte) 1);
+    /**
+     * Collection with the bytes 1 and 2.
+     */
+    private final ModifiableOrderedByteCollection collection12 = ModifiableOrderedByteCollection.of((byte) 1, (byte) 2);
     /**
      * Collection with the bytes 1, 2 and 3.
      */
@@ -87,6 +92,24 @@ public final class ModifiableOrderedByteCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedByteCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BYTE_THREE).containsSame(
+                ModifiableOrderedByteCollection.differenceOf(collection123, ByteCollection.of((byte) 1), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -107,8 +130,8 @@ public final class ModifiableOrderedByteCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedByteCollection.intersectionOf(collection123, collection1,
-                ByteCollection.of((byte) 1, (byte) 2))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedByteCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

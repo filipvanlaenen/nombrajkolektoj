@@ -137,6 +137,28 @@ public interface ModifiableOrderedLongCollection
     }
 
     /**
+     * Returns a new modifiable ordered longs collection containing all the elements present in the first ordered
+     * longs collection, but not in any of the other provided longs collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered longs collection from which to calculate the difference.
+     * @param collections       The longs collections for which to calculate the difference.
+     * @return A new modifiable ordered longs collection containing all the elements present in the first longs
+     *         collection, but not in any of the other provided longs collections, and the elements in the order of
+     *         the ordered longs collection.
+     */
+    static ModifiableOrderedLongCollection differenceOf(final OrderedNumericCollection<Long> orderedCollection,
+            final NumericCollection<Long>... collections) {
+        ModifiableOrderedLongCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable longs collection.
      *
      * @return A new empty modifiable longs collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedLongCollection
      * Returns a new modifiable ordered longs collection with the specified element cardinality containing all the
      * elements from the provided ordered longs collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered longs collections from which to copy all the elements.
      * @return A new modifiable ordered longs collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedLongCollection
      */
     static ModifiableOrderedLongCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Long>... collections) {
-        ModifiableOrderedLongCollection result = ModifiableOrderedLongCollection.of(elementCardinality);
+        ModifiableOrderedLongCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Long> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedLongCollection
     /**
      * Returns a new modifiable ordered longs collection containing all the elements from the provided ordered longs
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered longs collections from which to copy all the elements.
      * @return A new modifiable ordered longs collection containing all the elements from the provided ordered longs

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -39,6 +40,10 @@ public final class ModifiableOrderedLongCollectionTest
      * Collection with the long 1.
      */
     private final ModifiableOrderedLongCollection collection1 = ModifiableOrderedLongCollection.of(1L);
+    /**
+     * Collection with the longs 1 and 2.
+     */
+    private final ModifiableOrderedLongCollection collection12 = ModifiableOrderedLongCollection.of(1L, 2L);
     /**
      * Collection with the longs 1, 2 and 3.
      */
@@ -87,6 +92,24 @@ public final class ModifiableOrderedLongCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedLongCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(LONG_THREE).containsSame(
+                ModifiableOrderedLongCollection.differenceOf(collection123, LongCollection.of(1L), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -107,8 +130,8 @@ public final class ModifiableOrderedLongCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedLongCollection.intersectionOf(collection123, collection1,
-                LongCollection.of(1L, 2L))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedLongCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

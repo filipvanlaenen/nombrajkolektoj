@@ -137,6 +137,28 @@ public interface ModifiableOrderedDoubleCollection
     }
 
     /**
+     * Returns a new modifiable ordered doubles collection containing all the elements present in the first ordered
+     * doubles collection, but not in any of the other provided doubles collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered doubles collection from which to calculate the difference.
+     * @param collections       The doubles collections for which to calculate the difference.
+     * @return A new modifiable ordered doubles collection containing all the elements present in the first doubles
+     *         collection, but not in any of the other provided doubles collections, and the elements in the order of
+     *         the ordered doubles collection.
+     */
+    static ModifiableOrderedDoubleCollection differenceOf(final OrderedNumericCollection<Double> orderedCollection,
+            final NumericCollection<Double>... collections) {
+        ModifiableOrderedDoubleCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable doubles collection.
      *
      * @return A new empty modifiable doubles collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedDoubleCollection
      * Returns a new modifiable ordered doubles collection with the specified element cardinality containing all the
      * elements from the provided ordered doubles collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered doubles collections from which to copy all the elements.
      * @return A new modifiable ordered doubles collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedDoubleCollection
      */
     static ModifiableOrderedDoubleCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Double>... collections) {
-        ModifiableOrderedDoubleCollection result = ModifiableOrderedDoubleCollection.of(elementCardinality);
+        ModifiableOrderedDoubleCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Double> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedDoubleCollection
     /**
      * Returns a new modifiable ordered doubles collection containing all the elements from the provided ordered doubles
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered doubles collections from which to copy all the elements.
      * @return A new modifiable ordered doubles collection containing all the elements from the provided ordered doubles

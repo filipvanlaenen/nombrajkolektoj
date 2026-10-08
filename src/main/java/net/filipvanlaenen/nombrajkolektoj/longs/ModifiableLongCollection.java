@@ -204,7 +204,7 @@ public interface ModifiableLongCollection extends ModifiableNumericCollection<Lo
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableLongCollection result = ModifiableLongCollection.of(collections[0]);
+        ModifiableLongCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.removeAll(collections[i]);
         }
@@ -235,7 +235,7 @@ public interface ModifiableLongCollection extends ModifiableNumericCollection<Lo
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableLongCollection result = ModifiableLongCollection.of(collections[0]);
+        ModifiableLongCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
@@ -299,7 +299,7 @@ public interface ModifiableLongCollection extends ModifiableNumericCollection<Lo
      */
     static ModifiableLongCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Long>... collections) {
-        ModifiableLongCollection result = ModifiableLongCollection.of(elementCardinality);
+        ModifiableLongCollection result = of(elementCardinality);
         for (NumericCollection<Long> collection : collections) {
             result.addAll(collection);
         }

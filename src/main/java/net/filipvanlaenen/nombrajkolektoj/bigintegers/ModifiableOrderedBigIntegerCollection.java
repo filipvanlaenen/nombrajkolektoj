@@ -139,6 +139,28 @@ public interface ModifiableOrderedBigIntegerCollection
     }
 
     /**
+     * Returns a new modifiable ordered BigIntegers collection containing all the elements present in the first ordered
+     * BigIntegers collection, but not in any of the other provided BigIntegers collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered BigIntegers collection from which to calculate the difference.
+     * @param collections       The BigIntegers collections for which to calculate the difference.
+     * @return A new modifiable ordered BigIntegers collection containing all the elements present in the first BigIntegers
+     *         collection, but not in any of the other provided BigIntegers collections, and the elements in the order of
+     *         the ordered BigIntegers collection.
+     */
+    static ModifiableOrderedBigIntegerCollection differenceOf(final OrderedNumericCollection<BigInteger> orderedCollection,
+            final NumericCollection<BigInteger>... collections) {
+        ModifiableOrderedBigIntegerCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable BigIntegers collection.
      *
      * @return A new empty modifiable BigIntegers collection.
@@ -231,6 +253,10 @@ public interface ModifiableOrderedBigIntegerCollection
      * Returns a new modifiable ordered BigIntegers collection with the specified element cardinality containing all the
      * elements from the provided ordered BigIntegers collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered BigIntegers collections from which to copy all the elements.
      * @return A new modifiable ordered BigIntegers collection with the specified element cardinality containing all the
@@ -238,7 +264,7 @@ public interface ModifiableOrderedBigIntegerCollection
      */
     static ModifiableOrderedBigIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigInteger>... collections) {
-        ModifiableOrderedBigIntegerCollection result = ModifiableOrderedBigIntegerCollection.of(elementCardinality);
+        ModifiableOrderedBigIntegerCollection result = of(elementCardinality);
         for (OrderedNumericCollection<BigInteger> collection : collections) {
             result.addAllLast(collection);
         }
@@ -248,6 +274,10 @@ public interface ModifiableOrderedBigIntegerCollection
     /**
      * Returns a new modifiable ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered BigIntegers collections from which to copy all the elements.
      * @return A new modifiable ordered BigIntegers collection containing all the elements from the provided ordered BigIntegers

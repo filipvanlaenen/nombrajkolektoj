@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -41,6 +42,10 @@ public final class ModifiableOrderedBigIntegerCollectionTest
      * Collection with the BigInteger 1.
      */
     private final ModifiableOrderedBigIntegerCollection collection1 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE);
+    /**
+     * Collection with the BigIntegers 1 and 2.
+     */
+    private final ModifiableOrderedBigIntegerCollection collection12 = ModifiableOrderedBigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO);
     /**
      * Collection with the BigIntegers 1, 2 and 3.
      */
@@ -89,6 +94,24 @@ public final class ModifiableOrderedBigIntegerCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedBigIntegerCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BIG_INTEGER_THREE).containsSame(
+                ModifiableOrderedBigIntegerCollection.differenceOf(collection123, BigIntegerCollection.of(BigInteger.ONE), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -109,8 +132,8 @@ public final class ModifiableOrderedBigIntegerCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedBigIntegerCollection.intersectionOf(collection123, collection1,
-                BigIntegerCollection.of(BigInteger.ONE, BigInteger.TWO))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedBigIntegerCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

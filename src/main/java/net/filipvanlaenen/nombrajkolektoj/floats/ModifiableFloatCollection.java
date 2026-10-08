@@ -204,7 +204,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableFloatCollection result = ModifiableFloatCollection.of(collections[0]);
+        ModifiableFloatCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.removeAll(collections[i]);
         }
@@ -235,7 +235,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableFloatCollection result = ModifiableFloatCollection.of(collections[0]);
+        ModifiableFloatCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
@@ -299,7 +299,7 @@ public interface ModifiableFloatCollection extends ModifiableNumericCollection<F
      */
     static ModifiableFloatCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Float>... collections) {
-        ModifiableFloatCollection result = ModifiableFloatCollection.of(elementCardinality);
+        ModifiableFloatCollection result = of(elementCardinality);
         for (NumericCollection<Float> collection : collections) {
             result.addAll(collection);
         }

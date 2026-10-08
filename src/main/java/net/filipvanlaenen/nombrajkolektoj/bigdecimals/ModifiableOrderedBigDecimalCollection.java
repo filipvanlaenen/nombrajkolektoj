@@ -139,6 +139,28 @@ public interface ModifiableOrderedBigDecimalCollection
     }
 
     /**
+     * Returns a new modifiable ordered BigDecimals collection containing all the elements present in the first ordered
+     * BigDecimals collection, but not in any of the other provided BigDecimals collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered BigDecimals collection from which to calculate the difference.
+     * @param collections       The BigDecimals collections for which to calculate the difference.
+     * @return A new modifiable ordered BigDecimals collection containing all the elements present in the first BigDecimals
+     *         collection, but not in any of the other provided BigDecimals collections, and the elements in the order of
+     *         the ordered BigDecimals collection.
+     */
+    static ModifiableOrderedBigDecimalCollection differenceOf(final OrderedNumericCollection<BigDecimal> orderedCollection,
+            final NumericCollection<BigDecimal>... collections) {
+        ModifiableOrderedBigDecimalCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable BigDecimals collection.
      *
      * @return A new empty modifiable BigDecimals collection.
@@ -231,6 +253,10 @@ public interface ModifiableOrderedBigDecimalCollection
      * Returns a new modifiable ordered BigDecimals collection with the specified element cardinality containing all the
      * elements from the provided ordered BigDecimals collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered BigDecimals collections from which to copy all the elements.
      * @return A new modifiable ordered BigDecimals collection with the specified element cardinality containing all the
@@ -238,7 +264,7 @@ public interface ModifiableOrderedBigDecimalCollection
      */
     static ModifiableOrderedBigDecimalCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<BigDecimal>... collections) {
-        ModifiableOrderedBigDecimalCollection result = ModifiableOrderedBigDecimalCollection.of(elementCardinality);
+        ModifiableOrderedBigDecimalCollection result = of(elementCardinality);
         for (OrderedNumericCollection<BigDecimal> collection : collections) {
             result.addAllLast(collection);
         }
@@ -248,6 +274,10 @@ public interface ModifiableOrderedBigDecimalCollection
     /**
      * Returns a new modifiable ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered BigDecimals collections from which to copy all the elements.
      * @return A new modifiable ordered BigDecimals collection containing all the elements from the provided ordered BigDecimals

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -41,6 +42,10 @@ public final class ModifiableOrderedBigDecimalCollectionTest
      * Collection with the BigDecimal 1.
      */
     private final ModifiableOrderedBigDecimalCollection collection1 = ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE);
+    /**
+     * Collection with the BigDecimals 1 and 2.
+     */
+    private final ModifiableOrderedBigDecimalCollection collection12 = ModifiableOrderedBigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L));
     /**
      * Collection with the BigDecimals 1, 2 and 3.
      */
@@ -89,6 +94,24 @@ public final class ModifiableOrderedBigDecimalCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedBigDecimalCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(BIG_DECIMAL_THREE).containsSame(
+                ModifiableOrderedBigDecimalCollection.differenceOf(collection123, BigDecimalCollection.of(BigDecimal.ONE), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -109,8 +132,8 @@ public final class ModifiableOrderedBigDecimalCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedBigDecimalCollection.intersectionOf(collection123, collection1,
-                BigDecimalCollection.of(BigDecimal.ONE, BigDecimal.valueOf(2L)))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedBigDecimalCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

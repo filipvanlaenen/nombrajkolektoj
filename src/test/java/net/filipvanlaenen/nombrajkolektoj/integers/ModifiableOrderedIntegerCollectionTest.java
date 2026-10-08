@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -39,6 +40,10 @@ public final class ModifiableOrderedIntegerCollectionTest
      * Collection with the int 1.
      */
     private final ModifiableOrderedIntegerCollection collection1 = ModifiableOrderedIntegerCollection.of(1);
+    /**
+     * Collection with the integers 1 and 2.
+     */
+    private final ModifiableOrderedIntegerCollection collection12 = ModifiableOrderedIntegerCollection.of(1, 2);
     /**
      * Collection with the integers 1, 2 and 3.
      */
@@ -87,6 +92,24 @@ public final class ModifiableOrderedIntegerCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedIntegerCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(INTEGER_THREE).containsSame(
+                ModifiableOrderedIntegerCollection.differenceOf(collection123, IntegerCollection.of(1), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -107,8 +130,8 @@ public final class ModifiableOrderedIntegerCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedIntegerCollection.intersectionOf(collection123, collection1,
-                IntegerCollection.of(1, 2))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedIntegerCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

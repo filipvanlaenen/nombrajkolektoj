@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -39,6 +40,10 @@ public final class ModifiableOrderedDoubleCollectionTest
      * Collection with the double 1.
      */
     private final ModifiableOrderedDoubleCollection collection1 = ModifiableOrderedDoubleCollection.of(1D);
+    /**
+     * Collection with the doubles 1 and 2.
+     */
+    private final ModifiableOrderedDoubleCollection collection12 = ModifiableOrderedDoubleCollection.of(1D, 2D);
     /**
      * Collection with the doubles 1, 2 and 3.
      */
@@ -87,6 +92,24 @@ public final class ModifiableOrderedDoubleCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedDoubleCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(DOUBLE_THREE).containsSame(
+                ModifiableOrderedDoubleCollection.differenceOf(collection123, DoubleCollection.of(1D), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -107,8 +130,8 @@ public final class ModifiableOrderedDoubleCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedDoubleCollection.intersectionOf(collection123, collection1,
-                DoubleCollection.of(1D, 2D))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedDoubleCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

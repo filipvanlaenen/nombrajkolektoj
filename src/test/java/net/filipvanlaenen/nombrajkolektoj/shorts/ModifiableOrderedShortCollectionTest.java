@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.kolektoj.Collection.ElementCardinality;
+import net.filipvanlaenen.kolektoj.Collection;
 import net.filipvanlaenen.kolektoj.EmptyArrays;
 
 /**
@@ -39,6 +40,10 @@ public final class ModifiableOrderedShortCollectionTest
      * Collection with the short 1.
      */
     private final ModifiableOrderedShortCollection collection1 = ModifiableOrderedShortCollection.of((short) 1);
+    /**
+     * Collection with the shorts 1 and 2.
+     */
+    private final ModifiableOrderedShortCollection collection12 = ModifiableOrderedShortCollection.of((short) 1, (short) 2);
     /**
      * Collection with the shorts 1, 2 and 3.
      */
@@ -87,6 +92,24 @@ public final class ModifiableOrderedShortCollectionTest
     }
 
     /**
+     * Verifies that the difference of one collection is that collection.
+     */
+    @Test
+    public void differenceOfOneCollectionShouldBeTheSameCollection() {
+        assertTrue(collection123.containsSame(ModifiableOrderedShortCollection.differenceOf(collection123)));
+    }
+
+    /**
+     * Verifies that the difference of three collections only contains the elements of the first collection that aren't
+     * present in any of the other.
+     */
+    @Test
+    public void differenceOfThreeCollectionsShouldOnlyContainTheElementsFromTheFirstCollectionNotInTheOthers() {
+        assertTrue(Collection.of(SHORT_THREE).containsSame(
+                ModifiableOrderedShortCollection.differenceOf(collection123, ShortCollection.of((short) 1), collection12)));
+    }
+
+    /**
      * Verifies that empty produces an empty collection.
      */
     @Test
@@ -107,8 +130,8 @@ public final class ModifiableOrderedShortCollectionTest
      */
     @Test
     public void intersectionOfThreeCollectionsShouldOnlyContainTheCommonElements() {
-        assertTrue(collection1.containsSame(ModifiableOrderedShortCollection.intersectionOf(collection123, collection1,
-                ShortCollection.of((short) 1, (short) 2))));
+        assertTrue(collection1.containsSame(
+                ModifiableOrderedShortCollection.intersectionOf(collection123, collection1, collection12)));
     }
 
     /**

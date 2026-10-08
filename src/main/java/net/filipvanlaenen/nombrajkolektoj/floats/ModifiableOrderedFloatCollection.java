@@ -137,6 +137,28 @@ public interface ModifiableOrderedFloatCollection
     }
 
     /**
+     * Returns a new modifiable ordered floats collection containing all the elements present in the first ordered
+     * floats collection, but not in any of the other provided floats collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered floats collection from which to calculate the difference.
+     * @param collections       The floats collections for which to calculate the difference.
+     * @return A new modifiable ordered floats collection containing all the elements present in the first floats
+     *         collection, but not in any of the other provided floats collections, and the elements in the order of
+     *         the ordered floats collection.
+     */
+    static ModifiableOrderedFloatCollection differenceOf(final OrderedNumericCollection<Float> orderedCollection,
+            final NumericCollection<Float>... collections) {
+        ModifiableOrderedFloatCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable floats collection.
      *
      * @return A new empty modifiable floats collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedFloatCollection
      * Returns a new modifiable ordered floats collection with the specified element cardinality containing all the
      * elements from the provided ordered floats collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered floats collections from which to copy all the elements.
      * @return A new modifiable ordered floats collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedFloatCollection
      */
     static ModifiableOrderedFloatCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Float>... collections) {
-        ModifiableOrderedFloatCollection result = ModifiableOrderedFloatCollection.of(elementCardinality);
+        ModifiableOrderedFloatCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Float> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedFloatCollection
     /**
      * Returns a new modifiable ordered floats collection containing all the elements from the provided ordered floats
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered floats collections from which to copy all the elements.
      * @return A new modifiable ordered floats collection containing all the elements from the provided ordered floats

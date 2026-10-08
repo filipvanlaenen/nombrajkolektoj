@@ -137,6 +137,28 @@ public interface ModifiableOrderedIntegerCollection
     }
 
     /**
+     * Returns a new modifiable ordered integers collection containing all the elements present in the first ordered
+     * integers collection, but not in any of the other provided integers collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered integers collection from which to calculate the difference.
+     * @param collections       The integers collections for which to calculate the difference.
+     * @return A new modifiable ordered integers collection containing all the elements present in the first integers
+     *         collection, but not in any of the other provided integers collections, and the elements in the order of
+     *         the ordered integers collection.
+     */
+    static ModifiableOrderedIntegerCollection differenceOf(final OrderedNumericCollection<Integer> orderedCollection,
+            final NumericCollection<Integer>... collections) {
+        ModifiableOrderedIntegerCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable integers collection.
      *
      * @return A new empty modifiable integers collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedIntegerCollection
      * Returns a new modifiable ordered integers collection with the specified element cardinality containing all the
      * elements from the provided ordered integers collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered integers collections from which to copy all the elements.
      * @return A new modifiable ordered integers collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedIntegerCollection
      */
     static ModifiableOrderedIntegerCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Integer>... collections) {
-        ModifiableOrderedIntegerCollection result = ModifiableOrderedIntegerCollection.of(elementCardinality);
+        ModifiableOrderedIntegerCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Integer> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedIntegerCollection
     /**
      * Returns a new modifiable ordered integers collection containing all the elements from the provided ordered integers
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered integers collections from which to copy all the elements.
      * @return A new modifiable ordered integers collection containing all the elements from the provided ordered integers

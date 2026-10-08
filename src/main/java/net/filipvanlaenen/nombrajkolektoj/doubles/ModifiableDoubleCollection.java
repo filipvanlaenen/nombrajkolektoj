@@ -204,7 +204,7 @@ public interface ModifiableDoubleCollection extends ModifiableNumericCollection<
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(collections[0]);
+        ModifiableDoubleCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.removeAll(collections[i]);
         }
@@ -235,7 +235,7 @@ public interface ModifiableDoubleCollection extends ModifiableNumericCollection<
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(collections[0]);
+        ModifiableDoubleCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
@@ -299,7 +299,7 @@ public interface ModifiableDoubleCollection extends ModifiableNumericCollection<
      */
     static ModifiableDoubleCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<Double>... collections) {
-        ModifiableDoubleCollection result = ModifiableDoubleCollection.of(elementCardinality);
+        ModifiableDoubleCollection result = of(elementCardinality);
         for (NumericCollection<Double> collection : collections) {
             result.addAll(collection);
         }

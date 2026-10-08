@@ -206,7 +206,7 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(collections[0]);
+        ModifiableBigDecimalCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.removeAll(collections[i]);
         }
@@ -237,7 +237,7 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
         if (collections.length == 0) {
             return empty();
         }
-        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(collections[0]);
+        ModifiableBigDecimalCollection result = of(collections[0]);
         for (int i = 1; i < collections.length; i++) {
             result.retainAll(collections[i]);
         }
@@ -301,7 +301,7 @@ public interface ModifiableBigDecimalCollection extends ModifiableNumericCollect
      */
     static ModifiableBigDecimalCollection unionOf(final ElementCardinality elementCardinality,
             final NumericCollection<BigDecimal>... collections) {
-        ModifiableBigDecimalCollection result = ModifiableBigDecimalCollection.of(elementCardinality);
+        ModifiableBigDecimalCollection result = of(elementCardinality);
         for (NumericCollection<BigDecimal> collection : collections) {
             result.addAll(collection);
         }

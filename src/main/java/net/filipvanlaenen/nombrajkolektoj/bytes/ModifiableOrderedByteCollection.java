@@ -137,6 +137,28 @@ public interface ModifiableOrderedByteCollection
     }
 
     /**
+     * Returns a new modifiable ordered bytes collection containing all the elements present in the first ordered
+     * bytes collection, but not in any of the other provided bytes collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered bytes collection from which to calculate the difference.
+     * @param collections       The bytes collections for which to calculate the difference.
+     * @return A new modifiable ordered bytes collection containing all the elements present in the first bytes
+     *         collection, but not in any of the other provided bytes collections, and the elements in the order of
+     *         the ordered bytes collection.
+     */
+    static ModifiableOrderedByteCollection differenceOf(final OrderedNumericCollection<Byte> orderedCollection,
+            final NumericCollection<Byte>... collections) {
+        ModifiableOrderedByteCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable bytes collection.
      *
      * @return A new empty modifiable bytes collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedByteCollection
      * Returns a new modifiable ordered bytes collection with the specified element cardinality containing all the
      * elements from the provided ordered bytes collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered bytes collections from which to copy all the elements.
      * @return A new modifiable ordered bytes collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedByteCollection
      */
     static ModifiableOrderedByteCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Byte>... collections) {
-        ModifiableOrderedByteCollection result = ModifiableOrderedByteCollection.of(elementCardinality);
+        ModifiableOrderedByteCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Byte> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedByteCollection
     /**
      * Returns a new modifiable ordered bytes collection containing all the elements from the provided ordered bytes
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered bytes collections from which to copy all the elements.
      * @return A new modifiable ordered bytes collection containing all the elements from the provided ordered bytes

@@ -137,6 +137,28 @@ public interface ModifiableOrderedShortCollection
     }
 
     /**
+     * Returns a new modifiable ordered shorts collection containing all the elements present in the first ordered
+     * shorts collection, but not in any of the other provided shorts collections.
+     *
+     * This method corresponds to the difference (or relative complement) operation in set theory, denoted by the symbol
+     * ∖. For sequences, (1, 2, 3, 4) ∖ (2, 4) = (1, 3).
+     *
+     * @param orderedCollection The ordered shorts collection from which to calculate the difference.
+     * @param collections       The shorts collections for which to calculate the difference.
+     * @return A new modifiable ordered shorts collection containing all the elements present in the first shorts
+     *         collection, but not in any of the other provided shorts collections, and the elements in the order of
+     *         the ordered shorts collection.
+     */
+    static ModifiableOrderedShortCollection differenceOf(final OrderedNumericCollection<Short> orderedCollection,
+            final NumericCollection<Short>... collections) {
+        ModifiableOrderedShortCollection result = of(orderedCollection);
+        for (int i = 0; i < collections.length; i++) {
+            result.removeAll(collections[i]);
+        }
+        return result;
+    }
+
+    /**
      * Returns a new empty modifiable shorts collection.
      *
      * @return A new empty modifiable shorts collection.
@@ -229,6 +251,10 @@ public interface ModifiableOrderedShortCollection
      * Returns a new modifiable ordered shorts collection with the specified element cardinality containing all the
      * elements from the provided ordered shorts collections.
      *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
+     *
      * @param elementCardinality The element cardinality.
      * @param collections        The ordered shorts collections from which to copy all the elements.
      * @return A new modifiable ordered shorts collection with the specified element cardinality containing all the
@@ -236,7 +262,7 @@ public interface ModifiableOrderedShortCollection
      */
     static ModifiableOrderedShortCollection unionOf(final ElementCardinality elementCardinality,
             final OrderedNumericCollection<Short>... collections) {
-        ModifiableOrderedShortCollection result = ModifiableOrderedShortCollection.of(elementCardinality);
+        ModifiableOrderedShortCollection result = of(elementCardinality);
         for (OrderedNumericCollection<Short> collection : collections) {
             result.addAllLast(collection);
         }
@@ -246,6 +272,10 @@ public interface ModifiableOrderedShortCollection
     /**
      * Returns a new modifiable ordered shorts collection containing all the elements from the provided ordered shorts
      * collections.
+     *
+     * This method corresponds to the union operation in set theory, denoted by the symbol ∪. For sequences, (1, 2, 3) ∪
+     * (2, 3, 4) = (1, 2, 3, 4), and for sequences allowing duplicate elements, (1, 2, 3) ∪ (2, 3, 4) = (1, 2, 3, 2, 3,
+     * 4).
      *
      * @param collections The ordered shorts collections from which to copy all the elements.
      * @return A new modifiable ordered shorts collection containing all the elements from the provided ordered shorts

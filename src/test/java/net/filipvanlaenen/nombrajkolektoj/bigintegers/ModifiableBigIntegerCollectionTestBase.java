@@ -1,6 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.bigintegers;
 
-import java.math.BigInteger;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigIntegers.ModifiableBigIntegerCollection} class.

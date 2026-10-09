@@ -1,6 +1,5 @@
 package net.filipvanlaenen.nombrajkolektoj.bigdecimals;
 
-import java.math.BigDecimal;
 
 /**
  * Unit tests on the {@link net.filipvanlaenen.nombrajkolektoj.BigDecimals.ModifiableBigDecimalCollection} class.
